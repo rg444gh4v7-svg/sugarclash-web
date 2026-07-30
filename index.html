@@ -605,7 +605,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     <div style="height:8px"></div>
     <button class="btn-play" id="btn-title-main" onclick="goTo('world')">▶ Jugar</button>
     <button class="btn-ghost" id="btn-title-secondary" style="display:none" onclick="goTo('world')">Mapa mundial</button>
-    <button class="btn-ghost" style="border-color:rgba(0,245,255,.35);color:var(--crystal)" onclick="goTo('dgmenu')">🕯️ HEX CLASH · Modo Oscuro</button>
+    <button class="btn-ghost" id="btn-hexclash" style="border-color:rgba(0,245,255,.35);color:var(--crystal)">🕯️ HEX CLASH · Modo Oscuro</button>
     <div id="confite-title-bubble" style="font-size:12px;color:var(--crystal);font-style:italic;margin-top:4px;opacity:.85;display:none"></div>
   </section>
 
@@ -655,9 +655,18 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div class="intro-body" style="color:var(--crystal);font-style:italic">"No sé de dónde vengo. No sé mi nombre real. Solo sé que quiero ayudarte a devolver el color..."</div>
     </div>
 
+    <!-- Slide 4 -->
+    <div class="intro-slide" id="intro-slide-4">
+      <div class="intro-slide-bg" style="background:radial-gradient(ellipse at 50% 60%,rgba(155,89,182,.16) 0%,transparent 70%)"></div>
+      <div style="font-size:44px">🕸️</div>
+      <div class="intro-heading">Pero algo más<br>también despertó</div>
+      <div class="intro-body">Muy lejos, en un rincón que ni Confite recuerda, algo empezó a moverse cuando el Cristal se fragmentó. Todavía duerme. Por ahora.</div>
+    </div>
+
     <div class="intro-nav">
       <div class="intro-dots" id="intro-dots">
         <div class="intro-dot on"></div>
+        <div class="intro-dot"></div>
         <div class="intro-dot"></div>
         <div class="intro-dot"></div>
         <div class="intro-dot"></div>
@@ -896,6 +905,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     </div>
     <div class="territory-banner" id="territory-banner">El territorio inicial de <b>Confite</b>. Restaura sus 10 niveles para devolverle el color.</div>
     <div id="confite-bubble">Toca un nivel para empezar. ¡Estoy aquí si me necesitas!</div>
+    <div id="level-lore" style="font-size:11px;color:var(--crystal);font-style:italic;opacity:.85;padding:0 4px"></div>
     <div id="level-grid"></div>
   </section>
 
@@ -1020,6 +1030,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div class="dg-logo-mini">HEX CLASH</div>
       <div class="shard-badge">💠 <span id="dg-shards">0</span></div>
     </div>
+    <div style="font-size:11px;color:rgba(255,255,255,.5);font-style:italic;z-index:1">Acto II · La Corrupción de Dulcelandia</div>
     <div class="dg-level-badge">Nivel de jugador <b id="dg-player-level">1</b> · <span id="dg-xp-text">0 / 100 XP</span>
       <div class="dg-xp-track"><div class="dg-xp-fill" id="dg-xp-fill"></div></div>
     </div>
@@ -1096,6 +1107,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div id="dg-start-overlay">
         <div class="tutorial-icon">🕯️</div>
         <div class="dg-title-big" id="dg-start-title">Historia · Nivel 1</div>
+        <div id="dg-start-lore" style="font-size:11.5px;color:var(--crystal);font-style:italic;opacity:.9;max-width:270px"></div>
         <div class="tutorial-text" id="dg-start-sub">Alinea 3 o más piezas del mismo color.</div>
         <button class="btn-sm btn-primary" onclick="dgBeginRun()">Comenzar</button>
       </div>
@@ -1138,6 +1150,34 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       </div>
     </div>
   </section>
+
+  <!-- ============ TRANSICIÓN: LA MALDICIÓN HEXADECIMAL (Acto I → Acto II) ============ -->
+  <section id="screen-hexcurse" class="screen" style="background:radial-gradient(ellipse at 50% -10%, #2A0845 0%, var(--dark) 65%);overflow:hidden">
+    <div class="dg-fog"></div><div class="dg-fog b"></div>
+    <div class="ep-slide active">
+      <div class="intro-tag">Mientras tanto, en algún lugar de Dulcelandia...</div>
+      <div style="font-size:48px">🕸️</div>
+      <div class="ep-heading">La Bruja Hexadecimal despierta</div>
+      <div class="ep-body">Desde las profundidades donde el Cristal se rompió a sí mismo, algo respondió a la luz que devolviste a Las Tierras Carmesí. La Bruja Hexadecimal —una sombra hecha de código y maldición, tan vieja como el propio Cristal— lanza su corrupción sobre el resto del reino.</div>
+      <div class="ep-body">Los territorios que aún no restauraste no volverán a la niebla gris de siempre. Se están convirtiendo en algo distinto. Algo oscuro.</div>
+      <div class="ep-body" style="color:var(--crystal)">Confite: "Esto no es lo que sentí antes. Esto es nuevo... y me da miedo. Tenemos que llegar hasta ella."</div>
+      <button class="btn-sm btn-primary" onclick="closeHexCurseIntro()" style="margin-top:4px">Continuar</button>
+    </div>
+  </section>
+
+  <!-- ============ VICTORIA FINAL: EL CORAZÓN HEXADECIMAL (fin del Acto II) ============ -->
+  <section id="screen-hexvictory" class="screen" style="background:radial-gradient(ellipse at 50% -10%, #2A0845 0%, var(--dark) 65%);overflow:hidden">
+    <div class="dg-fog"></div><div class="dg-fog b"></div>
+    <div class="ep-slide active">
+      <div class="intro-tag">El Corazón Hexadecimal</div>
+      <div style="font-size:48px">✨</div>
+      <div class="ep-heading">La corrupción se rompe</div>
+      <div class="ep-body">La Bruja Hexadecimal se deshace en fragmentos de código y ceniza. El patrón que sostenía su maldición se rompe, y el color verdadero —el de antes de los 500 años, el del Cristal completo— vuelve a correr por Dulcelandia.</div>
+      <div class="ep-body" style="color:var(--crystal)">Confite: "Lo logramos. Se acabó. Puedo... puedo sentir el reino respirar de nuevo. Gracias por no rendirte, Guardián."</div>
+      <button class="btn-sm btn-primary" onclick="goTo('world')" style="margin-top:4px">Volver a Dulcelandia</button>
+    </div>
+  </section>
+
   <div id="dg-flash"></div>
 
   <!-- ============ BOSS INTRO OVERLAY ============ -->
@@ -1279,7 +1319,8 @@ let busy = false;
 let askLock = false;
 
 function defaultSave(){ return { stars:{1:{}}, unlocked:{1:1}, coins:0, buildings:{casa:true}, tutorialSeen:false, stripeTutorialSeen:false, obstacleTutorialSeen:false, muted:false, lastTerritory:null, achievements:{}, crystalsActivated:0, bestCascade:0, bestScores:{}, dailyChallenge:null, dailyStreak:0, lastDailyDate:null, lastLoginDate:null, loginStreak:0, territoryComplete:{}, introDone:false, survivalBest:0, activeSkin:"default", unlockedSkins:{default:true}, stripesCreated:0, mobaWins:0, brWins:0, unlockedStories:{}, epilogueSeen:false, chocolateDestroyed:0,
-  xp:0, playerLevel:1, soulShards:0, dgUnlocked:1, dgStars:{}, dgTimedBest:0, dgZenBest:0, dgScoreHistory:[], pieceSkin:"gothic", unlockedPieceSkins:{gothic:true}, dgTutorialSeen:false, dgPowerups:{bomb:1,curse:1,crystal:1}, dgAmbientOn:true, dgBombCreated:0, dgCurseCreated:0, dgCrystalCreated:0, dgShadowBroken:0 }; }
+  xp:0, playerLevel:1, soulShards:0, dgUnlocked:1, dgStars:{}, dgTimedBest:0, dgZenBest:0, dgScoreHistory:[], pieceSkin:"gothic", unlockedPieceSkins:{gothic:true}, dgTutorialSeen:false, dgPowerups:{bomb:1,curse:1,crystal:1}, dgAmbientOn:true, dgBombCreated:0, dgCurseCreated:0, dgCrystalCreated:0, dgShadowBroken:0,
+  dgModeUnlocked:false, dgVictorySeen:false }; }
 function migrateSave(s){
   // formato viejo (pre-multiterritorio): stars/unlocked planos, referidos siempre al territorio 1
   if(s.stars && typeof s.unlocked === "number"){
@@ -1324,6 +1365,7 @@ function goTo(name, territoryId){
   if(name==="dgmenu") renderDgMenu();
   if(name==="dglevels") renderDgLevels();
   if(name==="dgshop") renderDgShop();
+  if(name==="title") renderTitleHexButton();
   if(name!=="moba" && mobaRunning){ mobaRunning=false; if(mobaRAF) cancelAnimationFrame(mobaRAF); }
   if(name!=="br" && brRunning){ brRunning=false; if(brRAF) cancelAnimationFrame(brRAF); }
   if(name!=="survival" && name!=="game") endSurvivalTimer();
@@ -1399,6 +1441,25 @@ function territoryProgress(id){
 function territoryUnlocked(id){
   if(id===1) return true;
   return territoryProgress(id-1) >= 1;
+}
+function renderTitleHexButton(){
+  const btn = document.getElementById("btn-hexclash");
+  if(!btn) return;
+  if(save.dgModeUnlocked){
+    btn.textContent = "🕯️ HEX CLASH · Modo Oscuro";
+    btn.style.opacity = "1";
+    btn.onclick = ()=>goTo("dgmenu");
+  } else {
+    btn.textContent = "🔒 HEX CLASH · Bloqueado";
+    btn.style.opacity = ".55";
+    btn.onclick = ()=>{
+      const bubbleEl = document.getElementById("confite-title-bubble");
+      if(bubbleEl){
+        bubbleEl.textContent = "Restaura Las Tierras Carmesí por completo para descubrir qué despierta en la oscuridad...";
+        bubbleEl.style.display = "";
+      }
+    };
+  }
 }
 function renderWorld(){
   const list = document.getElementById("world-list");
@@ -2160,6 +2221,7 @@ function renderMap(){
     const div = document.createElement("div");
     const isBoss = lv.n === TOTAL_LEVELS;
     div.className = "level-node" + (unlocked? (stars>0?" cleared":"") : " locked") + (isBoss?" boss-level":"");
+    if(currentTerritory===1 && LEVEL_NAMES_T1[lv.n]) div.title = LEVEL_NAMES_T1[lv.n];
     if(unlocked){
       const best = getBestScore(currentTerritory, lv.n);
       const bestHtml = best>0 ? `<div class="level-best">${best.toLocaleString()}</div>` : "";
@@ -2187,6 +2249,12 @@ function renderMap(){
   });
   document.getElementById("total-stars").textContent = totalStars;
   confiteMapSay(totalStars);
+  const loreEl = document.getElementById("level-lore");
+  if(loreEl){
+    const nextN = Math.min(unlockedLevel, TOTAL_LEVELS);
+    loreEl.textContent = (currentTerritory===1 && LEVEL_LORE_T1[nextN])
+      ? `${LEVEL_NAMES_T1[nextN]}: ${LEVEL_LORE_T1[nextN]}` : "";
+  }
 }
 const TERRITORY_CONFITE_GREET = {
   1: "Este es nuestro primer territorio. Aquí empecé a recordar que existía...",
@@ -2224,6 +2292,26 @@ const BOSS_LEVEL_NAMES = {
   7: "La Calavera de Azúcar Sagrada",
   8: "El Cristal que se Rompió a sí Mismo"
 };
+// Nombres y lore de nivel para Las Tierras Carmesí (Acto I) — el territorio inicial
+// que sirve de arco narrativo introductorio antes de la maldición de HEX CLASH.
+const LEVEL_NAMES_T1 = {
+  1: "La Pradera Dulce", 2: "El Sendero de Caramelo", 3: "El Bosque de Caramelo",
+  4: "El Río de Miel", 5: "La Aldea Carmesí", 6: "El Puente Quebrado",
+  7: "La Torre Vigía", 8: "El Cañón de Azúcar", 9: "Las Puertas Carmesí",
+  10: "El Último Carmesí"
+};
+const LEVEL_LORE_T1 = {
+  1: "El primer paso de Dulce Roja. La pradera recupera su color, caramelo a caramelo.",
+  2: "El camino se despierta lentamente. Algo observa desde lejos, pero aún es solo curiosidad.",
+  3: "Entre los árboles de azúcar, Confite jura reconocer una melodía olvidada.",
+  4: "La miel vuelve a fluir. Los habitantes se asoman, cautelosos, a ver el color regresar.",
+  5: "La aldea recuerda cómo celebrar. Confite siente algo despertar en su interior también.",
+  6: "El puente lleva 500 años roto. Cruzarlo es cruzar hacia el corazón del territorio.",
+  7: "Desde la torre se ve todo el territorio... y, muy lejos, algo que no debería estar ahí.",
+  8: "El cañón guarda ecos extraños. Como si algo, en algún lugar, empezara a contar.",
+  9: "Las puertas del corazón del territorio se abren. Solo queda enfrentar lo que las cerró.",
+  10: "El Último Carmesí. Donde Las Tierras Carmesí decidirán si vuelven a brillar del todo."
+};
 function objectiveText(c){
   if(c.type==="collect") return `Meta: recolecta ${c.target} ${CANDY_NAMES[c.color]}`;
   if(c.type==="crystals") return `Meta: activa ${c.target} Cristales ✨`;
@@ -2250,7 +2338,7 @@ function startLevel(n){
   // Obstacle count shown after buildGrid() sets up obstacles — update after init
   document.getElementById("objective-bar").textContent = isBoss2
     ? `👑 ${BOSS_LEVEL_NAMES[currentTerritory]||"Nivel Jefe"} · ${objectiveText(cur)}`
-    : objectiveText(cur);
+    : (currentTerritory===1 && LEVEL_NAMES_T1[n] ? `${LEVEL_NAMES_T1[n]} · ${objectiveText(cur)}` : objectiveText(cur));
   updateHud();
   const isBossLevel = (n===TOTAL_LEVELS);
   let startMsg;
@@ -3247,12 +3335,20 @@ function checkTerritoryComplete(){
 }
 function closeTerritoryComplete(){
   document.getElementById("territory-complete-overlay").classList.remove("on");
-  // For territory 8, trigger epilogue instead of world map
-  if(currentTerritory===8 && !save.epilogueSeen){
+  // Territorio 1 completo por primera vez: la Bruja Hexadecimal despierta y HEX CLASH se desbloquea
+  if(currentTerritory===1 && !save.dgModeUnlocked){
+    setTimeout(()=>goTo("hexcurse"), 400);
+  } else if(currentTerritory===8 && !save.epilogueSeen){
+    // Para territorio 8, disparar el epílogo en vez del mapa mundial
     setTimeout(()=>startEpilogue(), 400);
   } else {
     goTo("world");
   }
+}
+function closeHexCurseIntro(){
+  save.dgModeUnlocked = true;
+  persistSave();
+  goTo("world");
 }
 
 /* ---------------- EPÍLOGO ---------------- */
@@ -3569,7 +3665,7 @@ function activateSkin(id){
 
 /* ---------------- HISTORIA (INTRO) ---------------- */
 let introCurrentSlide = 0;
-const INTRO_TOTAL = 4;
+const INTRO_TOTAL = 5;
 function startIntro(){
   introCurrentSlide = 0;
   showIntroSlide(0);
@@ -3748,6 +3844,39 @@ function dgLevelDef(n){
   return { n, cols:size, rows:size, numColors:colors, moves, type, goal, target, color, shadowChance, isBoss:n===20 };
 }
 const DG_LEVELS = Array.from({length:20},(_,i)=>dgLevelDef(i+1));
+// Nombres y lore de nivel para HEX CLASH (Acto II) — el mismo reino de Dulcelandia,
+// corrompido por la Bruja Hexadecimal tras los eventos de Las Tierras Carmesí.
+const DG_LEVEL_NAMES = {
+  1:"La Pradera Marchita", 2:"El Sendero Fracturado", 3:"El Bosque Retorcido",
+  4:"El Río Detenido", 5:"La Aldea en Sombras", 6:"El Puente del Vacío",
+  7:"La Torre Oscura", 8:"El Cañón de Ceniza", 9:"Las Puertas Selladas",
+  10:"El Umbral Carmesí Roto", 11:"Los Campos de Estática", 12:"El Cementerio de Cristal",
+  13:"La Cripta Susurrante", 14:"El Laberinto de Sombra", 15:"La Fosa Hexagonal",
+  16:"El Templo Corrompido", 17:"La Grieta del Código", 18:"El Trono de Ceniza",
+  19:"El Umbral de la Bruja", 20:"El Corazón Hexadecimal"
+};
+const DG_LEVEL_LORE = {
+  1:"La misma pradera, pero el color se apagó de golpe. La Bruja Hexadecimal ha comenzado.",
+  2:"El sendero se quiebra en líneas que no deberían existir. El Guardián avanza con cautela.",
+  3:"El bosque retuerce sus ramas en ángulos imposibles. Algo geométrico respira aquí.",
+  4:"El río se congeló a mitad de su cauce, como si el tiempo mismo hubiera tropezado.",
+  5:"La aldea está vacía. Sus luces parpadean en un patrón que se repite, obsesivo.",
+  6:"El puente ya no lleva a ningún lugar conocido. Cruzarlo es un acto de fe.",
+  7:"En la Torre Oscura, la Bruja Hexadecimal dejó su primera marca visible.",
+  8:"Ceniza donde antes había azúcar. El cañón guarda el eco de algo que gritó una vez.",
+  9:"Las puertas selladas no se abren con fuerza. Se abren rompiendo el patrón que las corrompe.",
+  10:"Más allá del umbral, Dulcelandia empieza a parecer un lugar que nunca existió.",
+  11:"Estática pura donde hubo campos de caramelo. El Guardián del Azúcar sigue avanzando.",
+  12:"Cristales rotos marcan cada paso. Cada uno guarda un fragmento de color perdido.",
+  13:"La cripta susurra en un idioma que Confite no entiende... pero reconoce.",
+  14:"El laberinto cambia de forma con cada movimiento. Solo el instinto guía el camino.",
+  15:"La fosa hexagonal desciende hacia algo que pulsa, lento y constante, como un corazón.",
+  16:"El templo alguna vez celebró a Confite y a los suyos. Ahora solo celebra a la Bruja.",
+  17:"La grieta se abre y, por un instante, se ve el código puro de la maldición.",
+  18:"El trono de ceniza está vacío. La Bruja Hexadecimal ya no necesita sentarse a esperar.",
+  19:"El umbral final. Del otro lado, la voz que corrompió Dulcelandia espera con paciencia.",
+  20:"El Corazón Hexadecimal. Aquí termina la Bruja... o termina Dulcelandia."
+};
 
 /* ---- estado ---- */
 let dgCur = null, dgBoard = [], dgSpecialArr = [], dgShadowArr = [];
@@ -4295,7 +4424,14 @@ function dgRetryOrNext(){
   if(dgCur.isTimed){ dgStartTimed(); return; }
   if(dgCur.isZen){ dgStartZen(); return; }
   if(dgCur.done && dgCheckWin() && dgCur.n<20){ dgStartLevel(dgCur.n+1); }
-  else if(dgCur.done && dgCheckWin()){ goTo("dgmenu"); }
+  else if(dgCur.done && dgCheckWin()){
+    if(dgCur.n===20 && !save.dgVictorySeen){
+      save.dgVictorySeen = true; persistSave();
+      goTo("hexvictory");
+    } else {
+      goTo("dgmenu");
+    }
+  }
   else { dgStartLevel(dgCur.n); }
 }
 function dgExitToMenu(){
@@ -4326,7 +4462,9 @@ function dgStartLevel(n){
     score:0, progress:0, cascade:0, done:false, isTimed:false, isZen:false, isBoss:lv.isBoss };
   dgSetupCommonUi(lv, dgCur);
   document.getElementById("dg-objective-bar").textContent = dgObjectiveText(dgCur);
-  document.getElementById("dg-start-title").textContent = lv.isBoss ? "👑 Nivel Final · La Cripta de Cristal" : `Historia · Nivel ${lv.n}`;
+  const dgName = DG_LEVEL_NAMES[lv.n] || `Nivel ${lv.n}`;
+  document.getElementById("dg-start-title").textContent = lv.isBoss ? `👑 ${dgName}` : `${dgName} · Nivel ${lv.n}`;
+  document.getElementById("dg-start-lore").textContent = DG_LEVEL_LORE[lv.n] || "";
   document.getElementById("dg-start-sub").textContent = dgObjectiveText(dgCur) + ` · ${lv.moves} movimientos`;
   dgBuildGrid(lv);
   dgUpdateHud();
@@ -4422,6 +4560,7 @@ function renderDgLevels(){
     const cleared = stars>0;
     const div = document.createElement("div");
     div.className = "level-node" + (cleared?" cleared":"") + (!unlocked?" locked":"") + (lv.isBoss?" boss-level":"");
+    if(DG_LEVEL_NAMES[lv.n]) div.title = DG_LEVEL_NAMES[lv.n];
     div.innerHTML = unlocked
       ? `<div class="level-num">${lv.isBoss?"👑":lv.n}</div><div class="level-stars"><span class="s ${stars>=1?'on':''}">⭐</span><span class="s ${stars>=2?'on':''}">⭐</span><span class="s ${stars>=3?'on':''}">⭐</span></div>`
       : `<div class="lock-icon">🔒</div>`;
@@ -4568,10 +4707,17 @@ function dgPlaySfx(kind){
   }
 })();
 renderMap();
+renderTitleHexButton();
 // Daily login bonus (only for returning players with some progress)
 if(save.introDone) checkLoginBonus();
 // Show story intro for new players
 if(!save.introDone){ startIntro(); }
+// Red de seguridad: si Las Tierras Carmesí ya estaban restauradas antes de esta
+// actualización (save.territoryComplete[1] ya era true), el overlay de territorio
+// completo no se re-dispara — así que desbloqueamos HEX CLASH aquí también.
+if(save.introDone && !save.dgModeUnlocked && territoryProgress(1)>=1){
+  setTimeout(()=>goTo("hexcurse"), 500);
+}
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   window.addEventListener("load", ()=>{ navigator.serviceWorker.register("service-worker.js").catch(()=>{}); });
 }
