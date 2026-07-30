@@ -4,11 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Sugar Clash: Dulcelandia</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0D0015">
+<link rel="apple-touch-icon" href="icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Karla:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#0D1B3E; --navy2:#162047; --gold:#F5B800; --candy:#FF5C8A; --crystal:#7FD8E8;
-  --green:#2ED573; --purple:#9B59B6; --cream:#FFF3E6; --dark:#070D1F;
+  --navy:#170027; --navy2:#20063A; --gold:#FFD700; --candy:#FF2D7A; --crystal:#00F5FF;
+  --green:#00FF88; --purple:#9B59B6; --cream:#F3E6FF; --dark:#0D0015;
+  --neon-orange:#FF6B00;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;background:var(--dark);font-family:'Karla',sans-serif;color:var(--cream)}
@@ -18,7 +24,7 @@ html,body{height:100%;overflow:hidden;background:var(--dark);font-family:'Karla'
 button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 
 /* ===== TITLE ===== */
-#screen-title{align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at 50% 20%,#1A2A5E 0%,var(--dark) 70%);gap:18px;padding:24px}
+#screen-title{align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at 50% 20%,#2A0845 0%,var(--dark) 70%);gap:18px;padding:24px}
 .logo{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(30px,8vw,52px);line-height:1.05;background:linear-gradient(110deg,var(--gold),var(--candy) 55%,var(--crystal));-webkit-background-clip:text;background-clip:text;color:transparent}
 .logo-sub{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--crystal);opacity:.85}
 #confite-title{width:88px;height:78px;animation:bob 2.4s ease-in-out infinite}
@@ -93,7 +99,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .badge-desc{font-size:10.5px;color:rgba(255,255,255,.55);line-height:1.3}
 .badge-status{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
 .badge-progress{font-size:10px;color:rgba(255,255,255,.5)}
-.achv-toast{position:fixed;top:84px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#1A2A5E,var(--dark));border:1px solid rgba(245,184,0,.5);border-radius:14px;padding:10px 18px;box-shadow:0 8px 26px rgba(0,0,0,.4);z-index:50;max-width:88vw;animation:achvToast 2.6s ease forwards}
+.achv-toast{position:fixed;top:84px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#2A0845,var(--dark));border:1px solid rgba(245,184,0,.5);border-radius:14px;padding:10px 18px;box-shadow:0 8px 26px rgba(0,0,0,.4);z-index:50;max-width:88vw;animation:achvToast 2.6s ease forwards}
 .achv-toast-icon{font-size:26px}
 .achv-toast-title{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.04em}
 .achv-toast-name{font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:var(--cream)}
@@ -147,14 +153,14 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .mb-ability-btn{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#FF8C42);border:1px solid rgba(255,255,255,.25);color:var(--navy);font-size:17px;flex-shrink:0;font-weight:700}
 .mb-ability-btn:disabled{opacity:.4;background:rgba(255,255,255,.08);color:rgba(255,255,255,.5)}
 #mb-wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
-#mb-canvas{background:linear-gradient(180deg,#3A1030,#1A2A5E,#0D1B3E);border-radius:14px;border:2px solid rgba(255,255,255,.15);touch-action:none;max-width:100%;max-height:100%}
+#mb-canvas{background:linear-gradient(180deg,#3A1030,#2A0845,#170027);border-radius:14px;border:2px solid rgba(255,255,255,.15);touch-action:none;max-width:100%;max-height:100%}
 #mb-overlay{position:absolute;inset:0;background:rgba(7,13,31,.92);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:24px;border-radius:14px;z-index:10}
 #mb-overlay.on{display:flex}
 
 /* ===== BATTLE ROYALE (prototipo: jugador vs 9 bots, zona) ===== */
 #screen-br{padding:10px 10px 14px;gap:8px}
 #br-wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
-#br-canvas{background:linear-gradient(180deg,#1A2A5E,#0D1B3E);border-radius:14px;border:2px solid rgba(255,255,255,.15);touch-action:none;max-width:100%;max-height:100%}
+#br-canvas{background:linear-gradient(180deg,#2A0845,#170027);border-radius:14px;border:2px solid rgba(255,255,255,.15);touch-action:none;max-width:100%;max-height:100%}
 #br-overlay{position:absolute;inset:0;background:rgba(7,13,31,.92);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:24px;border-radius:14px;z-index:10}
 #br-overlay.on{display:flex}
 
@@ -204,13 +210,13 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .candy-icon{width:66%;height:66%;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
 .cell.selected{transform:scale(1.1);border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.4)}
 .cell.matched{animation:pop .3s ease forwards}
-.login-bonus-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(160deg,#1A2A5E 0%,#0D1A40 100%);border:1px solid rgba(245,184,0,.5);border-radius:22px;padding:28px 24px 20px;text-align:center;z-index:60;min-width:240px;box-shadow:0 16px 48px rgba(0,0,0,.6);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeInScale .35s cubic-bezier(.36,1.56,.64,1)}
+.login-bonus-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(160deg,#2A0845 0%,#170027 100%);border:1px solid rgba(245,184,0,.5);border-radius:22px;padding:28px 24px 20px;text-align:center;z-index:60;min-width:240px;box-shadow:0 16px 48px rgba(0,0,0,.6);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeInScale .35s cubic-bezier(.36,1.56,.64,1)}
 .lb-icon{font-size:44px;line-height:1}
 .lb-title{font-family:'Fraunces',serif;font-size:20px;color:var(--cream)}
 .lb-amount{font-family:'Fraunces',serif;font-size:32px;font-weight:700;color:var(--gold)}
 .lb-streak{font-size:12px;color:var(--crystal);margin-bottom:6px}
 @keyframes fadeInScale{from{opacity:0;transform:translate(-50%,-50%) scale(.7)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-.stripe-tip{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#1A2A5E,#0D1A40);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:12px 16px;font-size:13px;color:#fff;display:flex;align-items:center;gap:10px;z-index:20;max-width:88%;box-shadow:0 8px 24px rgba(0,0,0,.5);animation:achvToast 5s ease forwards;cursor:pointer;text-align:left}
+.stripe-tip{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#2A0845,#170027);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:12px 16px;font-size:13px;color:#fff;display:flex;align-items:center;gap:10px;z-index:20;max-width:88%;box-shadow:0 8px 24px rgba(0,0,0,.5);animation:achvToast 5s ease forwards;cursor:pointer;text-align:left}
 .cell.stripe-h::after,.cell.stripe-v::after{content:'';position:absolute;border-radius:3px;pointer-events:none;background:rgba(255,255,255,.75);z-index:2}
 .cell.stripe-h::after{top:50%;left:8%;right:8%;height:5px;transform:translateY(-50%)}
 .cell.stripe-v::after{left:50%;top:8%;bottom:8%;width:5px;transform:translateX(-50%)}
@@ -375,6 +381,98 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .memory-hint{font-size:10px;color:rgba(255,255,255,.35);margin-top:4px}
 @keyframes memoryReveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .memory-card.unlocked{animation:memoryReveal .4s ease}
+
+/* ================================================================
+   DARK GOTHIC MATCH — "HEX CLASH" (nuevo modo, motor independiente)
+   ================================================================ */
+#screen-dgmenu, #screen-dglevels, #screen-dgshop, #screen-dggame{background:radial-gradient(ellipse at 50% -10%, #2A0845 0%, var(--dark) 65%);position:relative;overflow:hidden}
+.dg-fog{position:absolute;width:160%;height:46%;left:-30%;top:-6%;border-radius:50%;filter:blur(50px);pointer-events:none;background:radial-gradient(ellipse,rgba(155,89,182,.22),transparent 70%);animation:fogdrift 18s ease-in-out infinite alternate;z-index:0}
+.dg-fog.b{top:auto;bottom:-10%;background:radial-gradient(ellipse,rgba(0,245,255,.10),transparent 70%);animation-duration:22s}
+#screen-dgmenu{padding:18px 16px 24px;gap:14px}
+#screen-dglevels{padding:18px 16px 24px;gap:14px}
+#screen-dgshop{padding:18px 16px 24px;gap:14px}
+.dg-header{display:flex;align-items:center;gap:10px;z-index:1}
+.dg-logo-mini{flex:1;font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:.02em;background:linear-gradient(110deg,var(--candy),var(--crystal) 60%,var(--neon-orange));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px rgba(255,45,122,.25)}
+.shard-badge{font-size:13px;font-weight:600;color:var(--crystal);background:rgba(0,245,255,.10);border:1px solid rgba(0,245,255,.35);border-radius:99px;padding:6px 12px}
+.dg-level-badge{font-size:12px;color:rgba(255,255,255,.7);z-index:1}
+.dg-xp-track{margin-top:5px;background:rgba(255,255,255,.08);border-radius:99px;height:7px;overflow:hidden}
+.dg-xp-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--candy),var(--crystal));border-radius:99px;transition:width .5s}
+.dg-mode-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:4px 2px 8px;z-index:1}
+.dg-mode-card{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.05);border:1px solid rgba(155,89,182,.28);border-radius:16px;padding:14px;cursor:pointer;transition:transform .15s,box-shadow .3s}
+.dg-mode-card:active{transform:scale(.97)}
+.dg-mode-card:hover{box-shadow:0 0 18px rgba(0,245,255,.15)}
+.dg-mode-icon{font-size:28px;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);flex-shrink:0;filter:drop-shadow(0 0 6px rgba(255,45,122,.4))}
+.dg-mode-info{flex:1;min-width:0}
+.dg-mode-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream)}
+.dg-mode-desc{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px}
+.dg-mode-tag{font-size:11px;font-weight:700;color:var(--gold);white-space:nowrap}
+.dg-menu-row{display:flex;gap:10px;z-index:1}
+.dg-btn-secondary{flex:1;font-size:13px;font-weight:600;padding:12px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:var(--cream)}
+
+/* ---- Shop ---- */
+.dg-shop-section-title{font-family:'Fraunces',serif;font-size:14px;color:var(--crystal);opacity:.8;margin-top:4px;z-index:1}
+.dg-shop-scroll{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:16px;padding:2px 2px 16px;z-index:1}
+.dg-shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.dg-shop-item{border-radius:16px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:transform .15s}
+.dg-shop-item:active{transform:scale(.96)}
+.dg-shop-item-icon{font-size:28px}
+.dg-shop-item-name{font-family:'Fraunces',serif;font-weight:600;font-size:12.5px;color:var(--cream)}
+.dg-shop-item-sub{font-size:10.5px;color:rgba(255,255,255,.5)}
+.dg-shop-item-cost{font-size:11px;font-weight:600;color:var(--crystal)}
+.dg-skin-card{border-radius:18px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.10);cursor:pointer;transition:border-color .2s,transform .15s}
+.dg-skin-card:active{transform:scale(.96)}
+.dg-skin-card.active-skin{border-color:var(--crystal);background:rgba(0,245,255,.08)}
+.dg-skin-preview{width:46px;height:46px;display:flex;align-items:center;justify-content:center}
+.dg-skin-name{font-family:'Fraunces',serif;font-weight:600;font-size:12.5px;color:var(--cream)}
+
+/* ---- Game screen ---- */
+#screen-dggame{padding:10px 10px 14px;gap:8px}
+#dg-grid-wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center;z-index:1}
+#dg-grid{display:grid;gap:6px;width:100%;max-width:380px}
+.dg-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s;position:relative}
+.dg-piece{width:82%;height:82%;clip-path:polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 62%);display:flex;align-items:center;justify-content:center;font-size:18px;transition:filter .15s;position:relative}
+.dg-cell.selected .dg-piece{transform:scale(1.12);filter:brightness(1.35)}
+.dg-cell.dg-matched .dg-piece{animation:pop .32s ease forwards}
+.dg-cell.dg-new .dg-piece{animation:dropin .3s ease}
+.dg-p0{background:radial-gradient(circle at 35% 30%,#FF6FA8,#FF2D7A 70%);box-shadow:0 0 10px 1px rgba(255,45,122,.65),inset 0 0 8px rgba(255,255,255,.25)}
+.dg-p1{background:radial-gradient(circle at 35% 30%,#5CFAFF,#00F5FF 70%);box-shadow:0 0 10px 1px rgba(0,245,255,.65),inset 0 0 8px rgba(255,255,255,.25)}
+.dg-p2{background:radial-gradient(circle at 35% 30%,#5CFFB0,#00FF88 70%);box-shadow:0 0 10px 1px rgba(0,255,136,.65),inset 0 0 8px rgba(255,255,255,.25)}
+.dg-p3{background:radial-gradient(circle at 35% 30%,#FFA35C,#FF6B00 70%);box-shadow:0 0 10px 1px rgba(255,107,0,.65),inset 0 0 8px rgba(255,255,255,.25)}
+.dg-p4{background:radial-gradient(circle at 35% 30%,#C583DD,#9B59B6 70%);box-shadow:0 0 10px 1px rgba(155,89,182,.65),inset 0 0 8px rgba(255,255,255,.25)}
+.dg-p5{background:radial-gradient(circle at 35% 30%,#FFEB7A,#FFD700 70%);box-shadow:0 0 10px 1px rgba(255,215,0,.65),inset 0 0 8px rgba(255,255,255,.25)}
+.dg-pBOMB{background:radial-gradient(circle at 35% 30%,#fff,#FF2D7A 55%,#170027);box-shadow:0 0 16px 4px rgba(255,45,122,.85);animation:dgBombPulse .5s ease-in-out infinite}
+.dg-pCURSE{background:radial-gradient(circle at 35% 30%,#fff,#9B59B6 50%,#170027);box-shadow:0 0 16px 4px rgba(155,89,182,.85);animation:dgBombPulse .6s ease-in-out infinite}
+@keyframes dgBombPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.5)}}
+.dg-shadow{position:absolute;inset:6%;border-radius:8px;background:rgba(5,0,12,.82);display:flex;align-items:center;justify-content:center;font-size:20px;pointer-events:none;box-shadow:inset 0 0 10px rgba(0,0,0,.7);z-index:3}
+.dg-shadow.hp1{opacity:.6}
+.dg-cell.dg-shadow-hit .dg-shadow{animation:obstacleShake .35s ease}
+#dg-hud{display:flex;align-items:center;gap:8px;flex-wrap:wrap;z-index:1}
+#dg-objective-bar{font-size:11px;color:var(--crystal);background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.25);border-radius:10px;padding:6px 10px;text-align:center;z-index:1}
+#dg-progress-track{background:rgba(255,255,255,.08);border-radius:99px;height:9px;overflow:hidden;z-index:1}
+#dg-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--candy),var(--crystal));border-radius:99px;transition:width .4s}
+.dg-combo-mult{position:absolute;top:38%;left:50%;transform:translate(-50%,-50%) scale(.6);font-family:'Fraunces',serif;font-weight:700;font-size:0;pointer-events:none;z-index:6;text-align:center;white-space:nowrap}
+.dg-combo-mult .n{font-size:44px;background:linear-gradient(110deg,var(--candy),var(--gold),var(--crystal));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 24px rgba(255,45,122,.6);display:block}
+.dg-combo-mult .p{font-size:16px;color:var(--cream);opacity:.9;display:block}
+.dg-combo-mult{animation:dgComboPop .9s cubic-bezier(.2,1.4,.4,1) forwards}
+@keyframes dgComboPop{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}18%{transform:translate(-50%,-50%) scale(1.15);opacity:1}30%{transform:translate(-50%,-50%) scale(1)}100%{transform:translate(-50%,-58%) scale(1);opacity:0}}
+.dg-shake{animation:dgShake .4s cubic-bezier(.36,.07,.19,.97) both}
+@keyframes dgShake{10%,90%{transform:translate3d(-1px,0,0)}20%,80%{transform:translate3d(2px,0,0)}30%,50%,70%{transform:translate3d(-4px,0,0)}40%,60%{transform:translate3d(4px,0,0)}}
+#dg-flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:998}
+#dg-flash.on{animation:dgFlash .35s ease}
+@keyframes dgFlash{0%{opacity:0}15%{opacity:.55}100%{opacity:0}}
+#dg-overlay,#dg-tutorial-overlay,#dg-pause-overlay,#dg-start-overlay{position:absolute;inset:0;background:rgba(5,0,12,.94);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:24px;z-index:10}
+#dg-overlay.on,#dg-tutorial-overlay.on,#dg-pause-overlay.on,#dg-start-overlay.on{display:flex}
+.dg-title-big{font-family:'Fraunces',serif;font-weight:600;font-size:28px;background:linear-gradient(110deg,var(--candy),var(--gold) 55%,var(--crystal));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(255,45,122,.4)}
+.dg-xp-gain{font-size:13px;color:var(--crystal)}
+#dg-timer-bar{height:8px;margin:0 2px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;z-index:1}
+#dg-timer-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--crystal),var(--green));transition:width .1s linear,background .3s}
+#dg-timer-fill.warn{background:linear-gradient(90deg,var(--gold),var(--neon-orange))}
+#dg-timer-fill.danger{background:linear-gradient(90deg,var(--candy),#FF3333)}
+.dg-cell.dg-bomb-glow .dg-piece{animation:bombPulse .4s ease-in-out infinite}
+.dg-cell.dg-curse-glow .dg-piece{animation:rainbowPulse .35s ease-in-out 3}
+.dg-cell.hint-pulse .dg-piece{animation:hintpulse 1s ease-in-out infinite}
+.dg-pCRYSTAL{background:radial-gradient(circle at 35% 30%,#fff,#00F5FF 45%,#FF2D7A 90%);box-shadow:0 0 18px 4px rgba(255,255,255,.55);animation:dgBombPulse .7s ease-in-out infinite}
+.dg-tuto-highlight{position:absolute;border:2px solid var(--gold);border-radius:12px;box-shadow:0 0 0 4px rgba(255,215,0,.3);pointer-events:none;z-index:12;animation:hintpulse 1s ease-in-out infinite}
 </style>
 </head>
 <body>
@@ -507,6 +605,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     <div style="height:8px"></div>
     <button class="btn-play" id="btn-title-main" onclick="goTo('world')">▶ Jugar</button>
     <button class="btn-ghost" id="btn-title-secondary" style="display:none" onclick="goTo('world')">Mapa mundial</button>
+    <button class="btn-ghost" style="border-color:rgba(0,245,255,.35);color:var(--crystal)" onclick="goTo('dgmenu')">🕯️ HEX CLASH · Modo Oscuro</button>
     <div id="confite-title-bubble" style="font-size:12px;color:var(--crystal);font-style:italic;margin-top:4px;opacity:.85;display:none"></div>
   </section>
 
@@ -913,6 +1012,134 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     <div id="memories-list" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 0 16px"></div>
   </section>
 
+  <!-- ============ DARK GOTHIC MATCH — "HEX CLASH" ============ -->
+  <section id="screen-dgmenu" class="screen">
+    <div class="dg-fog"></div><div class="dg-fog b"></div>
+    <div class="dg-header">
+      <div class="back-btn" onclick="goTo('title')">←</div>
+      <div class="dg-logo-mini">HEX CLASH</div>
+      <div class="shard-badge">💠 <span id="dg-shards">0</span></div>
+    </div>
+    <div class="dg-level-badge">Nivel de jugador <b id="dg-player-level">1</b> · <span id="dg-xp-text">0 / 100 XP</span>
+      <div class="dg-xp-track"><div class="dg-xp-fill" id="dg-xp-fill"></div></div>
+    </div>
+    <div class="dg-mode-list">
+      <div class="dg-mode-card" onclick="goTo('dglevels')">
+        <div class="dg-mode-icon">📖</div>
+        <div class="dg-mode-info"><div class="dg-mode-name">Historia</div><div class="dg-mode-desc">20 niveles con dificultad creciente</div></div>
+        <div class="dg-mode-tag" id="dg-historia-tag">1/20</div>
+      </div>
+      <div class="dg-mode-card" onclick="dgStartTimed()">
+        <div class="dg-mode-icon">⏱️</div>
+        <div class="dg-mode-info"><div class="dg-mode-name">Tiempo Límite</div><div class="dg-mode-desc">60 segundos · el mayor puntaje posible</div></div>
+        <div class="dg-mode-tag">🏆 <span id="dg-timed-best">0</span></div>
+      </div>
+      <div class="dg-mode-card" onclick="dgStartZen()">
+        <div class="dg-mode-icon">☯️</div>
+        <div class="dg-mode-info"><div class="dg-mode-name">Zen</div><div class="dg-mode-desc">Sin límite de movimientos ni tiempo</div></div>
+        <div class="dg-mode-tag">🏆 <span id="dg-zen-best">0</span></div>
+      </div>
+    </div>
+    <div class="dg-menu-row">
+      <button class="dg-btn-secondary" onclick="goTo('dgshop')">🛒 Tienda</button>
+      <button class="dg-btn-secondary" onclick="dgToggleAmbientPref()" id="dg-sound-btn">🔊 Música ambiental</button>
+    </div>
+  </section>
+
+  <!-- ============ DG: SELECCIÓN DE NIVEL (Historia) ============ -->
+  <section id="screen-dglevels" class="screen">
+    <div class="dg-fog"></div>
+    <div class="map-header" style="z-index:1">
+      <div class="back-btn" onclick="goTo('dgmenu')">←</div>
+      <div class="map-title">Modo Historia</div>
+      <div class="stars-total">⭐ <span id="dg-total-stars">0</span>/60</div>
+    </div>
+    <div id="dg-level-grid" style="z-index:1;flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:6px 2px 12px;align-content:start"></div>
+  </section>
+
+  <!-- ============ DG: TIENDA ============ -->
+  <section id="screen-dgshop" class="screen">
+    <div class="dg-fog"></div>
+    <div class="dg-header">
+      <div class="back-btn" onclick="goTo('dgmenu')">←</div>
+      <div class="dg-logo-mini">Tienda</div>
+      <div class="shard-badge">💠 <span id="dg-shop-shards">0</span></div>
+    </div>
+    <div class="dg-shop-scroll">
+      <div>
+        <div class="dg-shop-section-title">Cargas de poder</div>
+        <div class="dg-shop-grid" id="dg-shop-powerups"></div>
+      </div>
+      <div>
+        <div class="dg-shop-section-title">Skins de piezas</div>
+        <div class="dg-shop-grid" id="dg-shop-skins"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DG: JUEGO ============ -->
+  <section id="screen-dggame" class="screen">
+    <div class="dg-fog"></div>
+    <div id="dg-hud">
+      <div class="back-btn" onclick="dgExitToMenu()">←</div>
+      <div class="hud-stat" id="dg-hud-moves-wrap"><div class="hud-val" id="dg-hud-moves">20</div><div class="hud-lbl">Movs</div></div>
+      <div class="hud-stat" id="dg-hud-time-wrap" style="display:none"><div class="hud-val" id="dg-hud-time">60</div><div class="hud-lbl">Seg</div></div>
+      <div class="hud-stat"><div class="hud-val" id="dg-hud-score">0</div><div class="hud-lbl">Puntos</div></div>
+      <div class="hud-stat"><div class="hud-val" id="dg-hud-combo">x1</div><div class="hud-lbl">Combo</div></div>
+      <div class="back-btn" onclick="dgOpenPause()">⏸️</div>
+    </div>
+    <div id="dg-objective-bar">Meta: 1,000 pts</div>
+    <div id="dg-progress-track"><div id="dg-progress-fill"></div></div>
+    <div id="dg-timer-bar" style="display:none"><div id="dg-timer-fill"></div></div>
+    <div id="dg-grid-wrap">
+      <div id="dg-grid"></div>
+      <div id="dg-start-overlay">
+        <div class="tutorial-icon">🕯️</div>
+        <div class="dg-title-big" id="dg-start-title">Historia · Nivel 1</div>
+        <div class="tutorial-text" id="dg-start-sub">Alinea 3 o más piezas del mismo color.</div>
+        <button class="btn-sm btn-primary" onclick="dgBeginRun()">Comenzar</button>
+      </div>
+      <div id="dg-tutorial-overlay">
+        <div class="tutorial-icon">👆</div>
+        <div class="tutorial-title">Cómo se juega HEX CLASH</div>
+        <div class="tutorial-text">Toca dos piezas adyacentes para intercambiarlas. 3 en línea las elimina. 5 en línea crea una <b>HEX BOMB</b> 💣. Un match en L/T crea una <b>CHAIN CURSE</b> 🌀. Un match de 4 en línea crea un <b>DARK CRYSTAL</b> 🔮 comodín. Las piezas oscuras (Shadow) necesitan 2 golpes.</div>
+        <button class="btn-sm btn-primary" onclick="dgDismissTutorial()">¡Entendido!</button>
+      </div>
+      <div id="dg-pause-overlay">
+        <div class="tutorial-icon">⏸️</div>
+        <div class="tutorial-title">Pausa</div>
+        <div class="settings-row" onclick="dgTogglePauseMute()" style="width:85%;max-width:280px">
+          <div class="settings-row-label"><div class="settings-row-title" id="dg-pause-mute-label">🔊 Sonido activado</div></div>
+          <div class="settings-toggle" id="dg-pause-mute-toggle"><div class="settings-toggle-knob"></div></div>
+        </div>
+        <div class="settings-row" id="dg-pause-bomb-row" onclick="dgUseBombCharge()" style="width:85%;max-width:280px">
+          <div class="settings-row-label"><div class="settings-row-title">💣 HEX BOMB</div><div class="settings-row-sub" id="dg-pause-bomb-sub">Explota un área 3×3</div></div>
+        </div>
+        <div class="settings-row" id="dg-pause-curse-row" onclick="dgUseCurseCharge()" style="width:85%;max-width:280px">
+          <div class="settings-row-label"><div class="settings-row-title">🌀 CHAIN CURSE</div><div class="settings-row-sub" id="dg-pause-curse-sub">Elimina todas las piezas de un color</div></div>
+        </div>
+        <div class="overlay-btns">
+          <button class="btn-sm btn-secondary" onclick="dgExitToMenu()">Salir</button>
+          <button class="btn-sm btn-primary" onclick="dgClosePause()">Continuar</button>
+        </div>
+      </div>
+      <div id="dg-overlay">
+        <div class="overlay-icon" id="dg-overlay-icon">💀</div>
+        <div class="overlay-title" id="dg-overlay-title"></div>
+        <div class="overlay-sub" id="dg-overlay-sub"></div>
+        <div class="dg-xp-gain" id="dg-overlay-xp"></div>
+        <div class="overlay-stars" id="dg-overlay-stars">
+          <span class="s">⭐</span><span class="s">⭐</span><span class="s">⭐</span>
+        </div>
+        <div class="overlay-btns">
+          <button class="btn-sm btn-secondary" onclick="dgExitToMenu()">Menú</button>
+          <button class="btn-sm btn-primary" onclick="dgRetryOrNext()" id="dg-overlay-main-btn">Reintentar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div id="dg-flash"></div>
+
   <!-- ============ BOSS INTRO OVERLAY ============ -->
   <div id="boss-intro-overlay">
     <div class="bi-crown">👑</div>
@@ -1051,7 +1278,8 @@ let sel = null;
 let busy = false;
 let askLock = false;
 
-function defaultSave(){ return { stars:{1:{}}, unlocked:{1:1}, coins:0, buildings:{casa:true}, tutorialSeen:false, stripeTutorialSeen:false, obstacleTutorialSeen:false, muted:false, lastTerritory:null, achievements:{}, crystalsActivated:0, bestCascade:0, bestScores:{}, dailyChallenge:null, dailyStreak:0, lastDailyDate:null, lastLoginDate:null, loginStreak:0, territoryComplete:{}, introDone:false, survivalBest:0, activeSkin:"default", unlockedSkins:{default:true}, stripesCreated:0, mobaWins:0, brWins:0, unlockedStories:{}, epilogueSeen:false, chocolateDestroyed:0 }; }
+function defaultSave(){ return { stars:{1:{}}, unlocked:{1:1}, coins:0, buildings:{casa:true}, tutorialSeen:false, stripeTutorialSeen:false, obstacleTutorialSeen:false, muted:false, lastTerritory:null, achievements:{}, crystalsActivated:0, bestCascade:0, bestScores:{}, dailyChallenge:null, dailyStreak:0, lastDailyDate:null, lastLoginDate:null, loginStreak:0, territoryComplete:{}, introDone:false, survivalBest:0, activeSkin:"default", unlockedSkins:{default:true}, stripesCreated:0, mobaWins:0, brWins:0, unlockedStories:{}, epilogueSeen:false, chocolateDestroyed:0,
+  xp:0, playerLevel:1, soulShards:0, dgUnlocked:1, dgStars:{}, dgTimedBest:0, dgZenBest:0, dgScoreHistory:[], pieceSkin:"gothic", unlockedPieceSkins:{gothic:true}, dgTutorialSeen:false, dgPowerups:{bomb:1,curse:1,crystal:1}, dgAmbientOn:true, dgBombCreated:0, dgCurseCreated:0, dgCrystalCreated:0, dgShadowBroken:0 }; }
 function migrateSave(s){
   // formato viejo (pre-multiterritorio): stars/unlocked planos, referidos siempre al territorio 1
   if(s.stars && typeof s.unlocked === "number"){
@@ -1093,10 +1321,14 @@ function goTo(name, territoryId){
   if(name==="heroes") renderHeroes();
   if(name==="memories") renderMemories();
   if(name==="epilogue"){ /* epilogue manages its own slides */ }
+  if(name==="dgmenu") renderDgMenu();
+  if(name==="dglevels") renderDgLevels();
+  if(name==="dgshop") renderDgShop();
   if(name!=="moba" && mobaRunning){ mobaRunning=false; if(mobaRAF) cancelAnimationFrame(mobaRAF); }
   if(name!=="br" && brRunning){ brRunning=false; if(brRAF) cancelAnimationFrame(brRAF); }
   if(name!=="survival" && name!=="game") endSurvivalTimer();
   if(name!=="map") document.getElementById("boss-intro-overlay").classList.remove("on");
+  if(name!=="dggame"){ dgStopTimer(); dgStopAmbient(); clearTimeout(dgHintTimerId); }
 }
 function toggleMute(){
   save.muted = !save.muted;
@@ -3477,6 +3709,815 @@ function showLoginBonus(bonus, streak){
   document.getElementById("app").appendChild(div);
 }
 
+/* ================================================================
+   DARK GOTHIC MATCH — "HEX CLASH" ENGINE (independiente del motor
+   de Dulcelandia; reutiliza rnd(), delay(), tone(), actx)
+   ================================================================ */
+const DG_COLOR_NAMES = ["rosa","cian","verde","naranja","morado","dorado"];
+const DG_CRYSTAL = 9; // pieza comodín (Dark Crystal) — valor especial en dgBoard
+const DG_PIECE_SKINS = [
+  {id:"gothic",    name:"Dark Gothic", icon:"🕸️", cost:0},
+  {id:"bloodmoon", name:"Blood Moon",  icon:"🌑", cost:150},
+  {id:"void",      name:"Void Crystal",icon:"🔮", cost:250},
+];
+function dgXpForLevel(level){ return 100 + (level-1)*40; }
+function dgAddXp(amount){
+  save.xp = (save.xp||0) + amount;
+  let leveled = false;
+  while(save.playerLevel<50 && save.xp >= dgXpForLevel(save.playerLevel)){
+    save.xp -= dgXpForLevel(save.playerLevel);
+    save.playerLevel++;
+    save.soulShards = (save.soulShards||0) + 25;
+    leveled = true;
+  }
+  persistSave();
+  return leveled;
+}
+function dgShadowCountForLevel(n){ return Math.min(Math.floor((n-4)*0.35)+1, 6); }
+function dgLevelDef(n){
+  const colors = n<=3?4 : n<=7?5 : 6;
+  const size = n<=6?6 : n<=13?7:8;
+  const moves = Math.max(12, 22 - Math.floor(n/2));
+  const types = ["score","collect","matches","shadow"];
+  let type = n===1 ? "score" : types[(n-1)%4];
+  if(type==="shadow" && n<5) type = "score";
+  const color = (n*2)%colors;
+  const goal = 700 + n*260;
+  const target = type==="collect" ? 10+n : type==="matches" ? 4+Math.floor(n/3) : type==="shadow" ? dgShadowCountForLevel(n) : 2+Math.floor(n/6);
+  const shadowChance = n>=5;
+  return { n, cols:size, rows:size, numColors:colors, moves, type, goal, target, color, shadowChance, isBoss:n===20 };
+}
+const DG_LEVELS = Array.from({length:20},(_,i)=>dgLevelDef(i+1));
+
+/* ---- estado ---- */
+let dgCur = null, dgBoard = [], dgSpecialArr = [], dgShadowArr = [];
+let dgSel = null, dgBusy = false;
+let dgBombActive = false, dgCurseActive = false;
+let dgPauseOpen = false, dgTutorialOpen = false;
+let dgTimerId = null, dgHintTimerId = null, dgHintCells = [];
+let dgAmbientNodes = null;
+
+function dgRandType(numColors){ return rnd(numColors); }
+
+function dgObjectiveText(c){
+  if(c.type==="collect") return `Meta: recolecta ${c.target} piezas ${DG_COLOR_NAMES[c.color]}`;
+  if(c.type==="matches") return `Meta: haz ${c.target} matches ${DG_COLOR_NAMES[c.color]}`;
+  if(c.type==="shadow") return `Meta: rompe ${c.target} Shadow Pieces 🌑`;
+  return `Meta: ${c.goal.toLocaleString()} pts en ${c.movesMax} movimientos`;
+}
+function dgCheckWin(){
+  if(!dgCur) return false;
+  if(dgCur.type==="collect" || dgCur.type==="matches" || dgCur.type==="shadow") return dgCur.progress >= dgCur.target;
+  return dgCur.score >= dgCur.goal;
+}
+function dgCalcStars(){
+  if(dgCur.type==="score"){
+    if(dgCur.score >= dgCur.goal*2) return 3;
+    if(dgCur.score >= dgCur.goal*1.5) return 2;
+    if(dgCur.score >= dgCur.goal) return 1;
+    return 0;
+  }
+  const remainingRatio = dgCur.movesLeft / dgCur.movesMax;
+  if(remainingRatio >= 0.4) return 3;
+  if(remainingRatio >= 0.15) return 2;
+  return 1;
+}
+
+/* ---- tablero ---- */
+function dgInitShadows(cfg){
+  dgShadowArr = Array.from({length:cfg.rows},()=>Array(cfg.cols).fill(0));
+  if(!cfg.shadowChance) return;
+  const count = dgShadowCountForLevel(cfg.n);
+  const hp = cfg.n>=13 ? 2 : 1;
+  const seed = cfg.n*53+7;
+  const pseudo=(i)=>(((seed*1664525+i*22695477+1013904223)>>>0)/4294967296);
+  const used=new Set();
+  for(let i=0; used.size<count && i<count*20; i++){
+    const r=1+Math.floor(pseudo(i*2)*(cfg.rows-2));
+    const c=Math.floor(pseudo(i*2+1)*cfg.cols);
+    const k=r*cfg.cols+c;
+    if(!used.has(k)){ used.add(k); dgShadowArr[r][c]=hp; }
+  }
+}
+function dgBuildGrid(cfg){
+  const gridEl = document.getElementById("dg-grid");
+  gridEl.style.gridTemplateColumns = `repeat(${cfg.cols}, 1fr)`;
+  dgBoard = Array.from({length:cfg.rows},()=>Array.from({length:cfg.cols},()=>dgRandType(cfg.numColors)));
+  dgSpecialArr = Array.from({length:cfg.rows},()=>Array(cfg.cols).fill(null));
+  while(dgFindMatches().length>0 || !dgHasPossibleMove()){
+    dgBoard = Array.from({length:cfg.rows},()=>Array.from({length:cfg.cols},()=>dgRandType(cfg.numColors)));
+  }
+  dgInitShadows(cfg);
+  dgSel = null; dgBusy = false;
+  dgRenderGrid();
+  dgResetHintTimer();
+}
+function dgPieceSkinIcon(){
+  const id = save.pieceSkin||"gothic";
+  if(id==="bloodmoon") return {BOMB:"🌕",CURSE:"🩸",CRYSTAL:"⚗️"};
+  if(id==="void") return {BOMB:"🕳️",CURSE:"👁️",CRYSTAL:"🔮"};
+  return {BOMB:"💣",CURSE:"🌀",CRYSTAL:"🔮"};
+}
+function dgRenderGrid(){
+  const gridEl = document.getElementById("dg-grid");
+  gridEl.innerHTML = "";
+  const icons = dgPieceSkinIcon();
+  for(let r=0;r<dgCur.rows;r++) for(let c=0;c<dgCur.cols;c++){
+    const t = dgBoard[r][c];
+    const div = document.createElement("div");
+    div.className = "dg-cell";
+    div.dataset.r=r; div.dataset.c=c;
+    let pieceClass = t===DG_CRYSTAL ? "dg-pCRYSTAL" : `dg-p${t}`;
+    let icon = "";
+    if(t===DG_CRYSTAL) icon = icons.CRYSTAL;
+    else if(dgSpecialArr[r] && dgSpecialArr[r][c]==='BOMB') icon = icons.BOMB;
+    else if(dgSpecialArr[r] && dgSpecialArr[r][c]==='CURSE') icon = icons.CURSE;
+    const specialClass = dgSpecialArr[r] && dgSpecialArr[r][c] ? ` dg-p${dgSpecialArr[r][c]}` : "";
+    div.innerHTML = `<div class="dg-piece ${pieceClass}${specialClass}">${icon}</div>`;
+    if(dgShadowArr.length && dgShadowArr[r][c]>0){
+      const sh = document.createElement("div");
+      sh.className = "dg-shadow" + (dgShadowArr[r][c]===1?" hp1":"");
+      sh.textContent = "🌑";
+      div.appendChild(sh);
+    }
+    if(dgSel && dgSel[0]===r && dgSel[1]===c) div.classList.add("selected");
+    div.onclick = ()=>dgOnCellClick(r,c);
+    gridEl.appendChild(div);
+  }
+  dgBindSwipe();
+}
+function dgCellEl(r,c){ return document.getElementById("dg-grid").children[r*dgCur.cols+c]; }
+
+/* ---- detección de matches / formas ---- */
+function dgComputeRuns(){
+  const hRuns=[], vRuns=[];
+  for(let r=0;r<dgCur.rows;r++){
+    let c=0;
+    while(c<dgCur.cols){
+      const t=dgBoard[r][c];
+      if(t===DG_CRYSTAL){ c++; continue; }
+      let k=c;
+      while(k<dgCur.cols && (dgBoard[r][k]===t||dgBoard[r][k]===DG_CRYSTAL)) k++;
+      if(k-c>=3) hRuns.push({row:r,start:c,end:k-1,length:k-c});
+      c=k>c?k:c+1;
+    }
+  }
+  for(let c=0;c<dgCur.cols;c++){
+    let r=0;
+    while(r<dgCur.rows){
+      const t=dgBoard[r][c];
+      if(t===DG_CRYSTAL){ r++; continue; }
+      let k=r;
+      while(k<dgCur.rows && (dgBoard[k][c]===t||dgBoard[k][c]===DG_CRYSTAL)) k++;
+      if(k-r>=3) vRuns.push({col:c,start:r,end:k-1,length:k-r});
+      r=k>r?k:r+1;
+    }
+  }
+  return {hRuns, vRuns};
+}
+function dgFindMatches(){
+  const {hRuns, vRuns} = dgComputeRuns();
+  const found = new Set();
+  hRuns.forEach(run=>{ for(let c=run.start;c<=run.end;c++) found.add(run.row*dgCur.cols+c); });
+  vRuns.forEach(run=>{ for(let r=run.start;r<=run.end;r++) found.add(r*dgCur.cols+run.col); });
+  return [...found].map(i=>({r:Math.floor(i/dgCur.cols), c:i%dgCur.cols}));
+}
+function dgAnalyzeSwapMatch(destR, destC){
+  const {hRuns, vRuns} = dgComputeRuns();
+  const myH = hRuns.find(r=> r.row===destR && destC>=r.start && destC<=r.end);
+  const myV = vRuns.find(r=> r.col===destC && destR>=r.start && destR<=r.end);
+  if((myH && myH.length>=5) || (myV && myV.length>=5)) return 'BOMB';
+  if(myH && myV) return 'CURSE';
+  if((myH && myH.length===4) || (myV && myV.length===4)) return 'CRYSTAL';
+  return null;
+}
+function dgSwapCells(r1,c1,r2,c2){
+  [dgBoard[r1][c1],dgBoard[r2][c2]]=[dgBoard[r2][c2],dgBoard[r1][c1]];
+  [dgSpecialArr[r1][c1],dgSpecialArr[r2][c2]]=[dgSpecialArr[r2][c2],dgSpecialArr[r1][c1]];
+}
+function dgHasPossibleMove(){
+  for(let r=0;r<dgCur.rows;r++) for(let c=0;c<dgCur.cols;c++){
+    if(c<dgCur.cols-1){ dgSwapCells(r,c,r,c+1); const m=dgFindMatches(); dgSwapCells(r,c,r,c+1); if(m.length>0) return true; }
+    if(r<dgCur.rows-1){ dgSwapCells(r,c,r+1,c); const m=dgFindMatches(); dgSwapCells(r,c,r+1,c); if(m.length>0) return true; }
+  }
+  return false;
+}
+function dgShuffleBoard(){
+  const flatB = dgBoard.flat(), flatS = dgSpecialArr.flat();
+  let attempts=0;
+  do{
+    for(let i=flatB.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [flatB[i],flatB[j]]=[flatB[j],flatB[i]]; [flatS[i],flatS[j]]=[flatS[j],flatS[i]]; }
+    let idx=0;
+    for(let r=0;r<dgCur.rows;r++) for(let c=0;c<dgCur.cols;c++){ dgBoard[r][c]=flatB[idx]; dgSpecialArr[r][c]=flatS[idx]; idx++; }
+    attempts++;
+  } while((dgFindMatches().length>0 || !dgHasPossibleMove()) && attempts<200);
+}
+function dgApplyGravity(){
+  for(let c=0;c<dgCur.cols;c++){
+    let col=[], scol=[];
+    for(let r=dgCur.rows-1;r>=0;r--) if(dgBoard[r][c]!==-1){ col.push(dgBoard[r][c]); scol.push(dgSpecialArr[r][c]); }
+    while(col.length<dgCur.rows){ col.push(-1); scol.push(null); }
+    for(let r=dgCur.rows-1;r>=0;r--){
+      dgBoard[r][c]=col[dgCur.rows-1-r];
+      dgSpecialArr[r][c]=scol[dgCur.rows-1-r];
+    }
+  }
+}
+function dgFillEmpty(){
+  for(let r=0;r<dgCur.rows;r++) for(let c=0;c<dgCur.cols;c++){
+    if(dgBoard[r][c]===-1){ dgBoard[r][c]=dgRandType(dgCur.numColors); dgSpecialArr[r][c]=null; }
+  }
+}
+
+/* ---- daño a Shadow Pieces ---- */
+function dgDamageShadows(clearedCells){
+  const DIRS=[[-1,0],[1,0],[0,-1],[0,1]];
+  const seen=new Set(); let broken=0;
+  clearedCells.forEach(({r,c})=>{
+    DIRS.forEach(([dr,dc])=>{
+      const nr=r+dr, nc=c+dc;
+      if(nr<0||nr>=dgCur.rows||nc<0||nc>=dgCur.cols) return;
+      if(!dgShadowArr[nr] || dgShadowArr[nr][nc]<=0) return;
+      const k=nr*dgCur.cols+nc;
+      if(seen.has(k)) return;
+      seen.add(k);
+      dgShadowArr[nr][nc]--;
+      const el=dgCellEl(nr,nc);
+      if(el){ el.classList.add("dg-shadow-hit"); setTimeout(()=>{ const e2=dgCellEl(nr,nc); if(e2) e2.classList.remove("dg-shadow-hit"); }, 380); }
+      if(dgShadowArr[nr][nc]===0){ broken++; dgCur.score+=220; }
+    });
+  });
+  if(broken>0){
+    save.dgShadowBroken=(save.dgShadowBroken||0)+broken;
+    if(dgCur.type==="shadow") dgCur.progress += broken;
+    dgHaptic(40);
+  }
+  return broken;
+}
+
+/* ---- combo UI: multiplicador, shake, flash ---- */
+function dgShowCombo(pts, mult, label){
+  const wrap = document.getElementById("dg-grid-wrap");
+  const div = document.createElement("div");
+  div.className = "dg-combo-mult";
+  div.innerHTML = mult>=2
+    ? `<span class="n">x${mult}</span><span class="p">${label||"COMBO"} · +${pts}</span>`
+    : `<span class="p" style="font-size:20px;color:var(--gold)">+${pts}${label?" · "+label:""}</span>`;
+  wrap.appendChild(div);
+  setTimeout(()=>div.remove(), 950);
+  document.getElementById("dg-hud-combo").textContent = `x${mult}`;
+}
+function dgShake(){
+  const wrap = document.getElementById("screen-dggame");
+  wrap.classList.remove("dg-shake"); void wrap.offsetWidth; wrap.classList.add("dg-shake");
+}
+function dgFlash(){
+  const f = document.getElementById("dg-flash");
+  f.classList.remove("on"); void f.offsetWidth; f.classList.add("on");
+}
+function dgHaptic(ms){ try{ if(navigator.vibrate) navigator.vibrate(ms); }catch(e){} }
+
+/* ---- swap + cascada ---- */
+async function dgDoSwap(r1,c1,r2,c2){
+  dgBusy = true;
+  dgSwapCells(r1,c1,r2,c2); dgRenderGrid();
+  await delay(150);
+  let m = dgFindMatches();
+  if(m.length===0){
+    dgSwapCells(r1,c1,r2,c2); dgRenderGrid();
+    await delay(150);
+    dgBusy = false;
+    return;
+  }
+  if(!dgCur.isZen && !dgCur.isTimed) dgCur.movesLeft--;
+  dgCur.cascade = 0;
+  const specialType = dgAnalyzeSwapMatch(r2,c2);
+  await dgProcessCascade(specialType, r2, c2);
+  dgUpdateHud();
+  if(dgCheckWin()){ dgFinishRun(true); return; }
+  if(!dgCur.isZen && !dgCur.isTimed && dgCur.movesLeft<=0){ dgFinishRun(false); return; }
+  dgBusy = false;
+  dgResetHintTimer();
+}
+async function dgProcessCascade(initialSpecial, protectR, protectC){
+  let first = true;
+  let matched = dgFindMatches();
+  while(matched.length>0){
+    const key=(r,c)=>r*dgCur.cols+c;
+    let cellSet = new Set(matched.map(({r,c})=>key(r,c)));
+    let protectedCell = null;
+    if(first && initialSpecial){
+      protectedCell = {r:protectR,c:protectC,type:initialSpecial};
+      cellSet.delete(key(protectR,protectC));
+    }
+    const bombTriggers=[], curseTriggers=[];
+    let crystalCount=0;
+    matched.forEach(({r,c})=>{
+      if(protectedCell && r===protectedCell.r && c===protectedCell.c) return;
+      if(dgSpecialArr[r] && dgSpecialArr[r][c]==='BOMB') bombTriggers.push({r,c});
+      if(dgSpecialArr[r] && dgSpecialArr[r][c]==='CURSE') curseTriggers.push({r,c});
+      if(dgBoard[r][c]===DG_CRYSTAL) crystalCount++;
+    });
+    bombTriggers.forEach(({r,c})=>{
+      for(let dr=-1;dr<=1;dr++) for(let dc=-1;dc<=1;dc++){
+        const nr=r+dr, nc=c+dc;
+        if(nr>=0&&nr<dgCur.rows&&nc>=0&&nc<dgCur.cols) cellSet.add(key(nr,nc));
+      }
+    });
+    curseTriggers.forEach(({r,c})=>{
+      const color = dgBoard[r][c];
+      for(let rr=0;rr<dgCur.rows;rr++) for(let cc=0;cc<dgCur.cols;cc++){
+        if(dgBoard[rr][cc]===color) cellSet.add(key(rr,cc));
+      }
+    });
+    const allCells = [...cellSet].map(k=>({r:Math.floor(k/dgCur.cols), c:k%dgCur.cols}));
+    const brokenShadows = dgDamageShadows(allCells);
+
+    if(dgCur.type==="collect"){ allCells.forEach(({r,c})=>{ if(dgBoard[r][c]===dgCur.color) dgCur.progress++; }); }
+    else if(dgCur.type==="matches"){ if(matched.some(({r,c})=> dgBoard[r][c]===dgCur.color)) dgCur.progress++; }
+
+    const basePts = matched.length*(matched.length>=5?150:matched.length>=4?100:50);
+    const bonusPts = (allCells.length-matched.length)*30;
+    dgCur.cascade++;
+    const mult = Math.min(dgCur.cascade,4);
+    const pts = Math.round((basePts+bonusPts) * mult);
+    dgCur.score += pts;
+    dgAddXp(Math.max(1,Math.floor(pts/20)));
+
+    let label = null;
+    if(bombTriggers.length>0 && curseTriggers.length>0){ label="💣🌀 ¡Combo maldito!"; dgFlash(); dgShake(); dgPlaySfx("special"); }
+    else if(bombTriggers.length>0){ label="💣 HEX BOMB"; dgShake(); dgPlaySfx("bomb"); }
+    else if(curseTriggers.length>0){ label="🌀 CHAIN CURSE"; dgShake(); dgPlaySfx("curse"); }
+    else if(crystalCount>0){ label="🔮 Dark Crystal"; dgPlaySfx("crystal"); }
+    else { dgPlaySfx(matched.length>=5?"match5":matched.length>=4?"match4":"match3"); }
+    if(mult>=4) dgFlash();
+    if(mult>=3) dgShake();
+    if(brokenShadows>0) label = (label?label+" ":"") + `🌑×${brokenShadows}`;
+    dgShowCombo(pts, mult, label);
+    dgHaptic(mult>=3?60:25);
+
+    if(protectedCell){
+      if(protectedCell.type==='CRYSTAL') dgBoard[protectedCell.r][protectedCell.c] = DG_CRYSTAL;
+      else{
+        dgSpecialArr[protectedCell.r][protectedCell.c] = protectedCell.type;
+        if(protectedCell.type==='BOMB') save.dgBombCreated=(save.dgBombCreated||0)+1;
+        if(protectedCell.type==='CURSE') save.dgCurseCreated=(save.dgCurseCreated||0)+1;
+      }
+      if(protectedCell.type==='CRYSTAL') save.dgCrystalCreated=(save.dgCrystalCreated||0)+1;
+    }
+    allCells.forEach(({r,c})=>{ const el=dgCellEl(r,c); if(el) el.classList.add("dg-matched"); });
+    await delay(260);
+    allCells.forEach(({r,c})=>{ dgBoard[r][c]=-1; });
+    dgApplyGravity(); dgRenderGrid();
+    await delay(200);
+    dgFillEmpty(); dgRenderGrid();
+    await delay(200);
+    first = false;
+    matched = dgFindMatches();
+  }
+  persistSave();
+  dgUpdateHud();
+  if(!dgHasPossibleMove()){
+    dgPlaySfx("shuffle");
+    document.querySelectorAll("#dg-grid .dg-cell").forEach((el,i)=>{
+      setTimeout(()=>{ el.style.transform="scale(0.7) rotate(10deg)"; el.style.opacity="0.5"; }, i*8);
+      setTimeout(()=>{ el.style.transform=""; el.style.opacity=""; }, i*8+350);
+    });
+    await delay(500);
+    dgShuffleBoard();
+    dgRenderGrid();
+    await delay(200);
+  }
+}
+
+/* ---- power-ups manuales (cargas compradas en la tienda) ---- */
+function dgUseBombCharge(){
+  if((save.dgPowerups.bomb||0)<=0){ dgClosePause(); return; }
+  save.dgPowerups.bomb--; persistSave();
+  dgBombActive = true; dgCurseActive = false;
+  dgClosePause();
+  document.querySelectorAll("#dg-grid .dg-cell").forEach(el=>el.classList.add("dg-bomb-glow"));
+  setTimeout(()=>document.querySelectorAll(".dg-bomb-glow").forEach(el=>el.classList.remove("dg-bomb-glow")), 1200);
+}
+function dgUseCurseCharge(){
+  if((save.dgPowerups.curse||0)<=0){ dgClosePause(); return; }
+  save.dgPowerups.curse--; persistSave();
+  dgCurseActive = true; dgBombActive = false;
+  dgClosePause();
+  document.querySelectorAll("#dg-grid .dg-cell").forEach(el=>el.classList.add("dg-curse-glow"));
+  setTimeout(()=>document.querySelectorAll(".dg-curse-glow").forEach(el=>el.classList.remove("dg-curse-glow")), 1200);
+}
+async function dgUseBombAt(row,col){
+  dgBusy=true;
+  const cells=[];
+  for(let dr=-1;dr<=1;dr++) for(let dc=-1;dc<=1;dc++){
+    const r2=row+dr, c2=col+dc;
+    if(r2>=0&&r2<dgCur.rows&&c2>=0&&c2<dgCur.cols&&dgBoard[r2][c2]>=0) cells.push({r:r2,c:c2});
+  }
+  cells.forEach(({r,c})=>{ const el=dgCellEl(r,c); if(el) el.classList.add("dg-matched"); });
+  dgPlaySfx("bomb"); dgShake(); dgHaptic(60);
+  const pts=cells.length*60;
+  dgCur.score+=pts;
+  cells.forEach(({r,c})=>{ if(dgShadowArr[r]) dgShadowArr[r][c]=0; if(dgCur.type==="collect" && dgBoard[r][c]===dgCur.color) dgCur.progress++; });
+  dgShowCombo(pts,1,"💣 HEX BOMB");
+  await delay(280);
+  cells.forEach(({r,c})=>{ dgBoard[r][c]=-1; dgSpecialArr[r][c]=null; });
+  dgApplyGravity(); dgRenderGrid();
+  await delay(200);
+  dgFillEmpty(); dgRenderGrid();
+  await delay(200);
+  await dgProcessCascade(null,0,0);
+  dgUpdateHud();
+  if(dgCheckWin()){ dgFinishRun(true); return; }
+  if(!dgCur.isZen && !dgCur.isTimed && dgCur.movesLeft<=0){ dgFinishRun(false); return; }
+  dgBusy=false;
+  dgResetHintTimer();
+}
+async function dgUseCurseOnColor(color){
+  dgBusy=true;
+  const cells=[];
+  for(let r=0;r<dgCur.rows;r++) for(let c=0;c<dgCur.cols;c++) if(dgBoard[r][c]===color) cells.push({r,c});
+  cells.forEach(({r,c})=>{ const el=dgCellEl(r,c); if(el) el.classList.add("dg-matched"); });
+  dgPlaySfx("curse"); dgShake(); dgHaptic(60);
+  const pts=cells.length*80;
+  dgCur.score+=pts;
+  if(dgCur.type==="collect" && color===dgCur.color) dgCur.progress+=cells.length;
+  dgShowCombo(pts,1,"🌀 CHAIN CURSE");
+  await delay(280);
+  cells.forEach(({r,c})=>{ dgBoard[r][c]=-1; dgSpecialArr[r][c]=null; });
+  dgApplyGravity(); dgRenderGrid();
+  await delay(200);
+  dgFillEmpty(); dgRenderGrid();
+  await delay(200);
+  await dgProcessCascade(null,0,0);
+  dgUpdateHud();
+  if(dgCheckWin()){ dgFinishRun(true); return; }
+  if(!dgCur.isZen && !dgCur.isTimed && dgCur.movesLeft<=0){ dgFinishRun(false); return; }
+  dgBusy=false;
+  dgResetHintTimer();
+}
+
+/* ---- input: click de dos toques + swipe ---- */
+function dgOnCellClick(r,c){
+  if(dgBusy || dgCur.done || dgTutorialOpen || dgPauseOpen) return;
+  dgResetHintTimer();
+  if(dgBombActive){ dgBombActive=false; document.querySelectorAll(".dg-bomb-glow").forEach(el=>el.classList.remove("dg-bomb-glow")); dgUseBombAt(r,c); return; }
+  if(dgCurseActive){ dgCurseActive=false; document.querySelectorAll(".dg-curse-glow").forEach(el=>el.classList.remove("dg-curse-glow")); const color=dgBoard[r][c]; if(color>=0 && color<dgCur.numColors) dgUseCurseOnColor(color); return; }
+  if(!dgSel){ dgSel=[r,c]; dgRenderGrid(); return; }
+  const [sr,sc]=dgSel;
+  if(sr===r&&sc===c){ dgSel=null; dgRenderGrid(); return; }
+  if(Math.abs(sr-r)+Math.abs(sc-c)!==1){ dgSel=[r,c]; dgRenderGrid(); return; }
+  dgSel=null; dgRenderGrid();
+  dgDoSwap(sr,sc,r,c);
+}
+function dgBindSwipe(){
+  const gridEl = document.getElementById("dg-grid");
+  let startX=0, startY=0, startCell=null, tracking=false;
+  gridEl.onpointerdown = (e)=>{
+    const cellDiv = e.target.closest(".dg-cell");
+    if(!cellDiv) return;
+    tracking=true; startX=e.clientX; startY=e.clientY;
+    startCell=[+cellDiv.dataset.r, +cellDiv.dataset.c];
+  };
+  gridEl.onpointerup = (e)=>{
+    if(!tracking) return; tracking=false;
+    const dx=e.clientX-startX, dy=e.clientY-startY;
+    const absX=Math.abs(dx), absY=Math.abs(dy);
+    if(Math.max(absX,absY) < 18) return; // demasiado corto: se trata como tap normal (onclick)
+    if(dgBusy || dgCur.done || dgTutorialOpen || dgPauseOpen || dgBombActive || dgCurseActive) return;
+    let [r,c]=startCell;
+    let r2=r, c2=c;
+    if(absX>absY) c2 = c + (dx>0?1:-1); else r2 = r + (dy>0?1:-1);
+    if(r2<0||r2>=dgCur.rows||c2<0||c2>=dgCur.cols) return;
+    dgSel=null; dgRenderGrid();
+    dgDoSwap(r,c,r2,c2);
+  };
+}
+
+/* ---- hints ---- */
+function dgFindHint(){
+  for(let r=0;r<dgCur.rows;r++) for(let c=0;c<dgCur.cols;c++){
+    if(c<dgCur.cols-1){ dgSwapCells(r,c,r,c+1); const m=dgFindMatches(); dgSwapCells(r,c,r,c+1); if(m.length>0) return {r1:r,c1:c,r2:r,c2:c+1}; }
+    if(r<dgCur.rows-1){ dgSwapCells(r,c,r+1,c); const m=dgFindMatches(); dgSwapCells(r,c,r+1,c); if(m.length>0) return {r1:r,c1:c,r2:r+1,c2:c}; }
+  }
+  return null;
+}
+function dgClearHint(){ dgHintCells.forEach(el=>el&&el.classList.remove("hint-pulse")); dgHintCells=[]; }
+function dgShowHint(){
+  dgClearHint();
+  const h = dgFindHint();
+  if(!h) return;
+  const a=dgCellEl(h.r1,h.c1), b=dgCellEl(h.r2,h.c2);
+  if(a) a.classList.add("hint-pulse"); if(b) b.classList.add("hint-pulse");
+  dgHintCells=[a,b];
+}
+function dgResetHintTimer(){
+  dgClearHint(); clearTimeout(dgHintTimerId);
+  if(dgCur && !dgCur.done && !dgCur.isZen) dgHintTimerId = setTimeout(dgShowHint, 8000);
+}
+function dgStopTimer(){ clearInterval(dgTimerId); dgTimerId=null; }
+
+/* ---- resultado de nivel/partida ---- */
+function dgUpdateHud(){
+  if(dgCur.isTimed){
+    document.getElementById("dg-hud-time").textContent = Math.ceil(dgCur.timeLeft/1000);
+  } else if(!dgCur.isZen){
+    document.getElementById("dg-hud-moves").textContent = dgCur.movesLeft;
+  }
+  document.getElementById("dg-hud-score").textContent = dgCur.score.toLocaleString();
+  if(dgCur.type && !dgCur.isTimed && !dgCur.isZen){
+    const pct = (dgCur.type==="collect"||dgCur.type==="matches"||dgCur.type==="shadow")
+      ? Math.min(100, Math.round(dgCur.progress/dgCur.target*100))
+      : Math.min(100, Math.round(dgCur.score/dgCur.goal*100));
+    document.getElementById("dg-progress-fill").style.width = pct+"%";
+  }
+}
+function dgFinishRun(won){
+  dgCur.done = true;
+  dgClearHint(); clearTimeout(dgHintTimerId); dgStopTimer();
+  dgPauseOpen = false;
+  document.getElementById("dg-pause-overlay").classList.remove("on");
+  const overlay = document.getElementById("dg-overlay");
+  let xpGain = Math.max(5, Math.floor(dgCur.score/40));
+  let stars = 0;
+  if(dgCur.isTimed || dgCur.isZen){
+    won = true; // no hay "derrota" en tiempo límite/zen, solo fin de la partida
+    const bestKey = dgCur.isTimed ? "dgTimedBest" : "dgZenBest";
+    if(dgCur.score > (save[bestKey]||0)) save[bestKey] = dgCur.score;
+    const shards = Math.floor(dgCur.score/50);
+    save.soulShards = (save.soulShards||0) + shards;
+    dgPushScoreHistory(dgCur.isTimed?"Tiempo Límite":"Zen", dgCur.score);
+    dgAddXp(xpGain);
+    document.getElementById("dg-overlay-icon").textContent = "🏁";
+    document.getElementById("dg-overlay-title").textContent = dgCur.isTimed ? "¡Tiempo agotado!" : "Partida terminada";
+    document.getElementById("dg-overlay-sub").textContent = `${dgCur.score.toLocaleString()} puntos`;
+    document.getElementById("dg-overlay-xp").textContent = `+${xpGain} XP · +${shards} 💠`;
+    document.getElementById("dg-overlay-stars").style.display = "none";
+    document.getElementById("dg-overlay-main-btn").textContent = "Jugar de nuevo";
+    playWin();
+  } else if(won){
+    stars = dgCalcStars();
+    const shards = 15 + stars*10;
+    save.soulShards = (save.soulShards||0) + shards;
+    if(!save.dgStars) save.dgStars = {};
+    save.dgStars[dgCur.n] = Math.max(save.dgStars[dgCur.n]||0, stars);
+    if(dgCur.n >= (save.dgUnlocked||1)) save.dgUnlocked = dgCur.n+1;
+    dgAddXp(xpGain);
+    document.getElementById("dg-overlay-icon").textContent = dgCur.isBoss ? "👑" : "🏆";
+    document.getElementById("dg-overlay-title").textContent = "¡Nivel superado!";
+    document.getElementById("dg-overlay-sub").textContent = dgObjectiveText(dgCur).replace("Meta: ", "");
+    document.getElementById("dg-overlay-xp").textContent = `+${xpGain} XP · +${shards} 💠`;
+    document.getElementById("dg-overlay-stars").style.display = "";
+    document.getElementById("dg-overlay-main-btn").textContent = dgCur.n<20 ? "Siguiente nivel" : "Volver al menú";
+    playWin(); spawnConfetti();
+  } else {
+    document.getElementById("dg-overlay-icon").textContent = "💀";
+    document.getElementById("dg-overlay-title").textContent = "Sin movimientos";
+    document.getElementById("dg-overlay-sub").textContent = `${dgCur.score.toLocaleString()} de ${dgCur.type==="score"?dgCur.goal.toLocaleString():dgCur.target}`;
+    document.getElementById("dg-overlay-xp").textContent = "";
+    document.getElementById("dg-overlay-stars").style.display = "";
+    document.getElementById("dg-overlay-main-btn").textContent = "Reintentar";
+    playLose();
+  }
+  persistSave();
+  const starsEls = document.querySelectorAll("#dg-overlay-stars .s");
+  starsEls.forEach(el=>el.classList.remove("on"));
+  if(won && !dgCur.isTimed && !dgCur.isZen) starsEls.forEach((el,i)=>{ if(i<stars) setTimeout(()=>el.classList.add("on"), 300+i*220); });
+  overlay.classList.add("on");
+}
+function dgPushScoreHistory(mode, score){
+  if(!save.dgScoreHistory) save.dgScoreHistory=[];
+  save.dgScoreHistory.unshift({mode, score, date:new Date().toISOString().slice(0,10)});
+  save.dgScoreHistory = save.dgScoreHistory.slice(0,20);
+}
+function dgRetryOrNext(){
+  document.getElementById("dg-overlay").classList.remove("on");
+  if(dgCur.isTimed){ dgStartTimed(); return; }
+  if(dgCur.isZen){ dgStartZen(); return; }
+  if(dgCur.done && dgCheckWin() && dgCur.n<20){ dgStartLevel(dgCur.n+1); }
+  else if(dgCur.done && dgCheckWin()){ goTo("dgmenu"); }
+  else { dgStartLevel(dgCur.n); }
+}
+function dgExitToMenu(){
+  dgStopTimer(); dgStopAmbient(); clearTimeout(dgHintTimerId);
+  if(dgCur && (dgCur.isTimed||dgCur.isZen) && !dgCur.done && dgCur.score>0){
+    dgFinishRun(true); // guarda el puntaje aunque el jugador salga manualmente
+  }
+  goTo("dgmenu");
+}
+
+/* ---- inicio de partidas ---- */
+function dgSetupCommonUi(cfg, extra){
+  document.getElementById("dg-overlay").classList.remove("on");
+  document.getElementById("dg-pause-overlay").classList.remove("on");
+  document.getElementById("dg-tutorial-overlay").classList.remove("on");
+  dgPauseOpen = false;
+  document.getElementById("dg-hud-moves-wrap").style.display = extra.isTimed||extra.isZen ? "none":"";
+  document.getElementById("dg-hud-time-wrap").style.display = extra.isTimed ? "" : "none";
+  document.getElementById("dg-timer-bar").style.display = extra.isTimed ? "" : "none";
+  document.getElementById("dg-objective-bar").style.display = extra.isTimed||extra.isZen ? "none":"";
+  document.getElementById("dg-progress-track").style.display = extra.isTimed||extra.isZen ? "none":"";
+  document.getElementById("dg-hud-combo").textContent = "x1";
+}
+function dgStartLevel(n){
+  const lv = DG_LEVELS[n-1];
+  dgCur = { n:lv.n, mode:"historia", type:lv.type, goal:lv.goal, target:lv.target, color:lv.color,
+    movesLeft:lv.moves, movesMax:lv.moves, cols:lv.cols, rows:lv.rows, numColors:lv.numColors,
+    score:0, progress:0, cascade:0, done:false, isTimed:false, isZen:false, isBoss:lv.isBoss };
+  dgSetupCommonUi(lv, dgCur);
+  document.getElementById("dg-objective-bar").textContent = dgObjectiveText(dgCur);
+  document.getElementById("dg-start-title").textContent = lv.isBoss ? "👑 Nivel Final · La Cripta de Cristal" : `Historia · Nivel ${lv.n}`;
+  document.getElementById("dg-start-sub").textContent = dgObjectiveText(dgCur) + ` · ${lv.moves} movimientos`;
+  dgBuildGrid(lv);
+  dgUpdateHud();
+  goTo("dggame");
+  document.getElementById("dg-start-overlay").classList.add("on");
+}
+function dgStartTimed(){
+  const cfg = {n:"T", cols:7, rows:7, numColors:6, shadowChance:true};
+  dgCur = { n:"T", mode:"timed", type:"score", cols:7, rows:7, numColors:6,
+    score:0, progress:0, cascade:0, done:false, isTimed:true, isZen:false, timeLeft:60000, timeMax:60000 };
+  dgSetupCommonUi(cfg, dgCur);
+  document.getElementById("dg-start-title").textContent = "⏱️ Tiempo Límite";
+  document.getElementById("dg-start-sub").textContent = "Consigue el mayor puntaje posible en 60 segundos.";
+  dgBuildGrid(cfg);
+  dgUpdateHud();
+  goTo("dggame");
+  document.getElementById("dg-start-overlay").classList.add("on");
+}
+function dgStartZen(){
+  const cfg = {n:"Z", cols:7, rows:7, numColors:5, shadowChance:false};
+  dgCur = { n:"Z", mode:"zen", type:"score", cols:7, rows:7, numColors:5,
+    score:0, progress:0, cascade:0, done:false, isTimed:false, isZen:true };
+  dgSetupCommonUi(cfg, dgCur);
+  document.getElementById("dg-start-title").textContent = "☯️ Zen";
+  document.getElementById("dg-start-sub").textContent = "Sin límite de movimientos ni tiempo. Solo relájate.";
+  dgBuildGrid(cfg);
+  dgUpdateHud();
+  goTo("dggame");
+  document.getElementById("dg-start-overlay").classList.add("on");
+}
+function dgBeginRun(){
+  document.getElementById("dg-start-overlay").classList.remove("on");
+  dgStartAmbient();
+  if(dgCur.isTimed) dgStartCountdown();
+  if(!save.dgTutorialSeen && dgCur.mode==="historia" && dgCur.n===1){
+    save.dgTutorialSeen = true; persistSave();
+    dgTutorialOpen = true;
+    document.getElementById("dg-tutorial-overlay").classList.add("on");
+  }
+}
+function dgDismissTutorial(){
+  dgTutorialOpen = false;
+  document.getElementById("dg-tutorial-overlay").classList.remove("on");
+}
+function dgStartCountdown(){
+  dgStopTimer();
+  const bar = document.getElementById("dg-timer-fill");
+  dgTimerId = setInterval(()=>{
+    if(dgBusy || dgCur.done || dgTutorialOpen || dgPauseOpen) return;
+    dgCur.timeLeft -= 100;
+    const pct = Math.max(0, dgCur.timeLeft/dgCur.timeMax*100);
+    bar.style.width = pct+"%";
+    bar.classList.toggle("warn", pct<=40 && pct>15);
+    bar.classList.toggle("danger", pct<=15);
+    document.getElementById("dg-hud-time").textContent = Math.max(0,Math.ceil(dgCur.timeLeft/1000));
+    if(dgCur.timeLeft<=0){ dgStopTimer(); dgFinishRun(true); }
+  }, 100);
+}
+function dgOpenPause(){
+  if(!dgCur || dgCur.done || dgTutorialOpen || dgBusy) return;
+  dgPauseOpen = true;
+  document.getElementById("dg-pause-mute-label").textContent = save.muted ? "🔇 Sonido desactivado" : "🔊 Sonido activado";
+  document.getElementById("dg-pause-mute-toggle").classList.toggle("on", !save.muted);
+  document.getElementById("dg-pause-bomb-sub").textContent = `Cargas: ${save.dgPowerups.bomb||0} · explota un área 3×3`;
+  document.getElementById("dg-pause-curse-sub").textContent = `Cargas: ${save.dgPowerups.curse||0} · elimina un color entero`;
+  document.getElementById("dg-pause-overlay").classList.add("on");
+}
+function dgClosePause(){ dgPauseOpen=false; document.getElementById("dg-pause-overlay").classList.remove("on"); }
+function dgTogglePauseMute(){ save.muted=!save.muted; persistSave(); dgOpenPause(); }
+
+/* ---- menús ---- */
+function renderDgMenu(){
+  document.getElementById("dg-shards").textContent = save.soulShards||0;
+  document.getElementById("dg-player-level").textContent = save.playerLevel||1;
+  const need = dgXpForLevel(save.playerLevel||1);
+  document.getElementById("dg-xp-text").textContent = `${save.xp||0} / ${need} XP`;
+  document.getElementById("dg-xp-fill").style.width = Math.min(100, Math.round((save.xp||0)/need*100))+"%";
+  const cleared = Object.keys(save.dgStars||{}).length;
+  document.getElementById("dg-historia-tag").textContent = `${Math.min(save.dgUnlocked||1,20)}/20`;
+  document.getElementById("dg-timed-best").textContent = save.dgTimedBest||0;
+  document.getElementById("dg-zen-best").textContent = save.dgZenBest||0;
+  document.getElementById("dg-sound-btn").textContent = save.dgAmbientOn ? "🔊 Música ambiental" : "🔇 Música ambiental";
+}
+function dgToggleAmbientPref(){ save.dgAmbientOn = !save.dgAmbientOn; persistSave(); renderDgMenu(); }
+function renderDgLevels(){
+  const grid = document.getElementById("dg-level-grid");
+  grid.innerHTML = "";
+  let totalStars=0;
+  DG_LEVELS.forEach(lv=>{
+    const stars = (save.dgStars||{})[lv.n]||0;
+    totalStars += stars;
+    const unlocked = lv.n <= (save.dgUnlocked||1);
+    const cleared = stars>0;
+    const div = document.createElement("div");
+    div.className = "level-node" + (cleared?" cleared":"") + (!unlocked?" locked":"") + (lv.isBoss?" boss-level":"");
+    div.innerHTML = unlocked
+      ? `<div class="level-num">${lv.isBoss?"👑":lv.n}</div><div class="level-stars"><span class="s ${stars>=1?'on':''}">⭐</span><span class="s ${stars>=2?'on':''}">⭐</span><span class="s ${stars>=3?'on':''}">⭐</span></div>`
+      : `<div class="lock-icon">🔒</div>`;
+    if(unlocked) div.onclick = ()=>dgStartLevel(lv.n);
+    grid.appendChild(div);
+  });
+  document.getElementById("dg-total-stars").textContent = totalStars;
+}
+function renderDgShop(){
+  document.getElementById("dg-shop-shards").textContent = save.soulShards||0;
+  const pu = document.getElementById("dg-shop-powerups");
+  const items = [
+    {id:"bomb", icon:"💣", name:"HEX BOMB", cost:40, sub:`Tienes ${save.dgPowerups.bomb||0}`},
+    {id:"curse", icon:"🌀", name:"CHAIN CURSE", cost:60, sub:`Tienes ${save.dgPowerups.curse||0}`},
+    {id:"crystal", icon:"🔮", name:"DARK CRYSTAL", cost:80, sub:`Tienes ${save.dgPowerups.crystal||0}`},
+  ];
+  pu.innerHTML = items.map(it=>`
+    <div class="dg-shop-item" onclick="dgBuyPowerup('${it.id}',${it.cost})">
+      <div class="dg-shop-item-icon">${it.icon}</div>
+      <div class="dg-shop-item-name">${it.name}</div>
+      <div class="dg-shop-item-sub">${it.sub}</div>
+      <div class="dg-shop-item-cost">💠 ${it.cost}</div>
+    </div>`).join("");
+  const sk = document.getElementById("dg-shop-skins");
+  sk.innerHTML = DG_PIECE_SKINS.map(s=>{
+    const owned = (save.unlockedPieceSkins||{})[s.id];
+    const active = (save.pieceSkin||"gothic")===s.id;
+    const action = active ? "" : owned ? `dgEquipSkin('${s.id}')` : `dgBuySkinPiece('${s.id}',${s.cost})`;
+    return `<div class="dg-skin-card${active?' active-skin':''}" onclick="${action}">
+      <div class="dg-skin-preview" style="font-size:30px">${s.icon}</div>
+      <div class="dg-skin-name">${s.name}</div>
+      <div class="dg-shop-item-sub">${active?"Equipado":owned?"Toca para equipar":`💠 ${s.cost}`}</div>
+    </div>`;
+  }).join("");
+}
+function dgBuyPowerup(id, cost){
+  if((save.soulShards||0)<cost) return;
+  save.soulShards-=cost;
+  save.dgPowerups[id] = (save.dgPowerups[id]||0)+1;
+  persistSave();
+  renderDgShop();
+}
+function dgBuySkinPiece(id, cost){
+  if((save.soulShards||0)<cost) return;
+  save.soulShards-=cost;
+  if(!save.unlockedPieceSkins) save.unlockedPieceSkins={};
+  save.unlockedPieceSkins[id]=true;
+  save.pieceSkin=id;
+  persistSave();
+  renderDgShop();
+}
+function dgEquipSkin(id){ save.pieceSkin=id; persistSave(); renderDgShop(); }
+
+/* ---- audio: ambiente dark gothic + SFX ---- */
+function dgStartAmbient(){
+  if(!save.dgAmbientOn || save.muted || dgAmbientNodes) return;
+  try{
+    if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
+    const master = actx.createGain(); master.gain.value = 0.05; master.connect(actx.destination);
+    const delayNode = actx.createDelay(); delayNode.delayTime.value = 0.32;
+    const feedback = actx.createGain(); feedback.gain.value = 0.35;
+    delayNode.connect(feedback); feedback.connect(delayNode); delayNode.connect(master);
+    const oscs = [110, 146.83, 164.81].map((f,i)=>{
+      const o = actx.createOscillator(); o.type = i===1?"sawtooth":"sine"; o.frequency.value = f;
+      const g = actx.createGain(); g.gain.value = 0.5;
+      const filt = actx.createBiquadFilter(); filt.type="lowpass"; filt.frequency.value=500;
+      const lfo = actx.createOscillator(); lfo.frequency.value = 0.05+i*0.02;
+      const lfoGain = actx.createGain(); lfoGain.gain.value = 140;
+      lfo.connect(lfoGain); lfoGain.connect(filt.frequency);
+      o.connect(g); g.connect(filt); filt.connect(master); filt.connect(delayNode);
+      o.start(); lfo.start();
+      return {o, lfo, g};
+    });
+    dgAmbientNodes = {master, delayNode, feedback, oscs};
+  }catch(e){}
+}
+function dgStopAmbient(){
+  if(!dgAmbientNodes) return;
+  try{
+    dgAmbientNodes.oscs.forEach(({o,lfo})=>{ o.stop(); lfo.stop(); });
+    dgAmbientNodes.master.disconnect();
+  }catch(e){}
+  dgAmbientNodes = null;
+}
+function dgPlaySfx(kind){
+  if(save.muted) return;
+  if(kind==="match3") tone(500+Math.random()*100, 0, 0.12, "sine", 0.11, 260);
+  else if(kind==="match4") [520,700].forEach((f,i)=>tone(f, i*0.05, 0.14, "triangle", 0.11, f*0.6));
+  else if(kind==="match5") [520,700,900].forEach((f,i)=>tone(f, i*0.05, 0.16, "triangle", 0.11, f*0.6));
+  else if(kind==="bomb") playBomb();
+  else if(kind==="curse"){ tone(180,0,0.3,"sawtooth",0.16,60); tone(90,0.05,0.35,"square",0.14,40); }
+  else if(kind==="crystal") playCrystal();
+  else if(kind==="special"){ playBomb(); tone(1200,0.1,0.2,"sine",0.08,2000); }
+  else if(kind==="shuffle") playShuffle();
+}
+
 /* ---------------- INIT ---------------- */
 ["confite-title","confite-map","confite-game-svg","confite-skins-svg"].forEach(id=>{
   const el = document.getElementById(id);
@@ -3531,6 +4572,9 @@ renderMap();
 if(save.introDone) checkLoginBonus();
 // Show story intro for new players
 if(!save.introDone){ startIntro(); }
+if("serviceWorker" in navigator && location.protocol.startsWith("http")){
+  window.addEventListener("load", ()=>{ navigator.serviceWorker.register("service-worker.js").catch(()=>{}); });
+}
 </script>
 </body>
 </html>

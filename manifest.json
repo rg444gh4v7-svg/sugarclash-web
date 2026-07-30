@@ -1,0 +1,13 @@
+{
+  "name": "Sugar Clash: Dulcelandia",
+  "short_name": "Sugar Clash",
+  "description": "Match-3 narrativo con Confite, más el modo Dark Gothic HEX CLASH.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0D0015",
+  "theme_color": "#0D0015",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
