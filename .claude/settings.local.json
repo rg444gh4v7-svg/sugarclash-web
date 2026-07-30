@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -m http.server 3000)",
+      "Bash(open http://localhost:3000)",
+      "Bash(python3 -c ' *)",
+      "Bash(node --check /private/tmp/claude-501/-Users-jose-Downloads-sugarclash-web/159adce7-b975-4e72-bf59-20763189f2d3/scratchpad/game.js)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://10.20.253.125:3000/ --max-time 5)",
+      "Bash(ls -la ~/Downloads/ | grep -i vital; find ~/Downloads -maxdepth 2 -iname \"*vital*\" 2>/dev/null)",
+      "Bash(find ~ -maxdepth 4 -iname \"*vital*\" -not -path \"*/Library/*\" 2>/dev/null)",
+      "Bash(mkdir -p ~/Downloads/vitales-app)",
+      "Bash(unzip -o \"/Users/jose/Downloads/vitalis-DEPLOY-netlify \\(1\\).zip\")",
+      "Bash(curl -s http://localhost:3000/)",
+      "WebFetch(domain:youtu.be)",
+      "WebFetch(domain:www.youtube.com)",
+      "Bash(awk '/<script>/{flag=1;next}/<\\\\/script>/{flag=0}flag' index.html)",
+      "Bash(node --check /tmp/sc.js)"
+    ]
+  }
+}

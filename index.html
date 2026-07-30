@@ -1,0 +1,3536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Sugar Clash: Dulcelandia</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Karla:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0D1B3E; --navy2:#162047; --gold:#F5B800; --candy:#FF5C8A; --crystal:#7FD8E8;
+  --green:#2ED573; --purple:#9B59B6; --cream:#FFF3E6; --dark:#070D1F;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:var(--dark);font-family:'Karla',sans-serif;color:var(--cream)}
+#app{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;opacity:0;transition:opacity .4s}
+.screen.active{display:flex;opacity:1}
+button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
+
+/* ===== TITLE ===== */
+#screen-title{align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at 50% 20%,#1A2A5E 0%,var(--dark) 70%);gap:18px;padding:24px}
+.logo{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(30px,8vw,52px);line-height:1.05;background:linear-gradient(110deg,var(--gold),var(--candy) 55%,var(--crystal));-webkit-background-clip:text;background-clip:text;color:transparent}
+.logo-sub{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--crystal);opacity:.85}
+#confite-title{width:88px;height:78px;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.btn-play{font-family:'Fraunces',serif;font-weight:600;font-size:19px;padding:14px 52px;border-radius:50px;background:linear-gradient(135deg,var(--gold),#FF8C42);color:var(--navy);box-shadow:0 8px 26px rgba(245,184,0,.4);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+.btn-ghost{font-size:13px;font-weight:600;letter-spacing:.05em;padding:9px 22px;border-radius:50px;background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7)}
+.sugar-p{position:absolute;bottom:-12px;border-radius:50%;pointer-events:none;opacity:0;animation:rise linear infinite}
+@keyframes rise{0%{transform:translateY(0) translateX(0) scale(1);opacity:0}8%{opacity:.75}60%{opacity:.4}100%{transform:translateY(-108vh) translateX(24px) scale(.6);opacity:0}}
+.fog{position:absolute;width:150%;height:42%;left:-25%;border-radius:50%;filter:blur(46px);pointer-events:none;animation:fogdrift 16s ease-in-out infinite alternate}
+@keyframes fogdrift{from{transform:translateX(-5%);opacity:.30}to{transform:translateX(5%);opacity:.10}}
+.logo{animation:logoGlow 3.2s ease-in-out infinite alternate}
+@keyframes logoGlow{from{filter:drop-shadow(0 0 6px rgba(245,184,0,.15))}to{filter:drop-shadow(0 0 16px rgba(255,92,138,.35))}}
+
+/* ===== WORLD (mapa mundial) ===== */
+#screen-world{padding:18px 16px 24px;gap:12px}
+.world-header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.world-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--gold)}
+.world-sub{font-size:12px;color:var(--crystal);margin-top:2px}
+#world-restore-track{background:rgba(255,255,255,.08);border-radius:99px;height:8px;overflow:hidden}
+#world-restore-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--candy),var(--gold),var(--crystal));border-radius:99px;transition:width .6s}
+#world-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:8px 2px 16px;position:relative}
+#world-list::before{content:"";position:absolute;left:50%;top:10px;bottom:10px;border-left:2px dashed rgba(255,255,255,.12)}
+.territory-card{position:relative;width:88%;border-radius:18px;padding:12px 14px;display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);transition:transform .15s,filter 1.2s;cursor:pointer;z-index:1}
+.territory-card:nth-child(odd){align-self:flex-start}
+.territory-card:nth-child(even){align-self:flex-end}
+.territory-card:active{transform:scale(.97)}
+.territory-card.locked{cursor:pointer;opacity:.5}
+.territory-card.restored{border-color:rgba(245,184,0,.45);box-shadow:0 0 18px rgba(245,184,0,.18);animation:restoredPulse 3s ease-in-out infinite}
+@keyframes restoredPulse{0%,100%{box-shadow:0 0 12px rgba(245,184,0,.15)}50%{box-shadow:0 0 28px rgba(245,184,0,.35)}}
+.t-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;border:1px solid rgba(255,255,255,.18)}
+.t-info{flex:1;min-width:0}
+.t-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream)}
+.t-desc{font-size:11px;color:rgba(255,255,255,.55);margin-top:1px;line-height:1.35}
+.t-bar{margin-top:7px;background:rgba(255,255,255,.1);height:6px;border-radius:99px;overflow:hidden}
+.t-fill{height:100%;border-radius:99px;transition:width .6s}
+.t-pct{font-size:10px;color:var(--crystal);margin-top:3px}
+
+.village-entry{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(245,184,0,.14),rgba(255,92,138,.08));border:1px solid rgba(245,184,0,.3);border-radius:14px;padding:10px 14px;cursor:pointer;transition:transform .15s}
+.village-entry:active{transform:scale(.97)}
+.village-entry-icon{font-size:28px}
+.village-entry-text{flex:1;min-width:0}
+.village-entry-text b{font-size:13px;color:var(--cream)}
+.village-entry-sub{font-size:11px;color:rgba(255,255,255,.55);margin-top:1px}
+.village-entry-coins{font-size:12px;font-weight:600;color:var(--gold);white-space:nowrap}
+
+/* ===== VILLAGE (Aldea) ===== */
+#screen-village{padding:18px 16px 24px;gap:12px}
+.village-header{display:flex;align-items:center;gap:10px}
+.village-title{font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--gold);flex:1}
+.coin-badge{font-size:13px;font-weight:600;color:var(--gold);background:rgba(245,184,0,.12);border:1px solid rgba(245,184,0,.3);border-radius:99px;padding:6px 12px}
+.village-sub{font-size:12px;color:var(--crystal)}
+#village-restore-track{background:rgba(255,255,255,.08);border-radius:99px;height:8px;overflow:hidden}
+#village-restore-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--candy));border-radius:99px;transition:width .6s}
+#village-grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:6px 2px 16px;align-content:start}
+.plot{border-radius:16px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);transition:transform .15s;cursor:pointer}
+.plot:active{transform:scale(.96)}
+.plot.built{background:rgba(46,213,115,.1);border-color:rgba(46,213,115,.35);cursor:default}
+.plot.locked{opacity:.4;cursor:default}
+.plot-icon{font-size:32px}
+.plot-name{font-family:'Fraunces',serif;font-weight:600;font-size:12.5px;color:var(--cream);line-height:1.25}
+.plot-cost{font-size:11px;color:var(--gold)}
+.plot-status{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.04em}
+
+/* ===== ACHIEVEMENTS (Logros) ===== */
+#screen-achievements{padding:18px 16px 24px;gap:14px}
+#achv-grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:6px 2px 16px;align-content:start}
+.badge{border-radius:16px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);opacity:.5}
+.badge.unlocked{background:rgba(245,184,0,.1);border-color:rgba(245,184,0,.4);opacity:1}
+.badge-icon{font-size:32px}
+.badge-name{font-family:'Fraunces',serif;font-weight:600;font-size:12.5px;color:var(--cream);line-height:1.25}
+.badge-desc{font-size:10.5px;color:rgba(255,255,255,.55);line-height:1.3}
+.badge-status{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.badge-progress{font-size:10px;color:rgba(255,255,255,.5)}
+.achv-toast{position:fixed;top:84px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#1A2A5E,var(--dark));border:1px solid rgba(245,184,0,.5);border-radius:14px;padding:10px 18px;box-shadow:0 8px 26px rgba(0,0,0,.4);z-index:50;max-width:88vw;animation:achvToast 2.6s ease forwards}
+.achv-toast-icon{font-size:26px}
+.achv-toast-title{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.04em}
+.achv-toast-name{font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:var(--cream)}
+@keyframes achvToast{0%{opacity:0;transform:translate(-50%,-16px)}10%{opacity:1;transform:translate(-50%,0)}85%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,-10px)}}
+
+/* ===== SETTINGS (Ajustes) ===== */
+#screen-settings{padding:18px 16px 24px;gap:16px}
+.settings-header{display:flex;align-items:center;gap:10px}
+.settings-title{font-family:'Fraunces',serif;font-weight:600;font-size:19px;color:var(--gold)}
+.settings-list{display:flex;flex-direction:column;gap:12px}
+.settings-row{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px 16px;cursor:pointer;transition:transform .15s}
+.settings-row:active{transform:scale(.98)}
+.settings-row-label{flex:1;min-width:0}
+.settings-row-title{font-size:14px;color:var(--cream);font-weight:600}
+.settings-row-sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px}
+.settings-row-danger{border-color:rgba(255,92,138,.3);background:rgba(255,92,138,.06)}
+.settings-section-title{font-family:'Fraunces',serif;font-size:14px;color:var(--crystal);opacity:.7;margin-top:6px;padding:0 2px}
+.settings-stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding-bottom:16px}
+.stat-tile{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px 10px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.stat-tile-val{font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:var(--gold)}
+.stat-tile-lbl{font-size:11px;color:rgba(255,255,255,.5);text-align:center}
+.settings-toggle{width:44px;height:26px;border-radius:99px;background:rgba(255,255,255,.15);position:relative;flex-shrink:0;transition:background .2s}
+.settings-toggle.on{background:var(--green)}
+.settings-toggle-knob{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s}
+.settings-toggle.on .settings-toggle-knob{left:21px}
+.icon-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+
+/* ===== MINIGAMES (hub de modos) ===== */
+#screen-minigames{padding:18px 16px 24px;gap:12px}
+.mg-header{display:flex;align-items:center;gap:10px}
+.mg-title{font-family:'Fraunces',serif;font-weight:600;font-size:19px;color:var(--gold);flex:1}
+#mg-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:6px 2px 16px}
+.mg-card{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px;cursor:pointer;transition:transform .15s}
+.mg-card:active{transform:scale(.97)}
+.mg-card.locked{cursor:default;opacity:.55}
+.mg-icon{font-size:28px;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);flex-shrink:0}
+.mg-info{flex:1;min-width:0}
+.mg-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream)}
+.mg-desc{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px;line-height:1.35}
+.mg-tag{font-size:9px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;padding:3px 8px;border-radius:99px;margin-top:6px;display:inline-block}
+.mg-tag.ready{background:rgba(46,213,115,.15);color:var(--green)}
+.mg-tag.soon{background:rgba(255,255,255,.08);color:rgba(255,255,255,.5)}
+
+/* ===== MOBA 5v5 (prototipo un jugador vs bots) ===== */
+#screen-moba{padding:10px 10px 14px;gap:8px}
+.mb-hud{display:flex;align-items:center;gap:8px}
+.mb-hint{font-size:11px;color:rgba(255,255,255,.5);text-align:center}
+.mb-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:6px 12px;text-align:center;flex:1}
+.mb-val{font-family:'Fraunces',serif;font-weight:600;font-size:17px;line-height:1}
+.mb-lbl{font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.mb-ability-btn{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#FF8C42);border:1px solid rgba(255,255,255,.25);color:var(--navy);font-size:17px;flex-shrink:0;font-weight:700}
+.mb-ability-btn:disabled{opacity:.4;background:rgba(255,255,255,.08);color:rgba(255,255,255,.5)}
+#mb-wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+#mb-canvas{background:linear-gradient(180deg,#3A1030,#1A2A5E,#0D1B3E);border-radius:14px;border:2px solid rgba(255,255,255,.15);touch-action:none;max-width:100%;max-height:100%}
+#mb-overlay{position:absolute;inset:0;background:rgba(7,13,31,.92);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:24px;border-radius:14px;z-index:10}
+#mb-overlay.on{display:flex}
+
+/* ===== BATTLE ROYALE (prototipo: jugador vs 9 bots, zona) ===== */
+#screen-br{padding:10px 10px 14px;gap:8px}
+#br-wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+#br-canvas{background:linear-gradient(180deg,#1A2A5E,#0D1B3E);border-radius:14px;border:2px solid rgba(255,255,255,.15);touch-action:none;max-width:100%;max-height:100%}
+#br-overlay{position:absolute;inset:0;background:rgba(7,13,31,.92);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:24px;border-radius:14px;z-index:10}
+#br-overlay.on{display:flex}
+
+/* ===== MAP ===== */
+#screen-map{padding:18px 16px 24px;gap:14px}
+.map-header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.map-title{font-family:'Fraunces',serif;font-weight:600;font-size:20px;color:var(--gold)}
+.stars-total{font-size:13px;color:var(--crystal);display:flex;align-items:center;gap:5px}
+#confite-map{width:46px;height:42px;cursor:pointer}
+.territory-banner{background:linear-gradient(135deg,rgba(255,92,138,.15),rgba(255,140,66,.1));border:1px solid rgba(245,184,0,.3);border-radius:14px;padding:10px 14px;font-size:13px;color:var(--cream)}
+.territory-banner b{color:var(--gold)}
+#confite-bubble,#confite-world-bubble{font-size:12px;color:var(--crystal);background:rgba(127,216,232,.08);border:1px solid rgba(127,216,232,.25);border-radius:12px;padding:8px 12px;min-height:18px;transition:opacity .3s}
+#level-grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:6px 2px 12px;align-content:start}
+.level-node{aspect-ratio:1;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);position:relative;transition:transform .15s}
+.level-node:active{transform:scale(.94)}
+.level-node.locked{opacity:.35;pointer-events:none}
+.level-node.cleared{background:rgba(46,213,115,.1);border-color:rgba(46,213,115,.35)}
+.level-node.boss-level{background:rgba(245,184,0,.1);border-color:rgba(245,184,0,.4);box-shadow:0 0 10px rgba(245,184,0,.2)}
+.level-node.boss-level.cleared{background:rgba(245,184,0,.18);border-color:var(--gold);box-shadow:0 0 16px rgba(245,184,0,.35)}
+.level-num{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--cream)}
+.lv-type-badge{position:absolute;top:5px;right:6px;font-size:11px;opacity:.7}
+.level-stars{display:flex;gap:2px;font-size:11px}
+.level-stars .s{opacity:.25}
+.level-stars .s.on{opacity:1}
+.lock-icon{font-size:18px;opacity:.6}
+
+/* ===== GAME ===== */
+#screen-game{padding:10px 10px 14px;gap:8px}
+.hud{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hud-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:6px 12px;text-align:center;min-width:58px}
+.hud-val{font-family:'Fraunces',serif;font-weight:600;font-size:19px;line-height:1}
+.hud-val.moves-critical{color:var(--candy);animation:criticalPulse .6s ease-in-out infinite}
+@keyframes criticalPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+.hud-lbl{font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.back-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--cream);flex-shrink:0}
+#objective-bar{font-size:11px;color:var(--gold);background:rgba(245,184,0,.08);border:1px solid rgba(245,184,0,.25);border-radius:10px;padding:6px 10px;text-align:center}
+#progress-track{background:rgba(255,255,255,.08);border-radius:99px;height:9px;overflow:hidden}
+#progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--crystal),var(--green));border-radius:99px;transition:width .4s}
+
+#confite-game-wrap{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:6px 10px;min-height:44px}
+#confite-game-svg{flex-shrink:0;transition:transform .25s}
+#confite-game-text{font-size:12px;color:var(--crystal);line-height:1.3}
+
+#grid-wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center}
+#grid{display:grid;gap:4px;width:100%;max-width:380px}
+.cell{aspect-ratio:1;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s;border:2px solid transparent;position:relative}
+.candy-icon{width:66%;height:66%;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+.cell.selected{transform:scale(1.1);border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.4)}
+.cell.matched{animation:pop .3s ease forwards}
+.login-bonus-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(160deg,#1A2A5E 0%,#0D1A40 100%);border:1px solid rgba(245,184,0,.5);border-radius:22px;padding:28px 24px 20px;text-align:center;z-index:60;min-width:240px;box-shadow:0 16px 48px rgba(0,0,0,.6);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeInScale .35s cubic-bezier(.36,1.56,.64,1)}
+.lb-icon{font-size:44px;line-height:1}
+.lb-title{font-family:'Fraunces',serif;font-size:20px;color:var(--cream)}
+.lb-amount{font-family:'Fraunces',serif;font-size:32px;font-weight:700;color:var(--gold)}
+.lb-streak{font-size:12px;color:var(--crystal);margin-bottom:6px}
+@keyframes fadeInScale{from{opacity:0;transform:translate(-50%,-50%) scale(.7)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.stripe-tip{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#1A2A5E,#0D1A40);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:12px 16px;font-size:13px;color:#fff;display:flex;align-items:center;gap:10px;z-index:20;max-width:88%;box-shadow:0 8px 24px rgba(0,0,0,.5);animation:achvToast 5s ease forwards;cursor:pointer;text-align:left}
+.cell.stripe-h::after,.cell.stripe-v::after{content:'';position:absolute;border-radius:3px;pointer-events:none;background:rgba(255,255,255,.75);z-index:2}
+.cell.stripe-h::after{top:50%;left:8%;right:8%;height:5px;transform:translateY(-50%)}
+.cell.stripe-v::after{left:50%;top:8%;bottom:8%;width:5px;transform:translateX(-50%)}
+.cell.hint-pulse{animation:hintpulse 1s ease-in-out infinite}
+@keyframes hintpulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,255,255,.0)}50%{transform:scale(1.12);box-shadow:0 0 0 4px rgba(255,255,200,.65)}}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.3);opacity:.5}100%{transform:scale(0);opacity:0}}
+@keyframes dropin{from{transform:translateY(-50px) scale(.7);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.cell.new{animation:dropin .28s ease}
+.c0{background:linear-gradient(135deg,#FF5C5C,#D63A3A)}
+.c1{background:linear-gradient(135deg,#4DA6FF,#2A6FCC)}
+.c2{background:linear-gradient(135deg,#3DD68C,#1FA86A)}
+.c3{background:linear-gradient(135deg,#FFD93D,#F0A800)}
+.c4{background:linear-gradient(135deg,#B084E8,#8B5CC4)}
+.c5{background:linear-gradient(135deg,#FF7FB0,#E0457F)}
+.cS{background:linear-gradient(135deg,#FFE066,#FF8C00);box-shadow:0 0 10px rgba(255,200,0,.5)}
+
+.combo-pop{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--gold);pointer-events:none;animation:flashout .8s ease forwards;white-space:nowrap;z-index:5}
+@keyframes flashout{0%{opacity:1;transform:translate(-50%,-60%) scale(1)}100%{opacity:0;transform:translate(-50%,-110%) scale(1.15)}}
+
+#overlay,#tutorial-overlay,#pause-overlay{position:absolute;inset:0;background:rgba(7,13,31,.92);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:24px;z-index:10}
+#overlay.on,#tutorial-overlay.on,#pause-overlay.on{display:flex}
+.tutorial-icon{font-size:44px;animation:bob 1.4s ease-in-out infinite}
+.tutorial-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--gold)}
+.tutorial-text{font-size:14px;color:rgba(255,255,255,.8);line-height:1.5;max-width:280px}
+.overlay-icon{font-size:48px}
+.overlay-title{font-family:'Fraunces',serif;font-weight:600;font-size:26px}
+.overlay-sub{font-size:14px;color:rgba(255,255,255,.7)}
+.overlay-stars{display:flex;gap:8px;font-size:30px}
+.overlay-stars .s{opacity:.2;transition:opacity .3s,transform .3s;display:inline-block}
+.overlay-stars .s.on{opacity:1;animation:starPop .4s cubic-bezier(.36,1.56,.64,1) forwards}
+@keyframes starPop{0%{transform:scale(.4) rotate(-20deg)}60%{transform:scale(1.3) rotate(5deg)}100%{transform:scale(1.1) rotate(0deg)}}
+.overlay-btns{display:flex;gap:10px;margin-top:6px}
+.btn-sm{font-size:13px;font-weight:600;padding:11px 24px;border-radius:50px}
+.btn-primary{background:linear-gradient(135deg,var(--gold),#FF8C42);color:var(--navy)}
+.btn-secondary{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);color:var(--cream)}
+.btn-continue{background:linear-gradient(135deg,#7FD8E8,#2ED573);color:var(--navy);font-size:12px;font-weight:700;padding:9px 20px;border-radius:50px;border:none;cursor:pointer;margin-top:4px;width:100%;max-width:240px}
+
+/* ===== DESAFÍO DIARIO ===== */
+.daily-card{background:linear-gradient(135deg,rgba(245,184,0,.16),rgba(127,216,232,.08));border:1.5px solid rgba(245,184,0,.45);border-radius:16px;padding:13px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:transform .15s;position:relative;overflow:hidden}
+.daily-card:active{transform:scale(.97)}
+.daily-card.done{opacity:.6;cursor:default}
+.daily-icon{font-size:28px}
+.daily-info{flex:1;min-width:0}
+.daily-title{font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:var(--gold)}
+.daily-sub{font-size:11px;color:rgba(255,255,255,.6);margin-top:2px;line-height:1.3}
+.daily-timer{font-size:10px;color:var(--crystal);margin-top:3px}
+.daily-reward{font-size:13px;font-weight:600;color:var(--gold);white-space:nowrap}
+
+/* ===== BOSS INTRO OVERLAY ===== */
+#boss-intro-overlay{position:absolute;inset:0;background:rgba(7,13,31,.97);display:none;align-items:center;justify-content:center;flex-direction:column;gap:16px;text-align:center;padding:32px;z-index:25}
+#boss-intro-overlay.on{display:flex;animation:fadeInScale .35s ease}
+.bi-crown{font-size:60px;animation:bossFloat 2s ease-in-out infinite}
+@keyframes bossFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-8px) rotate(5deg)}}
+.bi-name{font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--gold);line-height:1.3;max-width:260px}
+.bi-sub{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:rgba(245,184,0,.6);margin-top:-8px}
+.bi-confite{font-size:13px;color:var(--crystal);font-style:italic;line-height:1.55;max-width:270px;border-left:2px solid rgba(127,216,232,.35);padding-left:12px;text-align:left}
+
+/* ===== TERRITORIO COMPLETO OVERLAY ===== */
+#territory-complete-overlay{position:absolute;inset:0;background:rgba(7,13,31,.96);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:28px;z-index:25}
+#territory-complete-overlay.on{display:flex}
+.tc-icon{font-size:54px;animation:bob 2s ease-in-out infinite}
+.tc-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;background:linear-gradient(110deg,var(--gold),var(--candy) 55%,var(--crystal));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.2}
+.tc-narrative{font-size:13px;color:rgba(255,255,255,.82);line-height:1.55;max-width:290px}
+.tc-confite-line{font-size:12px;color:var(--crystal);line-height:1.5;max-width:280px;font-style:italic;border-left:2px solid rgba(127,216,232,.4);padding-left:10px;text-align:left}
+.tc-reward{font-size:14px;font-weight:600;color:var(--gold)}
+
+/* ===== MEJOR PUNTUACIÓN en nodos de nivel ===== */
+.level-best{font-size:8.5px;color:var(--crystal);opacity:.8;margin-top:1px;line-height:1;text-align:center}
+
+/* ===== RAINBOW POWER-UP ===== */
+.cell.rainbow-glow{animation:rainbowPulse .35s ease-in-out 3}
+@keyframes rainbowPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(2.2) saturate(2.5)}}
+.rainbow-hint{font-size:12px;color:var(--gold);text-align:center;padding:6px 0;font-style:italic}
+
+/* ===== OBSTACLE CELLS (chocolate blocks) ===== */
+.cell.obstacle-1::before,.cell.obstacle-2::before{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(45,18,5,.72);pointer-events:none}
+.cell.obstacle-2::after{content:"🍫";position:absolute;font-size:20px;top:50%;left:50%;transform:translate(-50%,-52%)}
+.cell.obstacle-1::after{content:"🍫";position:absolute;font-size:15px;top:50%;left:50%;transform:translate(-50%,-52%);opacity:.65}
+.cell.obstacle-hit{animation:obstacleShake .35s ease}
+@keyframes obstacleShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px) rotate(-3deg)}75%{transform:translateX(4px) rotate(3deg)}}
+
+/* ===== BOMB POWER-UP ===== */
+.cell.bomb-glow{animation:bombPulse .4s ease-in-out infinite}
+@keyframes bombPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,100,0,0)}50%{box-shadow:0 0 8px 4px rgba(255,120,0,.6);filter:brightness(1.3)}}
+
+/* ===== HISTORIA (INTRO) ===== */
+#screen-intro{background:var(--dark);overflow:hidden}
+.intro-slide{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:36px 28px;text-align:center}
+.intro-slide.active{display:flex}
+.intro-slide-bg{position:absolute;inset:0;pointer-events:none}
+.intro-confite-wrap{font-size:80px;animation:bob 2.4s ease-in-out infinite}
+.intro-tag{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--crystal);opacity:.7}
+.intro-heading{font-family:'Fraunces',serif;font-weight:600;font-size:22px;line-height:1.2;max-width:280px}
+.intro-heading.gold{background:linear-gradient(110deg,var(--gold),var(--candy));-webkit-background-clip:text;background-clip:text;color:transparent}
+.intro-body{font-size:13.5px;color:rgba(255,255,255,.78);line-height:1.6;max-width:270px}
+.intro-nav{position:absolute;bottom:28px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:12px}
+.intro-dots{display:flex;gap:7px}
+.intro-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.22);transition:background .3s,transform .3s}
+.intro-dot.on{background:var(--gold);transform:scale(1.3)}
+.intro-skip{position:absolute;top:18px;right:18px;font-size:12px;color:rgba(255,255,255,.35);cursor:pointer;padding:6px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.12);background:transparent}
+.intro-next{font-family:'Fraunces',serif;font-weight:600;font-size:15px;padding:12px 44px;border-radius:50px;background:linear-gradient(135deg,var(--gold),#FF8C42);color:var(--navy);border:none;cursor:pointer}
+.intro-crystal-svg{width:72px;height:88px;animation:bob 2s ease-in-out infinite}
+
+/* ===== EPÍLOGO ===== */
+#screen-epilogue{background:var(--dark);overflow:hidden}
+.ep-slide{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:36px 28px;text-align:center;animation:fadeInScale .5s ease}
+.ep-slide.active{display:flex}
+.ep-confite{width:84px;height:76px}
+.ep-heading{font-family:'Fraunces',serif;font-weight:600;font-size:21px;line-height:1.25;max-width:280px;background:linear-gradient(110deg,var(--gold),var(--candy) 55%,var(--crystal));-webkit-background-clip:text;background-clip:text;color:transparent}
+.ep-body{font-size:13.5px;color:rgba(255,255,255,.82);line-height:1.65;max-width:270px;font-style:italic}
+.ep-nav{position:absolute;bottom:28px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:12px}
+.ep-dots{display:flex;gap:7px}
+.ep-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.22);transition:background .3s,transform .3s}
+.ep-dot.on{background:var(--gold);transform:scale(1.3)}
+.ep-next{font-family:'Fraunces',serif;font-weight:600;font-size:15px;padding:12px 44px;border-radius:50px;background:linear-gradient(135deg,var(--gold),#FF8C42);color:var(--navy);border:none;cursor:pointer}
+.ep-reward{font-size:18px;font-weight:700;color:var(--gold);margin-top:4px}
+.ep-crystal{font-size:60px;animation:bob 2s ease-in-out infinite}
+
+/* ===== MODO SUPERVIVENCIA HUD ===== */
+#survival-timer-bar{height:7px;margin:0 16px 4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;display:none}
+#survival-timer-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--crystal),var(--green));transition:width .1s linear,background .3s}
+#survival-timer-fill.warn{background:linear-gradient(90deg,var(--gold),#FF8C42)}
+#survival-timer-fill.danger{background:linear-gradient(90deg,var(--candy),#FF3333)}
+
+/* ===== SKINS DE CONFITE ===== */
+#screen-skins{padding:18px 16px 24px;gap:12px}
+.skin-grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:4px 0 16px;align-content:start}
+.skin-card{border-radius:18px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.10);transition:transform .15s,border-color .2s;cursor:pointer}
+.skin-card:active{transform:scale(.96)}
+.skin-card.active-skin{border-color:var(--gold);background:rgba(245,184,0,.08)}
+.skin-card.locked-skin{opacity:.55}
+.skin-preview{width:56px;height:52px}
+.skin-name{font-family:'Fraunces',serif;font-weight:600;font-size:13px;color:var(--cream)}
+.skin-desc{font-size:10px;color:rgba(255,255,255,.5);line-height:1.3;max-width:120px}
+.skin-cost{font-size:11px;font-weight:600;color:var(--gold)}
+.skin-badge{font-size:9px;text-transform:uppercase;letter-spacing:.05em;padding:2px 8px;border-radius:99px;margin-top:2px;display:inline-block}
+.skin-badge.on{background:rgba(46,213,115,.18);color:var(--green)}
+.skin-badge.buy{background:rgba(245,184,0,.15);color:var(--gold)}
+.skin-badge.lock{background:rgba(255,255,255,.06);color:rgba(255,255,255,.4)}
+
+/* ===== HÉROES ===== */
+#screen-heroes{padding:18px 16px 24px;gap:12px}
+#heroes-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 0 16px}
+.hero-card{border-radius:16px;padding:14px 16px;display:flex;gap:14px;align-items:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);transition:transform .15s}
+.hero-card:active{transform:scale(.98)}
+.hero-card.locked-hero{opacity:.4;cursor:default}
+.hero-icon{font-size:30px;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(255,255,255,.15)}
+.hero-info{flex:1;min-width:0}
+.hero-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream)}
+.hero-clan{font-size:10px;text-transform:uppercase;letter-spacing:.05em;margin-top:1px}
+.hero-role{font-size:11px;color:rgba(255,255,255,.55);margin-top:3px;line-height:1.35;font-style:italic}
+
+/* ===== MEMORIAS ===== */
+#screen-memories{padding:18px 16px 24px;gap:12px}
+.memory-card{border-radius:16px;padding:14px 16px;display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);transition:transform .15s}
+.memory-card.unlocked{border-color:rgba(255,204,178,.30);background:rgba(255,145,100,.06)}
+.memory-card.locked-mem{opacity:.4}
+.memory-icon{font-size:26px;width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+.memory-text{flex:1;min-width:0}
+.memory-territory{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.4);margin-bottom:3px}
+.memory-quote{font-family:'Fraunces',serif;font-size:13px;color:var(--cream);line-height:1.5;font-style:italic}
+.memory-hint{font-size:10px;color:rgba(255,255,255,.35);margin-top:4px}
+@keyframes memoryReveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.memory-card.unlocked{animation:memoryReveal .4s ease}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<defs>
+  <linearGradient id="crystalGrad" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FFFDF5"/>
+    <stop offset="1" stop-color="#FFD34D"/>
+  </linearGradient>
+  <radialGradient id="confiteBody" cx="38%" cy="32%" r="85%">
+    <stop offset="0" stop-color="#FF93B3"/>
+    <stop offset=".6" stop-color="#FF5C8A"/>
+    <stop offset="1" stop-color="#E33D6F"/>
+  </radialGradient>
+
+  <!-- c0: caramelo torcido (bombón clásico) -->
+  <symbol id="candy-0" viewBox="0 0 64 64">
+    <clipPath id="clip-c0"><ellipse cx="32" cy="32" rx="15" ry="13"/></clipPath>
+    <path d="M17 22 L5 14 Q2 32 5 50 L17 42 Z" fill="#FFF8EE" fill-opacity=".92"/>
+    <path d="M47 22 L59 14 Q62 32 59 50 L47 42 Z" fill="#FFF8EE" fill-opacity=".92"/>
+    <path d="M5 14 Q2 32 5 50" stroke="#000" stroke-opacity=".10" stroke-width="2" fill="none"/>
+    <path d="M59 14 Q62 32 59 50" stroke="#000" stroke-opacity=".10" stroke-width="2" fill="none"/>
+    <ellipse cx="32" cy="32" rx="15" ry="13" fill="#FFF8EE" fill-opacity=".92"/>
+    <g clip-path="url(#clip-c0)">
+      <ellipse cx="32" cy="43" rx="17" ry="8" fill="#000" fill-opacity=".10"/>
+      <path d="M23 20 Q30 30 23 44" stroke="#000" stroke-opacity=".08" stroke-width="4" fill="none"/>
+      <path d="M33 18 Q41 30 33 46" stroke="#000" stroke-opacity=".08" stroke-width="4" fill="none"/>
+    </g>
+    <ellipse cx="25" cy="25" rx="6" ry="3.5" fill="#fff" fill-opacity=".6" transform="rotate(-22 25 25)"/>
+    <ellipse cx="32" cy="32" rx="15" ry="13" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>
+  </symbol>
+
+  <!-- c1: gomita oso -->
+  <symbol id="candy-1" viewBox="0 0 64 64">
+    <clipPath id="clip-c1"><path d="M32 14c11 0 18 9 18 21s-8 21-18 21-18-9-18-21 7-21 18-21z"/></clipPath>
+    <circle cx="23" cy="16" r="7" fill="#FFF8EE" fill-opacity=".92"/>
+    <circle cx="41" cy="16" r="7" fill="#FFF8EE" fill-opacity=".92"/>
+    <circle cx="23" cy="16" r="3" fill="#000" fill-opacity=".10"/>
+    <circle cx="41" cy="16" r="3" fill="#000" fill-opacity=".10"/>
+    <path d="M32 14c11 0 18 9 18 21s-8 21-18 21-18-9-18-21 7-21 18-21z" fill="#FFF8EE" fill-opacity=".92"/>
+    <g clip-path="url(#clip-c1)">
+      <ellipse cx="32" cy="51" rx="17" ry="9" fill="#000" fill-opacity=".10"/>
+    </g>
+    <ellipse cx="32" cy="43" rx="8" ry="6.5" fill="#fff" fill-opacity=".25"/>
+    <ellipse cx="25" cy="26" rx="5" ry="3" fill="#fff" fill-opacity=".55" transform="rotate(-18 25 26)"/>
+    <path d="M32 14c11 0 18 9 18 21s-8 21-18 21-18-9-18-21 7-21 18-21z" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>
+  </symbol>
+
+  <!-- c2: gomita cuadrada -->
+  <symbol id="candy-2" viewBox="0 0 64 64">
+    <clipPath id="clip-c2"><rect x="13" y="13" width="38" height="38" rx="11"/></clipPath>
+    <rect x="13" y="13" width="38" height="38" rx="11" fill="#FFF8EE" fill-opacity=".92"/>
+    <g clip-path="url(#clip-c2)">
+      <ellipse cx="32" cy="50" rx="23" ry="9" fill="#000" fill-opacity=".10"/>
+    </g>
+    <ellipse cx="23" cy="21" rx="6.5" ry="3.5" fill="#fff" fill-opacity=".55" transform="rotate(-24 23 21)"/>
+    <circle cx="40" cy="24" r="1.3" fill="#fff" fill-opacity=".5"/>
+    <circle cx="26" cy="38" r="1.3" fill="#fff" fill-opacity=".4"/>
+    <circle cx="38" cy="42" r="1.3" fill="#fff" fill-opacity=".45"/>
+    <rect x="13" y="13" width="38" height="38" rx="11" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>
+  </symbol>
+
+  <!-- c3: piruleta -->
+  <symbol id="candy-3" viewBox="0 0 64 64">
+    <clipPath id="clip-c3"><circle cx="32" cy="24" r="19"/></clipPath>
+    <rect x="29" y="34" width="6" height="24" rx="3" fill="#FFF8EE" fill-opacity=".85"/>
+    <rect x="29" y="34" width="2.5" height="24" rx="1.2" fill="#000" fill-opacity=".08"/>
+    <circle cx="32" cy="24" r="19" fill="#FFF8EE" fill-opacity=".92"/>
+    <g clip-path="url(#clip-c3)">
+      <ellipse cx="32" cy="38" rx="20" ry="9" fill="#000" fill-opacity=".10"/>
+      <path d="M32 10 A14 14 0 1 1 18 24" fill="none" stroke="#000" stroke-opacity=".10" stroke-width="4" stroke-linecap="round"/>
+      <path d="M32 17 A7 7 0 1 1 25 24" fill="none" stroke="#000" stroke-opacity=".08" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <ellipse cx="24" cy="15" rx="6" ry="3.5" fill="#fff" fill-opacity=".6" transform="rotate(-25 24 15)"/>
+    <circle cx="32" cy="24" r="19" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>
+  </symbol>
+
+  <!-- c4: caramelo espiral -->
+  <symbol id="candy-4" viewBox="0 0 64 64">
+    <clipPath id="clip-c4"><circle cx="32" cy="32" r="20"/></clipPath>
+    <circle cx="32" cy="32" r="20" fill="#FFF8EE" fill-opacity=".92"/>
+    <g clip-path="url(#clip-c4)">
+      <ellipse cx="32" cy="47" rx="21" ry="9" fill="#000" fill-opacity=".10"/>
+      <path d="M32 18 a14 14 0 1 1 -9.9 4.1" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="4" stroke-linecap="round"/>
+      <path d="M32 25 a7 7 0 1 1 -5 2" fill="none" stroke="#000" stroke-opacity=".10" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <ellipse cx="24" cy="22" rx="6" ry="3.5" fill="#fff" fill-opacity=".6" transform="rotate(-25 24 22)"/>
+    <circle cx="32" cy="32" r="20" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>
+  </symbol>
+
+  <!-- c5: corazón gominola -->
+  <symbol id="candy-5" viewBox="0 0 64 64">
+    <clipPath id="clip-c5"><path d="M32 54 C10 40 6 24 18 16 C25 11 32 15 32 22 C32 15 39 11 46 16 C58 24 54 40 32 54 Z"/></clipPath>
+    <path d="M32 54 C10 40 6 24 18 16 C25 11 32 15 32 22 C32 15 39 11 46 16 C58 24 54 40 32 54 Z" fill="#FFF8EE" fill-opacity=".92"/>
+    <g clip-path="url(#clip-c5)">
+      <ellipse cx="32" cy="48" rx="19" ry="10" fill="#000" fill-opacity=".10"/>
+    </g>
+    <ellipse cx="23" cy="23" rx="5.5" ry="3.5" fill="#fff" fill-opacity=".6" transform="rotate(-28 23 23)"/>
+    <path d="M32 54 C10 40 6 24 18 16 C25 11 32 15 32 22 C32 15 39 11 46 16 C58 24 54 40 32 54 Z" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>
+  </symbol>
+
+  <!-- especial: fragmento de Cristal de Azúcar -->
+  <symbol id="candy-special" viewBox="0 0 64 64">
+    <polygon points="32,4 52,24 42,60 22,60 12,24" fill="url(#crystalGrad)"/>
+    <polygon points="32,4 52,24 32,30 12,24" fill="#fff" fill-opacity=".35"/>
+    <polygon points="22,60 32,30 42,60" fill="#000" fill-opacity=".07"/>
+    <line x1="32" y1="4" x2="32" y2="60" stroke="#fff" stroke-opacity=".3" stroke-width="1.5"/>
+    <line x1="12" y1="24" x2="52" y2="24" stroke="#fff" stroke-opacity=".25" stroke-width="1.5"/>
+    <circle cx="38" cy="14" r="1.6" fill="#fff" fill-opacity=".9"/>
+    <path d="M44 34 l1.4 3 3 1.4 -3 1.4 -1.4 3 -1.4 -3 -3 -1.4 3 -1.4 Z" fill="#fff" fill-opacity=".8"/>
+  </symbol>
+</defs>
+</svg>
+
+<div id="app">
+
+  <!-- ============ TITLE ============ -->
+  <section id="screen-title" class="screen active">
+    <svg id="confite-title" viewBox="0 0 100 90" fill="none">
+      <ellipse cx="28" cy="14" rx="13" ry="22" fill="#FF8FB0" transform="rotate(-15 28 14)"/>
+      <ellipse cx="68" cy="14" rx="13" ry="22" fill="#FF8FB0" transform="rotate(15 68 14)"/>
+      <ellipse cx="48" cy="55" rx="38" ry="33" fill="#FF5C8A"/>
+      <circle cx="36" cy="50" r="6.5" fill="#2A1430"/><circle cx="60" cy="50" r="6.5" fill="#2A1430"/>
+      <circle cx="38" cy="47" r="2.2" fill="white"/><circle cx="62" cy="47" r="2.2" fill="white"/>
+      <path d="M36 64 Q48 72 60 64" stroke="#2A1430" stroke-width="3" stroke-linecap="round" fill="none"/>
+    </svg>
+    <div class="logo">Sugar Clash<br>Dulcelandia</div>
+    <div class="logo-sub">El mundo perdió su color</div>
+    <div style="height:8px"></div>
+    <button class="btn-play" id="btn-title-main" onclick="goTo('world')">▶ Jugar</button>
+    <button class="btn-ghost" id="btn-title-secondary" style="display:none" onclick="goTo('world')">Mapa mundial</button>
+    <div id="confite-title-bubble" style="font-size:12px;color:var(--crystal);font-style:italic;margin-top:4px;opacity:.85;display:none"></div>
+  </section>
+
+  <!-- ============ HISTORIA (INTRO NARRATIVA) ============ -->
+  <section id="screen-intro" class="screen">
+    <button class="intro-skip" onclick="skipIntro()">Saltar</button>
+
+    <!-- Slide 0 -->
+    <div class="intro-slide active" id="intro-slide-0">
+      <div class="intro-slide-bg" style="background:radial-gradient(ellipse at 50% 30%,rgba(127,216,232,.12) 0%,transparent 70%)"></div>
+      <div class="intro-tag">Hace 500 años</div>
+      <div class="intro-heading gold">Dulcelandia era un mundo<br>lleno de color</div>
+      <div class="intro-body">Ocho territorios de dulce, cada uno con su propia magia. Un Cristal de Azúcar en el centro lo alimentaba todo.</div>
+    </div>
+
+    <!-- Slide 1 -->
+    <div class="intro-slide" id="intro-slide-1">
+      <div class="intro-slide-bg" style="background:radial-gradient(ellipse at 50% 20%,rgba(155,89,182,.14) 0%,transparent 70%)"></div>
+      <svg class="intro-crystal-svg" viewBox="0 0 80 100" fill="none">
+        <polygon points="40,4 68,28 56,84 24,84 12,28" fill="url(#crystalGrad)" opacity=".9"/>
+        <polygon points="40,4 68,28 40,38 12,28" fill="#fff" fill-opacity=".35"/>
+        <polygon points="24,84 40,38 56,84" fill="#000" fill-opacity=".07"/>
+        <line x1="40" y1="4" x2="40" y2="84" stroke="#fff" stroke-opacity=".3" stroke-width="2"/>
+        <line x1="12" y1="28" x2="68" y2="28" stroke="#fff" stroke-opacity=".22" stroke-width="1.5"/>
+        <!-- crack lines -->
+        <line x1="40" y1="38" x2="22" y2="60" stroke="#FF5C8A" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>
+        <line x1="40" y1="38" x2="58" y2="55" stroke="#FF5C8A" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+        <line x1="40" y1="38" x2="40" y2="84" stroke="#FF5C8A" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+      </svg>
+      <div class="intro-heading">El Cristal eligió<br>romperse a sí mismo</div>
+      <div class="intro-body">No lo destruyeron. Decidió fragmentarse — para no ser esclavizado por los 5 clanes que querían controlarlo.</div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="intro-slide" id="intro-slide-2">
+      <div class="intro-slide-bg" style="background:radial-gradient(ellipse at 50% 40%,rgba(245,184,0,.10) 0%,transparent 70%)"></div>
+      <div style="font-size:48px">🍬</div>
+      <div class="intro-heading">Hoy, Dulce Roja<br>comienza el camino</div>
+      <div class="intro-body">Sanadora del Clan Caramelo. Impulsiva, empática, nunca se rinde. Su misión: restaurar el color que el mundo perdió hace 500 años.</div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="intro-slide" id="intro-slide-3">
+      <div class="intro-slide-bg" style="background:radial-gradient(ellipse at 50% 20%,rgba(255,92,138,.12) 0%,transparent 70%)"></div>
+      <div class="intro-confite-wrap" id="intro-confite-svg-wrap"></div>
+      <div class="intro-heading gold">Y a su lado,<br>Confite</div>
+      <div class="intro-body" style="color:var(--crystal);font-style:italic">"No sé de dónde vengo. No sé mi nombre real. Solo sé que quiero ayudarte a devolver el color..."</div>
+    </div>
+
+    <div class="intro-nav">
+      <div class="intro-dots" id="intro-dots">
+        <div class="intro-dot on"></div>
+        <div class="intro-dot"></div>
+        <div class="intro-dot"></div>
+        <div class="intro-dot"></div>
+      </div>
+      <button class="intro-next" id="intro-next-btn" onclick="nextIntroSlide()">Siguiente →</button>
+    </div>
+  </section>
+
+  <!-- ============ WORLD (mapa mundial) ============ -->
+  <section id="screen-world" class="screen">
+    <div class="world-header">
+      <div>
+        <div class="world-title">Dulcelandia</div>
+        <div class="world-sub"><span id="world-pct">0</span>% del color restaurado</div>
+      </div>
+      <svg id="confite-map" viewBox="0 0 100 90" fill="none">
+        <ellipse cx="28" cy="14" rx="13" ry="22" fill="#FF8FB0" transform="rotate(-15 28 14)"/>
+        <ellipse cx="68" cy="14" rx="13" ry="22" fill="#FF8FB0" transform="rotate(15 68 14)"/>
+        <ellipse cx="48" cy="55" rx="38" ry="33" fill="#FF5C8A"/>
+        <circle cx="36" cy="50" r="6.5" fill="#2A1430"/><circle cx="60" cy="50" r="6.5" fill="#2A1430"/>
+        <circle cx="38" cy="47" r="2.2" fill="white"/><circle cx="62" cy="47" r="2.2" fill="white"/>
+        <path d="M36 64 Q48 72 60 64" stroke="#2A1430" stroke-width="3" stroke-linecap="round" fill="none"/>
+      </svg>
+      <button class="icon-btn" onclick="goTo('settings')">⚙️</button>
+    </div>
+    <div id="world-restore-track"><div id="world-restore-fill"></div></div>
+    <div id="confite-world-bubble">El mundo entero está gris... pero tú puedes devolverle el color.</div>
+    <div class="village-entry" onclick="goTo('village')">
+      <div class="village-entry-icon">🏘️</div>
+      <div class="village-entry-text">
+        <b>Mi Aldea</b>
+        <div class="village-entry-sub">Construye y decora tu hogar</div>
+      </div>
+      <div class="village-entry-coins">🍯 <span id="world-coins">0</span></div>
+    </div>
+    <div class="village-entry" onclick="goTo('achievements')">
+      <div class="village-entry-icon">🏆</div>
+      <div class="village-entry-text">
+        <b>Logros</b>
+        <div class="village-entry-sub">Hitos y trofeos</div>
+      </div>
+      <div class="village-entry-coins" id="world-achv-count">0/0</div>
+    </div>
+    <div class="village-entry" onclick="goTo('minigames')">
+      <div class="village-entry-icon">🎮</div>
+      <div class="village-entry-text">
+        <b>Minijuegos</b>
+        <div class="village-entry-sub">MOBA, Battle Royale, Supervivencia</div>
+      </div>
+      <div class="village-entry-coins">3 modos</div>
+    </div>
+    <div class="village-entry" onclick="goTo('heroes')">
+      <div class="village-entry-icon">⚔️</div>
+      <div class="village-entry-text">
+        <b>Héroes</b>
+        <div class="village-entry-sub">Los guerreros de Dulcelandia</div>
+      </div>
+      <div class="village-entry-coins" id="world-heroes-count">1/7</div>
+    </div>
+    <div class="village-entry" onclick="goTo('skins')">
+      <div class="village-entry-icon" id="world-skin-icon">🩷</div>
+      <div class="village-entry-text">
+        <b>Skins de Confite</b>
+        <div class="village-entry-sub">Cambia su apariencia</div>
+      </div>
+      <div class="village-entry-coins"><span id="world-skins-count">1</span>/5</div>
+    </div>
+    <div class="village-entry" onclick="goTo('memories')">
+      <div class="village-entry-icon">📖</div>
+      <div class="village-entry-text">
+        <b>Memorias de Confite</b>
+        <div class="village-entry-sub">Fragmentos de su historia</div>
+      </div>
+      <div class="village-entry-coins" id="world-memories-count">0/8</div>
+    </div>
+    <div id="world-list"></div>
+  </section>
+
+  <!-- ============ ACHIEVEMENTS (Logros) ============ -->
+  <section id="screen-achievements" class="screen">
+    <div class="village-header">
+      <div class="back-btn" onclick="goTo('world')">←</div>
+      <div class="village-title">Logros</div>
+      <div class="coin-badge" id="achv-count">0/0</div>
+    </div>
+    <div id="achv-grid"></div>
+  </section>
+
+  <!-- ============ VILLAGE (Aldea / Modo Construcción) ============ -->
+  <section id="screen-village" class="screen">
+    <div class="village-header">
+      <div class="back-btn" onclick="goTo('world')">←</div>
+      <div class="village-title">Aldea de Confite</div>
+      <div class="coin-badge">🍯 <span id="village-coins">0</span></div>
+    </div>
+    <div class="village-sub"><span id="village-pct">0</span>% construida</div>
+    <div id="village-restore-track"><div id="village-restore-fill"></div></div>
+    <div id="confite-village-bubble">Aquí vivimos... bueno, viviremos, cuando termines de construir.</div>
+    <div id="village-grid"></div>
+  </section>
+
+  <!-- ============ SETTINGS (Ajustes) ============ -->
+  <section id="screen-settings" class="screen">
+    <div class="settings-header">
+      <div class="back-btn" onclick="goTo('world')">←</div>
+      <div class="settings-title">Ajustes</div>
+    </div>
+    <div class="settings-list">
+      <div class="settings-row" onclick="toggleMute()">
+        <div class="settings-row-label">
+          <div class="settings-row-title" id="mute-label">🔊 Sonido activado</div>
+          <div class="settings-row-sub">Efectos de caramelos, victoria y construcción</div>
+        </div>
+        <div class="settings-toggle" id="mute-toggle"><div class="settings-toggle-knob"></div></div>
+      </div>
+      <div class="settings-row settings-row-danger" onclick="resetProgress()">
+        <div class="settings-row-label">
+          <div class="settings-row-title">🗑️ Reiniciar progreso</div>
+          <div class="settings-row-sub">Borra niveles, estrellas, aldea y monedas</div>
+        </div>
+      </div>
+    </div>
+    <div class="settings-section-title">Tus estadísticas</div>
+    <div id="settings-stats" class="settings-stats-grid"></div>
+  </section>
+
+  <!-- ============ MINIGAMES (hub de modos) ============ -->
+  <section id="screen-minigames" class="screen">
+    <div class="mg-header">
+      <div class="back-btn" onclick="goTo('world')">←</div>
+      <div class="mg-title">Minijuegos</div>
+    </div>
+    <div id="confite-mg-bubble">Modos especiales de Dulcelandia. ¡Aquí empieza lo nuevo!</div>
+    <div id="mg-list"></div>
+  </section>
+
+  <!-- ============ MOBA 5v5 (prototipo un jugador vs bots) ============ -->
+  <section id="screen-moba" class="screen">
+    <div class="mb-hud">
+      <div class="back-btn" onclick="exitMoba()">←</div>
+      <div class="mb-stat"><div class="mb-val" id="mb-ally-hp">500</div><div class="mb-lbl">Aliados</div></div>
+      <div class="mb-stat"><div class="mb-val" id="mb-enemy-hp">500</div><div class="mb-lbl">Enemigos</div></div>
+      <button class="mb-ability-btn" id="mb-ability-btn" onclick="mobaUseAbility()">✨</button>
+    </div>
+    <div class="mb-hint">Arrastra en el tablero para mover a Dulce Roja · toca ✨ para tu habilidad</div>
+    <div id="mb-wrap">
+      <canvas id="mb-canvas" width="340" height="460"></canvas>
+      <div id="mb-overlay">
+        <div class="overlay-icon" id="mb-overlay-icon">🏆</div>
+        <div class="overlay-title" id="mb-overlay-title"></div>
+        <div class="overlay-sub" id="mb-overlay-sub"></div>
+        <div class="overlay-btns">
+          <button class="btn-sm btn-secondary" onclick="exitMoba()">Minijuegos</button>
+          <button class="btn-sm btn-primary" onclick="startMoba()">Jugar de nuevo</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BATTLE ROYALE (prototipo: jugador vs 9 bots, zona) ============ -->
+  <section id="screen-br" class="screen">
+    <div class="mb-hud">
+      <div class="back-btn" onclick="exitBR()">←</div>
+      <div class="mb-stat"><div class="mb-val" id="br-alive">10/10</div><div class="mb-lbl">Vivos</div></div>
+      <div class="mb-stat"><div class="mb-val" id="br-zone-status">Dentro</div><div class="mb-lbl">Zona</div></div>
+      <button class="mb-ability-btn" id="br-ability-btn" onclick="brUseDash()">💨</button>
+    </div>
+    <div class="mb-hint">Arrastra para moverte · mantente dentro del círculo · toca 💨 para un impulso de velocidad</div>
+    <div id="br-wrap">
+      <canvas id="br-canvas" width="340" height="460"></canvas>
+      <div id="br-overlay">
+        <div class="overlay-icon" id="br-overlay-icon">🏆</div>
+        <div class="overlay-title" id="br-overlay-title"></div>
+        <div class="overlay-sub" id="br-overlay-sub"></div>
+        <div class="overlay-btns">
+          <button class="btn-sm btn-secondary" onclick="exitBR()">Minijuegos</button>
+          <button class="btn-sm btn-primary" onclick="startBR()">Jugar de nuevo</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EPÍLOGO ============ -->
+  <section id="screen-epilogue" class="screen">
+    <div id="ep-slide-0" class="ep-slide">
+      <div class="ep-crystal">💎</div>
+      <div class="ep-heading">La Capital de Cristal despertó</div>
+      <div class="ep-body">500 años de silencio roto de golpe. La luz del Gran Cristal volvió a iluminar cada rincón de Dulcelandia.</div>
+      <div class="ep-nav"><div class="ep-dots" id="ep-dots"></div><button class="ep-next" onclick="showEpilogueSlide(1)">Siguiente →</button></div>
+    </div>
+    <div id="ep-slide-1" class="ep-slide">
+      <svg class="ep-confite" viewBox="0 0 100 90" fill="none" id="ep-svg-1"></svg>
+      <div class="ep-heading">Confite se detuvo</div>
+      <div class="ep-body">En el centro del Cristal roto, donde todo empezó, sintió algo que no había sentido desde antes de existir.</div>
+      <div class="ep-nav"><div class="ep-dots" id="ep-dots-1"></div><button class="ep-next" onclick="showEpilogueSlide(2)">Siguiente →</button></div>
+    </div>
+    <div id="ep-slide-2" class="ep-slide">
+      <svg class="ep-confite" viewBox="0 0 100 90" fill="none" id="ep-svg-2"></svg>
+      <div class="ep-heading">Algo despierta</div>
+      <div class="ep-body">"Recuerdo... fragmentos. No sé si son míos. Pero se sienten míos. Como si yo hubiera estado aquí antes de ser Confite."</div>
+      <div class="ep-nav"><button class="ep-next" onclick="showEpilogueSlide(3)">Siguiente →</button></div>
+    </div>
+    <div id="ep-slide-3" class="ep-slide">
+      <svg class="ep-confite" viewBox="0 0 100 90" fill="none" id="ep-svg-3"></svg>
+      <div class="ep-heading">Algo la llama</div>
+      <div class="ep-body">"Siento que hay partes de mí, esparcidas por ahí afuera. Como si pudiera... completarme. No sé qué significa eso. Ni si quiero averiguarlo todavía."</div>
+      <div class="ep-nav"><button class="ep-next" onclick="showEpilogueSlide(4)">Siguiente →</button></div>
+    </div>
+    <div id="ep-slide-4" class="ep-slide">
+      <svg class="ep-confite" viewBox="0 0 100 90" fill="none" id="ep-svg-4"></svg>
+      <div class="ep-heading">"Pero no quiero"</div>
+      <div class="ep-body">"Sea lo que sea eso que llevo dentro... prefiero esto. Ser Confite. Tener un nombre. Tenerte a ti. Lo que sea que fui, nunca tuvo eso."</div>
+      <div class="ep-nav"><button class="ep-next" onclick="showEpilogueSlide(5)">Siguiente →</button></div>
+    </div>
+    <div id="ep-slide-5" class="ep-slide">
+      <svg class="ep-confite" viewBox="0 0 100 90" fill="none" id="ep-svg-5"></svg>
+      <div class="ep-heading">"Gracias"</div>
+      <div class="ep-body">"Por cada match. Por cada cascada. Por cada territorio que restauraste conmigo. Dulcelandia vive porque tú no te rendiste."</div>
+      <div class="ep-nav"><button class="ep-next" onclick="showEpilogueSlide(6)">Siguiente →</button></div>
+    </div>
+    <div id="ep-slide-6" class="ep-slide">
+      <div class="ep-crystal">🌟</div>
+      <div class="ep-heading">Dulcelandia restaurada</div>
+      <div class="ep-body">Los 8 territorios brillan de nuevo. La historia de Confite no termina aquí — solo empieza de verdad.</div>
+      <div class="ep-reward" id="ep-reward-text">+300 🍯 · Logro desbloqueado 💎</div>
+      <div class="ep-nav"><button class="ep-next" onclick="finishEpilogue()">¡Continuar!</button></div>
+    </div>
+  </section>
+
+  <!-- ============ MAP ============ -->
+  <section id="screen-map" class="screen">
+    <div class="map-header">
+      <div class="back-btn" onclick="goTo('world')">←</div>
+      <div class="map-title" id="map-title">Las Tierras Carmesí</div>
+      <div class="stars-total">⭐ <span id="total-stars">0</span>/30</div>
+    </div>
+    <div class="territory-banner" id="territory-banner">El territorio inicial de <b>Confite</b>. Restaura sus 10 niveles para devolverle el color.</div>
+    <div id="confite-bubble">Toca un nivel para empezar. ¡Estoy aquí si me necesitas!</div>
+    <div id="level-grid"></div>
+  </section>
+
+  <!-- ============ GAME ============ -->
+  <section id="screen-game" class="screen">
+    <div class="hud">
+      <div class="back-btn" onclick="exitToMap()">←</div>
+      <div class="hud-stat"><div class="hud-val" id="hud-moves">20</div><div class="hud-lbl">Movs</div></div>
+      <div class="hud-stat"><div class="hud-val" id="hud-score">0</div><div class="hud-lbl">Puntos</div></div>
+      <div class="hud-stat"><div class="hud-val" id="hud-level">1</div><div class="hud-lbl">Nivel</div></div>
+      <div class="back-btn" onclick="openPause()">⏸️</div>
+    </div>
+    <div id="objective-bar">Meta: 1,000 pts</div>
+    <div id="progress-track"><div id="progress-fill"></div></div>
+    <div id="survival-timer-bar"><div id="survival-timer-fill"></div></div>
+    <div id="confite-game-wrap">
+      <svg id="confite-game-svg" width="32" height="30" viewBox="0 0 100 90" fill="none">
+        <ellipse cx="28" cy="14" rx="13" ry="22" fill="#FF8FB0" transform="rotate(-15 28 14)"/>
+        <ellipse cx="68" cy="14" rx="13" ry="22" fill="#FF8FB0" transform="rotate(15 68 14)"/>
+        <ellipse cx="48" cy="55" rx="38" ry="33" fill="#FF5C8A"/>
+        <circle cx="36" cy="50" r="6.5" fill="#2A1430"/><circle cx="60" cy="50" r="6.5" fill="#2A1430"/>
+        <circle cx="38" cy="47" r="2.2" fill="white"/><circle cx="62" cy="47" r="2.2" fill="white"/>
+        <path d="M36 64 Q48 72 60 64" stroke="#2A1430" stroke-width="3" stroke-linecap="round" fill="none"/>
+      </svg>
+      <div id="confite-game-text">¡Vamos! Haz tu primer movimiento.</div>
+    </div>
+    <div id="grid-wrap">
+      <div id="grid"></div>
+      <div id="overlay">
+        <div class="overlay-icon" id="overlay-icon">🍬</div>
+        <div class="overlay-title" id="overlay-title"></div>
+        <div class="overlay-sub" id="overlay-sub"></div>
+        <div class="overlay-stars" id="overlay-stars">
+          <span class="s">⭐</span><span class="s">⭐</span><span class="s">⭐</span>
+        </div>
+        <div class="overlay-btns">
+          <button class="btn-sm btn-secondary" onclick="exitToMap()">Mapa</button>
+          <button class="btn-sm btn-primary" onclick="retryOrNext()" id="overlay-main-btn">Reintentar</button>
+        </div>
+        <button id="overlay-continue-btn" class="btn-continue" onclick="continueGame()" style="display:none"></button>
+      </div>
+      <div id="tutorial-overlay">
+        <div class="tutorial-icon">👆</div>
+        <div class="tutorial-title">¿Cómo se juega?</div>
+        <div class="tutorial-text">Toca dos caramelos que estén juntos para intercambiarlos. Si alineas 3 o más iguales, ¡desaparecen y sumas puntos!</div>
+        <button class="btn-sm btn-primary" onclick="dismissTutorial()">¡Entendido!</button>
+      </div>
+      <div id="pause-overlay">
+        <div class="tutorial-icon">⏸️</div>
+        <div class="tutorial-title">Pausa</div>
+        <div class="settings-row" onclick="toggleMute()" style="width:85%;max-width:280px">
+          <div class="settings-row-label">
+            <div class="settings-row-title" id="pause-mute-label">🔊 Sonido activado</div>
+          </div>
+          <div class="settings-toggle" id="pause-mute-toggle"><div class="settings-toggle-knob"></div></div>
+        </div>
+        <div class="settings-row" id="pause-boost-row" onclick="buyMoves()" style="width:85%;max-width:280px">
+          <div class="settings-row-label">
+            <div class="settings-row-title" id="pause-boost-title">🍬 +5 movimientos</div>
+            <div class="settings-row-sub" id="pause-boost-sub">🍯 30 · una vez por nivel</div>
+          </div>
+        </div>
+        <div class="settings-row" id="pause-bomb-row" onclick="activateBomb()" style="width:85%;max-width:280px">
+          <div class="settings-row-label">
+            <div class="settings-row-title" id="pause-bomb-title">💥 Bombazo</div>
+            <div class="settings-row-sub" id="pause-bomb-sub">🍯 40 · destruye un área 3×3</div>
+          </div>
+        </div>
+        <div class="settings-row" id="pause-rainbow-row" onclick="activateRainbow()" style="width:85%;max-width:280px">
+          <div class="settings-row-label">
+            <div class="settings-row-title" id="pause-rainbow-title">🌈 Caramelo Arco Iris</div>
+            <div class="settings-row-sub" id="pause-rainbow-sub">🍯 60 · borra todos los del color que elijas</div>
+          </div>
+        </div>
+        <div class="overlay-btns">
+          <button class="btn-sm btn-secondary" onclick="exitToMap()">Salir al mapa</button>
+          <button class="btn-sm btn-primary" onclick="closePause()">Continuar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SKINS DE CONFITE ============ -->
+  <section id="screen-skins" class="screen">
+    <div class="village-header">
+      <div class="back-btn" onclick="goTo('world')">←</div>
+      <div class="village-title">Skins de Confite</div>
+      <div class="coin-badge">🍯 <span id="skins-coins">0</span></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;padding:0 2px 4px">
+      <svg id="confite-skins-svg" width="32" height="30" viewBox="0 0 100 90" fill="none"></svg>
+      <div style="font-size:12px;color:var(--crystal);font-style:italic">"Mis diferentes formas... ¿cuál es la verdadera?"</div>
+    </div>
+    <div id="skins-grid" class="skin-grid"></div>
+  </section>
+
+  <!-- ============ HÉROES ============ -->
+  <section id="screen-heroes" class="screen">
+    <div class="village-header">
+      <div class="back-btn" onclick="goTo('world')">←</div>
+      <div class="village-title">Héroes de Dulcelandia</div>
+    </div>
+    <div id="confite-heroes-bubble" style="font-size:12px;color:var(--crystal);padding:0 2px 4px;font-style:italic">Algunos todavía no recuerdan su historia...</div>
+    <div id="heroes-list"></div>
+  </section>
+
+  <!-- ============ MEMORIAS DE CONFITE ============ -->
+  <section id="screen-memories" class="screen">
+    <div class="village-header">
+      <div class="back-btn" onclick="goTo('world')">←</div>
+      <div class="village-title">Memorias de Confite</div>
+    </div>
+    <div style="font-size:12px;color:var(--crystal);padding:0 2px 6px;font-style:italic" id="memories-subtitle">Completa niveles especiales para desbloquear sus recuerdos.</div>
+    <div id="memories-list" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 0 16px"></div>
+  </section>
+
+  <!-- ============ BOSS INTRO OVERLAY ============ -->
+  <div id="boss-intro-overlay">
+    <div class="bi-crown">👑</div>
+    <div class="bi-name" id="bi-name"></div>
+    <div class="bi-sub">Nivel Jefe</div>
+    <div class="bi-confite" id="bi-confite"></div>
+    <button class="btn-sm btn-primary" id="bi-btn" style="margin-top:4px">¡A por el jefe!</button>
+  </div>
+
+  <!-- ============ TERRITORIO COMPLETO OVERLAY ============ -->
+  <div id="territory-complete-overlay">
+    <div class="tc-icon" id="tc-icon"></div>
+    <div class="tc-title" id="tc-title"></div>
+    <div class="tc-narrative" id="tc-narrative"></div>
+    <div class="tc-confite-line" id="tc-confite-line"></div>
+    <div class="tc-reward" id="tc-reward"></div>
+    <div style="height:4px"></div>
+    <button class="btn-sm btn-primary" onclick="closeTerritoryComplete()">Continuar</button>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   SUGAR CLASH: DULCELANDIA — Motor del juego (vanilla JS)
+   Autocontenido. Funciona sin internet (excepto fuentes Google).
+   Progreso guardado en localStorage.
+============================================================ */
+
+const SAVE_KEY = "sugarclash_save_v1";
+const TOTAL_LEVELS = 10;
+
+const LEVELS = [
+  {n:1,  goal:500,  moves:25, cols:6},
+  {n:2,  goal:650,  moves:22, cols:6},
+  {n:3,  goal:800,  moves:20, cols:7},
+  {n:4,  moves:20, cols:7, type:"collect", color:0, target:12},
+  {n:5,  goal:1100, moves:18, cols:7},
+  {n:6,  goal:1300, moves:18, cols:7},
+  {n:7,  moves:17, cols:7, type:"crystals", target:2},
+  {n:8,  goal:1700, moves:16, cols:7},
+  {n:9,  goal:1900, moves:16, cols:7},
+  {n:10, goal:2200, moves:15, cols:7},
+];
+const LEVELS_MOCHI = [
+  {n:1,  goal:900,  moves:22, cols:7},
+  {n:2,  goal:1150, moves:21, cols:7},
+  {n:3,  goal:1400, moves:19, cols:7},
+  {n:4,  moves:18, cols:7, type:"collect", color:5, target:13},
+  {n:5,  goal:1900, moves:17, cols:7},
+  {n:6,  goal:2150, moves:16, cols:7},
+  {n:7,  moves:15, cols:7, type:"crystals", target:1},
+  {n:8,  goal:2650, moves:15, cols:7},
+  {n:9,  goal:2900, moves:14, cols:7},
+  {n:10, goal:3200, moves:14, cols:7},
+];
+const LEVELS_TANGHULU = [
+  {n:1,  goal:1500, moves:22, cols:7},
+  {n:2,  goal:1800, moves:20, cols:7},
+  {n:3,  goal:2100, moves:19, cols:7},
+  {n:4,  moves:18, cols:7, type:"collect", color:0, target:13},
+  {n:5,  goal:2700, moves:17, cols:7},
+  {n:6,  goal:3000, moves:16, cols:7},
+  {n:7,  moves:15, cols:7, type:"crystals", target:2},
+  {n:8,  goal:3600, moves:15, cols:7},
+  {n:9,  goal:3900, moves:14, cols:7},
+  {n:10, goal:4300, moves:14, cols:7},
+];
+const LEVELS_ALPES = [
+  {n:1,  goal:2200, moves:21, cols:7},
+  {n:2,  goal:2550, moves:20, cols:7},
+  {n:3,  goal:2900, moves:19, cols:7},
+  {n:4,  moves:18, cols:7, type:"collect", color:1, target:11},
+  {n:5,  goal:3600, moves:17, cols:7},
+  {n:6,  goal:3950, moves:16, cols:7},
+  {n:7,  moves:15, cols:7, type:"crystals", target:2},
+  {n:8,  goal:4650, moves:15, cols:7},
+  {n:9,  goal:5000, moves:14, cols:7},
+  {n:10, goal:5400, moves:13, cols:7},
+];
+const LEVELS_GOMINOLAS = [
+  {n:1,  goal:2900, moves:22, cols:7},
+  {n:2,  goal:3300, moves:21, cols:7},
+  {n:3,  goal:3700, moves:20, cols:7},
+  {n:4,  moves:17, cols:7, type:"collect", color:2, target:15},
+  {n:5,  goal:4500, moves:18, cols:7},
+  {n:6,  goal:4900, moves:18, cols:7},
+  {n:7,  moves:15, cols:7, type:"crystals", target:2},
+  {n:8,  goal:5700, moves:17, cols:7},
+  {n:9,  goal:6100, moves:17, cols:7},
+  {n:10, goal:6600, moves:16, cols:7},
+];
+const LEVELS_MALVAVISCO = [
+  {n:1,  goal:3600, moves:22, cols:7},
+  {n:2,  goal:4050, moves:21, cols:7},
+  {n:3,  goal:4500, moves:20, cols:7},
+  {n:4,  moves:17, cols:7, type:"collect", color:3, target:14},
+  {n:5,  goal:5400, moves:18, cols:7},
+  {n:6,  goal:5850, moves:18, cols:7},
+  {n:7,  moves:15, cols:7, type:"crystals", target:2},
+  {n:8,  goal:7200, moves:19, cols:8},
+  {n:9,  goal:7800, moves:18, cols:8},
+  {n:10, goal:8500, moves:17, cols:8},
+];
+const LEVELS_DULCE_DE_LECHE = [
+  {n:1,  goal:4400, moves:22, cols:7},
+  {n:2,  goal:4900, moves:21, cols:7},
+  {n:3,  goal:5400, moves:20, cols:7},
+  {n:4,  moves:17, cols:7, type:"collect", color:4, target:16},
+  {n:5,  goal:6400, moves:18, cols:7},
+  {n:6,  goal:6900, moves:18, cols:8},
+  {n:7,  moves:14, cols:8, type:"crystals", target:3},
+  {n:8,  goal:8800, moves:19, cols:8},
+  {n:9,  goal:9500, moves:18, cols:8},
+  {n:10, goal:10200, moves:20, cols:8},
+];
+const LEVELS_CRISTAL = [
+  {n:1,  goal:5000,  moves:21, cols:7},
+  {n:2,  goal:5600,  moves:20, cols:7},
+  {n:3,  goal:6200,  moves:19, cols:8},
+  {n:4,  moves:16, cols:8, type:"collect", color:1, target:14},
+  {n:5,  goal:8000,  moves:19, cols:8},
+  {n:6,  goal:9000,  moves:18, cols:8},
+  {n:7,  moves:13, cols:8, type:"crystals", target:4},
+  {n:8,  goal:10500, moves:18, cols:8},
+  {n:9,  goal:11500, moves:20, cols:8},
+  {n:10, goal:10000, moves:20, cols:8},
+];
+const LEVELS_BY_TERRITORY = { 1: LEVELS, 2: LEVELS_MOCHI, 3: LEVELS_TANGHULU, 4: LEVELS_ALPES, 5: LEVELS_GOMINOLAS, 6: LEVELS_MALVAVISCO, 7: LEVELS_DULCE_DE_LECHE, 8: LEVELS_CRISTAL };
+let currentTerritory = 1;
+
+let save = loadSave();
+let cur = null;     // estado del nivel en curso
+let board = [];
+let sel = null;
+let busy = false;
+let askLock = false;
+
+function defaultSave(){ return { stars:{1:{}}, unlocked:{1:1}, coins:0, buildings:{casa:true}, tutorialSeen:false, stripeTutorialSeen:false, obstacleTutorialSeen:false, muted:false, lastTerritory:null, achievements:{}, crystalsActivated:0, bestCascade:0, bestScores:{}, dailyChallenge:null, dailyStreak:0, lastDailyDate:null, lastLoginDate:null, loginStreak:0, territoryComplete:{}, introDone:false, survivalBest:0, activeSkin:"default", unlockedSkins:{default:true}, stripesCreated:0, mobaWins:0, brWins:0, unlockedStories:{}, epilogueSeen:false, chocolateDestroyed:0 }; }
+function migrateSave(s){
+  // formato viejo (pre-multiterritorio): stars/unlocked planos, referidos siempre al territorio 1
+  if(s.stars && typeof s.unlocked === "number"){
+    s.stars = { 1: s.stars };
+    s.unlocked = { 1: s.unlocked };
+  }
+  return s;
+}
+function loadSave(){
+  try{
+    const raw = localStorage.getItem(SAVE_KEY);
+    if(raw) return Object.assign(defaultSave(), migrateSave(JSON.parse(raw)));
+  }catch(e){}
+  return defaultSave();
+}
+function persistSave(){ localStorage.setItem(SAVE_KEY, JSON.stringify(save)); }
+function resetProgress(){
+  if(!confirm("¿Borrar todo el progreso?")) return;
+  save = defaultSave();
+  currentTerritory = 1;
+  persistSave();
+  goTo("world");
+}
+
+/* ---------------- NAVEGACIÓN ---------------- */
+function goTo(name, territoryId){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById("screen-"+name).classList.add("active");
+  if(name==="map"){ if(territoryId) currentTerritory = territoryId; renderMap(); }
+  if(name==="world") renderWorld();
+  if(name==="village") renderVillage();
+  if(name==="settings") renderSettings();
+  if(name==="achievements") renderAchievements();
+  if(name==="minigames") renderMinigames();
+  if(name==="moba") startMoba();
+  if(name==="br") startBR();
+  if(name==="survival") startSurvival();
+  if(name==="skins") renderSkins();
+  if(name==="heroes") renderHeroes();
+  if(name==="memories") renderMemories();
+  if(name==="epilogue"){ /* epilogue manages its own slides */ }
+  if(name!=="moba" && mobaRunning){ mobaRunning=false; if(mobaRAF) cancelAnimationFrame(mobaRAF); }
+  if(name!=="br" && brRunning){ brRunning=false; if(brRAF) cancelAnimationFrame(brRAF); }
+  if(name!=="survival" && name!=="game") endSurvivalTimer();
+  if(name!=="map") document.getElementById("boss-intro-overlay").classList.remove("on");
+}
+function toggleMute(){
+  save.muted = !save.muted;
+  persistSave();
+  renderSettings();
+  if(pauseOpen) renderPauseSettings();
+}
+function renderSettings(){
+  const muted = !!save.muted;
+  document.getElementById("mute-label").textContent = muted ? "🔇 Sonido desactivado" : "🔊 Sonido activado";
+  document.getElementById("mute-toggle").classList.toggle("on", !muted);
+  const statsEl = document.getElementById("settings-stats");
+  if(!statsEl) return;
+  const ts = totalStars();
+  const territoriesRestored = TERRITORIES.filter(t=>territoryProgress(t.id)>=1).length;
+  const achvDone = Object.keys(save.achievements).length;
+  const stats = [
+    {val: ts, lbl: "⭐ Estrellas totales"},
+    {val: territoriesRestored+"/8", lbl: "🌍 Territorios restaurados"},
+    {val: save.bestCascade||0, lbl: "⚡ Mejor cascada"},
+    {val: save.survivalBest ? Math.floor(save.survivalBest/1000)+"s" : "—", lbl: "⏱️ Mejor supervivencia"},
+    {val: save.dailyStreak||0, lbl: "🔥 Racha diaria"},
+    {val: save.loginStreak||0, lbl: "📅 Racha de inicio"},
+    {val: achvDone+"/"+ACHIEVEMENTS.length, lbl: "🏅 Logros"},
+    {val: save.stripesCreated||0, lbl: "⚡ Rayos creados"},
+    {val: Object.keys(save.unlockedStories||{}).length+"/8", lbl: "📖 Memorias"},
+    {val: save.coins||0, lbl: "🍯 Monedas actuales"},
+  ];
+  statsEl.innerHTML = stats.map(s=>`<div class="stat-tile"><div class="stat-tile-val">${s.val}</div><div class="stat-tile-lbl">${s.lbl}</div></div>`).join("");
+}
+
+/* ---------------- MAPA MUNDIAL (8 territorios) ---------------- */
+const TERRITORIES = [
+  {id:1, name:"Las Tierras Carmesí",         icon:"🍬", hue:"#FF5C8A", playable:true,
+   desc:"Caramelo clásico. El hogar de Confite.",
+   banner:"El territorio inicial de <b>Confite</b>. Restaura sus 10 niveles para devolverle el color."},
+  {id:2, name:"Los Jardines de Mochi",       icon:"🌸", hue:"#FFB7C5", playable:true,
+   desc:"Cerezos de azúcar y wagashi japonés.",
+   banner:"Los cerezos de azúcar aún duermen bajo la niebla. Restaura sus 10 niveles para que <b>Los Jardines de Mochi</b> florezcan de nuevo."},
+  {id:3, name:"Las Torres de Tanghulu",      icon:"🍡", hue:"#E8483F", playable:true,
+   desc:"Agujas de fruta caramelizada que tocan el cielo.",
+   banner:"Las torres de fruta caramelizada se agrietan bajo la niebla. Restaura sus 10 niveles para que <b>Las Torres de Tanghulu</b> vuelvan a brillar al sol."},
+  {id:4, name:"Los Alpes de Cacao",          icon:"🍫", hue:"#9C6B3F", playable:true,
+   desc:"Montañas de chocolate suizo y belga.",
+   banner:"El chocolate se congeló a medio derretir hace 500 años. Restaura sus 10 niveles para que <b>Los Alpes de Cacao</b> vuelvan a fundirse."},
+  {id:5, name:"El Bosque de Gominolas",      icon:"🐻", hue:"#3DD68C", playable:true,
+   desc:"Gomitas alemanas y regaliz nórdico.",
+   banner:"Entre los árboles de regaliz solo queda silencio gris. Restaura sus 10 niveles para que <b>El Bosque de Gominolas</b> vuelva a susurrar."},
+  {id:6, name:"Las Praderas de Malvavisco",  icon:"🏕️", hue:"#F5B800", playable:true,
+   desc:"S'mores americanos y maple canadiense.",
+   banner:"Las fogatas se apagaron hace 500 años y el maple se congeló a medio caer. Restaura sus 10 niveles para que <b>Las Praderas de Malvavisco</b> vuelvan a arder."},
+  {id:7, name:"El Valle del Dulce de Leche", icon:"💀", hue:"#D4913B", playable:true,
+   desc:"Dulces latinoamericanos y flores de cempasúchil.",
+   banner:"Las calaveras de azúcar dejaron de sonreír hace 500 años. Restaura sus 10 niveles para que <b>El Valle del Dulce de Leche</b> vuelva a recordar a sus muertos con color."},
+  {id:8, name:"La Capital de Cristal",       icon:"❄️", hue:"#7FD8E8", playable:true,
+   desc:"Congelada en el instante exacto de la fragmentación.",
+   banner:"El tiempo se detuvo aquí hace 500 años, en el instante exacto en que el Cristal se rompió a sí mismo. Restaura sus 10 niveles... y quizás, por fin, entiendas por qué."},
+];
+
+function territoryProgress(id){
+  const levels = LEVELS_BY_TERRITORY[id];
+  if(!levels) return 0; // territorio sin niveles todavía
+  const stars = save.stars[id] || {};
+  let cleared = 0;
+  levels.forEach(lv=>{ if((stars[lv.n]||0)>0) cleared++; });
+  return cleared/levels.length;
+}
+function territoryUnlocked(id){
+  if(id===1) return true;
+  return territoryProgress(id-1) >= 1;
+}
+function renderWorld(){
+  const list = document.getElementById("world-list");
+  list.innerHTML = "";
+  renderDailyCard(list);
+  let total = 0;
+  TERRITORIES.forEach(t=>{
+    const p = territoryProgress(t.id);
+    total += p;
+    const unlocked = territoryUnlocked(t.id);
+    const pct = Math.round(p*100);
+    const card = document.createElement("div");
+    const restored = p>=1;
+    card.className = "territory-card" + (unlocked?"":" locked") + (restored?" restored":"");
+    card.style.filter = `grayscale(${Math.max(0,(1-p)).toFixed(2)})`;
+    card.innerHTML = `
+      <div class="t-icon" style="background:${t.hue};position:relative">${unlocked?t.icon:"🔒"}${restored?`<span style="position:absolute;bottom:-6px;right:-6px;font-size:13px">✨</span>`:""}  </div>
+      <div class="t-info">
+        <div class="t-name">${t.name}</div>
+        <div class="t-desc">${unlocked?t.desc:"Territorio corrompido. Restaura el anterior para abrir el camino."}</div>
+        <div class="t-bar"><div class="t-fill" style="width:${pct}%;background:${t.hue}"></div></div>
+        <div class="t-pct">${pct}% restaurado</div>
+      </div>`;
+    if(unlocked){
+      card.onclick = ()=>{
+        if(t.playable) goTo("map", t.id);
+        else setWorldBubble(`${t.name}... aún siento la niebla gris ahí dentro. Pronto podremos entrar.`);
+      };
+    } else {
+      const prevTerritory = TERRITORIES.find(pt=>pt.id===t.id-1);
+      const prevPct = prevTerritory ? Math.round(territoryProgress(prevTerritory.id)*100) : 0;
+      card.onclick = ()=>{
+        setWorldBubble(`${t.name} está sellado. Restaura ${prevTerritory?prevTerritory.name:"el anterior"} al 100% (ahora ${prevPct}%) para abrirlo.`);
+      };
+    }
+    list.appendChild(card);
+  });
+  const worldPct = Math.round(total/TERRITORIES.length*100);
+  document.getElementById("world-pct").textContent = worldPct;
+  document.getElementById("world-restore-fill").style.width = worldPct+"%";
+  document.getElementById("world-coins").textContent = save.coins||0;
+  setWorldBubble(confiteWorldMsg(worldPct));
+  checkAchievements();
+  document.getElementById("world-achv-count").textContent = `${Object.keys(save.achievements).length}/${ACHIEVEMENTS.length}`;
+  /* hero & skin counters */
+  const heroCount = HEROES.filter(h=>h.unlockAt()).length;
+  const worldHeroes = document.getElementById("world-heroes-count");
+  if(worldHeroes) worldHeroes.textContent = `${heroCount}/7`;
+  const skinCount = save.unlockedSkins ? Object.keys(save.unlockedSkins).length : 1;
+  const worldSkins = document.getElementById("world-skins-count");
+  if(worldSkins) worldSkins.textContent = skinCount;
+  const skinIcon = document.getElementById("world-skin-icon");
+  if(skinIcon) skinIcon.textContent = CONFITE_SKINS.find(s=>s.id===(save.activeSkin||"default"))?.icon || "🩷";
+  const storyCount = save.unlockedStories ? Object.keys(save.unlockedStories).length : 0;
+  const worldMem = document.getElementById("world-memories-count");
+  if(worldMem) worldMem.textContent = `${storyCount}/8`;
+}
+function setWorldBubble(text){
+  document.getElementById("confite-world-bubble").textContent = text;
+}
+function confiteWorldMsg(pct){
+  if(pct===0)  return "El mundo entero está gris... pero tú puedes devolverle el color.";
+  if(pct<15)   return "¿Ves? Ya empieza a brillar un poco de color entre la niebla.";
+  if(pct<35)   return "Varios territorios están despertando. ¡Sigue así!";
+  if(pct<60)   return "Más de la mitad de Dulcelandia respira de nuevo.";
+  if(pct<100)  return "Casi todo el mundo recupera su color... ¿qué esconderá lo que falta?";
+  return "¡Dulcelandia entera brilla otra vez! Pero... ¿por qué sigo sin recordar de dónde vengo?";
+}
+
+/* ---------------- ALDEA (Modo Construcción) ---------------- */
+const BUILDINGS = [
+  {id:"casa",   name:"Choza de Confite",      icon:"🏠", cost:0,   line:"¡Bienvenida a mi choza! Bueno... a partir de ahora es nuestra."},
+  {id:"puesto", name:"Puesto de Caramelos",   icon:"🍬", cost:40,  line:"¡Mira! Nuestro primer puesto de dulces. Huele delicioso."},
+  {id:"fuente", name:"Fuente de Miel",        icon:"🍯", cost:80,  line:"La miel fluye otra vez... hacía mucho que no veía esto."},
+  {id:"jardin", name:"Jardín de Azúcar",      icon:"🌸", cost:120, line:"Estas flores solo crecen donde hay magia buena."},
+  {id:"torre",  name:"Torre de Vigía",        icon:"🗼", cost:170, line:"Desde ahí arriba se ve todo Dulcelandia... casi todo."},
+  {id:"taller", name:"Taller de Dulce Roja",  icon:"🛠️", cost:230, line:"Aquí reparamos lo que el Confitero Oscuro rompe."},
+  {id:"muelle", name:"Muelle de Cristal",     icon:"⛵", cost:300, line:"Desde aquí podríamos zarpar hacia cualquier territorio... si tuviéramos valor."},
+  {id:"forja",  name:"Herrería de Bastión",   icon:"⚒️", cost:380, line:"Bastión dice que esto templa el metal... y el ánimo."},
+  {id:"dojo",   name:"Escuela de Kenshi",     icon:"🥋", cost:470, line:"Kenshi entrena aquí al amanecer. Nunca falla."},
+  {id:"faro",   name:"Faro del Cristal",      icon:"🔮", cost:570, line:"Dicen que en las noches claras, el faro brilla solo... como si recordara algo."},
+];
+function renderVillage(){
+  document.getElementById("village-coins").textContent = save.coins||0;
+  const grid = document.getElementById("village-grid");
+  grid.innerHTML = "";
+  const builtCount = BUILDINGS.filter(b=>save.buildings[b.id]).length;
+  BUILDINGS.forEach((b,i)=>{
+    const built = !!save.buildings[b.id];
+    const unlocked = built || i===builtCount;
+    const div = document.createElement("div");
+    div.className = "plot" + (built?" built":(unlocked?"":" locked"));
+    if(built){
+      div.innerHTML = `<div class="plot-icon">${b.icon}</div><div class="plot-name">${b.name}</div><div class="plot-status">Construido</div>`;
+      div.onclick = ()=>setVillageBubble(b.line);
+    } else if(unlocked){
+      div.innerHTML = `<div class="plot-icon">🧱</div><div class="plot-name">${b.name}</div><div class="plot-cost">🍯 ${b.cost}</div>`;
+      div.onclick = ()=>buildStructure(b.id);
+    } else {
+      div.innerHTML = `<div class="plot-icon">🔒</div><div class="plot-name">${b.name}</div><div class="plot-status">Bloqueado</div>`;
+    }
+    grid.appendChild(div);
+  });
+  const pct = Math.round(builtCount/BUILDINGS.length*100);
+  document.getElementById("village-pct").textContent = pct;
+  document.getElementById("village-restore-fill").style.width = pct+"%";
+}
+function buildStructure(id){
+  const b = BUILDINGS.find(x=>x.id===id);
+  if(!b || save.buildings[id]) return;
+  if((save.coins||0) < b.cost){
+    setVillageBubble(`Necesito ${b.cost-(save.coins||0)} 🍯 más para esto. ¡Gana más niveles!`);
+    return;
+  }
+  playBuild();
+  save.coins -= b.cost;
+  save.buildings[id] = true;
+  persistSave();
+  checkAchievements();
+  renderVillage();
+  setVillageBubble(b.line);
+}
+function setVillageBubble(text){
+  document.getElementById("confite-village-bubble").textContent = text;
+}
+
+/* ---------------- LOGROS ---------------- */
+function totalStars(){
+  let total = 0;
+  Object.values(save.stars).forEach(territoryStars=>{
+    Object.values(territoryStars).forEach(v=> total += v);
+  });
+  return total;
+}
+const ACHIEVEMENTS = [
+  {id:"primer_dulce", name:"Primer Dulce", icon:"🍬", desc:"Gana tu primer nivel.",
+   check:()=> Object.values(save.stars).some(t=>Object.values(t).some(v=>v>0))},
+  {id:"estrella_naciente", name:"Estrella Naciente", icon:"⭐", desc:"Consigue 15 estrellas en total.",
+   check:()=> totalStars()>=15, progress:()=>totalStars(), target:15},
+  {id:"coleccionista", name:"Coleccionista", icon:"🌟", desc:"Consigue 50 estrellas en total.",
+   check:()=> totalStars()>=50, progress:()=>totalStars(), target:50},
+  {id:"maestro_dulce", name:"Maestro Dulce", icon:"👑", desc:"Consigue 100 estrellas en total.",
+   check:()=> totalStars()>=100, progress:()=>totalStars(), target:100},
+  {id:"primer_color", name:"Primer Color", icon:"🎨", desc:"Restaura tu primer territorio al 100%.",
+   check:()=> TERRITORIES.some(t=>territoryProgress(t.id)>=1)},
+  {id:"mitad_mundo", name:"Mitad del Mundo", icon:"🌍", desc:"Restaura 4 territorios completos.",
+   check:()=> TERRITORIES.filter(t=>territoryProgress(t.id)>=1).length>=4,
+   progress:()=>TERRITORIES.filter(t=>territoryProgress(t.id)>=1).length, target:4},
+  {id:"dulcelandia_completa", name:"Dulcelandia Completa", icon:"💎", desc:"Restaura los 8 territorios.",
+   check:()=> TERRITORIES.every(t=>territoryProgress(t.id)>=1)},
+  {id:"constructora", name:"Constructor", icon:"🏠", desc:"Construye 5 edificios en tu Aldea.",
+   check:()=> Object.keys(save.buildings).length>=5, progress:()=>Object.keys(save.buildings).length, target:5},
+  {id:"aldea_completa", name:"Aldea Completa", icon:"🏘️", desc:"Construye los 10 edificios.",
+   check:()=> Object.keys(save.buildings).length>=BUILDINGS.length},
+  {id:"cazador_cristales", name:"Cazador de Cristales", icon:"✨", desc:"Activa 25 Cristales en total.",
+   check:()=> (save.crystalsActivated||0)>=25, progress:()=>save.crystalsActivated||0, target:25},
+  {id:"combo_perfecto", name:"Combo Perfecto", icon:"⚡", desc:"Logra una cascada de 5 combos en un solo movimiento.",
+   check:()=> (save.bestCascade||0)>=5},
+  {id:"guerrera_moba", name:"Guerrera MOBA", icon:"⚔️", desc:"Gana una partida MOBA 5v5.",
+   check:()=> (save.mobaWins||0)>=1},
+  {id:"campeona_br", name:"Campeona BR", icon:"🏆", desc:"Gana una partida Battle Royale.",
+   check:()=> (save.brWins||0)>=1},
+  {id:"explosiva", name:"Explosiva", icon:"💥", desc:"Crea 10 caramelos rayados con match-4.",
+   check:()=> (save.stripesCreated||0)>=10, progress:()=>save.stripesCreated||0, target:10},
+  {id:"racha_dulce", name:"Racha Dulce", icon:"🔥", desc:"Completa el desafío diario 3 días seguidos.",
+   check:()=> (save.dailyStreak||0)>=3},
+  {id:"adicta_azucar", name:"Adicta al Azúcar", icon:"🔥🔥", desc:"Completa el desafío diario 7 días seguidos.",
+   check:()=> (save.dailyStreak||0)>=7},
+  {id:"superviviente", name:"Superviviente", icon:"⏱️", desc:"Alcanza 90 segundos en Modo Supervivencia.",
+   check:()=> (save.survivalBest||0)>=90000},
+  {id:"millonaria", name:"Millonaria de Caramelos", icon:"🍯", desc:"Acumula 500 monedas de caramelo.",
+   check:()=> (save.coins||0)>=500},
+  {id:"el_quinto_fragmento", name:"El Secreto de Confite", icon:"💎", desc:"Descubre qué esconde Confite tras 500 años.",
+   check:()=> !!save.epilogueSeen},
+  {id:"chocolatera", name:"Chocolatera", icon:"🍫", desc:"Destruye 30 bloques de chocolate.",
+   check:()=> (save.chocolateDestroyed||0)>=30, progress:()=>save.chocolateDestroyed||0, target:30},
+];
+const ACHIEVEMENT_REWARD = 50;
+function checkAchievements(){
+  let unlockedNew = false;
+  ACHIEVEMENTS.forEach(a=>{
+    if(!save.achievements[a.id] && a.check()){
+      save.achievements[a.id] = true;
+      save.coins = (save.coins||0) + ACHIEVEMENT_REWARD;
+      unlockedNew = true;
+      achvToastQueue.push(a);
+    }
+  });
+  if(unlockedNew) persistSave();
+  advanceAchvToastQueue();
+  checkTerritoryComplete();
+}
+let achvToastQueue = [];
+let achvToastBusy = false;
+function advanceAchvToastQueue(){
+  if(achvToastBusy || achvToastQueue.length===0) return;
+  achvToastBusy = true;
+  const a = achvToastQueue.shift();
+  const div = document.createElement("div");
+  div.className = "achv-toast";
+  div.innerHTML = `<div class="achv-toast-icon">${a.icon}</div><div><div class="achv-toast-title">¡Logro desbloqueado! +${ACHIEVEMENT_REWARD} 🍯</div><div class="achv-toast-name">${a.name}</div></div>`;
+  document.getElementById("app").appendChild(div);
+  setTimeout(()=>{
+    div.remove();
+    achvToastBusy = false;
+    advanceAchvToastQueue();
+  }, 2600);
+}
+function renderAchievements(){
+  checkAchievements();
+  const grid = document.getElementById("achv-grid");
+  grid.innerHTML = "";
+  let unlockedCount = 0;
+  // Sort: unlocked first, then locked with progress, then locked without
+  const sorted = [...ACHIEVEMENTS].sort((a,b)=>{
+    const ua=!!save.achievements[a.id], ub=!!save.achievements[b.id];
+    if(ua&&!ub) return -1; if(!ua&&ub) return 1;
+    if(!ua&&!ub){ const pa=a.progress?1:0, pb=b.progress?1:0; return pb-pa; }
+    return 0;
+  });
+  sorted.forEach(a=>{
+    const unlocked = !!save.achievements[a.id];
+    if(unlocked) unlockedCount++;
+    const div = document.createElement("div");
+    div.className = "badge" + (unlocked ? " unlocked" : "");
+    let progressHtml = "";
+    if(!unlocked && a.progress){
+      const cur2 = Math.min(a.progress(), a.target);
+      const pct = Math.round(cur2/a.target*100);
+      progressHtml = `<div class="badge-progress">${cur2}/${a.target}</div>
+        <div style="background:rgba(255,255,255,.1);border-radius:99px;height:3px;margin-top:4px"><div style="height:3px;border-radius:99px;background:var(--crystal);width:${pct}%"></div></div>`;
+    }
+    div.innerHTML = `<div class="badge-icon">${unlocked ? a.icon : "🔒"}</div>
+      <div class="badge-name">${a.name}</div>
+      <div class="badge-desc">${a.desc}</div>
+      ${unlocked ? `<div class="badge-status">Desbloqueado · +${ACHIEVEMENT_REWARD} 🍯</div>` : progressHtml}`;
+    grid.appendChild(div);
+  });
+  document.getElementById("achv-count").textContent = `${unlockedCount}/${ACHIEVEMENTS.length}`;
+}
+
+function exitToMap(){
+  document.getElementById("overlay").classList.remove("on");
+  document.getElementById("pause-overlay").classList.remove("on");
+  pauseOpen = false;
+  bombActive = false;
+  rainbowActive = false;
+  endSurvivalTimer();
+  if(cur && cur.isSurvival){ goTo("minigames"); return; }
+  goTo("map");
+}
+
+/* ---------------- MINIJUEGOS (hub) ---------------- */
+const MINIGAMES = [
+  {id:"moba", name:"MOBA 5v5", icon:"⚔️", ready:true,
+   desc:"Controla a Dulce Roja junto a 4 aliados contra las Sombras del Confitero Oscuro. Prototipo de un jugador contra bots — el multijugador real llegará después."},
+  {id:"br", name:"Battle Royale", icon:"🏆", ready:true,
+   desc:"Último dulce en pie. Todos contra todos en una zona que se reduce. Prototipo de un jugador contra 9 bots — el multijugador real llegará después."},
+  {id:"survival", name:"Modo Supervivencia", icon:"⏱️", ready:true,
+   desc:"Match-3 contra el reloj. Cada combo te da segundos extra. No hay movimientos — hay tiempo. ¿Hasta cuándo aguantas?"},
+];
+function renderMinigames(){
+  const list = document.getElementById("mg-list");
+  list.innerHTML = "";
+  MINIGAMES.forEach(m=>{
+    const div = document.createElement("div");
+    div.className = "mg-card" + (m.ready ? "" : " locked");
+    div.innerHTML = `
+      <div class="mg-icon">${m.icon}</div>
+      <div class="mg-info">
+        <div class="mg-name">${m.name}</div>
+        <div class="mg-desc">${m.desc}</div>
+        <span class="mg-tag ${m.ready?'ready':'soon'}">${m.ready?'Jugable':'Próximamente'}</span>
+      </div>`;
+    if(m.ready) div.onclick = ()=>goTo(m.id);
+    list.appendChild(div);
+  });
+}
+
+/* ---------------- MOBA 5v5 (prototipo: jugador + 4 aliados IA vs 5 bots) ---------------- */
+const MOBA_W = 340, MOBA_H = 460;
+const MOBA_HERO_R = 12, MOBA_RANGE = 46, MOBA_SPEED = 1.5;
+const MOBA_ATK_DMG = 9, MOBA_ATK_CD_MAX = 50, MOBA_MAX_HP = 100;
+const MOBA_ABILITY_DMG = 26, MOBA_ABILITY_RADIUS = 75, MOBA_ABILITY_CD_MAX = 260;
+const MOBA_ALLIES = [
+  {id:"dulce",   name:"Dulce Roja",       icon:"❤️", isPlayer:true},
+  {id:"kenshi",  name:"Kenshi Dorado",    icon:"⚔️"},
+  {id:"sombra",  name:"Sombra Menta",     icon:"🗡️"},
+  {id:"pyra",    name:"Pyra la Rebotante",icon:"🔥"},
+  {id:"bastion", name:"Bastión de Hierro",icon:"🛡️"},
+];
+const MOBA_ENEMIES = [
+  {id:"amargo1", name:"Sombra del Confitero", icon:"😈"},
+  {id:"amargo2", name:"Sombra del Confitero", icon:"😈"},
+  {id:"amargo3", name:"Sombra del Confitero", icon:"😈"},
+  {id:"amargo4", name:"Sombra del Confitero", icon:"😈"},
+  {id:"amargo5", name:"Sombra del Confitero", icon:"😈"},
+];
+let mbCtx = null, mobaRunning = false, mobaRAF = null, mobaInputBound = false;
+let mobaHeroes = [], mobaPlayer = null, mobaAbilityCd = 0, mobaFlashes = [];
+let mobaJoystick = {active:false, baseX:0, baseY:0, dx:0, dy:0};
+let mobaJoyPointerId = null;
+
+function mobaClampHero(h){
+  h.x = Math.max(16, Math.min(MOBA_W-16, h.x));
+  h.y = Math.max(16, Math.min(MOBA_H-16, h.y));
+}
+function mobaNearestEnemy(h){
+  let best=null, bestDist=Infinity;
+  mobaHeroes.forEach(o=>{
+    if(o.team===h.team || !o.alive) return;
+    const d = Math.hypot(o.x-h.x, o.y-h.y);
+    if(d<bestDist){ bestDist=d; best=o; }
+  });
+  return best;
+}
+function mobaUseAbility(){
+  if(!mobaRunning || mobaAbilityCd>0 || !mobaPlayer.alive) return;
+  mobaHeroes.forEach(h=>{
+    if(h.team!=="enemy" || !h.alive) return;
+    const d = Math.hypot(h.x-mobaPlayer.x, h.y-mobaPlayer.y);
+    if(d<=MOBA_ABILITY_RADIUS){
+      h.hp -= MOBA_ABILITY_DMG;
+      if(h.hp<=0){ h.hp=0; h.alive=false; }
+    }
+  });
+  mobaFlashes.push({x:mobaPlayer.x, y:mobaPlayer.y, r:MOBA_ABILITY_RADIUS, life:1, hue:"#F5B800", ring:true});
+  playCrystal();
+  mobaAbilityCd = MOBA_ABILITY_CD_MAX;
+  updateMobaAbilityBtn();
+}
+function updateMobaAbilityBtn(){
+  const btn = document.getElementById("mb-ability-btn");
+  if(!btn) return;
+  if(mobaAbilityCd>0){ btn.disabled = true; btn.textContent = Math.ceil(mobaAbilityCd/60); }
+  else { btn.disabled = false; btn.textContent = "✨"; }
+}
+function updateMobaHud(){
+  const allyHp = mobaHeroes.filter(h=>h.team==="ally").reduce((s,h)=>s+Math.max(0,h.hp),0);
+  const enemyHp = mobaHeroes.filter(h=>h.team==="enemy").reduce((s,h)=>s+Math.max(0,h.hp),0);
+  document.getElementById("mb-ally-hp").textContent = allyHp;
+  document.getElementById("mb-enemy-hp").textContent = enemyHp;
+}
+function mobaCheckEnd(){
+  const alliesAlive = mobaHeroes.some(h=>h.team==="ally" && h.alive);
+  const enemiesAlive = mobaHeroes.some(h=>h.team==="enemy" && h.alive);
+  if(!enemiesAlive) mobaEndGame(true);
+  else if(!alliesAlive) mobaEndGame(false);
+}
+function mobaEndGame(won){
+  mobaRunning = false;
+  if(mobaRAF) cancelAnimationFrame(mobaRAF);
+  const enemiesDefeated = mobaHeroes.filter(h=>h.team==="enemy" && !h.alive).length;
+  const coinsEarned = enemiesDefeated*8 + (won?30:0);
+  save.coins = (save.coins||0) + coinsEarned;
+  if(won) save.mobaWins = (save.mobaWins||0) + 1;
+  persistSave();
+  checkAchievements();
+  document.getElementById("mb-overlay-icon").textContent = won ? "🏆" : "💔";
+  document.getElementById("mb-overlay-title").textContent = won ? "¡Victoria!" : "Derrota";
+  document.getElementById("mb-overlay-sub").textContent =
+    `${enemiesDefeated}/5 enemigos derrotados · +${coinsEarned} 🍯${won?` · Victorias totales: ${save.mobaWins}`:""}`;
+  document.getElementById("mb-overlay").classList.add("on");
+  if(won) spawnConfetti();
+}
+function exitMoba(){
+  mobaRunning = false;
+  if(mobaRAF) cancelAnimationFrame(mobaRAF);
+  document.getElementById("mb-overlay").classList.remove("on");
+  goTo("minigames");
+}
+function mobaRender(){
+  const ctx = mbCtx;
+  ctx.clearRect(0,0,MOBA_W,MOBA_H);
+  ctx.strokeStyle = "rgba(255,255,255,.08)";
+  ctx.setLineDash([6,6]);
+  ctx.beginPath(); ctx.moveTo(0,MOBA_H/2); ctx.lineTo(MOBA_W,MOBA_H/2); ctx.stroke();
+  ctx.setLineDash([]);
+  mobaFlashes.forEach(f=>{
+    ctx.beginPath();
+    ctx.arc(f.x, f.y, f.ring ? f.r*(1-f.life)+10 : f.r+(1-f.life)*10, 0, Math.PI*2);
+    ctx.globalAlpha = f.life; ctx.strokeStyle = f.hue; ctx.lineWidth = 3; ctx.stroke(); ctx.globalAlpha = 1;
+  });
+  mobaHeroes.forEach(h=>{
+    if(!h.alive) return;
+    ctx.beginPath(); ctx.arc(h.x, h.y, MOBA_HERO_R, 0, Math.PI*2);
+    const playerColor = (getActiveSkin&&getActiveSkin().cheeks)||"#FF9FBB";
+    ctx.fillStyle = h.team==="enemy" ? "#FF5C5C" : (h.isPlayer ? playerColor : "#7FD8E8");
+    ctx.fill();
+    if(h.isPlayer){ ctx.lineWidth=2.5; ctx.strokeStyle="#fff"; ctx.stroke(); }
+    ctx.font = "14px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.fillText(h.icon, h.x, h.y+1);
+    const w=26, barY=h.y-MOBA_HERO_R-8;
+    ctx.fillStyle = "rgba(0,0,0,.4)"; ctx.fillRect(h.x-w/2, barY, w, 4);
+    ctx.fillStyle = h.hp/h.maxHp>0.4 ? "#2ED573" : "#FF5C5C";
+    ctx.fillRect(h.x-w/2, barY, w*Math.max(0,h.hp/h.maxHp), 4);
+  });
+  if(mobaJoystick.active){
+    ctx.beginPath(); ctx.arc(mobaJoystick.baseX, mobaJoystick.baseY, 40, 0, Math.PI*2);
+    ctx.strokeStyle = "rgba(255,255,255,.25)"; ctx.lineWidth=2; ctx.stroke();
+    ctx.beginPath(); ctx.arc(mobaJoystick.baseX+mobaJoystick.dx, mobaJoystick.baseY+mobaJoystick.dy, 16, 0, Math.PI*2);
+    ctx.fillStyle = "rgba(255,255,255,.35)"; ctx.fill();
+  }
+}
+function mobaStep(){
+  if(!mobaRunning) return;
+  if(mobaJoystick.active && mobaPlayer.alive){
+    const mag = Math.hypot(mobaJoystick.dx, mobaJoystick.dy);
+    if(mag>4){
+      mobaPlayer.x += (mobaJoystick.dx/40)*MOBA_SPEED;
+      mobaPlayer.y += (mobaJoystick.dy/40)*MOBA_SPEED;
+      mobaClampHero(mobaPlayer);
+    }
+  }
+  mobaHeroes.forEach(h=>{
+    if(!h.alive) return;
+    if(h.atkCd>0) h.atkCd--;
+    const target = mobaNearestEnemy(h);
+    if(!target) return;
+    const dx=target.x-h.x, dy=target.y-h.y;
+    const dist=Math.hypot(dx,dy);
+    if(!h.isPlayer && dist > MOBA_RANGE){
+      h.x += (dx/dist)*MOBA_SPEED; h.y += (dy/dist)*MOBA_SPEED;
+      mobaClampHero(h);
+    } else if(dist <= MOBA_RANGE && h.atkCd<=0){
+      target.hp -= MOBA_ATK_DMG;
+      h.atkCd = MOBA_ATK_CD_MAX;
+      mobaFlashes.push({x:target.x, y:target.y, r:14, life:1, hue: h.team==="ally" ? "#7FD8E8" : "#FF5C5C"});
+      playPop();
+      if(target.hp<=0){ target.hp=0; target.alive=false; }
+    }
+  });
+  if(mobaAbilityCd>0){ mobaAbilityCd--; updateMobaAbilityBtn(); }
+  mobaFlashes = mobaFlashes.filter(f=>{ f.life-=0.08; return f.life>0; });
+  updateMobaHud();
+  mobaRender();
+  mobaCheckEnd();
+  if(mobaRunning) mobaRAF = requestAnimationFrame(mobaStep);
+}
+function mobaPointerPos(e){
+  const canvas = document.getElementById("mb-canvas");
+  const rect = canvas.getBoundingClientRect();
+  return { x:(e.clientX-rect.left)*(canvas.width/rect.width), y:(e.clientY-rect.top)*(canvas.height/rect.height) };
+}
+function mobaBindInput(){
+  if(mobaInputBound) return;
+  mobaInputBound = true;
+  const canvas = document.getElementById("mb-canvas");
+  canvas.addEventListener("pointerdown", e=>{
+    if(mobaJoyPointerId!==null) return;
+    mobaJoyPointerId = e.pointerId;
+    canvas.setPointerCapture(e.pointerId);
+    const p = mobaPointerPos(e);
+    mobaJoystick.active=true; mobaJoystick.baseX=p.x; mobaJoystick.baseY=p.y; mobaJoystick.dx=0; mobaJoystick.dy=0;
+  });
+  canvas.addEventListener("pointermove", e=>{
+    if(e.pointerId!==mobaJoyPointerId || !mobaJoystick.active) return;
+    const p = mobaPointerPos(e);
+    let dx=p.x-mobaJoystick.baseX, dy=p.y-mobaJoystick.baseY;
+    const dist=Math.hypot(dx,dy), max=40;
+    if(dist>max){ dx=dx/dist*max; dy=dy/dist*max; }
+    mobaJoystick.dx=dx; mobaJoystick.dy=dy;
+  });
+  const release = e=>{
+    if(e.pointerId!==mobaJoyPointerId) return;
+    mobaJoystick.active=false; mobaJoystick.dx=0; mobaJoystick.dy=0; mobaJoyPointerId=null;
+  };
+  canvas.addEventListener("pointerup", release);
+  canvas.addEventListener("pointercancel", release);
+}
+function startMoba(){
+  document.getElementById("mb-overlay").classList.remove("on");
+  const canvas = document.getElementById("mb-canvas");
+  mbCtx = canvas.getContext("2d");
+  mobaBindInput();
+  mobaHeroes = [];
+  MOBA_ALLIES.forEach((a,i)=>{
+    mobaHeroes.push(Object.assign({}, a, {team:"ally", x:60+i*55, y:MOBA_H-70, hp:MOBA_MAX_HP, maxHp:MOBA_MAX_HP, atkCd:0, alive:true, isPlayer:!!a.isPlayer}));
+  });
+  MOBA_ENEMIES.forEach((e,i)=>{
+    mobaHeroes.push(Object.assign({}, e, {team:"enemy", x:60+i*55, y:70, hp:MOBA_MAX_HP, maxHp:MOBA_MAX_HP, atkCd:0, alive:true, isPlayer:false}));
+  });
+  mobaPlayer = mobaHeroes.find(h=>h.isPlayer);
+  mobaAbilityCd = 0;
+  mobaFlashes = [];
+  mobaJoystick = {active:false, baseX:0, baseY:0, dx:0, dy:0};
+  mobaJoyPointerId = null;
+  updateMobaHud();
+  updateMobaAbilityBtn();
+  mobaRunning = true;
+  if(mobaRAF) cancelAnimationFrame(mobaRAF);
+  mobaRAF = requestAnimationFrame(mobaStep);
+}
+
+/* ---------------- BATTLE ROYALE (prototipo: jugador vs 9 bots, zona que se reduce) ---------------- */
+const BR_W = 340, BR_H = 460, BR_TOTAL = 10;
+const BR_UNIT_R = 11, BR_RANGE = 40, BR_SPEED = 1.4, BR_DASH_MULT = 2.4;
+const BR_ATK_DMG = 8, BR_ATK_CD_MAX = 55, BR_MAX_HP = 100;
+const BR_ZONE_DMG = 6, BR_ZONE_TICK = 45;
+const BR_ZONE_R0 = 280, BR_ZONE_RMIN = 42, BR_ZONE_SHRINK_FRAMES = 1800;
+const BR_DASH_CD_MAX = 380, BR_DASH_FRAMES = 55;
+const BR_ICONS = ["🐻","🍭","🍫","🍩","🍪","🧁","🍮","🍯","🍬"];
+let brCtx = null, brRunning = false, brRAF = null, brInputBound = false;
+let brUnits = [], brPlayer = null, brZone = null, brZoneElapsed = 0, brZoneDmgTimer = 0;
+let brDashCd = 0, brDashTimer = 0, brFlashes = [];
+let brJoystick = {active:false, baseX:0, baseY:0, dx:0, dy:0};
+let brJoyPointerId = null;
+
+function brClamp(u){
+  u.x = Math.max(14, Math.min(BR_W-14, u.x));
+  u.y = Math.max(14, Math.min(BR_H-14, u.y));
+}
+function brNearest(u){
+  let best=null, bestDist=Infinity;
+  brUnits.forEach(o=>{
+    if(o===u || !o.alive) return;
+    const d = Math.hypot(o.x-u.x, o.y-u.y);
+    if(d<bestDist){ bestDist=d; best=o; }
+  });
+  return best;
+}
+function brAttack(u,target){
+  target.hp -= BR_ATK_DMG;
+  u.atkCd = BR_ATK_CD_MAX;
+  brFlashes.push({x:target.x, y:target.y, r:12, life:1, hue: u.isPlayer ? "#F5B800" : "#7FD8E8"});
+  playPop();
+  if(target.hp<=0){ target.hp=0; target.alive=false; }
+}
+function brUseDash(){
+  if(!brRunning || brDashCd>0 || !brPlayer.alive) return;
+  brDashTimer = BR_DASH_FRAMES;
+  brDashCd = BR_DASH_CD_MAX;
+  brFlashes.push({x:brPlayer.x, y:brPlayer.y, r:26, life:1, hue:"#7FD8E8", ring:true});
+  playShuffle();
+  updateBrAbilityBtn();
+}
+function updateBrAbilityBtn(){
+  const btn = document.getElementById("br-ability-btn");
+  if(!btn) return;
+  if(brDashCd>0){ btn.disabled=true; btn.textContent = Math.ceil(brDashCd/60); }
+  else { btn.disabled=false; btn.textContent = "💨"; }
+}
+function updateBrHud(){
+  const aliveCount = brUnits.filter(u=>u.alive).length;
+  document.getElementById("br-alive").textContent = `${aliveCount}/${BR_TOTAL}`;
+  const d = Math.hypot(brPlayer.x-brZone.cx, brPlayer.y-brZone.cy);
+  const inZone = d <= brZone.r;
+  const zoneEl = document.getElementById("br-zone-status");
+  zoneEl.textContent = brPlayer.alive ? (inZone ? "Dentro" : "¡Fuera!") : "—";
+  zoneEl.style.color = (brPlayer.alive && !inZone) ? "#FF5C5C" : "";
+}
+function brCheckEnd(){
+  const aliveCount = brUnits.filter(u=>u.alive).length;
+  if(!brPlayer.alive){ brEndGame(false, aliveCount); return; }
+  if(aliveCount<=1){ brEndGame(true, 0); }
+}
+function brEndGame(won, othersAliveAtDeath){
+  brRunning = false;
+  if(brRAF) cancelAnimationFrame(brRAF);
+  const placement = won ? 1 : othersAliveAtDeath+1;
+  const coinsEarned = Math.max(0, BR_TOTAL-placement)*6 + (won?40:0);
+  save.coins = (save.coins||0) + coinsEarned;
+  if(won) save.brWins = (save.brWins||0) + 1;
+  if(!save.brBestPlacement || placement < save.brBestPlacement) save.brBestPlacement = placement;
+  persistSave();
+  checkAchievements();
+  document.getElementById("br-overlay-icon").textContent = won ? "🏆" : "💀";
+  document.getElementById("br-overlay-title").textContent = won ? "¡Victoria Royale!" : "Eliminada";
+  document.getElementById("br-overlay-sub").textContent =
+    `Puesto ${placement}/${BR_TOTAL} · +${coinsEarned} 🍯${won?` · Victorias totales: ${save.brWins}`:""}`;
+  document.getElementById("br-overlay").classList.add("on");
+  if(won) spawnConfetti();
+}
+function exitBR(){
+  brRunning = false;
+  if(brRAF) cancelAnimationFrame(brRAF);
+  document.getElementById("br-overlay").classList.remove("on");
+  goTo("minigames");
+}
+function brRender(){
+  const ctx = brCtx;
+  ctx.clearRect(0,0,BR_W,BR_H);
+  ctx.save();
+  ctx.fillStyle = "rgba(255,50,50,.16)";
+  ctx.fillRect(0,0,BR_W,BR_H);
+  ctx.globalCompositeOperation = "destination-out";
+  ctx.beginPath(); ctx.arc(brZone.cx, brZone.cy, brZone.r, 0, Math.PI*2); ctx.fill();
+  ctx.restore();
+  ctx.beginPath(); ctx.arc(brZone.cx, brZone.cy, brZone.r, 0, Math.PI*2);
+  ctx.strokeStyle = "rgba(255,255,255,.5)"; ctx.lineWidth=2; ctx.stroke();
+  brFlashes.forEach(f=>{
+    ctx.beginPath();
+    ctx.arc(f.x, f.y, f.ring ? f.r*(1-f.life)+8 : f.r+(1-f.life)*10, 0, Math.PI*2);
+    ctx.globalAlpha=f.life; ctx.strokeStyle=f.hue; ctx.lineWidth=3; ctx.stroke(); ctx.globalAlpha=1;
+  });
+  brUnits.forEach(u=>{
+    if(!u.alive) return;
+    ctx.beginPath(); ctx.arc(u.x, u.y, BR_UNIT_R, 0, Math.PI*2);
+    ctx.fillStyle = u.isPlayer ? "#F5B800" : "#7FD8E8";
+    ctx.fill();
+    if(u.isPlayer){ ctx.lineWidth=2.5; ctx.strokeStyle="#fff"; ctx.stroke(); }
+    ctx.font="13px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.fillText(u.icon, u.x, u.y+1);
+    const w=24, barY=u.y-BR_UNIT_R-7;
+    ctx.fillStyle="rgba(0,0,0,.4)"; ctx.fillRect(u.x-w/2, barY, w, 4);
+    ctx.fillStyle = u.hp/u.maxHp>0.4 ? "#2ED573" : "#FF5C5C";
+    ctx.fillRect(u.x-w/2, barY, w*Math.max(0,u.hp/u.maxHp), 4);
+  });
+  if(brJoystick.active){
+    ctx.beginPath(); ctx.arc(brJoystick.baseX, brJoystick.baseY, 40, 0, Math.PI*2);
+    ctx.strokeStyle="rgba(255,255,255,.25)"; ctx.lineWidth=2; ctx.stroke();
+    ctx.beginPath(); ctx.arc(brJoystick.baseX+brJoystick.dx, brJoystick.baseY+brJoystick.dy, 16, 0, Math.PI*2);
+    ctx.fillStyle="rgba(255,255,255,.35)"; ctx.fill();
+  }
+}
+function brStep(){
+  if(!brRunning) return;
+  brZoneElapsed = Math.min(BR_ZONE_SHRINK_FRAMES, brZoneElapsed+1);
+  const t = brZoneElapsed/BR_ZONE_SHRINK_FRAMES;
+  brZone.r = BR_ZONE_R0 + (BR_ZONE_RMIN-BR_ZONE_R0)*t;
+  if(brDashTimer>0) brDashTimer--;
+  if(brDashCd>0){ brDashCd--; updateBrAbilityBtn(); }
+  const playerSpeed = BR_SPEED * (brDashTimer>0 ? BR_DASH_MULT : 1);
+  if(brJoystick.active && brPlayer.alive){
+    const mag = Math.hypot(brJoystick.dx, brJoystick.dy);
+    if(mag>4){
+      brPlayer.x += (brJoystick.dx/40)*playerSpeed;
+      brPlayer.y += (brJoystick.dy/40)*playerSpeed;
+      brClamp(brPlayer);
+    }
+  }
+  brUnits.forEach(u=>{
+    if(!u.alive) return;
+    if(u.atkCd>0) u.atkCd--;
+    if(!u.isPlayer){
+      const distToCenter = Math.hypot(u.x-brZone.cx, u.y-brZone.cy);
+      const outside = distToCenter > brZone.r - BR_UNIT_R;
+      if(outside){
+        const dx=brZone.cx-u.x, dy=brZone.cy-u.y, d=Math.hypot(dx,dy)||1;
+        u.x += (dx/d)*BR_SPEED; u.y += (dy/d)*BR_SPEED;
+        brClamp(u);
+      } else {
+        const target = brNearest(u);
+        if(target){
+          const dx=target.x-u.x, dy=target.y-u.y, dist=Math.hypot(dx,dy);
+          if(dist>BR_RANGE){ u.x+=(dx/dist)*BR_SPEED; u.y+=(dy/dist)*BR_SPEED; brClamp(u); }
+          else if(u.atkCd<=0){ brAttack(u,target); }
+        }
+      }
+    } else {
+      const target = brNearest(u);
+      if(target){
+        const dist = Math.hypot(target.x-u.x, target.y-u.y);
+        if(dist<=BR_RANGE && u.atkCd<=0) brAttack(u,target);
+      }
+    }
+  });
+  brZoneDmgTimer++;
+  if(brZoneDmgTimer>=BR_ZONE_TICK){
+    brZoneDmgTimer=0;
+    brUnits.forEach(u=>{
+      if(!u.alive) return;
+      const d = Math.hypot(u.x-brZone.cx, u.y-brZone.cy);
+      if(d>brZone.r){
+        u.hp -= BR_ZONE_DMG;
+        brFlashes.push({x:u.x, y:u.y, r:12, life:1, hue:"#FF5C5C"});
+        if(u.hp<=0){ u.hp=0; u.alive=false; }
+      }
+    });
+  }
+  brFlashes = brFlashes.filter(f=>{ f.life-=0.07; return f.life>0; });
+  updateBrHud();
+  brRender();
+  brCheckEnd();
+  if(brRunning) brRAF = requestAnimationFrame(brStep);
+}
+function brPointerPos(e){
+  const canvas = document.getElementById("br-canvas");
+  const rect = canvas.getBoundingClientRect();
+  return { x:(e.clientX-rect.left)*(canvas.width/rect.width), y:(e.clientY-rect.top)*(canvas.height/rect.height) };
+}
+function brBindInput(){
+  if(brInputBound) return;
+  brInputBound = true;
+  const canvas = document.getElementById("br-canvas");
+  canvas.addEventListener("pointerdown", e=>{
+    if(brJoyPointerId!==null) return;
+    brJoyPointerId = e.pointerId;
+    canvas.setPointerCapture(e.pointerId);
+    const p = brPointerPos(e);
+    brJoystick.active=true; brJoystick.baseX=p.x; brJoystick.baseY=p.y; brJoystick.dx=0; brJoystick.dy=0;
+  });
+  canvas.addEventListener("pointermove", e=>{
+    if(e.pointerId!==brJoyPointerId || !brJoystick.active) return;
+    const p = brPointerPos(e);
+    let dx=p.x-brJoystick.baseX, dy=p.y-brJoystick.baseY;
+    const dist=Math.hypot(dx,dy), max=40;
+    if(dist>max){ dx=dx/dist*max; dy=dy/dist*max; }
+    brJoystick.dx=dx; brJoystick.dy=dy;
+  });
+  const release = e=>{
+    if(e.pointerId!==brJoyPointerId) return;
+    brJoystick.active=false; brJoystick.dx=0; brJoystick.dy=0; brJoyPointerId=null;
+  };
+  canvas.addEventListener("pointerup", release);
+  canvas.addEventListener("pointercancel", release);
+}
+function startBR(){
+  document.getElementById("br-overlay").classList.remove("on");
+  const canvas = document.getElementById("br-canvas");
+  brCtx = canvas.getContext("2d");
+  brBindInput();
+  brUnits = [];
+  brUnits.push({id:"player", name:"Dulce Roja", icon:"❤️", isPlayer:true, x:BR_W/2, y:BR_H/2, hp:BR_MAX_HP, maxHp:BR_MAX_HP, atkCd:0, alive:true});
+  for(let i=0;i<BR_TOTAL-1;i++){
+    const ang = (i/(BR_TOTAL-1))*Math.PI*2;
+    const dist = 150+Math.random()*40;
+    brUnits.push({id:"bot"+i, name:`Rival ${i+1}`, icon:BR_ICONS[i%BR_ICONS.length], isPlayer:false,
+      x:BR_W/2+Math.cos(ang)*dist, y:BR_H/2+Math.sin(ang)*dist, hp:BR_MAX_HP, maxHp:BR_MAX_HP, atkCd:0, alive:true});
+  }
+  brPlayer = brUnits[0];
+  brZone = {cx:BR_W/2, cy:BR_H/2, r:BR_ZONE_R0};
+  brZoneElapsed = 0;
+  brZoneDmgTimer = 0;
+  brDashCd = 0; brDashTimer = 0;
+  brFlashes = [];
+  brJoystick = {active:false, baseX:0, baseY:0, dx:0, dy:0};
+  brJoyPointerId = null;
+  updateBrHud();
+  updateBrAbilityBtn();
+  brRunning = true;
+  if(brRAF) cancelAnimationFrame(brRAF);
+  brRAF = requestAnimationFrame(brStep);
+}
+
+/* ---------------- MAPA DE NIVELES ---------------- */
+function renderMap(){
+  const territory = TERRITORIES.find(t=>t.id===currentTerritory);
+  const levels = LEVELS_BY_TERRITORY[currentTerritory];
+  const titleEl = document.getElementById("map-title");
+  titleEl.textContent = territory.name;
+  titleEl.style.color = territory.hue;
+  const bannerEl = document.getElementById("territory-banner");
+  bannerEl.innerHTML = territory.banner;
+  bannerEl.style.background = `linear-gradient(135deg, ${territory.hue}26, ${territory.hue}14)`;
+  bannerEl.style.borderColor = `${territory.hue}4D`;
+  document.getElementById("screen-map").style.background =
+    `radial-gradient(ellipse at 50% -10%, color-mix(in srgb, ${territory.hue} 24%, var(--dark)) 0%, var(--dark) 70%)`;
+
+  const territoryStars = save.stars[currentTerritory] || {};
+  const unlockedLevel = save.unlocked[currentTerritory] || 1;
+  const grid = document.getElementById("level-grid");
+  grid.innerHTML = "";
+  let totalStars = 0;
+  levels.forEach(lv=>{
+    const stars = territoryStars[lv.n] || 0;
+    totalStars += stars;
+    const unlocked = lv.n <= unlockedLevel;
+    const div = document.createElement("div");
+    const isBoss = lv.n === TOTAL_LEVELS;
+    div.className = "level-node" + (unlocked? (stars>0?" cleared":"") : " locked") + (isBoss?" boss-level":"");
+    if(unlocked){
+      const best = getBestScore(currentTerritory, lv.n);
+      const bestHtml = best>0 ? `<div class="level-best">${best.toLocaleString()}</div>` : "";
+      const typeIcon = lv.type==="collect" ? `<div class="lv-type-badge">🍬</div>` : lv.type==="crystals" ? `<div class="lv-type-badge">✨</div>` : "";
+      div.innerHTML = isBoss
+        ? `<div class="level-num">👑</div>
+           <div class="level-stars">
+             <span class="s ${stars>=1?'on':''}">⭐</span>
+             <span class="s ${stars>=2?'on':''}">⭐</span>
+             <span class="s ${stars>=3?'on':''}">⭐</span>
+           </div>${bestHtml}`
+        : `${typeIcon}<div class="level-num">${lv.n}</div>
+           <div class="level-stars">
+             <span class="s ${stars>=1?'on':''}">⭐</span>
+             <span class="s ${stars>=2?'on':''}">⭐</span>
+             <span class="s ${stars>=3?'on':''}">⭐</span>
+           </div>${bestHtml}`;
+      div.onclick = isBoss ? ()=>showBossIntro(lv.n) : ()=>startLevel(lv.n);
+    } else {
+      div.innerHTML = isBoss
+        ? `<div class="lock-icon">👑</div><div class="level-num" style="font-size:12px;color:var(--gold)">Jefe</div>`
+        : `<div class="lock-icon">🔒</div><div class="level-num" style="font-size:15px">${lv.n}</div>`;
+    }
+    grid.appendChild(div);
+  });
+  document.getElementById("total-stars").textContent = totalStars;
+  confiteMapSay(totalStars);
+}
+const TERRITORY_CONFITE_GREET = {
+  1: "Este es nuestro primer territorio. Aquí empecé a recordar que existía...",
+  2: "Los cerezos de azúcar huelen a algo que no puedo nombrar. ¿Tú lo sientes?",
+  3: "Las agujas de fruta caramelizada... alguien las construyó con mucho amor.",
+  4: "El chocolate congelado. Aquí el Confitero Oscuro fue muy cruel.",
+  5: "El bosque de gominolas murmura cosas. Prefiero no escucharlas sola.",
+  6: "Las fogatas apagadas... ¿sabes que yo tampoco recuerdo cómo era tener frío?",
+  7: "Este lugar habla de quienes ya no están. Yo no sé si tengo a quién recordar.",
+  8: "La Capital de Cristal. Siento que vine aquí antes... antes de ser Confite."
+};
+function confiteMapSay(totalStars){
+  const bubble = document.getElementById("confite-bubble");
+  if(totalStars===0 && TERRITORY_CONFITE_GREET[currentTerritory]){
+    bubble.textContent = TERRITORY_CONFITE_GREET[currentTerritory];
+    return;
+  }
+  const msgs = totalStars<10
+    ? "¡Vas muy bien! Cada nivel le devuelve un poco de color a este lugar."
+    : totalStars<25
+    ? "El territorio ya casi recupera su brillo. ¡Sigue así!"
+    : "¡Casi restauras todo! Dulcelandia te lo agradece.";
+  bubble.textContent = msgs;
+}
+
+/* ---------------- INICIO DE NIVEL ---------------- */
+const CANDY_NAMES = ["bombones","ositos","gomitas","piruletas","espirales","corazones"];
+const BOSS_LEVEL_NAMES = {
+  1: "El Último Carmesí",
+  2: "La Flor de Mochi Eterno",
+  3: "La Aguja del Cielo",
+  4: "El Corazón de Cacao",
+  5: "El Árbol de Gominola Ancestral",
+  6: "La Última Fogata",
+  7: "La Calavera de Azúcar Sagrada",
+  8: "El Cristal que se Rompió a sí Mismo"
+};
+function objectiveText(c){
+  if(c.type==="collect") return `Meta: recolecta ${c.target} ${CANDY_NAMES[c.color]}`;
+  if(c.type==="crystals") return `Meta: activa ${c.target} Cristales ✨`;
+  return `Meta: ${c.goal.toLocaleString()} pts`;
+}
+function checkWin(){
+  if(cur.type==="collect" || cur.type==="crystals") return cur.progress >= cur.target;
+  return cur.score >= cur.goal;
+}
+function startLevel(n){
+  const lv = LEVELS_BY_TERRITORY[currentTerritory][n-1];
+  const type = lv.type || "score";
+  cur = { n: lv.n, type, goal: lv.goal, target: lv.target, color: lv.color,
+          movesLeft: lv.moves, movesMax: lv.moves,
+          cols: lv.cols, rows: 8, score: 0, progress: 0, cascade:0, done:false, boostUsed:false, rainbowUsed:false, bombUsed:false, isDaily:false };
+  rainbowActive = false;
+  save.lastTerritory = currentTerritory;
+  persistSave();
+  document.getElementById("overlay").classList.remove("on");
+  document.getElementById("pause-overlay").classList.remove("on");
+  pauseOpen = false;
+  const isBoss2 = (n===TOTAL_LEVELS);
+  document.getElementById("hud-level").textContent = isBoss2 ? "👑" : lv.n;
+  // Obstacle count shown after buildGrid() sets up obstacles — update after init
+  document.getElementById("objective-bar").textContent = isBoss2
+    ? `👑 ${BOSS_LEVEL_NAMES[currentTerritory]||"Nivel Jefe"} · ${objectiveText(cur)}`
+    : objectiveText(cur);
+  updateHud();
+  const isBossLevel = (n===TOTAL_LEVELS);
+  let startMsg;
+  if(isBossLevel) startMsg = "¡El nivel jefe! El más difícil del territorio. ¡Dalo todo!";
+  else if(cur.type==="collect") startMsg = `Recolecta ${cur.target} ${CANDY_NAMES[cur.color]}. Los rayados limpian filas enteras.`;
+  else if(cur.type==="crystals") startMsg = "Conecta los Cristales ✨ con cascadas. ¡Son poderosos!";
+  else startMsg = cur.score===0 && cur.goal>3000 ? "Nivel exigente. Las cascadas multiplican los puntos. ¡Piensa antes de mover!" : "¡Nuevo nivel! Haz tu primer movimiento.";
+  setConfiteGame(startMsg);
+  setConfiteMood(isBossLevel ? "worried" : "happy");
+  const terr = TERRITORIES.find(t=>t.id===currentTerritory);
+  document.getElementById("screen-game").style.background = isBossLevel
+    ? `radial-gradient(ellipse at 50% -10%, color-mix(in srgb, ${terr.hue} 40%, #000) 0%, #050510 70%)`
+    : `radial-gradient(ellipse at 50% -10%, color-mix(in srgb, ${terr.hue} 20%, var(--dark)) 0%, var(--dark) 70%)`;
+  buildGrid();
+  // Show obstacle count after grid init
+  const obsCount = obstacles.flat().filter(v=>v>0).length;
+  if(obsCount>0){
+    const bar = document.getElementById("objective-bar");
+    bar.textContent = bar.textContent + ` · 🍫×${obsCount} bloques`;
+    if(!save.obstacleTutorialSeen){
+      save.obstacleTutorialSeen=true; persistSave();
+      setTimeout(()=>{
+        setConfiteGame(`¡Bloques de chocolate! Los matches adyacentes los dañan. ¡${obsCount} bloques en este nivel!`);
+        setConfiteMood("worried");
+      }, 600);
+    }
+  }
+  goTo("game");
+  maybeShowTutorial();
+}
+let tutorialOpen = false;
+function maybeShowTutorial(){
+  if(save.tutorialSeen) return;
+  tutorialOpen = true;
+  document.getElementById("tutorial-overlay").classList.add("on");
+}
+function dismissTutorial(){
+  tutorialOpen = false;
+  save.tutorialSeen = true;
+  persistSave();
+  document.getElementById("tutorial-overlay").classList.remove("on");
+}
+
+let pauseOpen = false;
+function openPause(){
+  if(cur.done || tutorialOpen || busy) return;
+  pauseOpen = true;
+  renderPauseSettings();
+  document.getElementById("pause-overlay").classList.add("on");
+}
+function closePause(){
+  pauseOpen = false;
+  document.getElementById("pause-overlay").classList.remove("on");
+}
+function renderPauseSettings(){
+  const muted = !!save.muted;
+  document.getElementById("pause-mute-label").textContent = muted ? "🔇 Sonido desactivado" : "🔊 Sonido activado";
+  document.getElementById("pause-mute-toggle").classList.toggle("on", !muted);
+  renderPauseBomb();
+  renderPauseBoost();
+  renderPauseRainbow();
+}
+const MOVES_BOOST_COST = 30;
+const RAINBOW_COST = 60;
+const BOMB_COST = 40;
+function renderPauseBomb(){
+  const row = document.getElementById("pause-bomb-row");
+  const sub = document.getElementById("pause-bomb-sub");
+  if(!row) return;
+  if(cur.bombUsed){
+    row.style.opacity = ".4"; row.style.cursor = "default"; row.onclick = null;
+    sub.textContent = "Ya usado en este nivel";
+  } else if((save.coins||0) < BOMB_COST){
+    row.style.opacity = ".5"; row.style.cursor = "default"; row.onclick = null;
+    sub.textContent = `🍯 ${BOMB_COST} · necesitas ${BOMB_COST-(save.coins||0)} más`;
+  } else {
+    row.style.opacity = "1"; row.style.cursor = "pointer"; row.onclick = activateBomb;
+    sub.textContent = `🍯 ${BOMB_COST} · destruye un área 3×3`;
+  }
+}
+function renderPauseBoost(){
+  const row = document.getElementById("pause-boost-row");
+  const sub = document.getElementById("pause-boost-sub");
+  if(cur.boostUsed){
+    row.style.opacity = ".4"; row.style.cursor = "default"; row.onclick = null;
+    sub.textContent = "Ya usado en este nivel";
+  } else {
+    row.style.opacity = "1"; row.style.cursor = "pointer"; row.onclick = buyMoves;
+    sub.textContent = `🍯 ${MOVES_BOOST_COST} · una vez por nivel`;
+  }
+}
+function renderPauseRainbow(){
+  const row = document.getElementById("pause-rainbow-row");
+  const sub = document.getElementById("pause-rainbow-sub");
+  if(!row) return;
+  if(cur.rainbowUsed){
+    row.style.opacity = ".4"; row.style.cursor = "default"; row.onclick = null;
+    sub.textContent = "Ya usado en este nivel";
+  } else if((save.coins||0) < RAINBOW_COST){
+    row.style.opacity = ".5"; row.style.cursor = "default"; row.onclick = null;
+    sub.textContent = `🍯 ${RAINBOW_COST} · necesitas ${RAINBOW_COST-(save.coins||0)} más`;
+  } else {
+    row.style.opacity = "1"; row.style.cursor = "pointer"; row.onclick = activateRainbow;
+    sub.textContent = `🍯 ${RAINBOW_COST} · borra todos los del color que elijas`;
+  }
+}
+function buyMoves(){
+  if(cur.boostUsed) return;
+  if((save.coins||0) < MOVES_BOOST_COST){
+    setConfiteGame(`Necesito ${MOVES_BOOST_COST-(save.coins||0)} 🍯 más para esto.`);
+    return;
+  }
+  save.coins -= MOVES_BOOST_COST;
+  cur.boostUsed = true;
+  cur.movesLeft += 5;
+  persistSave();
+  updateHud();
+  renderPauseBoost();
+  setConfiteGame("¡Ahí tienes 5 movimientos más!");
+  setConfiteMood("excited");
+}
+
+/* ---------------- TABLERO ---------------- */
+const CANDY_IDS = ["candy-0","candy-1","candy-2","candy-3","candy-4","candy-5","candy-special"];
+const COLORCLASS = ["c0","c1","c2","c3","c4","c5","cS"];
+const SPECIAL = 6;
+
+function rnd(n){ return Math.floor(Math.random()*n); }
+function randType(){ return Math.random()<0.05 ? SPECIAL : rnd(6); }
+
+/* stripes[r][c] = null | 'H' | 'V' */
+let stripes = [];
+function initStripes(){ stripes = Array.from({length:cur.rows},()=>Array(cur.cols).fill(null)); }
+
+/* obstacles[r][c] = 0 (clear) | 1 | 2 (HP — chocolate blocks) */
+let obstacles = [];
+function initObstacles(){
+  obstacles = Array.from({length:cur.rows},()=>Array(cur.cols).fill(0));
+  if(cur.isDaily || cur.isSurvival || !currentTerritory) return;
+  const t=currentTerritory, n=cur.n;
+  if(t<4 || n<5) return; // only territory 4+ from level 5+
+  const count = Math.min(Math.floor((t-3)*0.8 + (n-5)*0.4 + 1), 6);
+  const hp = t>=6 ? 2 : 1;
+  // Seeded pseudo-random placement
+  const seed = t*97 + n*31;
+  const pseudo=(i)=>(((seed*1664525+i*22695477+1013904223)>>>0)/4294967296);
+  const used=new Set();
+  for(let i=0; used.size<count && i<count*20; i++){
+    const r=1+Math.floor(pseudo(i*2)*(cur.rows-2));
+    const c=Math.floor(pseudo(i*2+1)*cur.cols);
+    const k=r*cur.cols+c;
+    if(!used.has(k)){ used.add(k); obstacles[r][c]=hp; }
+  }
+}
+function processObstacleDamage(clearedCells){
+  const DIRS=[[-1,0],[1,0],[0,-1],[0,1]];
+  const seen=new Set(); let cleared=0;
+  clearedCells.forEach(({r,c})=>{
+    DIRS.forEach(([dr,dc])=>{
+      const nr=r+dr, nc=c+dc;
+      if(nr<0||nr>=cur.rows||nc<0||nc>=cur.cols) return;
+      if(!obstacles[nr]||obstacles[nr][nc]<=0) return;
+      const k=nr*cur.cols+nc;
+      if(seen.has(k)) return;
+      seen.add(k);
+      obstacles[nr][nc]--;
+      const el=cellEl(nr,nc);
+      if(el){ el.classList.add("obstacle-hit"); setTimeout(()=>{ const e2=cellEl(nr,nc); if(e2) e2.classList.remove("obstacle-hit"); renderGrid(); }, 380); }
+      if(obstacles[nr][nc]===0){ cleared++; cur.score+=200; }
+    });
+  });
+  if(cleared>0){
+    playBuild();
+    popCombo(cleared*200,1,`🍫×${cleared} ¡Chocolate destruido!`);
+    save.chocolateDestroyed = (save.chocolateDestroyed||0) + cleared;
+    persistSave();
+    checkAchievements();
+  }
+}
+function swapStripes(r1,c1,r2,c2){
+  if(!stripes.length) return;
+  [stripes[r1][c1], stripes[r2][c2]] = [stripes[r2][c2], stripes[r1][c1]];
+}
+function clearStripeAt(r,c){ if(stripes[r]) stripes[r][c]=null; }
+function gravityStripes(){
+  for(let c=0;c<cur.cols;c++){
+    let col=[];
+    for(let r=cur.rows-1;r>=0;r--) if(board[r][c]!==-1) col.push(stripes[r][c]);
+    while(col.length<cur.rows) col.push(null);
+    for(let r=cur.rows-1;r>=0;r--) stripes[r][c]=col[cur.rows-1-r];
+  }
+}
+function checkAndCreateStripe(matchedCells, destR, destC){
+  /* If the player's move created a match-4+ in a row → H stripe
+     If match-4+ in a column → V stripe, placed at destination cell */
+  const rowCounts={}, colCounts={};
+  matchedCells.forEach(({r,c})=>{
+    rowCounts[r]=(rowCounts[r]||0)+1;
+    colCounts[c]=(colCounts[c]||0)+1;
+  });
+  for(const r in rowCounts){ if(rowCounts[r]>=4){ if(stripes[destR]){ stripes[destR][destC]='H'; save.stripesCreated=(save.stripesCreated||0)+1; persistSave(); _stripeCreatedReact(); } return; } }
+  for(const c in colCounts){ if(colCounts[c]>=4){ if(stripes[destR]){ stripes[destR][destC]='V'; save.stripesCreated=(save.stripesCreated||0)+1; persistSave(); _stripeCreatedReact(); } return; } }
+}
+function _stripeCreatedReact(){
+  const pool=CONFITE_LINES.stripeCreated;
+  setTimeout(()=>{
+    setConfiteGame(pool[rnd(pool.length)]); setConfiteMood("excited"); bounceConfite();
+    if(!save.stripeTutorialSeen){ save.stripeTutorialSeen=true; persistSave(); showStripeTutorial(); }
+  }, 350);
+}
+function showStripeTutorial(){
+  const div=document.createElement("div");
+  div.className="stripe-tip";
+  div.innerHTML=`<div style="font-size:22px">⚡</div><div><b>¡Caramelo Rayado!</b><br>Combínalo con otros del mismo color para que limpie toda la fila o columna de golpe.</div>`;
+  div.onclick=()=>div.remove();
+  document.getElementById("grid-wrap").appendChild(div);
+  setTimeout(()=>div&&div.remove(), 5000);
+}
+
+function buildGrid(){
+  const gridEl = document.getElementById("grid");
+  gridEl.style.gridTemplateColumns = `repeat(${cur.cols}, 1fr)`;
+  gridEl.style.gap = cur.cols>=8 ? "3px" : "4px";
+  board = Array.from({length:cur.rows},()=>Array.from({length:cur.cols},()=>randType()));
+  while(findMatches().length>0 || !hasPossibleMove()){
+    board = Array.from({length:cur.rows},()=>Array.from({length:cur.cols},()=>randType()));
+  }
+  initStripes();
+  initObstacles();
+  sel = null; busy = false;
+  renderGrid();
+  resetHintTimer();
+}
+
+function renderGrid(){
+  const gridEl = document.getElementById("grid");
+  gridEl.innerHTML = "";
+  for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols;c++){
+    const t = board[r][c];
+    const div = document.createElement("div");
+    div.className = "cell " + COLORCLASS[t];
+    if(cur.cols>=8) div.style.borderRadius="7px";
+    div.innerHTML = `<svg class="candy-icon" viewBox="0 0 64 64"><use href="#${CANDY_IDS[t]}"></use></svg>`;
+    div.dataset.r=r; div.dataset.c=c;
+    div.onclick = ()=>onCellClick(r,c);
+    if(sel && sel[0]===r && sel[1]===c) div.classList.add("selected");
+    if(stripes.length && stripes[r] && stripes[r][c]==='H') div.classList.add("stripe-h");
+    if(stripes.length && stripes[r] && stripes[r][c]==='V') div.classList.add("stripe-v");
+    if(obstacles.length && obstacles[r] && obstacles[r][c]>0) div.classList.add(`obstacle-${obstacles[r][c]}`);
+    gridEl.appendChild(div);
+  }
+}
+function cellEl(r,c){ return document.getElementById("grid").children[r*cur.cols+c]; }
+
+function onCellClick(r,c){
+  if(busy || cur.done || tutorialOpen || pauseOpen) return;
+  resetHintTimer();
+  if(bombActive){
+    bombActive = false;
+    document.querySelectorAll(".cell").forEach(el=>el.classList.remove("bomb-glow"));
+    useBombAt(r,c);
+    return;
+  }
+  if(rainbowActive){
+    rainbowActive = false;
+    const colorType = board[r][c];
+    if(colorType<0) return;
+    useRainbowOnColor(colorType);
+    return;
+  }
+  if(!sel){ sel=[r,c]; renderGrid(); return; }
+  const [sr,sc]=sel;
+  if(sr===r&&sc===c){ sel=null; renderGrid(); return; }
+  if(Math.abs(sr-r)+Math.abs(sc-c)!==1){ sel=[r,c]; renderGrid(); return; }
+  sel=null; renderGrid();
+  doSwap(sr,sc,r,c);
+}
+
+async function doSwap(r1,c1,r2,c2){
+  busy = true;
+  swapCells(r1,c1,r2,c2); swapStripes(r1,c1,r2,c2); renderGrid();
+  await delay(160);
+  const m = findMatches();
+  if(m.length===0){
+    swapCells(r1,c1,r2,c2); swapStripes(r1,c1,r2,c2); renderGrid();
+    await delay(160);
+    busy = false;
+    return;
+  }
+  cur.movesLeft--; cur.cascade=0;
+  checkAndCreateStripe(m, r2, c2);
+  await processCascade();
+  updateHud();
+  if(checkWin()){ finishLevel(true); return; }
+  if(cur.movesLeft<=0){ finishLevel(false); return; }
+  busy = false;
+}
+
+async function processCascade(){
+  let matched = findMatches();
+  while(matched.length>0){
+    const key = (r,c)=> r*cur.cols+c;
+    const cellSet = new Set(matched.map(({r,c})=>key(r,c)));
+    // los especiales dentro del match activan un Estallido de Cristal: limpian toda su fila
+    const burstCells = [];
+    let burstTriggers = 0;
+    let stripeTriggers = 0;
+    matched.forEach(({r,c})=>{
+      if(board[r][c]===SPECIAL){
+        burstTriggers++;
+        for(let cc=0; cc<cur.cols; cc++){
+          const k = key(r,cc);
+          if(!cellSet.has(k)){ cellSet.add(k); burstCells.push({r,c:cc}); }
+        }
+      }
+      // Striped candy triggers
+      if(stripes.length && stripes[r] && stripes[r][c]){
+        stripeTriggers++;
+        if(stripes[r][c]==='H'){
+          for(let cc=0;cc<cur.cols;cc++){
+            const k=key(r,cc);
+            if(!cellSet.has(k)){ cellSet.add(k); burstCells.push({r,c:cc}); }
+          }
+        } else if(stripes[r][c]==='V'){
+          for(let rr=0;rr<cur.rows;rr++){
+            const k=key(rr,c);
+            if(!cellSet.has(k)){ cellSet.add(k); burstCells.push({r:rr,c}); }
+          }
+        }
+        clearStripeAt(r,c);
+      }
+    });
+    if(burstTriggers>0){
+      save.crystalsActivated = (save.crystalsActivated||0) + burstTriggers;
+      persistSave();
+    }
+    const allCells = [...cellSet].map(k=>({r:Math.floor(k/cur.cols), c:k%cur.cols}));
+    // Clear stripes for all cells being removed
+    allCells.forEach(({r,c})=>clearStripeAt(r,c));
+    // Damage adjacent obstacle cells
+    processObstacleDamage(allCells);
+
+    if(cur.type==="collect"){
+      allCells.forEach(({r,c})=>{ if(board[r][c]===cur.color) cur.progress++; });
+    } else if(cur.type==="crystals"){
+      matched.forEach(({r,c})=>{ if(board[r][c]===SPECIAL) cur.progress++; });
+    }
+
+    const basePts = matched.length*(matched.length>=5?150:matched.length>=4?100:50);
+    const bonusPts = burstCells.length*30;
+    const pts = basePts + bonusPts;
+    cur.score += pts; cur.cascade++;
+    if(cur.cascade > (save.bestCascade||0)){ save.bestCascade = cur.cascade; persistSave(); }
+    if(cur.isSurvival){ addSurvivalTime(matched.length, cur.cascade); }
+    if(stripeTriggers>0 && burstTriggers>0){
+      popCombo(pts, cur.cascade, "⚡✨ ¡Combo especial!"); playCrystal();
+      setConfiteGame(CONFITE_LINES.stripeExplode[rnd(CONFITE_LINES.stripeExplode.length)]); setConfiteMood("celebrate"); bounceConfite();
+    } else if(stripeTriggers>0){
+      popCombo(pts, cur.cascade, "⚡ ¡Explosión!"); playPop();
+      setConfiteGame(CONFITE_LINES.stripeExplode[rnd(CONFITE_LINES.stripeExplode.length)]); setConfiteMood("excited"); bounceConfite();
+    } else if(burstCells.length>0){ popCombo(pts, cur.cascade, "✨ ¡Cristal activado!"); playCrystal(); setConfiteGame(CONFITE_LINES.crystalBurst[rnd(CONFITE_LINES.crystalBurst.length)]); setConfiteMood("excited"); bounceConfite(); }
+    else if(pts>=150 || cur.cascade>=2) popCombo(pts, cur.cascade);
+    playPop();
+    allCells.forEach(({r,c})=>{ const el=cellEl(r,c); if(el) el.classList.add("matched"); });
+    await delay(260);
+    allCells.forEach(({r,c})=>{ board[r][c] = -1; });
+    applyGravity(); renderGrid();
+    await delay(220);
+    fillEmpty(); renderGrid();
+    await delay(220);
+    matched = findMatches();
+  }
+  updateHud();
+  if(cur.cascade>=2 || cur.movesLeft<=5) reactConfite();
+  if(!hasPossibleMove()){
+    setConfiteGame("¡No hay movimientos! Barajeo el tablero...");
+    setConfiteMood("worried");
+    playShuffle();
+    document.querySelectorAll(".cell").forEach((el,i)=>{
+      setTimeout(()=>{ el.style.transform="scale(0.7) rotate(10deg)"; el.style.opacity="0.5"; }, i*8);
+      setTimeout(()=>{ el.style.transform=""; el.style.opacity=""; }, i*8+350);
+    });
+    await delay(500);
+    shuffleBoard();
+    renderGrid();
+    setConfiteGame("¡Listo! Ahora debería haber movimientos.");
+    setConfiteMood("happy");
+    await delay(300);
+  }
+}
+
+function hasPossibleMove(){
+  for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols;c++){
+    if(c<cur.cols-1){
+      swapCells(r,c,r,c+1);
+      const m = findMatches();
+      swapCells(r,c,r,c+1);
+      if(m.length>0) return true;
+    }
+    if(r<cur.rows-1){
+      swapCells(r,c,r+1,c);
+      const m = findMatches();
+      swapCells(r,c,r+1,c);
+      if(m.length>0) return true;
+    }
+  }
+  return false;
+}
+function shuffleBoard(){
+  const flat = board.flat();
+  let attempts = 0;
+  do{
+    for(let i=flat.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [flat[i],flat[j]]=[flat[j],flat[i]]; }
+    let idx=0;
+    for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols;c++) board[r][c]=flat[idx++];
+    attempts++;
+  } while((findMatches().length>0 || !hasPossibleMove()) && attempts<200);
+  initStripes(); // reset stripes on shuffle
+  initObstacles(); // reset obstacles on shuffle
+}
+
+/* ---------- HINT SYSTEM ---------- */
+let hintTimerId = null;
+let hintCells = [];
+function findHint(){
+  for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols;c++){
+    if(c<cur.cols-1){
+      swapCells(r,c,r,c+1);
+      const m=findMatches();
+      swapCells(r,c,r,c+1);
+      if(m.length>0) return {r1:r,c1:c,r2:r,c2:c+1};
+    }
+    if(r<cur.rows-1){
+      swapCells(r,c,r+1,c);
+      const m=findMatches();
+      swapCells(r,c,r+1,c);
+      if(m.length>0) return {r1:r,c1:c,r2:r+1,c2:c};
+    }
+  }
+  return null;
+}
+function showHint(){
+  clearHint();
+  const h = findHint();
+  if(!h) return;
+  const a=cellEl(h.r1,h.c1), b=cellEl(h.r2,h.c2);
+  if(a) a.classList.add("hint-pulse");
+  if(b) b.classList.add("hint-pulse");
+  hintCells=[a,b];
+}
+function clearHint(){
+  hintCells.forEach(el=>el&&el.classList.remove("hint-pulse"));
+  hintCells=[];
+}
+function resetHintTimer(){
+  clearHint();
+  clearTimeout(hintTimerId);
+  if(cur && !cur.done && !cur.isSurvival)
+    hintTimerId = setTimeout(showHint, 8000);
+}
+
+function findMatches(){
+  const found = new Set();
+  for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols-2;c++){
+    const t=board[r][c];
+    if(board[r][c+1]===t && board[r][c+2]===t){
+      let k=c; while(k<cur.cols && (board[r][k]===t||board[r][k]===SPECIAL)) found.add(r*cur.cols+(k++));
+    }
+  }
+  for(let c=0;c<cur.cols;c++) for(let r=0;r<cur.rows-2;r++){
+    const t=board[r][c];
+    if(board[r+1][c]===t && board[r+2][c]===t){
+      let k=r; while(k<cur.rows && (board[k][c]===t||board[k][c]===SPECIAL)) found.add((k++)*cur.cols+c);
+    }
+  }
+  return [...found].map(i=>({r:Math.floor(i/cur.cols), c:i%cur.cols}));
+}
+function swapCells(r1,c1,r2,c2){ [board[r1][c1],board[r2][c2]]=[board[r2][c2],board[r1][c1]]; }
+function applyGravity(){
+  for(let c=0;c<cur.cols;c++){
+    let col=[], scol=[];
+    for(let r=cur.rows-1;r>=0;r--) if(board[r][c]!==-1){
+      col.push(board[r][c]);
+      scol.push(stripes.length && stripes[r] ? stripes[r][c] : null);
+    }
+    while(col.length<cur.rows){ col.push(-1); scol.push(null); }
+    for(let r=cur.rows-1;r>=0;r--){
+      board[r][c] = col[cur.rows-1-r];
+      if(stripes.length && stripes[r]) stripes[r][c] = scol[cur.rows-1-r];
+    }
+  }
+}
+function fillEmpty(){
+  for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols;c++){
+    if(board[r][c]===-1){
+      board[r][c]=randType();
+      if(stripes.length && stripes[r]) stripes[r][c]=null;
+    }
+  }
+}
+function delay(ms){ return new Promise(res=>setTimeout(res,ms)); }
+
+/* ---------------- HUD / RESULTADO ---------------- */
+function updateHud(){
+  const movEl = document.getElementById("hud-moves");
+  movEl.textContent = cur.movesLeft;
+  const critical = !cur.isSurvival && cur.movesLeft <= 3 && cur.movesLeft > 0;
+  movEl.classList.toggle("moves-critical", critical);
+  document.getElementById("hud-score").textContent = cur.score.toLocaleString();
+  const pct = (cur.type==="collect" || cur.type==="crystals")
+    ? Math.min(100, Math.round(cur.progress/cur.target*100))
+    : Math.min(100, Math.round(cur.score/cur.goal*100));
+  document.getElementById("progress-fill").style.width = pct+"%";
+}
+function popCombo(pts,streak,label){
+  const div = document.createElement("div");
+  div.className = "combo-pop";
+  div.textContent = label ? `${label}  +${pts}` : (streak>=2 ? `⚡ x${streak} combo  +${pts}` : `+${pts}`);
+  document.getElementById("grid-wrap").appendChild(div);
+  setTimeout(()=>div.remove(),850);
+}
+function calcStars(){
+  if(cur.type==="score"){
+    if(cur.score >= cur.goal*2) return 3;
+    if(cur.score >= cur.goal*1.5) return 2;
+    if(cur.score >= cur.goal) return 1;
+    return 0;
+  }
+  // objetivos de recolección/cristales: estrellas según movimientos sobrantes al cumplir la meta
+  const remainingRatio = cur.movesLeft / cur.movesMax;
+  if(remainingRatio >= 0.4) return 3;
+  if(remainingRatio >= 0.15) return 2;
+  return 1;
+}
+function finishLevel(won){
+  cur.done = true;
+  clearHint(); clearTimeout(hintTimerId);
+  pauseOpen = false;
+  document.getElementById("pause-overlay").classList.remove("on");
+  const overlay = document.getElementById("overlay");
+  const stars = won ? calcStars() : 0;
+  if(won){
+    playWin();
+    spawnConfetti();
+    let coinsEarned = 20 + stars*10;
+    // Daily challenge reward
+    if(cur.isDaily){
+      coinsEarned = 100;
+      const todayKey = getDailyKey();
+      save.dailyChallenge = { date: todayKey, done: true };
+      // Streak tracking
+      if(!save.lastDailyDate){
+        save.dailyStreak = 1;
+      } else {
+        const last = new Date(save.lastDailyDate);
+        const today = new Date(todayKey);
+        const diff = Math.round((today-last)/(1000*60*60*24));
+        save.dailyStreak = diff===1 ? (save.dailyStreak||0)+1 : diff===0 ? (save.dailyStreak||1) : 1;
+      }
+      save.lastDailyDate = todayKey;
+      if(save.dailyStreak>=3){
+        const bonus = Math.floor(save.dailyStreak/3)*10;
+        coinsEarned += bonus;
+        // Show streak bonus message briefly
+        setTimeout(()=>{ popCombo(bonus, 1, `🔥 ¡Racha de ${save.dailyStreak} días! Bonus`); }, 900);
+      }
+    } else {
+      // Save best score
+      if(!save.bestScores) save.bestScores = {};
+      const bsKey = `${currentTerritory}_${cur.n}`;
+      if(cur.score > (save.bestScores[bsKey]||0)) save.bestScores[bsKey] = cur.score;
+    }
+    save.coins = (save.coins||0) + coinsEarned;
+    document.getElementById("overlay-icon").textContent = cur.isDaily ? "⭐" : "🏆";
+    document.getElementById("overlay-title").textContent = cur.isDaily ? "¡Desafío Completado!" : "¡Nivel completado!";
+    let progressText = cur.type==="collect" ? `${cur.progress}/${cur.target} recolectados`
+      : cur.type==="crystals" ? `${cur.progress}/${cur.target} Cristales activados`
+      : `${cur.score.toLocaleString()} puntos`;
+    document.getElementById("overlay-sub").innerHTML = `${progressText} · <span style="color:var(--gold);font-weight:600">+${coinsEarned} 🍯</span>`;
+    if(!cur.isDaily){
+      if(!save.stars[currentTerritory]) save.stars[currentTerritory] = {};
+      save.stars[currentTerritory][cur.n] = Math.max(save.stars[currentTerritory][cur.n]||0, stars);
+      const unlockedLevel = save.unlocked[currentTerritory] || 1;
+      if(cur.n >= unlockedLevel) save.unlocked[currentTerritory] = cur.n+1;
+    }
+    persistSave();
+    checkAchievements();
+    const isBoss = (cur.n===TOTAL_LEVELS && !cur.isDaily);
+    // Story moments: certain territory/level combos trigger a lore reveal
+    const storyKey = `${currentTerritory}_${cur.n}`;
+    const STORY_MOMENTS = {
+      "1_5":  "Algo en este color me despierta un recuerdo. Incompleto, pero real.",
+      "2_5":  "Olí algo parecido al aroma de aquí... antes de existir. ¿Es eso posible?",
+      "3_10": "Las Torres... yo estuve aquí antes. No como Confite. Como otra cosa.",
+      "4_5":  "El frío del chocolate me recuerda el momento antes de fragmentarse el Cristal.",
+      "5_7":  "Las voces del bosque dicen mi nombre real. No el que me diste.",
+      "6_5":  "Las fogatas me recuerdan algo que ardió y nunca se apagó del todo.",
+      "7_7":  "Este lugar honra a los que ya no están. Yo también soy alguien que ya no está... pero sigo aquí.",
+      "8_5":  "Ya sé lo que pasó. El Cristal no se rompió por accidente. Se partió a sí mismo... para crear algo.",
+    };
+    const storyLine = !cur.isDaily && STORY_MOMENTS[storyKey];
+    if(storyLine && !(save.unlockedStories||{})[storyKey]){
+      if(!save.unlockedStories) save.unlockedStories = {};
+      save.unlockedStories[storyKey] = storyLine;
+      persistSave();
+    }
+    const winMsg = cur.isDaily ? "¡Desafío del día superado! Hasta mañana."
+      : storyLine ? storyLine
+      : isBoss ? "¡¡NIVEL JEFE VENCIDO!! Eso fue INCREÍBLE."
+      : "¡LO LOGRASTE! Sabía que podías.";
+    setConfiteGame(winMsg);
+    if(storyLine) setConfiteMood("worried"); else
+    setConfiteMood("celebrate");
+    if(isBoss){ document.getElementById("overlay-icon").textContent = "👑"; document.getElementById("overlay-title").textContent = "¡Nivel Jefe Superado!"; }
+    document.getElementById("overlay-main-btn").textContent = cur.isDaily ? "Volver al mapa" : (cur.n < TOTAL_LEVELS ? "Siguiente nivel" : "Volver al mapa");
+  } else {
+    playLose();
+    document.getElementById("overlay-icon").textContent = "💔";
+    document.getElementById("overlay-title").textContent = "Sin movimientos";
+    document.getElementById("overlay-sub").textContent = cur.type==="collect" ? `Recolectaste ${cur.progress} de ${cur.target}`
+      : cur.type==="crystals" ? `Activaste ${cur.progress} de ${cur.target} Cristales`
+      : `Llegaste a ${cur.score.toLocaleString()} de ${cur.goal.toLocaleString()}`;
+    setConfiteGame("Casi... ¿lo intentamos de nuevo?");
+    setConfiteMood("sad");
+    document.getElementById("overlay-main-btn").textContent = "Reintentar";
+  }
+  const starsEls = document.querySelectorAll("#overlay-stars .s");
+  starsEls.forEach(el=>el.classList.remove("on"));
+  // Continue button: show on loss if player has coins and not daily/survival
+  const contBtn = document.getElementById("overlay-continue-btn");
+  const CONTINUE_COST = 50;
+  if(!won && !cur.isDaily && !cur.isSurvival && (save.coins||0) >= CONTINUE_COST){
+    contBtn.textContent = `🍯 Continuar · ${CONTINUE_COST} monedas (+5 movimientos)`;
+    contBtn.style.display = "";
+  } else {
+    contBtn.style.display = "none";
+  }
+  overlay.classList.add("on");
+  if(won){
+    starsEls.forEach((el,i)=>{
+      if(i<stars) setTimeout(()=>{ el.classList.add("on"); playBuild&&playBuild(); }, 300+i*220);
+    });
+  }
+}
+const CONTINUE_COST = 50;
+function continueGame(){
+  if((save.coins||0) < CONTINUE_COST) return;
+  save.coins -= CONTINUE_COST;
+  persistSave();
+  cur.done = false;
+  cur.movesLeft += 5;
+  document.getElementById("overlay").classList.remove("on");
+  document.getElementById("overlay-continue-btn").style.display = "none";
+  updateHud();
+  setConfiteGame("¡5 movimientos extra! ¡Aprovéchalos bien!");
+  setConfiteMood("excited");
+  bounceConfite();
+  busy = false;
+  resetHintTimer();
+}
+function retryOrNext(){
+  if(cur.isSurvival){
+    startSurvival(); return;
+  }
+  if(cur.isDaily){
+    exitToMap(); return;
+  }
+  if(cur.done && checkWin() && cur.n<TOTAL_LEVELS){
+    startLevel(cur.n+1);
+  } else if(cur.done && checkWin()){
+    exitToMap();
+  } else {
+    startLevel(cur.n);
+  }
+}
+
+/* ---------------- SKINS DE CONFITE ---------------- */
+const CONFITE_SKINS = [
+  {id:"default",  name:"Clásico",    icon:"🩷", desc:"El Confite de siempre. Puro caramelo.", cost:0,
+   ears:"#FF8FB0", earInner:"#FFC2D4", body:"url(#confiteBody)", cheeks:"#FF9FBB", eye:"#2A1430"},
+  {id:"nocturno", name:"Nocturno",   icon:"🌑", desc:"Aparece cuando Dulcelandia duerme.", cost:80,
+   ears:"#3A2878", earInner:"#5A4298", body:"#2C2060", cheeks:"#4A35A0", eye:"#7FD8E8"},
+  {id:"dorado",   name:"Dorado",     icon:"✨", desc:"Brilla con la luz del Cristal de Azúcar.", cost:150,
+   ears:"#D4960A", earInner:"#F5C842", body:"#C47A00", cheeks:"#E5A820", eye:"#2A1430"},
+  {id:"cristal",  name:"Cristal",    icon:"❄️", desc:"Frío por fuera. ¿Y por dentro?", cost:200,
+   ears:"#7FD8E8", earInner:"#A8EEF8", body:"#4DB8D0", cheeks:"#7FD8E8", eye:"#0D4060"},
+  {id:"origen",   name:"El Origen",  icon:"🔮", desc:"Una forma que Confite no recuerda... o no quiere.", cost:350,
+   ears:"#4A1878", earInner:"#7A3CA8", body:"#200840", cheeks:"#6835A0", eye:"#FF5C8A"},
+];
+function getActiveSkin(){
+  const id = (save && save.activeSkin) || "default";
+  return CONFITE_SKINS.find(s=>s.id===id) || CONFITE_SKINS[0];
+}
+function refreshAllConfite(){
+  ["confite-title","confite-map","confite-game-svg","confite-skins-svg"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.innerHTML=confiteSVG("happy");
+  });
+  const wrap=document.getElementById("intro-confite-svg-wrap");
+  if(wrap) wrap.innerHTML=`<svg width="80" height="72" viewBox="0 0 100 90" fill="none">${confiteSVG("happy")}</svg>`;
+}
+
+/* ---------------- CONFITE SVG (skineable) ---------------- */
+function confiteSVG(mood, skinOverride){
+  const sk = skinOverride || getActiveSkin();
+  const e=sk.ears, ei=sk.earInner, b=sk.body, c=sk.cheeks, ey=sk.eye||"#2A1430";
+  const faces = {
+    happy: `<circle cx="36" cy="50" r="6.5" fill="${ey}"/><circle cx="60" cy="50" r="6.5" fill="${ey}"/>
+      <circle cx="38" cy="47" r="2.2" fill="#fff"/><circle cx="62" cy="47" r="2.2" fill="#fff"/>
+      <path d="M36 64 Q48 72 60 64" stroke="${ey}" stroke-width="3" stroke-linecap="round" fill="none"/>`,
+    excited: `<circle cx="36" cy="49" r="7" fill="${ey}"/><circle cx="60" cy="49" r="7" fill="${ey}"/>
+      <circle cx="38.5" cy="46" r="2.6" fill="#fff"/><circle cx="62.5" cy="46" r="2.6" fill="#fff"/>
+      <path d="M38 62 Q48 74 58 62 Z" fill="${ey}"/>
+      <path d="M42 66.5 Q48 70 54 66.5 L54 66 Q48 69 42 66 Z" fill="${c}"/>`,
+    celebrate: `<path d="M30 50 Q36 43 42 50" stroke="${ey}" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <path d="M54 50 Q60 43 66 50" stroke="${ey}" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <path d="M38 61 Q48 73 58 61 Z" fill="${ey}"/>`,
+    worried: `<circle cx="36" cy="51" r="5.5" fill="${ey}"/><circle cx="60" cy="51" r="5.5" fill="${ey}"/>
+      <circle cx="37.5" cy="49" r="1.8" fill="#fff"/><circle cx="61.5" cy="49" r="1.8" fill="#fff"/>
+      <path d="M30 42 L42 45" stroke="${ey}" stroke-width="3" stroke-linecap="round"/>
+      <path d="M66 42 L54 45" stroke="${ey}" stroke-width="3" stroke-linecap="round"/>
+      <path d="M40 66 Q48 62 56 66" stroke="${ey}" stroke-width="3" stroke-linecap="round" fill="none"/>`,
+    sad: `<circle cx="36" cy="51" r="6" fill="${ey}"/><circle cx="60" cy="51" r="6" fill="${ey}"/>
+      <circle cx="37.5" cy="49" r="2" fill="#fff"/><circle cx="61.5" cy="49" r="2" fill="#fff"/>
+      <path d="M38 68 Q48 61 58 68" stroke="${ey}" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <ellipse cx="64" cy="60" rx="2.5" ry="4" fill="#7FD8E8" fill-opacity=".9"/>`
+  };
+  return `
+    <ellipse cx="28" cy="14" rx="13" ry="22" fill="${e}" transform="rotate(-15 28 14)"/>
+    <ellipse cx="28" cy="16" rx="7" ry="13" fill="${ei}" transform="rotate(-15 28 16)"/>
+    <ellipse cx="68" cy="14" rx="13" ry="22" fill="${e}" transform="rotate(15 68 14)"/>
+    <ellipse cx="68" cy="16" rx="7" ry="13" fill="${ei}" transform="rotate(15 68 16)"/>
+    <ellipse cx="48" cy="55" rx="38" ry="33" fill="${b}"/>
+    <ellipse cx="34" cy="40" rx="11" ry="6" fill="#fff" fill-opacity=".28" transform="rotate(-18 34 40)"/>
+    <ellipse cx="27" cy="61" rx="5.5" ry="3.5" fill="${c}" fill-opacity=".85"/>
+    <ellipse cx="69" cy="61" rx="5.5" ry="3.5" fill="${c}" fill-opacity=".85"/>
+    ${faces[mood] || faces.happy}`;
+}
+function setConfiteMood(mood){
+  const el = document.getElementById("confite-game-svg");
+  if(el) el.innerHTML = confiteSVG(mood);
+}
+const CONFITE_LINES = {
+  comboBig: ["¡INCREÍBLE combo!","¡Wow, eso fue enorme!","¡Cascada perfecta!","¡Imparable!","¡Eso ni yo lo vi venir!","¡Dulcelandia tiembla con ese combo!","¡Espectacular!","¡Se nota que practicas!","¡Pura magia de caramelo!","¡No lo puedo creer — hazlo de nuevo!"],
+  comboMed: ["¡Buen combo!","¡Así se hace!","¡Sigue así!","¡Eso fue dulce!","¡Vas agarrando el ritmo!","¡Me gusta cómo piensas!","¡Otro más así!","¡Ahí vamos!","¡Nada mal para empezar!","¡Cada combo te acerca más!"],
+  lowMoves: ["¡Con cuidado, pocos movimientos!","Piensa bien el siguiente...","¡Tú puedes, no te rindas!","Casi sin movimientos... ¡concéntrate!","Respira. Un movimiento a la vez.","No te apresures, mira bien el tablero.","¡Esto se pone tenso!","Confío en ti, incluso ahora.","Un buen movimiento vale por diez.","¿Ves esa combinación? Ahí está."],
+  stripeCreated: ["¡Caramelo rayado! Va a explotar cuando lo combines.","¡Cuatro seguidos! Ese rayo limpia toda la fila.","¡Un rayo de caramelo! ¡Combínalo pronto!","¡Match de cuatro! Guarda ese rayado para el momento exacto.","¡Un rayo guardado es una fila ganada!"],
+  stripeExplode: ["¡BOOM! ¡Toda la fila de un golpe!","¡El rayo barrió todo a su paso!","¡Explosión de caramelo! ¡Eso sí que es potencia!","¡El caramelo rayado hizo su trabajo!","¡ARRASÓ con todo! ¡Increíble!","¡Limpio y preciso! El tablero tiembla."],
+  bombUsed: ["¡BOOM! Eso dejó un cráter de caramelo.","¡La explosión perfecta! Bien calculada.","¡Tres por tres y sin piedad!","¡Esa zona ya no existe. Bien jugado!"],
+  crystalBurst: ["¡Los Cristales resplandecen!","¡Una fila entera de cristal!","¡Eso activó los Cristales! ¡Sigue así!","¡El poder del Cristal se libera!"],
+};
+function reactConfite(){
+  let pool, mood;
+  if(cur.movesLeft<=5){ pool = CONFITE_LINES.lowMoves; mood = "worried"; }
+  else if(cur.cascade>=3){ pool = CONFITE_LINES.comboBig; mood = "celebrate"; }
+  else { pool = CONFITE_LINES.comboMed; mood = "excited"; }
+  const msg = pool[rnd(pool.length)];
+  setConfiteGame(msg);
+  setConfiteMood(mood);
+  bounceConfite();
+}
+function setConfiteGame(text){
+  document.getElementById("confite-game-text").textContent = text;
+}
+function bounceConfite(){
+  const svg = document.getElementById("confite-game-svg");
+  svg.style.transform = "translateY(-6px) scale(1.08)";
+  setTimeout(()=> svg.style.transform = "", 260);
+}
+
+/* ---------------- AUDIO (sintetizado, sin archivos externos) ---------------- */
+let actx = null;
+function playPop(){
+  if(save.muted) return;
+  try{
+    if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
+    const o = actx.createOscillator();
+    const g = actx.createGain();
+    o.type = "sine";
+    o.frequency.setValueAtTime(520 + Math.random()*180, actx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(220, actx.currentTime+0.12);
+    g.gain.setValueAtTime(0.12, actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, actx.currentTime+0.15);
+    o.connect(g); g.connect(actx.destination);
+    o.start(); o.stop(actx.currentTime+0.16);
+  }catch(e){}
+}
+function tone(freq, startOffset, duration, type, peakGain, endFreq){
+  if(save.muted) return;
+  try{
+    if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
+    const t0 = actx.currentTime + startOffset;
+    const o = actx.createOscillator();
+    const g = actx.createGain();
+    o.type = type;
+    o.frequency.setValueAtTime(freq, t0);
+    if(endFreq) o.frequency.exponentialRampToValueAtTime(endFreq, t0+duration);
+    g.gain.setValueAtTime(peakGain, t0);
+    g.gain.exponentialRampToValueAtTime(0.001, t0+duration);
+    o.connect(g); g.connect(actx.destination);
+    o.start(t0); o.stop(t0+duration+0.02);
+  }catch(e){}
+}
+function playWin(){
+  [523.25, 659.25, 783.99, 1046.50].forEach((f,i)=> tone(f, i*0.09, 0.22, "triangle", 0.13));
+}
+function spawnConfetti(){
+  const canvas = document.createElement("canvas");
+  canvas.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:999";
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext("2d");
+  const COLORS = ["#FF5C8A","#F5B800","#7FD8E8","#2ED573","#FF8C42","#9B59B6","#FFB7C5","#FFFFFF"];
+  const particles = Array.from({length:80},()=>({
+    x: Math.random()*canvas.width,
+    y: -10 - Math.random()*40,
+    vx: (Math.random()-0.5)*3,
+    vy: 2+Math.random()*3,
+    rot: Math.random()*360,
+    rotV: (Math.random()-0.5)*8,
+    w: 6+Math.random()*7,
+    h: 4+Math.random()*4,
+    color: COLORS[Math.floor(Math.random()*COLORS.length)],
+    alpha: 1
+  }));
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    frame++;
+    let alive = false;
+    particles.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.rot+=p.rotV; p.vy+=0.08;
+      if(frame>60) p.alpha=Math.max(0,p.alpha-0.015);
+      if(p.y<canvas.height+20 && p.alpha>0) alive=true;
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot*Math.PI/180);
+      ctx.globalAlpha=p.alpha;
+      ctx.fillStyle=p.color;
+      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+    });
+    if(alive) requestAnimationFrame(draw);
+    else canvas.remove();
+  }
+  requestAnimationFrame(draw);
+}
+function playLose(){
+  tone(392, 0, 0.25, "sine", 0.1, 261);
+  tone(261, 0.22, 0.35, "sine", 0.09, 174);
+}
+function playBuild(){
+  tone(90, 0, 0.12, "square", 0.15, 60);
+  tone(1400, 0.07, 0.12, "sine", 0.07, 1800);
+}
+function playBomb(){
+  // Low thud + high crackle = explosion feel
+  tone(80, 0, 0.2, "square", 0.28, 30);
+  tone(200, 0, 0.15, "sine", 0.18, 40);
+  tone(1200, 0.05, 0.12, "sawtooth", 0.09, 300);
+  tone(2400, 0.03, 0.08, "sine", 0.06, 600);
+}
+function playCrystal(){
+  tone(660, 0, 0.18, "triangle", 0.12, 1320);
+  tone(990, 0.06, 0.24, "sine", 0.09, 1980);
+}
+function playShuffle(){
+  [420, 340, 500, 380].forEach((f,i)=> tone(f, i*0.07, 0.1, "square", 0.06, f*0.7));
+}
+
+/* ---------------- DESAFÍO DIARIO ---------------- */
+function getDailyKey(){
+  const d=new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function dailySeededRnd(seed){
+  seed=(seed*1664525+1013904223)&0x7fffffff;
+  return {val:seed, next:function(n){ seed=(seed*1664525+1013904223)&0x7fffffff; return seed%n; }};
+}
+function getDailyConfig(){
+  const key = getDailyKey();
+  let seed = 0;
+  for(let i=0;i<key.length;i++) seed = (seed*31 + key.charCodeAt(i)) & 0x7fffffff;
+  const rng = dailySeededRnd(seed);
+  const cols = 6 + rng.next(2);
+  const moves = 14 + rng.next(5);
+  const goalBase = 1100 + rng.next(900);
+  const typeRoll = rng.next(10);
+  const type = typeRoll<6 ? "score" : typeRoll<8 ? "collect" : "crystals";
+  const color = rng.next(6);
+  const target = type==="collect" ? 10+rng.next(7) : type==="crystals" ? 1+rng.next(2) : 0;
+  return {goal:goalBase, moves, cols, type, color, target};
+}
+function isDailyDone(){ return save.dailyChallenge && save.dailyChallenge.date===getDailyKey() && save.dailyChallenge.done; }
+function startDailyChallenge(){
+  if(isDailyDone()){
+    setWorldBubble("¡Ya completaste el desafío de hoy! Vuelve mañana para uno nuevo.");
+    return;
+  }
+  const cfg = getDailyConfig();
+  cur = { n:"D", type:cfg.type, goal:cfg.goal, target:cfg.target, color:cfg.color,
+          movesLeft:cfg.moves, movesMax:cfg.moves, cols:cfg.cols, rows:8,
+          score:0, progress:0, cascade:0, done:false, boostUsed:false, rainbowUsed:false, isDaily:true };
+  save.lastTerritory = null; persistSave();
+  document.getElementById("overlay").classList.remove("on");
+  document.getElementById("pause-overlay").classList.remove("on");
+  pauseOpen = false;
+  document.getElementById("hud-level").textContent = "⭐";
+  document.getElementById("objective-bar").textContent = objectiveText(cur);
+  updateHud();
+  setConfiteGame("¡Desafío Diario! Una sola oportunidad hoy. ¡Tú puedes!");
+  setConfiteMood("excited");
+  document.getElementById("screen-game").style.background =
+    "radial-gradient(ellipse at 50% -10%, color-mix(in srgb, #F5B800 20%, var(--dark)) 0%, var(--dark) 70%)";
+  buildGrid(); goTo("game"); maybeShowTutorial();
+}
+function renderDailyCard(parent){
+  const done = isDailyDone();
+  const cfg = getDailyConfig();
+  let desc;
+  if(cfg.type==="collect") desc=`Recolecta ${cfg.target} ${CANDY_NAMES[cfg.color]} · ${cfg.moves} movs`;
+  else if(cfg.type==="crystals") desc=`Activa ${cfg.target} Cristal${cfg.target>1?"es":""} · ${cfg.moves} movs`;
+  else desc=`Consigue ${cfg.goal.toLocaleString()} pts · ${cfg.moves} movs`;
+  const now=new Date(), tomorrow=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1);
+  const secs=Math.floor((tomorrow-now)/1000);
+  const hrs=Math.floor(secs/3600), mins=Math.floor((secs%3600)/60);
+  const card=document.createElement("div");
+  card.className="daily-card"+(done?" done":"");
+  const streak = save.dailyStreak||0;
+  const streakLabel = streak>=2 ? ` · 🔥 ${streak} días seguidos` : "";
+  card.innerHTML=`<div class="daily-icon">⭐</div>
+    <div class="daily-info">
+      <div class="daily-title">Desafío Diario${streakLabel}</div>
+      <div class="daily-sub">${desc}</div>
+      <div class="daily-timer">${done?`Nuevo en ${hrs}h ${mins}m`:"Disponible · recompensa 🍯 100"}</div>
+    </div>
+    <div class="daily-reward">${done?"✓ Completado":"+100 🍯"}</div>`;
+  if(!done) card.onclick=startDailyChallenge;
+  parent.appendChild(card);
+}
+
+/* ---------------- BOSS INTRO ---------------- */
+const BOSS_CONFITE_LINES = {
+  1: "El Último Carmesí no perdona errores. Cada movimiento cuenta. Yo estaré aquí contigo.",
+  2: "La Flor de Mochi guarda siglos de poder. Respeta cada cascada. No se puede deshacer.",
+  3: "La Aguja del Cielo es la más alta del territorio. Los que caen desde aquí caen mucho.",
+  4: "El Corazón de Cacao late con frío puro. No te confíes. El tablero cambia sin aviso.",
+  5: "El Árbol Ancestral lleva 500 años esperando este momento. No lo decepcionemos.",
+  6: "La Última Fogata nunca se apagó del todo. Nosotras tampoco podemos apagarnos.",
+  7: "La Calavera de Azúcar Sagrada honra a los que ya no están. Haz que valga la pena.",
+  8: "El Cristal que se Rompió a sí Mismo... soy yo. Esto es lo que he esperado 500 años.",
+};
+function showBossIntro(levelN){
+  const name = BOSS_LEVEL_NAMES[currentTerritory] || "Nivel Jefe";
+  const line = BOSS_CONFITE_LINES[currentTerritory] || "El nivel más difícil te espera. ¡Tú puedes!";
+  document.getElementById("bi-name").textContent = name;
+  document.getElementById("bi-confite").textContent = line;
+  document.getElementById("bi-btn").onclick = ()=>{
+    document.getElementById("boss-intro-overlay").classList.remove("on");
+    startLevel(levelN);
+  };
+  document.getElementById("boss-intro-overlay").classList.add("on");
+}
+
+/* ---------------- TERRITORIO COMPLETO ---------------- */
+const TERRITORY_COMPLETE_DATA = {
+  1:{narrative:"Las Tierras Carmesí brillan de nuevo. El caramelo más antiguo de Dulcelandia recuperó su calor. La niebla gris se retiró por primera vez en 500 años.",confite:"Yo... recuerdo este color. Me recuerda a algo que perdí hace mucho tiempo. No sé qué, pero siento que es importante."},
+  2:{narrative:"Los Jardines de Mochi florecieron. Los cerezos de azúcar vuelven a cubrir el cielo de rosa y los wagashi brillan como si nunca hubieran dormido.",confite:"¿Sentiste ese olor? A veces huele así cuando estoy muy feliz. Nunca supe por qué. Quizás... lo supe antes."},
+  3:{narrative:"Las Torres de Tanghulu vuelven a brillar al sol. Las agujas de fruta caramelizada reflejan la luz como nunca antes. En lo alto se ven figuras que parecen danzar.",confite:"El Confitero Oscuro construyó algo aquí, hace mucho. Lo puedo sentir. No sé si era malo... o si solo estaba triste."},
+  4:{narrative:"Los Alpes de Cacao se funden lentamente. El chocolate congelado desde la noche de la fragmentación empieza a fluir de nuevo por los valles.",confite:"El frío que había aquí... era como el que siento cuando intento recordar mi nombre. Confite. Pero eso no es mi nombre real, ¿verdad?"},
+  5:{narrative:"El Bosque de Gominolas susurra de nuevo. Entre los árboles de regaliz, algo se mueve: los primeros habitantes que regresan a un hogar que pensaban perdido.",confite:"Hay voces en el bosque. No las oigo con los oídos... las oigo aquí dentro. Son fragmentos. Como yo."},
+  6:{narrative:"Las Praderas de Malvavisco arden de nuevo. Las fogatas que se apagaron hace 500 años regresan una a una, y el olor a maple sube al cielo oscuro.",confite:"Hay algo en el fuego que reconozco. Como si yo también hubiera ardido una vez, y lo que quedó... fui yo."},
+  7:{narrative:"El Valle del Dulce de Leche recuerda a sus muertos con color. Las calaveras de azúcar sonríen de nuevo y las flores de cempasúchil cubren cada rincón.",confite:"Este lugar habla de quienes ya no están. Yo también pienso en alguien que ya no está. Pero no recuerdo quién. ¿Fue real?"},
+  8:{narrative:"La Capital de Cristal despertó. El tiempo detenido 500 años volvió a moverse. Y en el centro, donde el Cristal se rompió a sí mismo, hay algo esperando.",confite:"Aquí pasó algo que me involucra. Lo siento en cada rincón de este lugar. Creo que por fin voy a entender qué soy... o qué fui."}
+};
+function checkTerritoryComplete(){
+  if(!save.territoryComplete) save.territoryComplete={};
+  TERRITORIES.forEach(t=>{
+    if(!save.territoryComplete[t.id] && territoryProgress(t.id)>=1){
+      save.territoryComplete[t.id]=true;
+      const reward=80+t.id*15;
+      save.coins=(save.coins||0)+reward;
+      persistSave();
+      const lines=TERRITORY_COMPLETE_DATA[t.id];
+      document.getElementById("tc-icon").textContent=t.icon;
+      document.getElementById("tc-title").textContent=`¡${t.name} restaurada!`;
+      document.getElementById("tc-narrative").textContent=lines.narrative;
+      document.getElementById("tc-confite-line").innerHTML=`<em>Confite:</em> "${lines.confite}"`;
+      document.getElementById("tc-reward").textContent=`+${reward} 🍯 por restaurar el territorio`;
+      setTimeout(()=>document.getElementById("territory-complete-overlay").classList.add("on"), 700);
+    }
+  });
+}
+function closeTerritoryComplete(){
+  document.getElementById("territory-complete-overlay").classList.remove("on");
+  // For territory 8, trigger epilogue instead of world map
+  if(currentTerritory===8 && !save.epilogueSeen){
+    setTimeout(()=>startEpilogue(), 400);
+  } else {
+    goTo("world");
+  }
+}
+
+/* ---------------- EPÍLOGO ---------------- */
+const EP_TOTAL = 7;
+let epCurrentSlide = 0;
+function startEpilogue(){
+  epCurrentSlide = 0;
+  // Inject Confite SVGs
+  ["ep-svg-1","ep-svg-2","ep-svg-3","ep-svg-4","ep-svg-5"].forEach((id,i)=>{
+    const moods = ["happy","excited","worried","worried","celebrate"];
+    const el = document.getElementById(id);
+    if(el) el.innerHTML = confiteSVG(moods[i]);
+  });
+  // Build dots
+  const dotsEl = document.getElementById("ep-dots");
+  if(dotsEl){
+    dotsEl.innerHTML = Array.from({length:EP_TOTAL},(_,i)=>`<div class="ep-dot${i===0?" on":""}"></div>`).join("");
+  }
+  goTo("epilogue");
+  showEpilogueSlide(0);
+}
+function showEpilogueSlide(n){
+  epCurrentSlide = n;
+  document.querySelectorAll(".ep-slide").forEach((s,i)=>s.classList.toggle("active", i===n));
+  // Update dots on slide 0
+  const dotsEl = document.getElementById("ep-dots");
+  if(dotsEl) dotsEl.querySelectorAll(".ep-dot").forEach((d,i)=>d.classList.toggle("on", i===n));
+  playBuild();
+}
+function finishEpilogue(){
+  if(!save.epilogueSeen){
+    save.epilogueSeen = true;
+    save.coins = (save.coins||0) + 300;
+    persistSave();
+    checkAchievements();
+  }
+  spawnConfetti();
+  goTo("world");
+}
+
+/* ---------------- MEJOR PUNTUACIÓN ---------------- */
+function getBestScore(territoryId, levelN){
+  return (save.bestScores||{})[`${territoryId}_${levelN}`]||0;
+}
+
+/* ---------------- BOMB POWER-UP ---------------- */
+let bombActive = false;
+function activateBomb(){
+  if(cur.bombUsed) return;
+  if((save.coins||0)<BOMB_COST){
+    setConfiteGame(`Necesito ${BOMB_COST-(save.coins||0)} 🍯 más para la bomba.`);
+    closePause(); return;
+  }
+  save.coins-=BOMB_COST; persistSave();
+  cur.bombUsed=true;
+  bombActive=true;
+  rainbowActive=false;
+  closePause();
+  updateHud();
+  setConfiteGame("💥 ¡Toca cualquier caramelo para explotar el área 3×3 a su alrededor!");
+  setConfiteMood("excited");
+  document.querySelectorAll(".cell").forEach(el=>el.classList.add("bomb-glow"));
+  setTimeout(()=>document.querySelectorAll(".cell").forEach(el=>el.classList.remove("bomb-glow")), 1100);
+}
+async function useBombAt(row, col){
+  busy=true;
+  const cellSet=[];
+  for(let dr=-1;dr<=1;dr++) for(let dc=-1;dc<=1;dc++){
+    const r2=row+dr, c2=col+dc;
+    if(r2>=0&&r2<cur.rows&&c2>=0&&c2<cur.cols&&board[r2][c2]>=0) cellSet.push({r:r2,c:c2});
+  }
+  cellSet.forEach(({r,c})=>{ const el=cellEl(r,c); if(el){el.classList.add("matched");el.style.transform="scale(1.25)";} });
+  playBomb();
+  setConfiteGame(CONFITE_LINES.bombUsed[rnd(CONFITE_LINES.bombUsed.length)]);
+  setConfiteMood("celebrate"); bounceConfite();
+  const pts=cellSet.length*60;
+  cur.score+=pts;
+  if(cur.type==="collect"){
+    cellSet.forEach(({r,c})=>{ if(board[r][c]===cur.color) cur.progress++; });
+  }
+  popCombo(pts,1,"💥 Bombazo!");
+  await delay(300);
+  cellSet.forEach(({r,c})=>{ board[r][c]=-1; clearStripeAt(r,c); });
+  applyGravity(); renderGrid();
+  await delay(200);
+  fillEmpty(); renderGrid();
+  await delay(200);
+  await processCascade();
+  updateHud();
+  if(checkWin()){ finishLevel(true); return; }
+  if(cur.movesLeft<=0){ finishLevel(false); return; }
+  busy=false;
+  resetHintTimer();
+}
+
+/* ---------------- RAINBOW POWER-UP ---------------- */
+let rainbowActive = false;
+function activateRainbow(){
+  if(cur.rainbowUsed) return;
+  if((save.coins||0)<RAINBOW_COST){
+    setConfiteGame(`Necesito ${RAINBOW_COST-(save.coins||0)} 🍯 más para el Arco Iris.`);
+    closePause(); return;
+  }
+  save.coins-=RAINBOW_COST; persistSave();
+  cur.rainbowUsed=true;
+  rainbowActive=true;
+  closePause();
+  updateHud();
+  setConfiteGame("🌈 ¡Toca un caramelo para borrar todos los de ese tipo!");
+  setConfiteMood("excited");
+  document.querySelectorAll(".cell").forEach(el=>el.classList.add("rainbow-glow"));
+  setTimeout(()=>document.querySelectorAll(".cell").forEach(el=>el.classList.remove("rainbow-glow")), 1100);
+}
+async function useRainbowOnColor(colorType){
+  busy=true;
+  const cellSet=[];
+  for(let row=0;row<cur.rows;row++) for(let col=0;col<cur.cols;col++){
+    if(board[row][col]===colorType) cellSet.push({r:row,c:col});
+  }
+  cellSet.forEach(({r,c})=>{ const el=cellEl(r,c); if(el) el.classList.add("matched"); });
+  const pts=cellSet.length*80;
+  cur.score+=pts;
+  playCrystal();
+  if(cur.type==="collect" && colorType===cur.color) cur.progress+=cellSet.length;
+  popCombo(pts,1,"🌈 ¡Arco Iris!");
+  await delay(300);
+  cellSet.forEach(({r,c})=>{ board[r][c]=-1; clearStripeAt(r,c); });
+  applyGravity(); renderGrid();
+  await delay(200);
+  fillEmpty(); renderGrid();
+  await delay(200);
+  await processCascade();
+  updateHud();
+  if(checkWin()){ finishLevel(true); return; }
+  if(cur.movesLeft<=0){ finishLevel(false); return; }
+  busy=false;
+  setConfiteGame("¡Todos borrados de un golpe! ¿Siguiente?");
+  setConfiteMood("celebrate");
+}
+
+/* ---------------- HÉROES ---------------- */
+const HEROES = [
+  {id:"dulce",    name:"Dulce Roja",          icon:"🍬", color:"#FF5C8A",
+   clan:"Clan Caramelo", role:"Protagonista · Sanadora",
+   desc:"Empática, impulsiva, nunca se rinde. Cura al equipo con magia de caramelo. Su mayor fuerza es que siente lo que otros no se atreven a sentir.",
+   unlockAt: ()=>true},
+  {id:"kenshi",   name:"Kenshi Dorado",        icon:"⚔️", color:"#F5B800",
+   clan:"Clan del Honor", role:"Guerrero · Estoico",
+   desc:"Carga una culpa profunda de su pasado. Pelea en silencio, con una precisión que nadie logra copiar. Nunca explica sus victorias.",
+   unlockAt: ()=> territoryProgress(2)>=0.5},
+  {id:"sombra",   name:"Sombra Menta",         icon:"🗡️", color:"#2ED573",
+   clan:"Clan Tormenta", role:"Asesina · Sarcástica",
+   desc:"Dice que trabaja sola. Lleva tres batallas consecutivas cubriendo las espaldas de Dulce Roja. Nunca lo reconocerá.",
+   unlockAt: ()=> territoryProgress(3)>=0.5},
+  {id:"pyra",     name:"Pyra la Rebotante",    icon:"🔥", color:"#FF8C42",
+   clan:"Clan Dragón", role:"Maga · Genio caótico",
+   desc:"Habla sin parar. Inventa hechizos al momento. Su última idea explotó en la cara de alguien que no era ella. Dice que fue intencional.",
+   unlockAt: ()=> territoryProgress(4)>=0.5},
+  {id:"bastion",  name:"Bastión de Hierro",    icon:"🛡️", color:"#7FD8E8",
+   clan:"Clan Fortaleza", role:"Tanque · Silencioso",
+   desc:"No habla en batallas. Protege. Cuando alguien cae cerca de él, es porque Bastión no llegó a tiempo — y eso no pasa casi nunca.",
+   unlockAt: ()=> territoryProgress(5)>=0.5},
+  {id:"confite",  name:"Confite",              icon:"🩷", color:"#FF5C8A",
+   clan:"???", role:"Mascota · Lo sabe todo",
+   desc:"No habla. Nunca habla. Pero sus ojos ven cosas que el resto no alcanza a ver. Alguien debería preguntarle desde cuándo existe.",
+   unlockAt: ()=>{ let total=0; TERRITORIES.forEach(t=>{ total+=territoryProgress(t.id); }); return total/TERRITORIES.length>=0.5; }},
+  {id:"oscuro",   name:"El Confitero Oscuro",  icon:"😈", color:"#9B59B6",
+   clan:"Clan Amargo", role:"Antagonista · Villano trágico",
+   desc:"No quiere destruir Dulcelandia. Quiere LIBERAR al Cristal. Tiene razón en el diagnóstico. Su solución es equivocada. Él lo sabe.",
+   unlockAt: ()=> territoryProgress(8)>=1},
+];
+function renderHeroes(){
+  const list = document.getElementById("heroes-list");
+  list.innerHTML = "";
+  let unlockedCount = 0;
+  HEROES.forEach(h=>{
+    const unlocked = h.unlockAt();
+    if(unlocked) unlockedCount++;
+    const card = document.createElement("div");
+    card.className = "hero-card" + (unlocked ? "" : " locked-hero");
+    if(unlocked){
+      card.innerHTML = `
+        <div class="hero-icon" style="background:${h.color}22;border-color:${h.color}44">${h.icon}</div>
+        <div class="hero-info">
+          <div class="hero-name">${h.name}</div>
+          <div class="hero-clan" style="color:${h.color}">${h.clan}</div>
+          <div class="hero-role">${h.role} — ${h.desc}</div>
+        </div>`;
+    } else {
+      card.innerHTML = `
+        <div class="hero-icon" style="background:rgba(255,255,255,.04)">🔒</div>
+        <div class="hero-info">
+          <div class="hero-name" style="color:rgba(255,255,255,.4)">???</div>
+          <div class="hero-clan" style="color:rgba(255,255,255,.25)">Identidad desconocida</div>
+          <div class="hero-role">Sigue restaurando Dulcelandia para descubrir quién es.</div>
+        </div>`;
+    }
+    list.appendChild(card);
+  });
+  document.getElementById("world-heroes-count") && (document.getElementById("world-heroes-count").textContent = `${unlockedCount}/7`);
+  const bubble = document.getElementById("confite-heroes-bubble");
+  if(bubble){
+    if(unlockedCount<=1) bubble.textContent = "Aquí solo conozco a Dulce Roja... y a mí mismo. O lo que creo que soy.";
+    else if(unlockedCount<7) bubble.textContent = `${7-unlockedCount} héroe${7-unlockedCount>1?"s quedan":"da"} por descubrir. Sigue restaurando territorios.`;
+    else bubble.textContent = "Los conoces a todos. Y aún así, ¿cuántos secretos quedan?";
+  }
+}
+
+/* ---------------- MEMORIAS SCREEN ---------------- */
+const MEMORY_DEFS = [
+  {key:"1_5", icon:"🍬", territory:"Territorio 1 · Nivel 5", hint:"Completa hasta el nivel 5 del Territorio 1"},
+  {key:"2_5", icon:"🌸", territory:"Territorio 2 · Nivel 5", hint:"Completa hasta el nivel 5 del Territorio 2"},
+  {key:"3_10",icon:"🗼", territory:"Territorio 3 · Nivel 10",hint:"Completa hasta el nivel 10 del Territorio 3"},
+  {key:"4_5", icon:"🍫", territory:"Territorio 4 · Nivel 5", hint:"Completa hasta el nivel 5 del Territorio 4"},
+  {key:"5_7", icon:"🌲", territory:"Territorio 5 · Nivel 7", hint:"Completa hasta el nivel 7 del Territorio 5"},
+  {key:"6_5", icon:"🔥", territory:"Territorio 6 · Nivel 5", hint:"Completa hasta el nivel 5 del Territorio 6"},
+  {key:"7_7", icon:"💀", territory:"Territorio 7 · Nivel 7", hint:"Completa hasta el nivel 7 del Territorio 7"},
+  {key:"8_5", icon:"💎", territory:"Territorio 8 · Nivel 5", hint:"Completa hasta el nivel 5 del Territorio 8"},
+];
+function renderMemories(){
+  const list = document.getElementById("memories-list");
+  list.innerHTML = "";
+  const unlocked = save.unlockedStories || {};
+  const count = Object.keys(unlocked).length;
+  const sub = document.getElementById("memories-subtitle");
+  if(sub) sub.textContent = count===0
+    ? "Completa niveles especiales para desbloquear sus recuerdos."
+    : count===8
+    ? "Has desbloqueado todos sus recuerdos. Ahora lo sabes todo."
+    : `${count}/8 recuerdos encontrados. Sigue explorando Dulcelandia.`;
+  MEMORY_DEFS.forEach(def=>{
+    const text = unlocked[def.key];
+    const card = document.createElement("div");
+    card.className = "memory-card" + (text?" unlocked":" locked-mem");
+    if(text){
+      card.innerHTML = `
+        <div class="memory-icon">${def.icon}</div>
+        <div class="memory-text">
+          <div class="memory-territory">${def.territory}</div>
+          <div class="memory-quote">"${text}"</div>
+        </div>`;
+    } else {
+      card.innerHTML = `
+        <div class="memory-icon">🔒</div>
+        <div class="memory-text">
+          <div class="memory-territory">${def.territory}</div>
+          <div class="memory-quote" style="color:rgba(255,255,255,.25);font-size:12px">Recuerdo bloqueado</div>
+          <div class="memory-hint">${def.hint}</div>
+        </div>`;
+    }
+    list.appendChild(card);
+  });
+}
+
+/* ---------------- SKINS SCREEN ---------------- */
+function renderSkins(){
+  if(!save.unlockedSkins) save.unlockedSkins = {default:true};
+  const grid = document.getElementById("skins-grid");
+  grid.innerHTML = "";
+  document.getElementById("skins-coins").textContent = save.coins||0;
+  const activeSkinId = save.activeSkin || "default";
+  let unlockedCount = 0;
+  CONFITE_SKINS.forEach(sk=>{
+    const unlocked = !!save.unlockedSkins[sk.id];
+    const isActive = sk.id === activeSkinId;
+    if(unlocked) unlockedCount++;
+    const card = document.createElement("div");
+    card.className = "skin-card" + (isActive?" active-skin":"") + (!unlocked?" locked-skin":"");
+    const previewSVG = `<svg class="skin-preview" viewBox="0 0 100 90" fill="none">${confiteSVG("happy", sk)}</svg>`;
+    let badgeHTML, actionText;
+    if(isActive){
+      badgeHTML = `<span class="skin-badge on">✓ Activo</span>`;
+    } else if(unlocked){
+      badgeHTML = `<span class="skin-badge on">Desbloqueado</span>`;
+      actionText = "Activar";
+    } else if((save.coins||0) >= sk.cost){
+      badgeHTML = `<span class="skin-badge buy">🍯 ${sk.cost}</span>`;
+      actionText = "Comprar";
+    } else {
+      badgeHTML = `<span class="skin-badge lock">🍯 ${sk.cost}</span>`;
+    }
+    card.innerHTML = `${previewSVG}
+      <div class="skin-name">${sk.icon} ${sk.name}</div>
+      <div class="skin-desc">${sk.desc}</div>
+      ${badgeHTML}`;
+    if(unlocked && !isActive){
+      card.onclick = ()=>activateSkin(sk.id);
+    } else if(!unlocked && (save.coins||0) >= sk.cost){
+      card.onclick = ()=>buySkin(sk.id);
+    }
+    grid.appendChild(card);
+  });
+  if(document.getElementById("world-skins-count"))
+    document.getElementById("world-skins-count").textContent = unlockedCount;
+  if(document.getElementById("world-skin-icon"))
+    document.getElementById("world-skin-icon").textContent = CONFITE_SKINS.find(s=>s.id===activeSkinId)?.icon || "🩷";
+}
+function buySkin(id){
+  const sk = CONFITE_SKINS.find(s=>s.id===id);
+  if(!sk || (save.coins||0)<sk.cost) return;
+  save.coins -= sk.cost;
+  if(!save.unlockedSkins) save.unlockedSkins = {default:true};
+  save.unlockedSkins[id] = true;
+  persistSave();
+  playBuild();
+  activateSkin(id);
+}
+function activateSkin(id){
+  save.activeSkin = id;
+  persistSave();
+  refreshAllConfite();
+  renderSkins();
+}
+
+/* ---------------- HISTORIA (INTRO) ---------------- */
+let introCurrentSlide = 0;
+const INTRO_TOTAL = 4;
+function startIntro(){
+  introCurrentSlide = 0;
+  showIntroSlide(0);
+  goTo("intro");
+}
+function showIntroSlide(idx){
+  for(let i=0;i<INTRO_TOTAL;i++){
+    const el = document.getElementById("intro-slide-"+i);
+    if(el) el.classList.toggle("active", i===idx);
+  }
+  document.querySelectorAll(".intro-dot").forEach((d,i)=> d.classList.toggle("on", i===idx));
+  const btn = document.getElementById("intro-next-btn");
+  if(btn) btn.textContent = idx===INTRO_TOTAL-1 ? "¡Comenzar!" : "Siguiente →";
+}
+function nextIntroSlide(){
+  introCurrentSlide++;
+  if(introCurrentSlide >= INTRO_TOTAL){
+    skipIntro(); return;
+  }
+  showIntroSlide(introCurrentSlide);
+}
+function skipIntro(){
+  save.introDone = true; persistSave();
+  goTo("world");
+}
+
+/* ---------------- MODO SUPERVIVENCIA ---------------- */
+const SURVIVAL_START_TIME = 12000;
+const SURVIVAL_MAX_TIME   = 18000;
+const SURVIVAL_MATCH_MS   = 2200;
+const SURVIVAL_CASCADE_MS = 800;
+let survivalTimerInterval = null;
+let survivalTimeMs = 0;
+
+function startSurvival(){
+  endSurvivalTimer();
+  survivalTimeMs = SURVIVAL_START_TIME;
+  rainbowActive = false;
+  cur = { n:"S", type:"score", goal:0, target:0, color:0,
+          movesLeft:9999, movesMax:9999, cols:7, rows:8,
+          score:0, progress:0, cascade:0, done:false,
+          boostUsed:false, rainbowUsed:false, bombUsed:false, isDaily:false, isSurvival:true };
+  save.lastTerritory = null; persistSave();
+  document.getElementById("overlay").classList.remove("on");
+  document.getElementById("pause-overlay").classList.remove("on");
+  pauseOpen = false;
+  document.getElementById("hud-level").textContent = "⏱";
+  document.getElementById("hud-moves").textContent = "12";
+  document.getElementById("hud-score").textContent = "0";
+  document.getElementById("objective-bar").textContent = "Haz combos para ganar tiempo · ¡no dejes que el reloj llegue a cero!";
+  document.getElementById("progress-track").style.display = "none";
+  document.getElementById("survival-timer-bar").style.display = "block";
+  updateSurvivalHud();
+  setConfiteGame("¡Modo Supervivencia! Cada combo te da más tiempo. ¡Rápido!");
+  setConfiteMood("excited");
+  document.getElementById("screen-game").style.background =
+    "radial-gradient(ellipse at 50% -10%, color-mix(in srgb, #9B59B6 22%, var(--dark)) 0%, var(--dark) 70%)";
+  buildGrid(); goTo("game"); maybeShowTutorial();
+  survivalTimerInterval = setInterval(survivalTick, 100);
+}
+function survivalTick(){
+  if(!cur || !cur.isSurvival || cur.done){ endSurvivalTimer(); return; }
+  if(busy) return;
+  survivalTimeMs = Math.max(0, survivalTimeMs - 100);
+  updateSurvivalHud();
+  if(survivalTimeMs <= 0){ endSurvivalTimer(); finishSurvival(); }
+}
+function addSurvivalTime(matchCount, cascade){
+  const bonus = SURVIVAL_MATCH_MS + (cascade>1 ? SURVIVAL_CASCADE_MS*(cascade-1) : 0);
+  survivalTimeMs = Math.min(SURVIVAL_MAX_TIME, survivalTimeMs + bonus);
+  updateSurvivalHud();
+  if(cascade>=2) popCombo(0, cascade, `+${(bonus/1000).toFixed(1)}s ⏱`);
+}
+function updateSurvivalHud(){
+  const secs = Math.max(0, survivalTimeMs/1000);
+  document.getElementById("hud-moves").textContent = secs.toFixed(1)+"s";
+  const pct = Math.min(100, survivalTimeMs/SURVIVAL_MAX_TIME*100);
+  const fill = document.getElementById("survival-timer-fill");
+  fill.style.width = pct+"%";
+  fill.className = survivalTimeMs<4000 ? "danger" : survivalTimeMs<7000 ? "warn" : "";
+}
+function finishSurvival(){
+  if(!cur || cur.done) return;
+  cur.done = true; endSurvivalTimer();
+  const isNewBest = cur.score > (save.survivalBest||0);
+  if(isNewBest) save.survivalBest = cur.score;
+  const coins = Math.floor(cur.score/150);
+  save.coins = (save.coins||0) + coins;
+  persistSave();
+  checkAchievements();
+  playLose();
+  document.getElementById("overlay-icon").textContent = "⏱";
+  document.getElementById("overlay-title").textContent = "¡Tiempo!";
+  document.getElementById("overlay-sub").textContent =
+    `${cur.score.toLocaleString()} pts${isNewBest?" · ¡Nuevo récord!":` · Mejor: ${save.survivalBest.toLocaleString()}`}${coins>0?` · +${coins} 🍯`:""}`;
+  const starsEls = document.querySelectorAll("#overlay-stars .s");
+  starsEls.forEach(el=>el.classList.remove("on"));
+  document.getElementById("overlay-main-btn").textContent = "Intentar de nuevo";
+  setConfiteGame(isNewBest?"¡NUEVO RÉCORD! Eso estuvo increíble.":"¡Casi! ¿Lo intentamos de nuevo?");
+  setConfiteMood(isNewBest?"celebrate":"worried");
+  document.getElementById("overlay").classList.add("on");
+}
+function endSurvivalTimer(){
+  if(survivalTimerInterval){ clearInterval(survivalTimerInterval); survivalTimerInterval=null; }
+  document.getElementById("progress-track").style.display = "";
+  document.getElementById("survival-timer-bar").style.display = "none";
+}
+
+/* ---------------- BONO DE INICIO DIARIO ---------------- */
+function checkLoginBonus(){
+  const today = getDailyKey();
+  if(save.lastLoginDate === today) return; // ya recibió el bono hoy
+  const yesterday = (()=>{ const d=new Date(); d.setDate(d.getDate()-1); return d.toISOString().slice(0,10); })();
+  if(save.lastLoginDate === yesterday){
+    save.loginStreak = (save.loginStreak||0)+1;
+  } else if(save.lastLoginDate && save.lastLoginDate !== today){
+    save.loginStreak = 1; // racha rota
+  } else {
+    save.loginStreak = (save.loginStreak||0)+1;
+  }
+  save.lastLoginDate = today;
+  const bonus = 10 + Math.min((save.loginStreak-1)*2, 20); // 10 base +2 por día, máx 30
+  save.coins = (save.coins||0) + bonus;
+  persistSave();
+  // Mostrar popup de bono
+  setTimeout(()=>showLoginBonus(bonus, save.loginStreak), 800);
+}
+function showLoginBonus(bonus, streak){
+  const div = document.createElement("div");
+  div.className = "login-bonus-popup";
+  div.innerHTML = `
+    <div class="lb-icon">🍯</div>
+    <div class="lb-title">¡Bono diario!</div>
+    <div class="lb-amount">+${bonus} monedas</div>
+    <div class="lb-streak">${streak>1?`🔥 Día ${streak} seguido · ¡Bono extra!`:"¡Hasta mañana para más!"}</div>
+    <button class="btn-sm btn-primary" onclick="this.parentElement.remove()">¡Gracias!</button>`;
+  document.getElementById("app").appendChild(div);
+}
+
+/* ---------------- INIT ---------------- */
+["confite-title","confite-map","confite-game-svg","confite-skins-svg"].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) el.innerHTML = confiteSVG("happy");
+});
+// Init confite in intro slide
+(function(){
+  const wrap = document.getElementById("intro-confite-svg-wrap");
+  if(wrap) wrap.innerHTML = `<svg width="80" height="72" viewBox="0 0 100 90" fill="none">${confiteSVG("happy")}</svg>`;
+})();
+(function initTitleFx(){
+  const title = document.getElementById("screen-title");
+  const colors = ["#F5B800","#FF5C8A","#7FD8E8","#FFF3E6"];
+  for(let i=0;i<18;i++){
+    const p = document.createElement("span");
+    p.className = "sugar-p";
+    const s = (2.5 + Math.random()*4.5).toFixed(1);
+    p.style.cssText = `left:${(Math.random()*100).toFixed(1)}%;width:${s}px;height:${s}px;background:${colors[rnd(colors.length)]};animation-duration:${(9+Math.random()*9).toFixed(1)}s;animation-delay:${(-Math.random()*14).toFixed(1)}s`;
+    title.prepend(p);
+  }
+  const fogTop = document.createElement("div");
+  fogTop.className = "fog";
+  fogTop.style.cssText = "top:6%;background:radial-gradient(ellipse, rgba(150,160,185,.5), transparent 70%)";
+  const fogBottom = document.createElement("div");
+  fogBottom.className = "fog";
+  fogBottom.style.cssText = "bottom:2%;animation-delay:-8s;background:radial-gradient(ellipse, rgba(130,140,165,.45), transparent 70%)";
+  title.prepend(fogBottom);
+  title.prepend(fogTop);
+})();
+(function initTitleContinue(){
+  if(save.lastTerritory && LEVELS_BY_TERRITORY[save.lastTerritory]){
+    const btn = document.getElementById("btn-title-main");
+    btn.textContent = "▶ Continuar";
+    btn.onclick = ()=> goTo("map", save.lastTerritory);
+    document.getElementById("btn-title-secondary").style.display = "";
+    const bubbleEl = document.getElementById("confite-title-bubble");
+    if(bubbleEl){
+      const welcomeBacks = [
+        "¡Volviste! Sabía que regresarías.",
+        "Dulcelandia te extrañaba. Yo también.",
+        "¿Listo para devolver más color?",
+        "Cada vez que vuelves, algo recuerdo.",
+        "Aquí estoy. Siempre aquí."
+      ];
+      bubbleEl.textContent = welcomeBacks[rnd(welcomeBacks.length)];
+      bubbleEl.style.display = "";
+    }
+  }
+})();
+renderMap();
+// Daily login bonus (only for returning players with some progress)
+if(save.introDone) checkLoginBonus();
+// Show story intro for new players
+if(!save.introDone){ startIntro(); }
+</script>
+</body>
+</html>
