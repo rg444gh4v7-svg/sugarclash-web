@@ -10,8 +10,13 @@
 
 ```
 sugarclash-web/index.html
-Tamaño: ~181KB | Líneas: ~3536 | Sintaxis: válida (node -e "new Function(js)")
+Líneas: ~4580 | Sintaxis: válida (node -e "new Function(js)")
+sugarclash-web/manifest.json, icon.svg, service-worker.js — PWA (offline + instalable)
 ```
+
+El proyecto ahora es un repo git (antes no lo era). `node` no está en el PATH del shell
+por defecto en este entorno — usar `export PATH="$HOME/.nvm/versions/node/v26.5.1/bin:$PATH"`
+antes del comando de validación de sintaxis si `node` no se encuentra.
 
 **Un solo archivo HTML/CSS/JS vanilla — intencional. No romper esta arquitectura.**
 
@@ -370,6 +375,44 @@ resetHintTimer();
 
 ### `rnd(n)` vs `Math.random()`
 Usar `rnd(n)` (alias de `Math.floor(Math.random()*n)`) para consistencia.
+
+---
+
+## HEX CLASH — modo Dark Gothic (motor independiente)
+
+Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `board`,
+`cur`, `stripes`, `obstacles`, etc. — todo tiene prefijo `dg`). Se accede desde el botón
+"🕯️ HEX CLASH · Modo Oscuro" en `screen-title` o desde `screen-dgmenu`.
+
+- **Pantallas:** `screen-dgmenu` (hub), `screen-dglevels` (20 niveles Historia),
+  `screen-dgshop` (cargas de poder + skins), `screen-dggame` (tablero).
+- **Estado del nivel:** `dgCur` (análogo a `cur`). Tableros: `dgBoard` (color 0..5, o
+  `DG_CRYSTAL`=9 comodín), `dgSpecialArr` (null|'BOMB'|'CURSE', paralelo como `stripes`),
+  `dgShadowArr` (HP 0/1/2, paralelo como `obstacles`, no cae con la gravedad).
+- **3 modos:** `dgStartLevel(n)` (Historia, `DG_LEVELS[0..19]` generados por
+  `dgLevelDef(n)`), `dgStartTimed()` (60s), `dgStartZen()` (sin límites).
+- **Piezas especiales** — detectadas en `dgAnalyzeSwapMatch(destR,destC)` justo tras el
+  swap, con prioridad: run≥5 → HEX BOMB (explota 3×3 al activarse); intersección de run
+  horizontal+vertical (forma L/T) → CHAIN CURSE (borra todo un color); run recta de 4 →
+  DARK CRYSTAL (comodín, se guarda directo en `dgBoard` como `DG_CRYSTAL`). La celda
+  destino se protege de el clear inmediato en `dgProcessCascade(initialSpecial,r,c)`
+  (parámetro `protectedCell`) para que la pieza quede en el tablero.
+- **Shadow Pieces:** dañadas por adyacencia en `dgDamageShadows()`, igual que los
+  bloques de chocolate. `dgShadowCountForLevel(n)` es la ÚNICA fuente de verdad para
+  cuántas hay y cuántas exige la meta — si se cambia una, cambiar la otra (si no, el
+  nivel puede quedar imposible de ganar).
+- **Combos:** `dgCur.cascade` multiplica puntos (cap x4), `dgShowCombo()` /`dgShake()`/
+  `dgFlash()` para el feedback visual.
+- **Progresión:** XP/nivel de jugador vía `dgAddXp()` (curva `dgXpForLevel()`, hasta
+  nivel 50), moneda "Soul Shards" (`save.soulShards`), cargas de power-up compradas en
+  la tienda (`save.dgPowerups`), 3 skins de pieza (`DG_PIECE_SKINS`, `save.pieceSkin`).
+- **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
+  motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
+  delay como pseudo-reverb).
+- **PWA:** `manifest.json` + `service-worker.js` (cache-first con fallback a red).
+  ⚠️ Al testear cambios en `index.html` con el service worker ya registrado, hay que
+  `unregister()` + `caches.delete()` y recargar — si no, se sirve una versión vieja
+  cacheada y los cambios "no aparecen" aunque el archivo en disco ya esté actualizado.
 
 ---
 
