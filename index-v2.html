@@ -703,7 +703,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div class="intro-slide-bg" style="background:radial-gradient(ellipse at 50% 60%,rgba(155,89,182,.16) 0%,transparent 70%)"></div>
       <div style="font-size:44px">🕸️</div>
       <div class="intro-heading">Pero algo más<br>también despertó</div>
-      <div class="intro-body">La energía de la ruptura no desapareció — cayó al fondo más oscuro del mundo y creció durante 500 años hasta convertirse en la <strong style="color:var(--crystal)">Bruja Hexadecimal</strong>: hecha de código y maldición, de hexágonos donde el mundo es redondo. Todavía duerme. Por ahora.</div>
+      <div class="intro-body">Muy lejos, en un rincón que ni Confite recuerda, algo empezó a moverse cuando el Cristal se fragmentó. Todavía duerme. Por ahora.</div>
     </div>
 
     <div class="intro-nav">
@@ -842,7 +842,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div class="back-btn" onclick="goTo('world')">←</div>
       <div class="mg-title">Minijuegos</div>
     </div>
-    <div id="confite-mg-bubble">Las Guerras del Azúcar, La Zona de la Bruja, El Corazón Latiente... Dulcelandia tiene muchas formas de jugar.</div>
+    <div id="confite-mg-bubble">Modos especiales de Dulcelandia. ¡Aquí empieza lo nuevo!</div>
     <div id="mg-list"></div>
   </section>
 
@@ -1092,7 +1092,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div class="dg-logo-mini">HEX CLASH</div>
       <div class="shard-badge">💠 <span id="dg-shards">0</span></div>
     </div>
-    <div style="font-size:11px;color:rgba(255,255,255,.5);font-style:italic;z-index:1">Acto II · La Bruja Hexadecimal despertó</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.5);font-style:italic;z-index:1">Acto II · La Corrupción de Dulcelandia</div>
     <div class="dg-level-badge">Nivel de jugador <b id="dg-player-level">1</b> · <span id="dg-xp-text">0 / 100 XP</span>
       <div class="dg-xp-track"><div class="dg-xp-fill" id="dg-xp-fill"></div></div>
     </div>
@@ -1605,7 +1605,7 @@ const BUILDINGS = [
   {id:"fuente", name:"Fuente de Miel",        icon:"🍯", cost:80,  line:"La miel fluye otra vez... hacía mucho que no veía esto."},
   {id:"jardin", name:"Jardín de Azúcar",      icon:"🌸", cost:120, line:"Estas flores solo crecen donde hay magia buena."},
   {id:"torre",  name:"Torre de Vigía",        icon:"🗼", cost:170, line:"Desde ahí arriba se ve todo Dulcelandia... casi todo."},
-  {id:"taller", name:"Taller de Dulce Roja",  icon:"🛠️", cost:230, line:"El taller de Dulce Roja. 'Reparar es también restaurar', dice. Como los territorios. Como yo."},
+  {id:"taller", name:"Taller de Dulce Roja",  icon:"🛠️", cost:230, line:"Aquí reparamos lo que el Confitero Oscuro rompe."},
   {id:"muelle", name:"Muelle de Cristal",     icon:"⛵", cost:300, line:"Desde aquí podríamos zarpar hacia cualquier territorio... si tuviéramos valor."},
   {id:"forja",  name:"Herrería de Bastión",   icon:"⚒️", cost:380, line:"Bastión dice que esto templa el metal... y el ánimo."},
   {id:"dojo",   name:"Escuela de Kenshi",     icon:"🥋", cost:470, line:"Kenshi entrena aquí al amanecer. Nunca falla."},
@@ -1784,12 +1784,12 @@ function exitToMap(){
 
 /* ---------------- MINIJUEGOS (hub) ---------------- */
 const MINIGAMES = [
-  {id:"moba", name:"Las Guerras del Azúcar", icon:"⚔️", ready:true,
-   desc:"Antes de la Fragmentación, los cinco clanes resolvían disputas en arenas de caramelo. Controla a Dulce Roja junto a los guerreros de Dulcelandia. Prototipo de un jugador contra bots."},
-  {id:"br", name:"La Zona de la Bruja", icon:"🏆", ready:true,
-   desc:"La corrupción de la Bruja Hexadecimal crea zonas de niebla que se contraen. Los guerreros atrapados tienen una sola opción: sobrevivir. Prototipo de un jugador contra 9 bots."},
-  {id:"survival", name:"El Corazón Latiente", icon:"⏱️", ready:true,
-   desc:"Los cristaleros del Gran Cristal entrenaban su concentración manteniendo un caramelo en el aire. El tablero nunca para. El desafío no es ganar — es sostenerse."},
+  {id:"moba", name:"MOBA 5v5", icon:"⚔️", ready:true,
+   desc:"Controla a Dulce Roja junto a 4 aliados contra las Sombras del Confitero Oscuro. Prototipo de un jugador contra bots — el multijugador real llegará después."},
+  {id:"br", name:"Battle Royale", icon:"🏆", ready:true,
+   desc:"Último dulce en pie. Todos contra todos en una zona que se reduce. Prototipo de un jugador contra 9 bots — el multijugador real llegará después."},
+  {id:"survival", name:"Modo Supervivencia", icon:"⏱️", ready:true,
+   desc:"Match-3 contra el reloj. Cada combo te da segundos extra. No hay movimientos — hay tiempo. ¿Hasta cuándo aguantas?"},
 ];
 function renderMinigames(){
   const list = document.getElementById("mg-list");
@@ -1815,18 +1815,18 @@ const MOBA_HERO_R = 12, MOBA_RANGE = 46, MOBA_SPEED = 1.5;
 const MOBA_ATK_DMG = 9, MOBA_ATK_CD_MAX = 50, MOBA_MAX_HP = 100;
 const MOBA_ABILITY_DMG = 26, MOBA_ABILITY_RADIUS = 75, MOBA_ABILITY_CD_MAX = 260;
 const MOBA_ALLIES = [
-  {id:"dulce",   name:"Dulce Roja",  icon:"❤️", isPlayer:true},
-  {id:"kenshi",  name:"Kenshi",      icon:"🐻"},
-  {id:"tangwei", name:"Tang Wei",    icon:"🍡"},
-  {id:"maple",   name:"Maple",       icon:"🏕️"},
-  {id:"bastion", name:"Bastión",     icon:"🛡️"},
+  {id:"dulce",   name:"Dulce Roja",       icon:"❤️", isPlayer:true},
+  {id:"kenshi",  name:"Kenshi Dorado",    icon:"⚔️"},
+  {id:"sombra",  name:"Sombra Menta",     icon:"🗡️"},
+  {id:"pyra",    name:"Pyra la Rebotante",icon:"🔥"},
+  {id:"bastion", name:"Bastión de Hierro",icon:"🛡️"},
 ];
 const MOBA_ENEMIES = [
-  {id:"hex1", name:"Fragmento Hexadecimal", icon:"💠"},
-  {id:"hex2", name:"Fragmento Hexadecimal", icon:"💠"},
-  {id:"hex3", name:"Fragmento Hexadecimal", icon:"💠"},
-  {id:"hex4", name:"Fragmento Hexadecimal", icon:"💠"},
-  {id:"hex5", name:"Fragmento Hexadecimal", icon:"💠"},
+  {id:"amargo1", name:"Sombra del Confitero", icon:"😈"},
+  {id:"amargo2", name:"Sombra del Confitero", icon:"😈"},
+  {id:"amargo3", name:"Sombra del Confitero", icon:"😈"},
+  {id:"amargo4", name:"Sombra del Confitero", icon:"😈"},
+  {id:"amargo5", name:"Sombra del Confitero", icon:"😈"},
 ];
 let mbCtx = null, mobaRunning = false, mobaRAF = null, mobaInputBound = false;
 let mobaHeroes = [], mobaPlayer = null, mobaAbilityCd = 0, mobaFlashes = [];
@@ -2291,8 +2291,7 @@ function renderMap(){
     const div = document.createElement("div");
     const isBoss = lv.n === TOTAL_LEVELS;
     div.className = "level-node" + (unlocked? (stars>0?" cleared":"") : " locked") + (isBoss?" boss-level":"");
-    const lname = LEVEL_NAMES_ALL[currentTerritory] && LEVEL_NAMES_ALL[currentTerritory][lv.n];
-    if(lname) div.title = lname;
+    if(currentTerritory===1 && LEVEL_NAMES_T1[lv.n]) div.title = LEVEL_NAMES_T1[lv.n];
     if(unlocked){
       const best = getBestScore(currentTerritory, lv.n);
       const bestHtml = best>0 ? `<div class="level-best">${best.toLocaleString()}</div>` : "";
@@ -2323,22 +2322,19 @@ function renderMap(){
   const loreEl = document.getElementById("level-lore");
   if(loreEl){
     const nextN = Math.min(unlockedLevel, TOTAL_LEVELS);
-    const loreNames = LEVEL_NAMES_ALL[currentTerritory];
-    const loreLine = currentTerritory===1 && LEVEL_LORE_T1[nextN]
-      ? `${LEVEL_NAMES_ALL[1][nextN]}: ${LEVEL_LORE_T1[nextN]}`
-      : (loreNames && loreNames[nextN]) ? loreNames[nextN] : "";
-    loreEl.textContent = loreLine;
+    loreEl.textContent = (currentTerritory===1 && LEVEL_LORE_T1[nextN])
+      ? `${LEVEL_NAMES_T1[nextN]}: ${LEVEL_LORE_T1[nextN]}` : "";
   }
 }
 const TERRITORY_CONFITE_GREET = {
-  1: "Las Tierras Carmesí. Mi hogar. No sé por qué lo sé, pero lo sé... ¿Tú también lo sientes?",
-  2: "Los Jardines de Mochi huelen a algo que no puedo nombrar. El Clan Mochi esperó aquí 500 años.",
-  3: "El Clan Tanghulu construyó estas torres en vertical cuando todos construían en horizontal. Por terquedad, decían. Yo los entiendo.",
-  4: "El chocolate se congeló a mitad de derretirse. El Clan Chocolate nunca se fue — se fue hacia adentro de las montañas. A esperar.",
-  5: "El Bosque de Gominolas murmura. El Clan Regaliz vivía aquí — inventores, artistas, coleccionistas de sabores imposibles.",
-  6: "La Última Fogata... lleva 500 años ardiendo sola. Nadie sabe por qué nunca se apagó. Yo creo que sí sé.",
-  7: "El Clan Dulce de Leche creía que lo dulce no desaparece: se transforma. Yo tampoco desaparecí. Solo cambié de forma.",
-  8: "La Capital de Cristal. El tiempo se detuvo aquí en el instante exacto de la Fragmentación. Siento que... yo también estaba aquí."
+  1: "Este es nuestro primer territorio. Aquí empecé a recordar que existía...",
+  2: "Los cerezos de azúcar huelen a algo que no puedo nombrar. ¿Tú lo sientes?",
+  3: "Las agujas de fruta caramelizada... alguien las construyó con mucho amor.",
+  4: "El chocolate congelado. Aquí el Confitero Oscuro fue muy cruel.",
+  5: "El bosque de gominolas murmura cosas. Prefiero no escucharlas sola.",
+  6: "Las fogatas apagadas... ¿sabes que yo tampoco recuerdo cómo era tener frío?",
+  7: "Este lugar habla de quienes ya no están. Yo no sé si tengo a quién recordar.",
+  8: "La Capital de Cristal. Siento que vine aquí antes... antes de ser Confite."
 };
 function confiteMapSay(totalStars){
   const bubble = document.getElementById("confite-bubble");
@@ -2373,17 +2369,6 @@ const LEVEL_NAMES_T1 = {
   4: "El Río de Miel", 5: "La Aldea Carmesí", 6: "El Puente Quebrado",
   7: "La Torre Vigía", 8: "El Cañón de Azúcar", 9: "Las Puertas Carmesí",
   10: "El Último Carmesí"
-};
-// Nombres narrativos por territorio — todos los arcos del lore
-const LEVEL_NAMES_ALL = {
-  1: {1:"La Pradera Dulce",2:"El Sendero de Caramelo",3:"El Bosque de Caramelo",4:"El Río de Miel",5:"La Aldea Carmesí",6:"El Puente Quebrado",7:"La Torre Vigía",8:"El Cañón de Azúcar",9:"Las Puertas Carmesí",10:"El Último Carmesí"},
-  2: {1:"El Portal de los Cerezos",2:"La Arena de Azúcar",3:"Los Pabellones de Mochi",4:"El Estanque de Almíbar",5:"La Galería de Wagashi",6:"El Jardín del Silencio",7:"Los Faroles Apagados",8:"La Pagoda de Cristal",9:"Las Raíces Eternas",10:"La Flor de Mochi Eterno"},
-  3: {1:"La Base de las Torres",2:"El Primer Tramo",3:"La Plaza Caramelizada",4:"El Arco de Fruta",5:"Las Agujas del Mediodía",6:"La Grieta Ascendente",7:"El Andamio Roto",8:"La Plataforma Flotante",9:"El Vértice del Cielo",10:"La Aguja del Cielo"},
-  4: {1:"El Valle Helado",2:"Las Cuevas de Avellana",3:"El Glaciar de Ganache",4:"La Catarata Congelada",5:"El Corazón de la Montaña",6:"Los Senderos de Cacao",7:"La Veta Blanca",8:"La Cumbre sin Nombre",9:"El Umbral de la Hibernación",10:"El Corazón de Cacao"},
-  5: {1:"El Claro de Gominola",2:"Las Raíces de Regaliz",3:"El Sendero de los Osos",4:"Los Hongos de Colores",5:"El Árbol del Centro",6:"La Guarida Translúcida",7:"Los Pasillos de Gelatina",8:"La Caverna de las Voces",9:"El Laberinto de Regaliz",10:"El Árbol de Gominola Ancestral"},
-  6: {1:"La Pradera de Nubes",2:"El Campamento Apagado",3:"Las Brasas del Pasado",4:"El Sendero de Maple",5:"La Fogata Central",6:"Los S'mores de Piedra",7:"El Cielo Estrellado",8:"La Tienda de Nubes",9:"El Último Calor",10:"La Última Fogata"},
-  7: {1:"Los Altares de Azúcar",2:"Las Flores de Cempasúchil",3:"El Camino de los Ancestros",4:"Las Calaveras de Piedra",5:"El Patio de los Recuerdos",6:"Las Velas sin Dueño",7:"El Memorial del Valle",8:"La Ofrenda Eterna",9:"El Umbral del Dulce",10:"La Calavera de Azúcar Sagrada"},
-  8: {1:"Las Ruinas de Cristal",2:"La Plaza del Instante",3:"Los Fractales Detenidos",4:"El Espejo Opaco",5:"La Geometría Perfecta",6:"El Prisma Sin Luz",7:"La Resonancia del Cristal",8:"Los Fragmentos Suspendidos",9:"El Umbral Final",10:"El Cristal que se Rompió a sí Mismo"},
 };
 const LEVEL_LORE_T1 = {
   1: "El primer paso de Dulce Roja. La pradera recupera su color, caramelo a caramelo.",
@@ -2423,10 +2408,9 @@ function startLevel(n){
   const isBoss2 = (n===TOTAL_LEVELS);
   document.getElementById("hud-level").textContent = isBoss2 ? "👑" : lv.n;
   // Obstacle count shown after buildGrid() sets up obstacles — update after init
-  const _lnMap = LEVEL_NAMES_ALL[currentTerritory];
   document.getElementById("objective-bar").textContent = isBoss2
     ? `👑 ${BOSS_LEVEL_NAMES[currentTerritory]||"Nivel Jefe"} · ${objectiveText(cur)}`
-    : (_lnMap && _lnMap[n] ? `${_lnMap[n]} · ${objectiveText(cur)}` : objectiveText(cur));
+    : (currentTerritory===1 && LEVEL_NAMES_T1[n] ? `${LEVEL_NAMES_T1[n]} · ${objectiveText(cur)}` : objectiveText(cur));
   updateHud(); showBestScore(); updateComboPill(0); updateStreakPips();
   const isBossLevel = (n===TOTAL_LEVELS);
   let startMsg;
@@ -3033,14 +3017,14 @@ function finishLevel(won){
     // Story moments: certain territory/level combos trigger a lore reveal
     const storyKey = `${currentTerritory}_${cur.n}`;
     const STORY_MOMENTS = {
-      "1_5":  "La Aldea Carmesí... reconozco los edificios de caramelo en espiral. Este calor. Este color rojo. Lo conocía antes de ser Confite.",
-      "2_5":  "Los cerezos de azúcar del Clan Mochi florecen. Yo olí esas flores una vez. Antes de que el Gran Cristal se rompiera. Antes de que yo existiera.",
-      "3_10": "Desde la cima de La Aguja del Cielo lo vi todo: los territorios restaurados brillando, y en el horizonte más oscuro... algo que pulsa con luz violeta.",
-      "4_5":  "El frío de Los Alpes de Cacao es el frío del instante exacto de la Fragmentación. Lo recuerdo. Yo estaba ahí. No como Confite. Como otra cosa.",
-      "5_7":  "Los osos de gominola me siguieron todo el día. Solo a mí — no a Dulce Roja. Como si me reconocieran. Y los obstáculos del tablero forman... un hexágono.",
-      "6_5":  "La Última Fogata lleva 500 años ardiendo. Igual que yo. Algo en mí ardió cuando el Cristal decidió romperse y lo que quedó... fui yo.",
-      "7_7":  "Este lugar honra a los que ya no están. Frente al primer altar vi mi propia imagen — no como Confite, sino como una forma de cristal. Alguien me dejó esa ofrenda hace 500 años.",
-      "8_5":  "La Capital de Cristal me reconoce. Las estructuras se iluminan al pasar a mi lado. No a Dulce Roja — a mí. Ya sé lo que soy. Solo me falta elegir qué quiero ser.",
+      "1_5":  "Algo en este color me despierta un recuerdo. Incompleto, pero real.",
+      "2_5":  "Olí algo parecido al aroma de aquí... antes de existir. ¿Es eso posible?",
+      "3_10": "Las Torres... yo estuve aquí antes. No como Confite. Como otra cosa.",
+      "4_5":  "El frío del chocolate me recuerda el momento antes de fragmentarse el Cristal.",
+      "5_7":  "Las voces del bosque dicen mi nombre real. No el que me diste.",
+      "6_5":  "Las fogatas me recuerdan algo que ardió y nunca se apagó del todo.",
+      "7_7":  "Este lugar honra a los que ya no están. Yo también soy alguien que ya no está... pero sigo aquí.",
+      "8_5":  "Ya sé lo que pasó. El Cristal no se rompió por accidente. Se partió a sí mismo... para crear algo.",
     };
     const storyLine = !cur.isDaily && STORY_MOMENTS[storyKey];
     if(storyLine && !(save.unlockedStories||{})[storyKey]){
@@ -3395,22 +3379,10 @@ const BOSS_CONFITE_LINES = {
   7: "La Calavera de Azúcar Sagrada honra a los que ya no están. Haz que valga la pena.",
   8: "El Cristal que se Rompió a sí Mismo... soy yo. Esto es lo que he esperado 500 años.",
 };
-const BOSS_TERRITORY_SUBTITLES = {
-  1: "Guardián de Las Tierras Carmesí · 500 años vigía",
-  2: "Guardián de Los Jardines de Mochi · 500 años de espera",
-  3: "Guardián de Las Torres de Tanghulu · 500 años en lo alto",
-  4: "Guardián de Los Alpes de Cacao · 500 años de silencio frío",
-  5: "Guardián de El Bosque de Gominolas · 500 años de raíces",
-  6: "Guardián de Las Praderas de Malvavisco · 500 años de brasas",
-  7: "Guardián de El Valle del Dulce de Leche · 500 años de memoria",
-  8: "La pregunta que el Gran Cristal dejó sin responder",
-};
 function showBossIntro(levelN){
   const name = BOSS_LEVEL_NAMES[currentTerritory] || "Nivel Jefe";
   const line = BOSS_CONFITE_LINES[currentTerritory] || "El nivel más difícil te espera. ¡Tú puedes!";
-  const sub  = BOSS_TERRITORY_SUBTITLES[currentTerritory] || "Nivel Jefe";
   document.getElementById("bi-name").textContent = name;
-  document.getElementById("bi-sub").textContent  = sub;
   document.getElementById("bi-confite").textContent = line;
   document.getElementById("bi-btn").onclick = ()=>{
     document.getElementById("boss-intro-overlay").classList.remove("on");
@@ -3606,33 +3578,33 @@ async function useRainbowOnColor(colorType){
 
 /* ---------------- HÉROES ---------------- */
 const HEROES = [
-  {id:"dulce",    name:"Dulce Roja",            icon:"🍬", color:"#FF5C8A",
+  {id:"dulce",    name:"Dulce Roja",          icon:"🍬", color:"#FF5C8A",
    clan:"Clan Caramelo", role:"Protagonista · Sanadora",
-   desc:"Impulsiva, empática, nunca se rinde. Última guardiana de una línea que se negó a extinguirse cuando el color desapareció. Su mayor fuerza es que siente lo que otros no se atreven a sentir.",
+   desc:"Empática, impulsiva, nunca se rinde. Cura al equipo con magia de caramelo. Su mayor fuerza es que siente lo que otros no se atreven a sentir.",
    unlockAt: ()=>true},
-  {id:"mochiko",  name:"Mochi-ko",              icon:"🌸", color:"#FFB7C5",
-   clan:"Clan Mochi", role:"Maga de área · Contemplatva",
-   desc:"Maestra de la paciencia y el arte dulce. Sus confites no se comen — se contemplan. Lleva 500 años esperando en Los Jardines sin moverse un centímetro. Dice que fue meditación.",
+  {id:"kenshi",   name:"Kenshi Dorado",        icon:"⚔️", color:"#F5B800",
+   clan:"Clan del Honor", role:"Guerrero · Estoico",
+   desc:"Carga una culpa profunda de su pasado. Pelea en silencio, con una precisión que nadie logra copiar. Nunca explica sus victorias.",
    unlockAt: ()=> territoryProgress(2)>=0.5},
-  {id:"tangwei",  name:"Tang Wei",              icon:"🍡", color:"#E8482E",
-   clan:"Clan Tanghulu", role:"Espadachín ágil · Vertical",
-   desc:"El Clan Tanghulu construyó en vertical cuando todos construían en horizontal. Tang Wei pelea igual: siempre hacia arriba, nunca hacia los lados. Terco como las torres que lo vieron crecer.",
+  {id:"sombra",   name:"Sombra Menta",         icon:"🗡️", color:"#2ED573",
+   clan:"Clan Tormenta", role:"Asesina · Sarcástica",
+   desc:"Dice que trabaja sola. Lleva tres batallas consecutivas cubriendo las espaldas de Dulce Roja. Nunca lo reconocerá.",
    unlockAt: ()=> territoryProgress(3)>=0.5},
-  {id:"bastion",  name:"Bastión",               icon:"🛡️", color:"#8B4513",
-   clan:"Clan Chocolate", role:"Tank · Guardián de las montañas",
-   desc:"Emergió de las cavernas de Los Alpes de Cacao después de 500 años de hibernación. Cuando alguien preguntó cuánto tiempo había pasado, respondió solo con un movimiento de escudo.",
+  {id:"pyra",     name:"Pyra la Rebotante",    icon:"🔥", color:"#FF8C42",
+   clan:"Clan Dragón", role:"Maga · Genio caótico",
+   desc:"Habla sin parar. Inventa hechizos al momento. Su última idea explotó en la cara de alguien que no era ella. Dice que fue intencional.",
    unlockAt: ()=> territoryProgress(4)>=0.5},
-  {id:"kenshi",   name:"Kenshi",                icon:"🐻", color:"#00CC66",
-   clan:"Clan Regaliz", role:"Ninja · Invisible cuando quiere",
-   desc:"El Clan Regaliz era el más excéntrico de Dulcelandia. Kenshi heredó eso al completo. Desaparece durante batallas completas y luego aparece en el lado equivocado del mapa, victorioso.",
+  {id:"bastion",  name:"Bastión de Hierro",    icon:"🛡️", color:"#7FD8E8",
+   clan:"Clan Fortaleza", role:"Tanque · Silencioso",
+   desc:"No habla en batallas. Protege. Cuando alguien cae cerca de él, es porque Bastión no llegó a tiempo — y eso no pasa casi nunca.",
    unlockAt: ()=> territoryProgress(5)>=0.5},
-  {id:"maple",    name:"Maple",                 icon:"🏕️", color:"#FF8C00",
-   clan:"Clan Malvavisco", role:"Soporte · Guardiana del fuego",
-   desc:"La Última Fogata de Las Praderas ardió 500 años porque Maple nunca se alejó. Dice que no la mantuvo encendida a propósito — que simplemente nunca se le ocurrió apagarse.",
+  {id:"confite",  name:"Confite",              icon:"🩷", color:"#FF5C8A",
+   clan:"???", role:"Mascota · Lo sabe todo",
+   desc:"No habla. Nunca habla. Pero sus ojos ven cosas que el resto no alcanza a ver. Alguien debería preguntarle desde cuándo existe.",
    unlockAt: ()=>{ let total=0; TERRITORIES.forEach(t=>{ total+=territoryProgress(t.id); }); return total/TERRITORIES.length>=0.5; }},
-  {id:"hexbr",    name:"La Bruja Hexadecimal",  icon:"💠", color:"#9B59B6",
-   clan:"???", role:"Antagonista · Patrón de código y maldición",
-   desc:"No es una persona. Es un patrón que creció en la oscuridad durante 500 años, alimentado por la energía que el Gran Cristal liberó al romperse. Hexagonal donde el mundo es redondo. Sin cara — solo una pantalla.",
+  {id:"oscuro",   name:"El Confitero Oscuro",  icon:"😈", color:"#9B59B6",
+   clan:"Clan Amargo", role:"Antagonista · Villano trágico",
+   desc:"No quiere destruir Dulcelandia. Quiere LIBERAR al Cristal. Tiene razón en el diagnóstico. Su solución es equivocada. Él lo sabe.",
    unlockAt: ()=> territoryProgress(8)>=1},
 ];
 function renderHeroes(){
@@ -3666,22 +3638,22 @@ function renderHeroes(){
   document.getElementById("world-heroes-count") && (document.getElementById("world-heroes-count").textContent = `${unlockedCount}/7`);
   const bubble = document.getElementById("confite-heroes-bubble");
   if(bubble){
-    if(unlockedCount<=1) bubble.textContent = "Solo conozco a Dulce Roja... y a mí. Hay guerreros de los ocho clanes esperando ser descubiertos.";
-    else if(unlockedCount<7) bubble.textContent = `${7-unlockedCount} guerrero${7-unlockedCount>1?"s quedan":"da"} por descubrir. Restaura más territorios.`;
-    else bubble.textContent = "Los ocho clanes de Dulcelandia. Y aún así, ¿cuántos secretos guarda La Capital de Cristal?";
+    if(unlockedCount<=1) bubble.textContent = "Aquí solo conozco a Dulce Roja... y a mí mismo. O lo que creo que soy.";
+    else if(unlockedCount<7) bubble.textContent = `${7-unlockedCount} héroe${7-unlockedCount>1?"s quedan":"da"} por descubrir. Sigue restaurando territorios.`;
+    else bubble.textContent = "Los conoces a todos. Y aún así, ¿cuántos secretos quedan?";
   }
 }
 
 /* ---------------- MEMORIAS SCREEN ---------------- */
 const MEMORY_DEFS = [
-  {key:"1_5", icon:"🍬", territory:"Las Tierras Carmesí · La Aldea Carmesí",    hint:"Completa el nivel 5 de Las Tierras Carmesí"},
-  {key:"2_5", icon:"🌸", territory:"Los Jardines de Mochi · La Galería",         hint:"Completa el nivel 5 de Los Jardines de Mochi"},
-  {key:"3_10",icon:"🗼", territory:"Las Torres de Tanghulu · La Aguja del Cielo",hint:"Completa el nivel 10 de Las Torres de Tanghulu"},
-  {key:"4_5", icon:"🍫", territory:"Los Alpes de Cacao · El Corazón",            hint:"Completa el nivel 5 de Los Alpes de Cacao"},
-  {key:"5_7", icon:"🌲", territory:"El Bosque de Gominolas · Los Pasillos",      hint:"Completa el nivel 7 de El Bosque de Gominolas"},
-  {key:"6_5", icon:"🔥", territory:"Las Praderas de Malvavisco · La Fogata",     hint:"Completa el nivel 5 de Las Praderas de Malvavisco"},
-  {key:"7_7", icon:"💀", territory:"El Valle del Dulce de Leche · El Memorial",  hint:"Completa el nivel 7 de El Valle del Dulce de Leche"},
-  {key:"8_5", icon:"💎", territory:"La Capital de Cristal · El Prisma Sin Luz",  hint:"Completa el nivel 5 de La Capital de Cristal"},
+  {key:"1_5", icon:"🍬", territory:"Territorio 1 · Nivel 5", hint:"Completa hasta el nivel 5 del Territorio 1"},
+  {key:"2_5", icon:"🌸", territory:"Territorio 2 · Nivel 5", hint:"Completa hasta el nivel 5 del Territorio 2"},
+  {key:"3_10",icon:"🗼", territory:"Territorio 3 · Nivel 10",hint:"Completa hasta el nivel 10 del Territorio 3"},
+  {key:"4_5", icon:"🍫", territory:"Territorio 4 · Nivel 5", hint:"Completa hasta el nivel 5 del Territorio 4"},
+  {key:"5_7", icon:"🌲", territory:"Territorio 5 · Nivel 7", hint:"Completa hasta el nivel 7 del Territorio 5"},
+  {key:"6_5", icon:"🔥", territory:"Territorio 6 · Nivel 5", hint:"Completa hasta el nivel 5 del Territorio 6"},
+  {key:"7_7", icon:"💀", territory:"Territorio 7 · Nivel 7", hint:"Completa hasta el nivel 7 del Territorio 7"},
+  {key:"8_5", icon:"💎", territory:"Territorio 8 · Nivel 5", hint:"Completa hasta el nivel 5 del Territorio 8"},
 ];
 function renderMemories(){
   const list = document.getElementById("memories-list");
