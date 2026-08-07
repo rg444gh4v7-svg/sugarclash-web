@@ -45,7 +45,8 @@
       "Bash(brew list *)",
       "Bash(git remote *)",
       "Bash(git commit *)",
-      "Bash(git branch *)"
+      "Bash(git branch *)",
+      "Bash(git push *)"
     ]
   }
 }
