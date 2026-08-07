@@ -80,19 +80,33 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .village-entry-coins{font-size:12px;font-weight:600;color:var(--gold);white-space:nowrap}
 
 /* ===== VILLAGE (Aldea) ===== */
-#screen-village{padding:18px 16px 24px;gap:12px}
+#screen-village{padding:18px 16px 24px;gap:12px;background:radial-gradient(ellipse at 50% 100%,rgba(245,184,0,.09) 0%,transparent 65%),var(--dark)}
 .village-header{display:flex;align-items:center;gap:10px}
 .village-title{font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--gold);flex:1}
 .coin-badge{font-size:13px;font-weight:600;color:var(--gold);background:rgba(245,184,0,.12);border:1px solid rgba(245,184,0,.3);border-radius:99px;padding:6px 12px}
 .village-sub{font-size:12px;color:var(--crystal)}
 #village-restore-track{background:rgba(255,255,255,.08);border-radius:99px;height:8px;overflow:hidden}
 #village-restore-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--candy));border-radius:99px;transition:width .6s}
-#village-grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:6px 2px 16px;align-content:start}
-.plot{border-radius:16px;padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);transition:transform .15s;cursor:pointer}
+#village-grid{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:22px;padding:16px 6px 20px;position:relative}
+#village-grid::before{content:"";position:absolute;left:50%;top:8px;bottom:8px;border-left:2px dashed rgba(245,184,0,.28)}
+.plot{position:relative;width:64%;border-radius:20px;padding:16px 10px 12px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;background:radial-gradient(ellipse at 50% 120%,rgba(245,184,0,.14),rgba(255,255,255,.03) 72%);border:1px solid rgba(255,255,255,.12);transition:transform .15s;cursor:pointer;z-index:1;animation:cardIn .38s ease backwards}
+@media (prefers-reduced-motion: reduce){
+  .plot{animation:none}
+}
+.plot:nth-child(odd){align-self:flex-start}
+.plot:nth-child(even){align-self:flex-end}
 .plot:active{transform:scale(.96)}
-.plot.built{background:rgba(46,213,115,.1);border-color:rgba(46,213,115,.35);cursor:default}
+.plot-step{position:absolute;top:-9px;left:50%;transform:translateX(-50%);width:20px;height:20px;border-radius:50%;background:var(--dark);border:1px solid rgba(245,184,0,.45);font-size:10px;font-weight:600;color:var(--gold);display:flex;align-items:center;justify-content:center;z-index:2}
+.plot.built{background:radial-gradient(ellipse at 50% 120%,rgba(46,213,115,.18),rgba(255,255,255,.03) 72%);border-color:rgba(46,213,115,.4);cursor:default}
+.plot.built .plot-step{border-color:rgba(46,213,115,.5);color:#5EDB94}
+.plot.built .plot-icon{font-size:38px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.35))}
+.plot.unlocked-next{border-color:rgba(245,184,0,.5);animation:cardIn .38s ease backwards,plotInvite 2.2s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){
+  .plot.unlocked-next{animation:none}
+}
+@keyframes plotInvite{0%,100%{box-shadow:0 0 8px rgba(245,184,0,.12)}50%{box-shadow:0 0 22px rgba(245,184,0,.4)}}
 .plot.locked{opacity:.4;cursor:default}
-.plot-icon{font-size:32px}
+.plot-icon{font-size:30px}
 .plot-name{font-family:'Fraunces',serif;font-weight:600;font-size:12.5px;color:var(--cream);line-height:1.25}
 .plot-cost{font-size:11px;color:var(--gold)}
 .plot-status{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.04em}
@@ -1685,15 +1699,17 @@ function renderVillage(){
     const built = !!save.buildings[b.id];
     const unlocked = built || i===builtCount;
     const div = document.createElement("div");
-    div.className = "plot" + (built?" built":(unlocked?"":" locked"));
+    div.className = "plot" + (built?" built":(unlocked?" unlocked-next":" locked"));
+    div.style.animationDelay = (i*50)+"ms";
+    const step = `<div class="plot-step">${i+1}</div>`;
     if(built){
-      div.innerHTML = `<div class="plot-icon">${b.icon}</div><div class="plot-name">${b.name}</div><div class="plot-status">Construido</div>`;
+      div.innerHTML = `${step}<div class="plot-icon">${b.icon}</div><div class="plot-name">${b.name}</div><div class="plot-status">Construido</div>`;
       div.onclick = ()=>setVillageBubble(b.line);
     } else if(unlocked){
-      div.innerHTML = `<div class="plot-icon">🧱</div><div class="plot-name">${b.name}</div><div class="plot-cost">🍯 ${b.cost}</div>`;
+      div.innerHTML = `${step}<div class="plot-icon">🧱</div><div class="plot-name">${b.name}</div><div class="plot-cost">🍯 ${b.cost}</div>`;
       div.onclick = ()=>buildStructure(b.id);
     } else {
-      div.innerHTML = `<div class="plot-icon">🔒</div><div class="plot-name">${b.name}</div><div class="plot-status">Bloqueado</div>`;
+      div.innerHTML = `${step}<div class="plot-icon">🔒</div><div class="plot-name">${b.name}</div><div class="plot-status">Bloqueado</div>`;
     }
     grid.appendChild(div);
   });
