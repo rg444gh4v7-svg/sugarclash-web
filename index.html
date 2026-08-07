@@ -220,6 +220,10 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .cell.stripe-h::after,.cell.stripe-v::after{content:'';position:absolute;border-radius:3px;pointer-events:none;background:rgba(255,255,255,.75);z-index:2}
 .cell.stripe-h::after{top:50%;left:8%;right:8%;height:5px;transform:translateY(-50%)}
 .cell.stripe-v::after{left:50%;top:8%;bottom:8%;width:5px;transform:translateX(-50%)}
+.cell.wrapped::before{content:'';position:absolute;inset:3px;border-radius:inherit;border:2px dashed rgba(255,255,255,.7);pointer-events:none;z-index:1;animation:wrapSpin 4s linear infinite}
+.cell.wrapped::after{content:'🎀';position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);font-size:15px;filter:drop-shadow(0 0 3px rgba(255,255,255,.85));pointer-events:none;z-index:3;animation:wrapPulse 1.1s ease-in-out infinite}
+@keyframes wrapPulse{0%,100%{transform:translate(-50%,-52%) scale(1)}50%{transform:translate(-50%,-52%) scale(1.18)}}
+@keyframes wrapSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 .cell.hint-pulse{animation:hintpulse 1s ease-in-out infinite}
 @keyframes hintpulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,255,255,.0)}50%{transform:scale(1.12);box-shadow:0 0 0 4px rgba(255,255,200,.65)}}
 @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.3);opacity:.5}100%{transform:scale(0);opacity:0}}
@@ -832,6 +836,21 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
         </div>
       </div>
     </div>
+    <div class="settings-section-title">Guardado</div>
+    <div class="settings-list">
+      <div class="settings-row" onclick="exportSave()">
+        <div class="settings-row-label">
+          <div class="settings-row-title">📤 Exportar guardado</div>
+          <div class="settings-row-sub">Genera un código para respaldar tu progreso</div>
+        </div>
+      </div>
+      <div class="settings-row" onclick="importSave()">
+        <div class="settings-row-label">
+          <div class="settings-row-title">📥 Importar guardado</div>
+          <div class="settings-row-sub">Restaura tu progreso pegando un código guardado</div>
+        </div>
+      </div>
+    </div>
     <div class="settings-section-title">Tus estadísticas</div>
     <div id="settings-stats" class="settings-stats-grid"></div>
   </section>
@@ -1387,7 +1406,7 @@ let sugarRushEndTime = 0;
 let freneticStartTime = 0;
 let moveStreak = 0; // consecutive match-producing swaps
 
-function defaultSave(){ return { stars:{1:{}}, unlocked:{1:1}, coins:0, buildings:{casa:true}, tutorialSeen:false, stripeTutorialSeen:false, obstacleTutorialSeen:false, muted:false, lastTerritory:null, achievements:{}, crystalsActivated:0, bestCascade:0, bestScores:{}, dailyChallenge:null, dailyStreak:0, lastDailyDate:null, lastLoginDate:null, loginStreak:0, territoryComplete:{}, introDone:false, survivalBest:0, activeSkin:"default", unlockedSkins:{default:true}, stripesCreated:0, mobaWins:0, brWins:0, unlockedStories:{}, epilogueSeen:false, chocolateDestroyed:0,
+function defaultSave(){ return { stars:{1:{}}, unlocked:{1:1}, coins:0, buildings:{casa:true}, tutorialSeen:false, stripeTutorialSeen:false, wrapTutorialSeen:false, obstacleTutorialSeen:false, muted:false, lastTerritory:null, achievements:{}, crystalsActivated:0, bestCascade:0, bestScores:{}, dailyChallenge:null, dailyStreak:0, lastDailyDate:null, lastLoginDate:null, loginStreak:0, territoryComplete:{}, introDone:false, survivalBest:0, activeSkin:"default", unlockedSkins:{default:true}, stripesCreated:0, wrappedCreated:0, mobaWins:0, brWins:0, unlockedStories:{}, epilogueSeen:false, chocolateDestroyed:0,
   xp:0, playerLevel:1, soulShards:0, dgUnlocked:1, dgStars:{}, dgTimedBest:0, dgZenBest:0, dgScoreHistory:[], pieceSkin:"gothic", unlockedPieceSkins:{gothic:true}, dgTutorialSeen:false, dgPowerups:{bomb:1,curse:1,crystal:1}, dgAmbientOn:true, dgBombCreated:0, dgCurseCreated:0, dgCrystalCreated:0, dgShadowBroken:0,
   dgModeUnlocked:false, dgVictorySeen:false }; }
 function migrateSave(s){
@@ -1411,6 +1430,41 @@ function resetProgress(){
   save = defaultSave();
   currentTerritory = 1;
   persistSave();
+  goTo("world");
+}
+function exportSave(){
+  const code = btoa(unescape(encodeURIComponent(JSON.stringify(save))));
+  let copied = false;
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(code);
+      copied = true;
+    }
+  }catch(e){}
+  prompt(
+    copied ? "Tu código de guardado se copió al portapapeles. También puedes copiarlo manualmente:" : "Copia este código y guárdalo en un lugar seguro:",
+    code
+  );
+}
+function importSave(){
+  const code = prompt("Pega aquí tu código de guardado:");
+  if(!code) return;
+  let parsed;
+  try{
+    parsed = JSON.parse(decodeURIComponent(escape(atob(code.trim()))));
+  }catch(e){
+    alert("Ese código no es válido. Revisa que lo copiaste completo.");
+    return;
+  }
+  if(!parsed || typeof parsed !== "object" || !("unlocked" in parsed) || !("coins" in parsed)){
+    alert("Ese código no parece ser un guardado de Sugar Clash.");
+    return;
+  }
+  if(!confirm("Esto reemplazará tu progreso actual con el del código importado. ¿Continuar?")) return;
+  save = Object.assign(defaultSave(), migrateSave(parsed));
+  currentTerritory = 1;
+  persistSave();
+  alert("¡Guardado importado con éxito!");
   goTo("world");
 }
 
@@ -2621,13 +2675,18 @@ function gravityStripes(){
   }
 }
 function checkAndCreateStripe(matchedCells, destR, destC){
-  /* If the player's move created a match-4+ in a row → H stripe
-     If match-4+ in a column → V stripe, placed at destination cell */
+  /* If the player's move created an L/T shape (match-3+ in a row AND match-3+ in a column,
+     crossing at the swapped cell) → Wrapped candy, explodes 3x3 when combined.
+     Else if match-4+ in a row → H stripe. Else if match-4+ in a column → V stripe. */
   const rowCounts={}, colCounts={};
   matchedCells.forEach(({r,c})=>{
     rowCounts[r]=(rowCounts[r]||0)+1;
     colCounts[c]=(colCounts[c]||0)+1;
   });
+  if((rowCounts[destR]||0)>=3 && (colCounts[destC]||0)>=3){
+    if(stripes[destR]){ stripes[destR][destC]='W'; save.wrappedCreated=(save.wrappedCreated||0)+1; persistSave(); _wrapCreatedReact(); }
+    return;
+  }
   for(const r in rowCounts){ if(rowCounts[r]>=4){ if(stripes[destR]){ stripes[destR][destC]='H'; save.stripesCreated=(save.stripesCreated||0)+1; persistSave(); _stripeCreatedReact(); } return; } }
   for(const c in colCounts){ if(colCounts[c]>=4){ if(stripes[destR]){ stripes[destR][destC]='V'; save.stripesCreated=(save.stripesCreated||0)+1; persistSave(); _stripeCreatedReact(); } return; } }
 }
@@ -2642,6 +2701,21 @@ function showStripeTutorial(){
   const div=document.createElement("div");
   div.className="stripe-tip";
   div.innerHTML=`<div style="font-size:22px">⚡</div><div><b>¡Caramelo Rayado!</b><br>Combínalo con otros del mismo color para que limpie toda la fila o columna de golpe.</div>`;
+  div.onclick=()=>div.remove();
+  document.getElementById("grid-wrap").appendChild(div);
+  setTimeout(()=>div&&div.remove(), 5000);
+}
+function _wrapCreatedReact(){
+  const pool=CONFITE_LINES.wrapCreated;
+  setTimeout(()=>{
+    setConfiteGame(pool[rnd(pool.length)]); setConfiteMood("excited"); bounceConfite();
+    if(!save.wrapTutorialSeen){ save.wrapTutorialSeen=true; persistSave(); showWrapTutorial(); }
+  }, 350);
+}
+function showWrapTutorial(){
+  const div=document.createElement("div");
+  div.className="stripe-tip";
+  div.innerHTML=`<div style="font-size:22px">🎀</div><div><b>¡Caramelo Envuelto!</b><br>Formaste una L o una T. Combínalo para que explote un área de 3×3 de un solo golpe.</div>`;
   div.onclick=()=>div.remove();
   document.getElementById("grid-wrap").appendChild(div);
   setTimeout(()=>div&&div.remove(), 5000);
@@ -2676,6 +2750,7 @@ function renderGrid(){
     if(sel && sel[0]===r && sel[1]===c) div.classList.add("selected");
     if(stripes.length && stripes[r] && stripes[r][c]==='H') div.classList.add("stripe-h");
     if(stripes.length && stripes[r] && stripes[r][c]==='V') div.classList.add("stripe-v");
+    if(stripes.length && stripes[r] && stripes[r][c]==='W') div.classList.add("wrapped");
     if(obstacles.length && obstacles[r] && obstacles[r][c]>0) div.classList.add(`obstacle-${obstacles[r][c]}`);
     gridEl.appendChild(div);
   }
@@ -2740,6 +2815,7 @@ async function processCascade(){
     const burstCells = [];
     let burstTriggers = 0;
     let stripeTriggers = 0;
+    let wrapTriggers = 0;
     matched.forEach(({r,c})=>{
       if(board[r][c]===SPECIAL){
         burstTriggers++;
@@ -2750,16 +2826,24 @@ async function processCascade(){
       }
       // Striped candy triggers
       if(stripes.length && stripes[r] && stripes[r][c]){
-        stripeTriggers++;
         if(stripes[r][c]==='H'){
+          stripeTriggers++;
           for(let cc=0;cc<cur.cols;cc++){
             const k=key(r,cc);
             if(!cellSet.has(k)){ cellSet.add(k); burstCells.push({r,c:cc}); }
           }
         } else if(stripes[r][c]==='V'){
+          stripeTriggers++;
           for(let rr=0;rr<cur.rows;rr++){
             const k=key(rr,c);
             if(!cellSet.has(k)){ cellSet.add(k); burstCells.push({r:rr,c}); }
+          }
+        } else if(stripes[r][c]==='W'){
+          wrapTriggers++;
+          for(let rr=r-1;rr<=r+1;rr++) for(let cc=c-1;cc<=c+1;cc++){
+            if(rr<0||rr>=cur.rows||cc<0||cc>=cur.cols) continue;
+            const k=key(rr,cc);
+            if(!cellSet.has(k)){ cellSet.add(k); burstCells.push({r:rr,c:cc}); }
           }
         }
         clearStripeAt(r,c);
@@ -2790,9 +2874,13 @@ async function processCascade(){
     if(cur.isSurvival){ addSurvivalTime(matched.length, cur.cascade); }
     updateComboPill(cur.cascade);
     updateFreneticBadge();
-    if(stripeTriggers>0 && burstTriggers>0){
+    if((stripeTriggers>0 || wrapTriggers>0) && burstTriggers>0){
       popCombo(pts, cur.cascade, "⚡✨ ¡Combo especial!"); playCrystal();
-      setConfiteGame(CONFITE_LINES.stripeExplode[rnd(CONFITE_LINES.stripeExplode.length)]); setConfiteMood("celebrate"); bounceConfite();
+      const pool = wrapTriggers>0 ? CONFITE_LINES.wrapExplode : CONFITE_LINES.stripeExplode;
+      setConfiteGame(pool[rnd(pool.length)]); setConfiteMood("celebrate"); bounceConfite();
+    } else if(wrapTriggers>0){
+      popCombo(pts, cur.cascade, "🎀 ¡Envoltorio 3×3!"); playBomb();
+      setConfiteGame(CONFITE_LINES.wrapExplode[rnd(CONFITE_LINES.wrapExplode.length)]); setConfiteMood("excited"); bounceConfite();
     } else if(stripeTriggers>0){
       popCombo(pts, cur.cascade, "⚡ ¡Explosión!"); playPop();
       setConfiteGame(CONFITE_LINES.stripeExplode[rnd(CONFITE_LINES.stripeExplode.length)]); setConfiteMood("excited"); bounceConfite();
@@ -3192,6 +3280,8 @@ const CONFITE_LINES = {
   stripeExplode: ["¡BOOM! ¡Toda la fila de un golpe!","¡El rayo barrió todo a su paso!","¡Explosión de caramelo! ¡Eso sí que es potencia!","¡El caramelo rayado hizo su trabajo!","¡ARRASÓ con todo! ¡Increíble!","¡Limpio y preciso! El tablero tiembla."],
   bombUsed: ["¡BOOM! Eso dejó un cráter de caramelo.","¡La explosión perfecta! Bien calculada.","¡Tres por tres y sin piedad!","¡Esa zona ya no existe. Bien jugado!"],
   crystalBurst: ["¡Los Cristales resplandecen!","¡Una fila entera de cristal!","¡Eso activó los Cristales! ¡Sigue así!","¡El poder del Cristal se libera!"],
+  wrapCreated: ["¡Caramelo envuelto! Va a explotar un área entera.","¡Esa L fue perfecta! Guarda ese envoltorio.","¡Una T de caramelo! Combínalo cuando quieras.","¡Envoltorio listo! 3×3 de pura explosión."],
+  wrapExplode: ["¡BOOM! ¡Toda un área de un golpe!","¡El envoltorio reventó en todas direcciones!","¡Explosión 3×3! ¡Eso sí que es potencia!","¡Nada quedó cerca de esa esquina!"],
 };
 function reactConfite(){
   let pool, mood;

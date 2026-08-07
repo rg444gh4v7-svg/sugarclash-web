@@ -1,7 +1,7 @@
 # Sugar Clash: Dulcelandia — CLAUDE.md
 ## Contexto completo del proyecto para nuevas sesiones de Claude
 
-> **Última actualización:** Julio 2026 — archivo generado tras múltiples sesiones de desarrollo autónomo.
+> **Última actualización:** Agosto 2026 — archivo generado tras múltiples sesiones de desarrollo autónomo.
 > El creador (Jose) no es programador. Claude escribe todo el código. Jose toma las decisiones creativas.
 
 ---
@@ -10,7 +10,7 @@
 
 ```
 sugarclash-web/index.html
-Líneas: ~4580 | Sintaxis: válida (node -e "new Function(js)")
+Líneas: ~5120 | Sintaxis: válida (node -e "new Function(js)")
 sugarclash-web/manifest.json, icon.svg, service-worker.js — PWA (offline + instalable)
 ```
 
@@ -235,6 +235,24 @@ CONFITE_LINES = {
 - Al combinarse en un match, limpia toda su fila o columna
 - CSS: `.cell.stripe-h::after` y `.cell.stripe-v::after`
 
+### Caramelo envuelto (wrapped)
+- Se crea con match en forma de L/T (match de 3+ en fila **y** 3+ en columna, cruzando en la
+  celda destino del swap) → `stripes[r][c] = 'W'` (mismo array paralelo que los rayados,
+  reutilizado con un tercer valor en vez de agregar uno nuevo)
+- Al combinarse en un match, limpia un área de 3×3 centrada en su celda
+- CSS: `.cell.wrapped::before` (anillo punteado) y `.cell.wrapped::after` (🎀 pulsante)
+- Detectado en `checkAndCreateStripe()`, la comprobación de L/T va **antes** que la de rayado
+  recto para tener prioridad cuando ambas condiciones se cumplen
+
+⚠️ **Nota de comportamiento:** tanto el rayado como el envuelto se crean y se auto-disparan
+en el mismo `processCascade()` que generó el match que los originó (porque `processCascade()`
+vuelve a llamar `findMatches()` sobre el mismo tablero antes de limpiar nada, y la celda
+recién convertida en especial cae dentro de ese mismo match). En la práctica esto significa
+que un match-4/L/T da un bonus de limpieza inmediato — el caramelo especial no queda
+"guardado" en el tablero esperando que el jugador lo combine después. Si algún día se quiere
+el comportamiento clásico (pieza persistente), hay que separar la detección de la primera
+pasada de `processCascade()` para que no se autoconsuma.
+
 ### Caramelo especial / Cristal (SPECIAL = 6)
 - 5% de probabilidad en `randType()`
 - Al incluirse en un match, limpia toda su fila (burst)
@@ -418,21 +436,23 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 
 ## Lo que falta (roadmap priorizado)
 
+### Hecho (movido del roadmap)
+- ~~Exportar/importar guardado~~ — `exportSave()`/`importSave()` en Ajustes, código base64 del save
+- ~~Caramelo envuelto~~ — match en L/T shape → `stripes[r][c]='W'`, explota 3×3 (ver "Mecánicas especiales")
+- ~~PWA instalable~~ — `manifest.json` + `service-worker.js` ya en el repo
+
 ### Alta prioridad
-1. **Exportar/importar guardado** — botón en settings para copiar/pegar JSON del save (si el jugador borra caché pierde todo)
-2. **Caramelo envuelto** — match en L/T shape crea candy que explota 3×3 al combinarse (diferente del Bombazo power-up)
-3. **PWA instalable** — `manifest.json` + `service-worker.js` básico para instalar como app en móvil
+1. **Sistema de vidas** — 5 vidas, se pierde 1 al fallar, se recarga 1 cada 30 min (o gastar monedas)
 
 ### Media prioridad
-4. **Sistema de vidas** — 5 vidas, se pierde 1 al fallar, se recarga 1 cada 30 min (o gastar monedas)
-5. **Cofre semanal** — bonus grande por completar X niveles en 7 días
-6. **Transiciones animadas** entre pantallas (actualmente instantáneas)
-7. **Frases de transición** cuando Confite pasa de un territorio a otro
+2. **Cofre semanal** — bonus grande por completar X niveles en 7 días
+3. **Transiciones animadas** entre pantallas (actualmente instantáneas)
+4. **Frases de transición** cuando Confite pasa de un territorio a otro
 
 ### Baja prioridad
-8. **Modo infinito post-epílogo** — algo que hacer después de completar los 8 territorios
-9. **Partidas guardadas múltiples** (hoy solo hay un slot)
-10. **Capacitor packaging** para Android/iOS (requiere separar en archivos)
+5. **Modo infinito post-epílogo** — algo que hacer después de completar los 8 territorios
+6. **Partidas guardadas múltiples** (hoy solo hay un slot)
+7. **Capacitor packaging** para Android/iOS (requiere separar en archivos)
 
 ---
 
