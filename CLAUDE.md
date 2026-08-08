@@ -370,8 +370,38 @@ tráfico gratis a cambio de un revenue-share por publicidad. Esto cambia qué se
 |---|---|---|
 | Sin vidas | `openNoLives()` | `watchAdForLife()` arriba, `refillLivesWithGems()` abajo |
 | Fallaste un nivel | overlay de derrota | `continueWithAd()` (una vez por intento) antes que `continueGame()` (gemas) |
+| Trabado en pleno nivel | menú de pausa | `useBoostWithAd()`/`useBombWithAd()`/`useRainbowWithAd()` — botón "🎬 Gratis" en cada power-up, visible mientras no se usó, sin importar el saldo de monedas |
 | Tienda | `openShop()` | "Ver un anuncio" es la primera fila de la lista |
+| Héroe bloqueado | `screen-heroes` | `unlockHeroWithAd(id)` — **excepto `hexbr`**, es la revelación final de la historia, no se vende (bloqueado en la función y en el render, por las dudas) |
+| Edificio de la Aldea bloqueado | `screen-village` | `buildStructureWithAd(id)` — termina la construcción sin esperar juntar monedas |
+| Memoria de Confite bloqueada | `screen-memories` | `unlockMemoryWithAd(key)` — usa el texto real de `STORY_MOMENTS` (global, ya no vive dentro de `finishLevel()`) |
+| Skin de Confite bloqueada | `screen-skins` | `unlockSkinWithAd(id)` |
+| Piezas/skins de HEX CLASH | `screen-dgshop` | `dgBuyPowerupWithAd(id)` / `dgUnlockSkinWithAd(id)` |
 | Cada `PORTAL_AD_EVERY` niveles terminados | `portalAdBreak()`, llamada desde `exitToMap()` | intersticial — nunca en la primera sesión |
+
+### Héroes y edificios dan bonus de gameplay (agosto 2026)
+Los 7 héroes y los 10 edificios de la Aldea eran 100% cosméticos. Ahora cada uno (salvo
+`hexbr` y la Choza inicial) da un bonus pasivo permanente mientras está equipado/construido
+— deliberadamente modesto, no debe volver el juego trivial. `hasHeroAbility(id)` y
+`hasBuilding(id)` son las funciones de consulta; se llaman desde `startLevel()`,
+`buildGrid()`, `processCascade()`, `processObstacleDamage()`, `powerupCost()`,
+`resetHintTimer()`, `doSwap()`, `syncLives()` y `finishLevel()`/`finishCanvasLevel()`.
+Los efectos de héroe y de edificio con el mismo tema (p. ej. Bastión el héroe y la
+Herrería el edificio, ambos dañan más los bloques de chocolate) se **acumulan** a
+propósito — son sistemas separados, apilar es la recompensa por tener los dos.
+Ver `heroAbilityText()` / `buildingAbilityText()` para la lista completa con sus números.
+
+`livesMax()` reemplaza las referencias directas a la constante `LIVES_MAX` en todo el
+sistema de vidas — el edificio Muelle de Cristal la sube en +1. Si se agrega otro efecto
+que toque el techo de vidas, tiene que pasar por esta función, nunca leer `LIVES_MAX` a secas.
+
+### Multiplicador de racha de inicio de sesión
+`streakMult()` — reusa `save.loginStreak` (ya trackeado por `checkLoginBonus()`, el bono
+de monedas al abrir el juego cada día) en vez de un contador nuevo. +10% de monedas por
+día consecutivo, tope x2 en el día 11; faltar un día rompe la racha a 1 → vuelve a x1.
+Se aplica en `finishLevel()` y `finishCanvasLevel()`, y se muestra siempre en el HUD
+(`.streak-mult-pill`, actualizado por `updateStreakUI()`) — no solo al reclamar el bono.
+El miedo a perder la racha trae de vuelta más que la promesa de ganarla.
 
 ### Checklist para conectar el SDK real del portal (falta hacer)
 Hoy todos los anuncios son simulados (`toast()` con aviso "falta conectar la red"). Para

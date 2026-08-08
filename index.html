@@ -272,6 +272,8 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .econ-pill{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:99px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
 .econ-pill.lives{border-color:rgba(255,45,122,.4)}
 .econ-pill.gems{border-color:rgba(0,245,255,.4);color:var(--crystal)}
+.econ-pill.streak-mult-pill{border-color:rgba(255,140,66,.4);color:#FF8C42}
+.econ-pill.streak-mult-pill.maxed{border-color:rgba(255,140,66,.7);background:rgba(255,140,66,.12);animation:nodeInvite 2.4s ease-in-out infinite}
 .econ-pill .lives-timer{font-size:9.5px;color:rgba(255,255,255,.5);font-weight:400}
 .econ-toast{position:fixed;left:50%;bottom:64px;transform:translateX(-50%);background:rgba(13,0,21,.94);border:1px solid rgba(245,184,0,.45);color:var(--cream);font-size:13px;padding:10px 16px;border-radius:99px;z-index:120;animation:toastIn .25s ease;max-width:88vw;text-align:center}
 @keyframes toastIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
@@ -855,6 +857,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div class="econ-pill gems" onclick="openShop()">💎 <span class="gems-count">0</span></div>
       <div class="econ-pill" onclick="goTo('village')">🍯 <span id="world-coins-2">0</span></div>
       <div style="flex:1"></div>
+      <div class="econ-pill streak-mult-pill" onclick="openDailyCal()" title="Racha de inicio de sesión">🔥 x1</div>
       <div class="econ-pill" onclick="openDailyCal()">🎁</div>
     </div>
     <div class="piggy-card" id="piggy-card" onclick="confirmOpenPiggy()">
@@ -1815,9 +1818,10 @@ function openDailyCal(){
   });
   const btn=document.getElementById("cal-claim-btn");
   btn.style.display = st.canClaim ? "" : "none";
-  document.getElementById("cal-sub").textContent = st.canClaim
+  document.getElementById("cal-sub").textContent = (st.canClaim
     ? `Día ${st.day+1} de 7 · reclamá tu premio`
-    : "Ya reclamaste hoy. Volvé mañana para seguir la racha.";
+    : "Ya reclamaste hoy. Volvé mañana para seguir la racha.")
+    + ` · Multiplicador de monedas: ${fmtMult(streakMult())}`;
   document.getElementById("daily-cal-overlay").classList.add("on");
 }
 function closeDailyCal(){ document.getElementById("daily-cal-overlay").classList.remove("on"); }
@@ -1834,6 +1838,27 @@ function claimDailyCal(){
   playBuild(); spawnConfetti();
   openDailyCal();
   renderWorld();
+}
+/* ---------------- MULTIPLICADOR DE RACHA ----------------
+   Reusa save.loginStreak (ya trackeado por checkLoginBonus()) en vez de un
+   contador nuevo. +10% de monedas por día consecutivo, tope x2 en el día
+   11. Faltar un día rompe la racha a loginStreak=1 → vuelve a x1. Visible
+   siempre en el HUD, no solo al reclamar el bono — el miedo a perderlo es
+   lo que trae de vuelta todos los días, más que la promesa de ganarlo. */
+const STREAK_MULT_CAP = 2.0;
+function streakMult(){
+  return Math.min(STREAK_MULT_CAP, 1 + ((save.loginStreak||1)-1)*0.1);
+}
+function fmtMult(m){ return "x"+(Math.round(m*10)/10).toFixed(1).replace(/\.0$/,""); }
+function updateStreakUI(){
+  const el = document.querySelectorAll(".streak-mult-pill");
+  const mult = streakMult();
+  const streak = save.loginStreak||1;
+  el.forEach(e=>{
+    e.textContent = `🔥 ${fmtMult(mult)}`;
+    e.title = `Racha de ${streak} día${streak===1?"":"s"} · faltar un día la reinicia`;
+    e.classList.toggle("maxed", mult>=STREAK_MULT_CAP);
+  });
 }
 function confirmOpenPiggy(){
   if((save.piggy||0)<=0){ toast("La alcancía está vacía. Jugá para llenarla."); return; }
@@ -2072,6 +2097,7 @@ function renderWorld(){
   if(pf) pf.style.width = piggyPct()+"%";
   if(pa) pa.textContent = save.piggy||0;
   updateLivesUI();
+  updateStreakUI();
   startLivesTicker();
   setWorldBubble(confiteWorldMsg(worldPct));
   checkAchievements();
@@ -3218,6 +3244,7 @@ async function finishCanvasLevel(){
   const stars = cur.movesLeft>=8 ? 3 : cur.movesLeft>=3 ? 2 : 1;
   let coins = 30 + stars*15;
   if(hasHeroAbility("maple")) coins = Math.round(coins*1.2); // +20% equipada
+  coins = Math.round(coins*streakMult()); // racha de inicio de sesión
   if(hasBuilding("puesto")) coins += 5;
   save.coins=(save.coins||0)+coins;
   if(!save.canvasDone) save.canvasDone={};
@@ -3959,6 +3986,7 @@ function finishLevel(won){
     }
     // Habilidad de Maple equipada: +20% de monedas al terminar un nivel
     if(hasHeroAbility("maple")) coinsEarned = Math.round(coinsEarned*1.2);
+    coinsEarned = Math.round(coinsEarned*streakMult()); // racha de inicio de sesión
     // Edificio Puesto de Caramelos construido: +5 🍯 fijas por nivel
     if(hasBuilding("puesto")) coinsEarned += 5;
     save.coins = (save.coins||0) + coinsEarned;
