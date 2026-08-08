@@ -301,9 +301,8 @@ de `BUILDINGS`, cada una posicionada de forma absoluta (`.v-node`) sobre el cami
 
 ## Economía (modelo free-to-play)
 
-Copia deliberada de la economía del género (Candy Crush / Royal Match). Se agregó en
-agosto 2026; antes el juego no tenía escasez de ningún tipo y por eso no retenía ni
-podía monetizar.
+Copia deliberada de la economía del género (Candy Crush / Royal Match). Antes de esto
+el juego no tenía escasez de ningún tipo y por eso no retenía ni podía monetizar.
 
 **Constantes** — declaradas **antes** de `let save = loadSave()` a propósito: `defaultSave()`
 y `migrateSave()` las usan, y un `const` en zona muerta temporal (TDZ) tira ReferenceError.
@@ -559,10 +558,10 @@ Dulce en la superficie, melancólico en el fondo. Confite sabe más de lo que di
 1. **Un solo archivo** — todo en `index.html`
 2. **Sin frameworks** — vanilla JS
 3. **Sin archivos externos de audio** — Web Audio API sintetizada
-4. **Modelo free-to-play** (cambiado en agosto 2026 por decisión del creador; antes decía
-   *"el jugador nunca siente presión de pagar"*). Ahora el juego copia deliberadamente la
-   economía del género: vidas que se agotan, moneda dura (gemas), alcancía que se abre
-   pagando y oferta de continuar al fallar. Ver la sección **Economía** más abajo.
+4. **Modelo free-to-play** — el juego copia deliberadamente la economía del género:
+   vidas que se agotan, moneda dura (gemas), alcancía que se abre pagando y oferta de
+   continuar al fallar. Ver la sección **Economía**. La escasez es intencional: sin
+   derrota posible no hay retención ni ingresos.
 5. **Confite siempre en pantalla** — es el corazón narrativo del juego
 6. **Validar sintaxis después de cada cambio** — el comando `node -e "new Function(js)"` es obligatorio
 
