@@ -261,6 +261,51 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   #canvas-scene.alive{animation:none}
 }
 
+/* ===== ECONOMÍA (vidas, gemas, alcancía, tienda) ===== */
+.econ-bar{display:flex;align-items:center;gap:8px}
+.econ-pill{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:99px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.econ-pill.lives{border-color:rgba(255,45,122,.4)}
+.econ-pill.gems{border-color:rgba(0,245,255,.4);color:var(--crystal)}
+.econ-pill .lives-timer{font-size:9.5px;color:rgba(255,255,255,.5);font-weight:400}
+.econ-toast{position:fixed;left:50%;bottom:64px;transform:translateX(-50%);background:rgba(13,0,21,.94);border:1px solid rgba(245,184,0,.45);color:var(--cream);font-size:13px;padding:10px 16px;border-radius:99px;z-index:120;animation:toastIn .25s ease;max-width:88vw;text-align:center}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+#nolives-overlay,#shop-overlay,#daily-cal-overlay{position:fixed;inset:0;background:rgba(7,3,16,.85);display:none;align-items:center;justify-content:center;z-index:110;padding:20px}
+#nolives-overlay.on,#shop-overlay.on,#daily-cal-overlay.on{display:flex}
+.econ-modal{background:linear-gradient(165deg,#2A0845,#170027);border:1px solid rgba(245,184,0,.4);border-radius:22px;padding:22px 20px;max-width:330px;width:100%;text-align:center;display:flex;flex-direction:column;gap:10px;box-shadow:0 18px 50px rgba(0,0,0,.6);max-height:88vh;overflow-y:auto}
+.econ-modal h3{font-family:'Fraunces',serif;font-weight:600;font-size:20px;color:var(--gold)}
+.econ-modal p{font-size:12.5px;color:rgba(255,255,255,.7);line-height:1.45}
+.econ-big{font-size:40px;line-height:1}
+.econ-btn{font-family:'Karla',sans-serif;font-weight:600;font-size:14px;border-radius:99px;padding:11px 18px;background:linear-gradient(135deg,var(--gold),#FF9E2C);color:#3A1A00;border:none;cursor:pointer}
+.econ-btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.25);color:var(--cream)}
+.piggy-card{display:flex;align-items:center;gap:11px;background:linear-gradient(135deg,rgba(255,45,122,.16),rgba(245,184,0,.10));border:1px solid rgba(255,45,122,.35);border-radius:14px;padding:10px 13px;cursor:pointer}
+.piggy-icon{font-size:27px}
+.piggy-info{flex:1;min-width:0;text-align:left}
+.piggy-info b{font-size:13px;color:var(--cream)}
+.piggy-track{margin-top:5px;background:rgba(255,255,255,.12);height:6px;border-radius:99px;overflow:hidden}
+.piggy-fill{height:100%;background:linear-gradient(90deg,var(--candy),var(--gold));border-radius:99px;transition:width .5s}
+.piggy-amt{font-size:11px;color:var(--gold);font-weight:600;white-space:nowrap}
+.shop-item{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:11px 13px;cursor:pointer;text-align:left}
+.shop-item:active{transform:scale(.98)}
+.shop-item.best{border-color:rgba(245,184,0,.55);background:rgba(245,184,0,.10)}
+.shop-item-icon{font-size:24px}
+.shop-item-txt{flex:1;min-width:0}
+.shop-item-txt b{font-size:13.5px;color:var(--cream)}
+.shop-item-sub{font-size:10.5px;color:rgba(255,255,255,.55)}
+.shop-price{font-size:12.5px;font-weight:600;color:var(--gold);white-space:nowrap}
+.cal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.cal-day{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);border-radius:11px;padding:8px 4px;font-size:10px;color:rgba(255,255,255,.6)}
+.cal-day .cal-icon{font-size:19px;display:block;margin-bottom:2px}
+.cal-day.claimed{opacity:.4;border-color:rgba(46,213,115,.4)}
+.cal-day.today{border-color:var(--gold);background:rgba(245,184,0,.15);animation:nodeInvite 2s ease-in-out infinite}
+.booster-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.booster-chip{display:flex;flex-direction:column;align-items:center;gap:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);border-radius:13px;padding:8px 12px;cursor:pointer;min-width:70px}
+.booster-chip.on{border-color:var(--gold);background:rgba(245,184,0,.16)}
+.booster-chip .bc-icon{font-size:20px}
+.booster-chip .bc-name{font-size:9.5px;color:rgba(255,255,255,.7)}
+.booster-chip .bc-count{font-size:10px;color:var(--gold);font-weight:600}
+.level-node.lv-hard{border-color:rgba(255,45,122,.55);box-shadow:0 0 14px rgba(255,45,122,.22)}
+.level-node.lv-hard::after{content:"DIFÍCIL";position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);background:var(--candy);color:#fff;font-size:7.5px;font-weight:700;letter-spacing:.05em;padding:1px 6px;border-radius:99px;white-space:nowrap}
+
 #grid-wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center}
 #grid{display:grid;gap:4px;width:100%;max-width:380px}
 .cell{aspect-ratio:1;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s;border:2px solid transparent;position:relative}
@@ -784,6 +829,21 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 
   <!-- ============ WORLD (mapa mundial) ============ -->
   <section id="screen-world" class="screen">
+    <div class="econ-bar">
+      <div class="econ-pill lives" onclick="openNoLives()">❤️ <span class="lives-count">5</span><span class="lives-timer">LLENO</span></div>
+      <div class="econ-pill gems" onclick="openShop()">💎 <span class="gems-count">0</span></div>
+      <div class="econ-pill" onclick="goTo('village')">🍯 <span id="world-coins-2">0</span></div>
+      <div style="flex:1"></div>
+      <div class="econ-pill" onclick="openDailyCal()">🎁</div>
+    </div>
+    <div class="piggy-card" id="piggy-card" onclick="confirmOpenPiggy()">
+      <div class="piggy-icon">🐷</div>
+      <div class="piggy-info">
+        <b>Alcancía</b>
+        <div class="piggy-track"><div class="piggy-fill" id="piggy-fill"></div></div>
+      </div>
+      <div class="piggy-amt"><span id="piggy-amt">0</span> 🍯</div>
+    </div>
     <div class="world-header">
       <div>
         <div class="world-title">Dulcelandia</div>
@@ -1349,6 +1409,40 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     <button class="btn-sm btn-primary" onclick="closeTerritoryComplete()">Continuar</button>
   </div>
 
+  <!-- ============ SIN VIDAS ============ -->
+  <div id="nolives-overlay">
+    <div class="econ-modal">
+      <div class="econ-big">💔</div>
+      <h3>Te quedaste sin vidas</h3>
+      <p>Vuelve una vida cada 25 minutos.<br>Próxima en <b id="nolives-timer" style="color:var(--crystal)">--:--</b></p>
+      <button class="econ-btn" onclick="refillLivesWithGems()">💎 60 · Llenar vidas</button>
+      <button class="econ-btn ghost" onclick="watchAdForLife()">🎬 Ver un anuncio · +1 vida</button>
+      <button class="econ-btn ghost" onclick="closeNoLives()">Ahora no</button>
+    </div>
+  </div>
+
+  <!-- ============ TIENDA ============ -->
+  <div id="shop-overlay">
+    <div class="econ-modal">
+      <h3>💎 Tienda</h3>
+      <p>Tus gemas: <b class="gems-count" style="color:var(--crystal)">0</b></p>
+      <div id="shop-list" style="display:flex;flex-direction:column;gap:8px"></div>
+      <div style="font-size:10.5px;color:rgba(255,255,255,.4);line-height:1.4">Los paquetes todavía no procesan pagos reales — falta conectar la pasarela.</div>
+      <button class="econ-btn ghost" onclick="closeShop()">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- ============ CALENDARIO DIARIO ============ -->
+  <div id="daily-cal-overlay">
+    <div class="econ-modal">
+      <h3>🎁 Recompensa diaria</h3>
+      <p id="cal-sub">Volvé cada día. Si faltás, la racha vuelve a empezar.</p>
+      <div class="cal-grid" id="cal-grid"></div>
+      <button class="econ-btn" id="cal-claim-btn" onclick="claimDailyCal()">Reclamar</button>
+      <button class="econ-btn ghost" onclick="closeDailyCal()">Cerrar</button>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -1362,103 +1456,111 @@ const SAVE_KEY = "sugarclash_save_v1";
 const TOTAL_LEVELS = 10;
 
 const LEVELS = [
-  {n:1,  goal:500,  moves:25, cols:6},
-  {n:2,  goal:650,  moves:22, cols:6},
-  {n:3,  goal:800,  moves:20, cols:7},
-  {n:4,  moves:20, cols:7, type:"collect", color:0, target:12},
-  {n:5,  goal:1100, moves:18, cols:7},
-  {n:6,  goal:1300, moves:18, cols:7},
-  {n:7,  moves:17, cols:7, type:"crystals", target:2},
-  {n:8,  goal:1700, moves:16, cols:7},
-  {n:9,  goal:1900, moves:16, cols:7},
-  {n:10, goal:2200, moves:15, cols:7},
+  {n:1,  goal:500,  moves:10, cols:6},
+  {n:2,  goal:650,  moves:11, cols:6},
+  {n:3,  goal:800,  moves:11, cols:7},
+  {n:4,  moves:17, cols:7, type:"collect", color:0, target:12},
+  {n:5,  goal:1100, moves:9, cols:7},
+  {n:6,  goal:1300, moves:7, cols:7},
+  {n:7,  moves:14, cols:7, type:"crystals", target:2},
+  {n:8,  goal:1700, moves:7, cols:7},
+  {n:9,  goal:1900, moves:7, cols:7},
+  {n:10, goal:2200, moves:7, cols:7},
 ];
 const LEVELS_MOCHI = [
-  {n:1,  goal:900,  moves:22, cols:7},
-  {n:2,  goal:1150, moves:21, cols:7},
-  {n:3,  goal:1400, moves:19, cols:7},
-  {n:4,  moves:18, cols:7, type:"collect", color:5, target:13},
-  {n:5,  goal:1900, moves:17, cols:7},
-  {n:6,  goal:2150, moves:16, cols:7},
-  {n:7,  moves:15, cols:7, type:"crystals", target:1},
-  {n:8,  goal:2650, moves:15, cols:7},
-  {n:9,  goal:2900, moves:14, cols:7},
-  {n:10, goal:3200, moves:14, cols:7},
+  {n:1,  goal:900,  moves:7, cols:7},
+  {n:2,  goal:1150, moves:7, cols:7},
+  {n:3,  goal:1400, moves:7, cols:7},
+  {n:4,  moves:15, cols:7, type:"collect", color:5, target:13},
+  {n:5,  goal:1900, moves:7, cols:7},
+  {n:6,  goal:2150, moves:7, cols:7},
+  {n:7,  moves:7, cols:7, type:"crystals", target:1},
+  {n:8,  goal:2650, moves:8, cols:7},
+  {n:9,  goal:2900, moves:7, cols:7},
+  {n:10, goal:3200, moves:7, cols:7},
 ];
 const LEVELS_TANGHULU = [
-  {n:1,  goal:1500, moves:22, cols:7},
-  {n:2,  goal:1800, moves:20, cols:7},
-  {n:3,  goal:2100, moves:19, cols:7},
-  {n:4,  moves:18, cols:7, type:"collect", color:0, target:13},
-  {n:5,  goal:2700, moves:17, cols:7},
-  {n:6,  goal:3000, moves:16, cols:7},
+  {n:1,  goal:1500, moves:7, cols:7},
+  {n:2,  goal:1800, moves:7, cols:7},
+  {n:3,  goal:2100, moves:7, cols:7},
+  {n:4,  moves:13, cols:7, type:"collect", color:0, target:13},
+  {n:5,  goal:2700, moves:7, cols:7},
+  {n:6,  goal:3000, moves:7, cols:7},
   {n:7,  moves:15, cols:7, type:"crystals", target:2},
-  {n:8,  goal:3600, moves:15, cols:7},
-  {n:9,  goal:3900, moves:14, cols:7},
-  {n:10, goal:4300, moves:14, cols:7},
+  {n:8,  goal:3600, moves:7, cols:7},
+  {n:9,  goal:3900, moves:9, cols:7},
+  {n:10, goal:4300, moves:8, cols:7},
 ];
 const LEVELS_ALPES = [
-  {n:1,  goal:2200, moves:21, cols:7},
-  {n:2,  goal:2550, moves:20, cols:7},
-  {n:3,  goal:2900, moves:19, cols:7},
-  {n:4,  moves:18, cols:7, type:"collect", color:1, target:11},
-  {n:5,  goal:3600, moves:17, cols:7},
-  {n:6,  goal:3950, moves:16, cols:7},
-  {n:7,  moves:15, cols:7, type:"crystals", target:2},
-  {n:8,  goal:4650, moves:15, cols:7},
-  {n:9,  goal:5000, moves:14, cols:7},
-  {n:10, goal:5400, moves:13, cols:7},
+  {n:1,  goal:2200, moves:7, cols:7},
+  {n:2,  goal:2550, moves:7, cols:7},
+  {n:3,  goal:2900, moves:7, cols:7},
+  {n:4,  moves:12, cols:7, type:"collect", color:1, target:11},
+  {n:5,  goal:3600, moves:7, cols:7},
+  {n:6,  goal:3950, moves:8, cols:7},
+  {n:7,  moves:11, cols:7, type:"crystals", target:2},
+  {n:8,  goal:4650, moves:7, cols:7},
+  {n:9,  goal:5000, moves:8, cols:7},
+  {n:10, goal:5400, moves:8, cols:7},
 ];
 const LEVELS_GOMINOLAS = [
-  {n:1,  goal:2900, moves:22, cols:7},
-  {n:2,  goal:3300, moves:21, cols:7},
-  {n:3,  goal:3700, moves:20, cols:7},
-  {n:4,  moves:17, cols:7, type:"collect", color:2, target:15},
-  {n:5,  goal:4500, moves:18, cols:7},
-  {n:6,  goal:4900, moves:18, cols:7},
-  {n:7,  moves:15, cols:7, type:"crystals", target:2},
-  {n:8,  goal:5700, moves:17, cols:7},
-  {n:9,  goal:6100, moves:17, cols:7},
-  {n:10, goal:6600, moves:16, cols:7},
+  {n:1,  goal:2900, moves:7, cols:7},
+  {n:2,  goal:3300, moves:7, cols:7},
+  {n:3,  goal:3700, moves:7, cols:7},
+  {n:4,  moves:14, cols:7, type:"collect", color:2, target:15},
+  {n:5,  goal:4500, moves:7, cols:7},
+  {n:6,  goal:4900, moves:9, cols:7},
+  {n:7,  moves:10, cols:7, type:"crystals", target:2},
+  {n:8,  goal:5700, moves:9, cols:7},
+  {n:9,  goal:6100, moves:9, cols:7},
+  {n:10, goal:6600, moves:7, cols:7},
 ];
 const LEVELS_MALVAVISCO = [
-  {n:1,  goal:3600, moves:22, cols:7},
-  {n:2,  goal:4050, moves:21, cols:7},
-  {n:3,  goal:4500, moves:20, cols:7},
-  {n:4,  moves:17, cols:7, type:"collect", color:3, target:14},
-  {n:5,  goal:5400, moves:18, cols:7},
-  {n:6,  goal:5850, moves:18, cols:7},
-  {n:7,  moves:15, cols:7, type:"crystals", target:2},
-  {n:8,  goal:7200, moves:19, cols:8},
-  {n:9,  goal:7800, moves:18, cols:8},
-  {n:10, goal:8500, moves:17, cols:8},
+  {n:1,  goal:3600, moves:7, cols:7},
+  {n:2,  goal:4050, moves:7, cols:7},
+  {n:3,  goal:4500, moves:7, cols:7},
+  {n:4,  moves:13, cols:7, type:"collect", color:3, target:14},
+  {n:5,  goal:5400, moves:7, cols:7},
+  {n:6,  goal:5850, moves:7, cols:7},
+  {n:7,  moves:9, cols:7, type:"crystals", target:2},
+  {n:8,  goal:7200, moves:10, cols:8},
+  {n:9,  goal:7800, moves:10, cols:8},
+  {n:10, goal:8500, moves:11, cols:8},
 ];
 const LEVELS_DULCE_DE_LECHE = [
-  {n:1,  goal:4400, moves:22, cols:7},
-  {n:2,  goal:4900, moves:21, cols:7},
-  {n:3,  goal:5400, moves:20, cols:7},
-  {n:4,  moves:17, cols:7, type:"collect", color:4, target:16},
-  {n:5,  goal:6400, moves:18, cols:7},
-  {n:6,  goal:6900, moves:18, cols:8},
+  {n:1,  goal:4400, moves:8, cols:7},
+  {n:2,  goal:4900, moves:8, cols:7},
+  {n:3,  goal:5400, moves:9, cols:7},
+  {n:4,  moves:14, cols:7, type:"collect", color:4, target:16},
+  {n:5,  goal:6400, moves:8, cols:7},
+  {n:6,  goal:6900, moves:10, cols:8},
   {n:7,  moves:14, cols:8, type:"crystals", target:3},
-  {n:8,  goal:8800, moves:19, cols:8},
-  {n:9,  goal:9500, moves:18, cols:8},
-  {n:10, goal:10200, moves:20, cols:8},
+  {n:8,  goal:8800, moves:10, cols:8},
+  {n:9,  goal:9500, moves:11, cols:8},
+  {n:10, goal:10200, moves:8, cols:8},
 ];
 const LEVELS_CRISTAL = [
-  {n:1,  goal:5000,  moves:21, cols:7},
-  {n:2,  goal:5600,  moves:20, cols:7},
-  {n:3,  goal:6200,  moves:19, cols:8},
-  {n:4,  moves:16, cols:8, type:"collect", color:1, target:14},
-  {n:5,  goal:8000,  moves:19, cols:8},
-  {n:6,  goal:9000,  moves:18, cols:8},
-  {n:7,  moves:13, cols:8, type:"crystals", target:4},
-  {n:8,  goal:10500, moves:18, cols:8},
-  {n:9,  goal:11500, moves:20, cols:8},
-  {n:10, goal:10000, moves:20, cols:8},
+  {n:1,  goal:5000,  moves:7, cols:7},
+  {n:2,  goal:5600,  moves:9, cols:7},
+  {n:3,  goal:6200,  moves:9, cols:8},
+  {n:4,  moves:14, cols:8, type:"collect", color:1, target:14},
+  {n:5,  goal:8000,  moves:8, cols:8},
+  {n:6,  goal:9000,  moves:12, cols:8},
+  {n:7,  moves:12, cols:8, type:"crystals", target:4},
+  {n:8,  goal:10500, moves:14, cols:8},
+  {n:9,  goal:11500, moves:12, cols:8},
+  {n:10, goal:10000, moves:10, cols:8},
 ];
 const LEVELS_BY_TERRITORY = { 1: LEVELS, 2: LEVELS_MOCHI, 3: LEVELS_TANGHULU, 4: LEVELS_ALPES, 5: LEVELS_GOMINOLAS, 6: LEVELS_MALVAVISCO, 7: LEVELS_DULCE_DE_LECHE, 8: LEVELS_CRISTAL };
 let currentTerritory = 1;
+
+/* Constantes de economía — declaradas antes de loadSave() porque defaultSave()
+   y migrateSave() las usan, y un const en TDZ tiraría ReferenceError. */
+const LIVES_MAX = 5;
+const LIFE_REGEN_MS = 25*60*1000;
+const REFILL_LIVES_GEMS = 60;
+const PIGGY_CAP = 1200;
+const PIGGY_OPEN_GEMS = 120;
 
 let save = loadSave();
 let cur = null;     // estado del nivel en curso
@@ -1476,14 +1578,228 @@ let moveStreak = 0; // consecutive match-producing swaps
 
 function defaultSave(){ return { stars:{1:{}}, unlocked:{1:1}, coins:0, buildings:{casa:true}, tutorialSeen:false, stripeTutorialSeen:false, wrapTutorialSeen:false, obstacleTutorialSeen:false, muted:false, lastTerritory:null, achievements:{}, crystalsActivated:0, bestCascade:0, bestScores:{}, dailyChallenge:null, dailyStreak:0, lastDailyDate:null, lastLoginDate:null, loginStreak:0, territoryComplete:{}, introDone:false, survivalBest:0, activeSkin:"default", unlockedSkins:{default:true}, stripesCreated:0, wrappedCreated:0, mobaWins:0, brWins:0, unlockedStories:{}, epilogueSeen:false, chocolateDestroyed:0,
   xp:0, playerLevel:1, soulShards:0, dgUnlocked:1, dgStars:{}, dgTimedBest:0, dgZenBest:0, dgScoreHistory:[], pieceSkin:"gothic", unlockedPieceSkins:{gothic:true}, dgTutorialSeen:false, dgPowerups:{bomb:1,curse:1,crystal:1}, dgAmbientOn:true, dgBombCreated:0, dgCurseCreated:0, dgCrystalCreated:0, dgShadowBroken:0,
-  dgModeUnlocked:false, dgVictorySeen:false }; }
+  dgModeUnlocked:false, dgVictorySeen:false,
+  // economía: vidas (escasez), gemas (moneda dura), alcancía (acumula y se abre pagando)
+  lives:LIVES_MAX, livesAt:0, gems:25, piggy:0, piggyOpened:0, canvasDone:{},
+  dailyCal:{day:0, lastDate:null}, boosters:{moves:1,hammer:1,shuffle:1}, spentGems:0 }; }
 function migrateSave(s){
   // formato viejo (pre-multiterritorio): stars/unlocked planos, referidos siempre al territorio 1
   if(s.stars && typeof s.unlocked === "number"){
     s.stars = { 1: s.stars };
     s.unlocked = { 1: s.unlocked };
   }
+  // campos de economía en saves anteriores a su existencia
+  if(typeof s.lives !== "number") s.lives = LIVES_MAX;
+  if(typeof s.livesAt !== "number") s.livesAt = 0;
+  if(typeof s.gems !== "number") s.gems = 25;
+  if(typeof s.piggy !== "number") s.piggy = 0;
+  if(!s.dailyCal) s.dailyCal = {day:0, lastDate:null};
+  if(!s.boosters) s.boosters = {moves:1,hammer:1,shuffle:1};
+  if(!s.canvasDone) s.canvasDone = {};
   return s;
+}
+
+/* ---------------- ECONOMÍA: VIDAS ----------------
+   La escasez es el motor: sin derrota posible no hay nada que vender.
+   5 vidas, se pierde 1 al fallar, se recupera 1 cada 25 minutos. */
+function syncLives(){
+  if(save.lives >= LIVES_MAX){ save.livesAt = 0; return save.lives; }
+  if(!save.livesAt){ save.livesAt = Date.now(); return save.lives; }
+  const elapsed = Date.now() - save.livesAt;
+  const gained = Math.floor(elapsed / LIFE_REGEN_MS);
+  if(gained > 0){
+    save.lives = Math.min(LIVES_MAX, save.lives + gained);
+    save.livesAt = save.lives >= LIVES_MAX ? 0 : save.livesAt + gained*LIFE_REGEN_MS;
+    persistSave();
+  }
+  return save.lives;
+}
+function msToNextLife(){
+  if(save.lives >= LIVES_MAX || !save.livesAt) return 0;
+  return Math.max(0, (save.livesAt + LIFE_REGEN_MS) - Date.now());
+}
+function fmtMs(ms){
+  const t = Math.max(0, Math.ceil(ms/1000));
+  return `${String(Math.floor(t/60)).padStart(2,"0")}:${String(t%60).padStart(2,"0")}`;
+}
+function spendLife(){
+  syncLives();
+  if(save.lives <= 0) return false;
+  if(save.lives === LIVES_MAX) save.livesAt = Date.now();
+  save.lives--;
+  persistSave();
+  updateLivesUI();
+  return true;
+}
+function addLives(n){
+  syncLives();
+  save.lives = Math.min(LIVES_MAX, save.lives + n);
+  if(save.lives >= LIVES_MAX) save.livesAt = 0;
+  persistSave();
+  updateLivesUI();
+}
+function refillLivesWithGems(){
+  syncLives();
+  if(save.lives >= LIVES_MAX){ toast("Ya tenés todas las vidas."); return; }
+  if((save.gems||0) < REFILL_LIVES_GEMS){ openShop(); return; }
+  save.gems -= REFILL_LIVES_GEMS;
+  save.spentGems = (save.spentGems||0)+REFILL_LIVES_GEMS;
+  save.lives = LIVES_MAX; save.livesAt = 0;
+  persistSave();
+  updateLivesUI();
+  closeNoLives();
+  playBuild();
+  toast("¡Vidas al máximo!");
+}
+function updateLivesUI(){
+  syncLives();
+  const n = save.lives;
+  document.querySelectorAll(".lives-count").forEach(el=>el.textContent = n);
+  document.querySelectorAll(".gems-count").forEach(el=>el.textContent = save.gems||0);
+  document.querySelectorAll(".lives-timer").forEach(el=>{
+    el.textContent = n>=LIVES_MAX ? "LLENO" : fmtMs(msToNextLife());
+  });
+  const nl = document.getElementById("nolives-timer");
+  if(nl) nl.textContent = fmtMs(msToNextLife());
+}
+let livesTickId = null;
+function startLivesTicker(){
+  if(livesTickId) return;
+  livesTickId = setInterval(updateLivesUI, 1000);
+}
+function openNoLives(){
+  updateLivesUI();
+  document.getElementById("nolives-overlay").classList.add("on");
+}
+function closeNoLives(){
+  document.getElementById("nolives-overlay").classList.remove("on");
+}
+function toast(msg){
+  const d=document.createElement("div");
+  d.className="econ-toast";
+  d.textContent=msg;
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(), 2200);
+}
+
+/* ---------------- ALCANCÍA ----------------
+   Acumula monedas mientras jugás; para abrirla hay que pagar. */
+/* ---------------- TIENDA ----------------
+   Los paquetes no cobran de verdad: falta la pasarela de pago. */
+const GEM_PACKS = [
+  {id:"p1", icon:"💎",  gems:100,  price:"USD 1,99"},
+  {id:"p2", icon:"💠",  gems:280,  price:"USD 4,99", sub:"+12% extra"},
+  {id:"p3", icon:"🔷",  gems:650,  price:"USD 9,99", sub:"+30% extra", best:true},
+  {id:"p4", icon:"🏆",  gems:1500, price:"USD 19,99", sub:"+50% extra"},
+];
+function openShop(){
+  const list=document.getElementById("shop-list");
+  list.innerHTML="";
+  GEM_PACKS.forEach(p=>{
+    const d=document.createElement("div");
+    d.className="shop-item"+(p.best?" best":"");
+    d.innerHTML=`<div class="shop-item-icon">${p.icon}</div>
+      <div class="shop-item-txt"><b>${p.gems} gemas</b><div class="shop-item-sub">${p.sub||""}</div></div>
+      <div class="shop-price">${p.price}</div>`;
+    d.onclick=()=>toast("La tienda todavía no procesa pagos reales.");
+    list.appendChild(d);
+  });
+  const free=document.createElement("div");
+  free.className="shop-item";
+  free.innerHTML=`<div class="shop-item-icon">🎬</div>
+    <div class="shop-item-txt"><b>Ver un anuncio</b><div class="shop-item-sub">+5 gemas gratis</div></div>
+    <div class="shop-price">GRATIS</div>`;
+  free.onclick=()=>watchAdForGems();
+  list.appendChild(free);
+  updateLivesUI();
+  document.getElementById("shop-overlay").classList.add("on");
+}
+function closeShop(){ document.getElementById("shop-overlay").classList.remove("on"); }
+function watchAdForGems(){
+  // marcador de posición: no hay red de anuncios conectada todavía
+  save.gems=(save.gems||0)+5; persistSave(); updateLivesUI();
+  toast("+5 💎 (anuncio simulado — falta conectar la red)");
+}
+function watchAdForLife(){
+  addLives(1);
+  closeNoLives();
+  toast("+1 ❤️ (anuncio simulado — falta conectar la red)");
+}
+
+/* ---------------- CALENDARIO DIARIO ----------------
+   7 días con premio creciente. Faltar un día reinicia la racha. */
+const DAILY_CAL = [
+  {icon:"🍯", label:"80",   coins:80},
+  {icon:"❤️", label:"+1",   lives:1},
+  {icon:"🍯", label:"150",  coins:150},
+  {icon:"💎", label:"15",   gems:15},
+  {icon:"🍯", label:"250",  coins:250},
+  {icon:"🔨", label:"x2",   booster:"hammer", n:2},
+  {icon:"💎", label:"60",   gems:60},
+];
+function todayKey(){ return new Date().toISOString().slice(0,10); }
+function daysBetween(a,b){ return Math.round((new Date(b)-new Date(a))/86400000); }
+function dailyCalState(){
+  const cal=save.dailyCal||{day:0,lastDate:null};
+  if(!cal.lastDate) return {day:0, canClaim:true};
+  const diff=daysBetween(cal.lastDate, todayKey());
+  if(diff===0) return {day:cal.day, canClaim:false};
+  if(diff===1) return {day:cal.day%7, canClaim:true};
+  return {day:0, canClaim:true}; // faltó: la racha se reinicia
+}
+function openDailyCal(){
+  const st=dailyCalState();
+  const grid=document.getElementById("cal-grid");
+  grid.innerHTML="";
+  DAILY_CAL.forEach((d,i)=>{
+    const el=document.createElement("div");
+    el.className="cal-day"+(i<st.day?" claimed":"")+(i===st.day&&st.canClaim?" today":"");
+    el.innerHTML=`<span class="cal-icon">${d.icon}</span>Día ${i+1}<br><b style="color:var(--gold)">${d.label}</b>`;
+    grid.appendChild(el);
+  });
+  const btn=document.getElementById("cal-claim-btn");
+  btn.style.display = st.canClaim ? "" : "none";
+  document.getElementById("cal-sub").textContent = st.canClaim
+    ? `Día ${st.day+1} de 7 · reclamá tu premio`
+    : "Ya reclamaste hoy. Volvé mañana para seguir la racha.";
+  document.getElementById("daily-cal-overlay").classList.add("on");
+}
+function closeDailyCal(){ document.getElementById("daily-cal-overlay").classList.remove("on"); }
+function claimDailyCal(){
+  const st=dailyCalState();
+  if(!st.canClaim) return;
+  const r=DAILY_CAL[st.day];
+  if(r.coins){ save.coins=(save.coins||0)+r.coins; toast(`+${r.coins} 🍯`); }
+  if(r.gems){ save.gems=(save.gems||0)+r.gems; toast(`+${r.gems} 💎`); }
+  if(r.lives){ addLives(r.lives); toast(`+${r.lives} ❤️`); }
+  if(r.booster){ save.boosters[r.booster]=(save.boosters[r.booster]||0)+(r.n||1); toast(`+${r.n||1} booster`); }
+  save.dailyCal={day:(st.day+1)%7, lastDate:todayKey()};
+  persistSave();
+  playBuild(); spawnConfetti();
+  openDailyCal();
+  renderWorld();
+}
+function confirmOpenPiggy(){
+  if((save.piggy||0)<=0){ toast("La alcancía está vacía. Jugá para llenarla."); return; }
+  if(confirm(`Abrir la alcancía cuesta ${PIGGY_OPEN_GEMS} 💎 y te da ${save.piggy} 🍯.\n\nTenés ${save.gems||0} 💎. ¿Abrirla?`)) openPiggy();
+}
+function piggyAdd(coins){
+  if((save.piggy||0) >= PIGGY_CAP) return;
+  save.piggy = Math.min(PIGGY_CAP, (save.piggy||0) + coins);
+}
+function piggyPct(){ return Math.min(100, Math.round((save.piggy||0)/PIGGY_CAP*100)); }
+function openPiggy(){
+  if((save.piggy||0) <= 0){ toast("La alcancía está vacía. Jugá para llenarla."); return; }
+  if((save.gems||0) < PIGGY_OPEN_GEMS){ openShop(); return; }
+  save.gems -= PIGGY_OPEN_GEMS;
+  save.spentGems = (save.spentGems||0)+PIGGY_OPEN_GEMS;
+  save.coins = (save.coins||0) + save.piggy;
+  toast(`¡Alcancía abierta! +${save.piggy} 🍯`);
+  save.piggy = 0;
+  save.piggyOpened = (save.piggyOpened||0)+1;
+  persistSave();
+  playBuild(); spawnConfetti();
+  renderWorld();
 }
 function loadSave(){
   try{
@@ -1694,6 +2010,13 @@ function renderWorld(){
   document.getElementById("world-pct").textContent = worldPct;
   document.getElementById("world-restore-fill").style.width = worldPct+"%";
   document.getElementById("world-coins").textContent = save.coins||0;
+  const wc2=document.getElementById("world-coins-2");
+  if(wc2) wc2.textContent = save.coins||0;
+  const pf=document.getElementById("piggy-fill"), pa=document.getElementById("piggy-amt");
+  if(pf) pf.style.width = piggyPct()+"%";
+  if(pa) pa.textContent = save.piggy||0;
+  updateLivesUI();
+  startLivesTicker();
   setWorldBubble(confiteWorldMsg(worldPct));
   checkAchievements();
   document.getElementById("world-achv-count").textContent = `${Object.keys(save.achievements).length}/${ACHIEVEMENTS.length}`;
@@ -2517,6 +2840,8 @@ function renderMap(){
       const best = getBestScore(currentTerritory, lv.n);
       const bestHtml = best>0 ? `<div class="level-best">${best.toLocaleString()}</div>` : "";
       const typeIcon = lv.type==="collect" ? `<div class="lv-type-badge">🍬</div>` : lv.type==="crystals" ? `<div class="lv-type-badge">✨</div>` : "";
+      // los niveles 5 son picos de dificultad a propósito: avisarlo crea expectativa
+      if(lv.n===5 && !isBoss) div.classList.add("lv-hard");
       div.innerHTML = isBoss
         ? `<div class="level-num">👑</div>
            <div class="level-stars">
@@ -2530,7 +2855,7 @@ function renderMap(){
              <span class="s ${stars>=2?'on':''}">⭐</span>
              <span class="s ${stars>=3?'on':''}">⭐</span>
            </div>${bestHtml}`;
-      div.onclick = isBoss ? ()=>showBossIntro(lv.n) : ()=>startLevel(lv.n);
+      div.onclick = isBoss ? ()=>showBossIntro(lv.n) : ()=>tryStartLevel(lv.n);
     } else {
       div.innerHTML = isBoss
         ? `<div class="lock-icon">👑</div><div class="level-num" style="font-size:12px;color:var(--gold)">Jefe</div>`
@@ -2823,6 +3148,14 @@ function exitCanvasMode(){
   if(grid){ grid.classList.remove("canvas-mode","revealing"); }
 }
 
+/* Puerta de entrada: cada intento cuesta una vida. Es la pieza que hace que
+   perder importe — sin esto no hay economía posible. */
+function tryStartLevel(n){
+  syncLives();
+  if(save.lives <= 0){ openNoLives(); return; }
+  spendLife();
+  startLevel(n);
+}
 function startLevel(n){
   exitCanvasMode();
   const lv = LEVELS_BY_TERRITORY[currentTerritory][n-1];
@@ -3477,6 +3810,8 @@ function finishLevel(won){
       if(cur.score > (save.bestScores[bsKey]||0)) save.bestScores[bsKey] = cur.score;
     }
     save.coins = (save.coins||0) + coinsEarned;
+    // parte de lo ganado va a la alcancía: se ve crecer pero hay que pagar para sacarlo
+    piggyAdd(Math.round(coinsEarned*0.6) + stars*10);
     document.getElementById("overlay-icon").textContent = cur.isDaily ? "⭐" : "🏆";
     document.getElementById("overlay-title").textContent = cur.isDaily ? "¡Desafío Completado!" : "¡Nivel completado!";
     let progressText = cur.type==="collect" ? `${cur.progress}/${cur.target} recolectados`
@@ -3539,9 +3874,9 @@ function finishLevel(won){
   starsEls.forEach(el=>el.classList.remove("on"));
   // Continue button: show on loss if player has coins and not daily/survival
   const contBtn = document.getElementById("overlay-continue-btn");
-  const CONTINUE_COST = 50;
-  if(!won && !cur.isDaily && !cur.isSurvival && (save.coins||0) >= CONTINUE_COST){
-    contBtn.textContent = `🍯 Continuar · ${CONTINUE_COST} monedas (+5 movimientos)`;
+  if(!won && !cur.isSurvival){
+    const cost = continueCost();
+    contBtn.textContent = `💎 ${cost} · Seguir jugando (+5 movimientos)`;
     contBtn.style.display = "";
   } else {
     contBtn.style.display = "none";
@@ -3553,16 +3888,25 @@ function finishLevel(won){
     });
   }
 }
-const CONTINUE_COST = 50;
+/* Continuar al fallar: el momento de mayor conversión del género. El costo
+   sube cada vez dentro del mismo intento para que la decisión no sea trivial. */
+const CONTINUE_COSTS = [25, 50, 100];
+function continueCost(){
+  const used = cur.continuesUsed || 0;
+  return CONTINUE_COSTS[Math.min(used, CONTINUE_COSTS.length-1)];
+}
 function continueGame(){
-  if((save.coins||0) < CONTINUE_COST) return;
-  save.coins -= CONTINUE_COST;
+  const cost = continueCost();
+  if((save.gems||0) < cost){ openShop(); return; }
+  save.gems -= cost;
+  save.spentGems = (save.spentGems||0)+cost;
+  cur.continuesUsed = (cur.continuesUsed||0)+1;
   persistSave();
   cur.done = false;
   cur.movesLeft += 5;
   document.getElementById("overlay").classList.remove("on");
   document.getElementById("overlay-continue-btn").style.display = "none";
-  updateHud();
+  updateHud(); updateLivesUI();
   setConfiteGame("¡5 movimientos extra! ¡Aprovéchalos bien!");
   setConfiteMood("excited");
   bounceConfite();
@@ -3583,11 +3927,11 @@ function retryOrNext(){
     exitToMap(); return;
   }
   if(cur.done && checkWin() && cur.n<TOTAL_LEVELS){
-    startLevel(cur.n+1);
+    tryStartLevel(cur.n+1);
   } else if(cur.done && checkWin()){
     exitToMap();
   } else {
-    startLevel(cur.n);
+    tryStartLevel(cur.n);
   }
 }
 
@@ -3889,7 +4233,7 @@ function showBossIntro(levelN){
   document.getElementById("bi-confite").textContent = line;
   document.getElementById("bi-btn").onclick = ()=>{
     document.getElementById("boss-intro-overlay").classList.remove("on");
-    startLevel(levelN);
+    tryStartLevel(levelN);
   };
   document.getElementById("boss-intro-overlay").classList.add("on");
 }

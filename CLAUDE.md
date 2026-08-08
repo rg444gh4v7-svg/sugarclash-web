@@ -299,6 +299,55 @@ de `BUILDINGS`, cada una posicionada de forma absoluta (`.v-node`) sobre el cami
 
 ---
 
+## Economía (modelo free-to-play)
+
+Copia deliberada de la economía del género (Candy Crush / Royal Match). Se agregó en
+agosto 2026; antes el juego no tenía escasez de ningún tipo y por eso no retenía ni
+podía monetizar.
+
+**Constantes** — declaradas **antes** de `let save = loadSave()` a propósito: `defaultSave()`
+y `migrateSave()` las usan, y un `const` en zona muerta temporal (TDZ) tira ReferenceError.
+Si se agrega una constante de economía nueva, va en ese mismo bloque.
+
+| Concepto | Constante | Valor |
+|---|---|---|
+| Vidas máximas | `LIVES_MAX` | 5 |
+| Regeneración | `LIFE_REGEN_MS` | 25 min |
+| Llenar vidas | `REFILL_LIVES_GEMS` | 60 💎 |
+| Tope alcancía | `PIGGY_CAP` | 1200 🍯 |
+| Abrir alcancía | `PIGGY_OPEN_GEMS` | 120 💎 |
+| Continuar al fallar | `CONTINUE_COSTS` | 25 → 50 → 100 💎 |
+
+- **Vidas:** `syncLives()` recalcula por tiempo transcurrido (no hay timer que "gaste"
+  vidas; se derivan de `save.livesAt`). Entrar a un nivel pasa por `tryStartLevel()`,
+  que cobra la vida — **nunca llamar `startLevel()` directo desde la UI** o el nivel
+  sale gratis.
+- **Gemas** (`save.gems`): moneda dura. Se gastan en continuar, llenar vidas y abrir la
+  alcancía. Se ganan con el calendario diario y (a futuro) anuncios.
+- **Alcancía** (`save.piggy`): acumula un porcentaje de lo ganado en cada nivel vía
+  `piggyAdd()`. Verla llenarse es gratis; vaciarla cuesta gemas.
+- **Calendario diario** (`DAILY_CAL`, 7 días): faltar un día reinicia la racha a 0.
+- **Tienda** (`GEM_PACKS`): ⚠️ **no procesa pagos reales** — falta conectar una pasarela.
+  Los botones solo muestran un aviso. Lo mismo con los "anuncios": `watchAdForGems()` y
+  `watchAdForLife()` son marcadores de posición, no hay red de anuncios conectada.
+
+### Curva de dificultad
+Los 80 niveles se rebalancearon midiendo con un bot (~1000 partidas). Estado actual
+medido con un bot codicioso sin previsión:
+
+| Tramo | Victoria del bot |
+|---|---|
+| Primeros 5 niveles | 98% (enganche, casi imposible perder) |
+| Niveles normales | 80% |
+| Niveles 5 y 10 (duros) | 70% |
+
+Un humano decente gana bastante más que el bot, así que la curva real es más suave.
+**Antes del rebalanceo el bot ganaba el 100% en 65 de los 80 niveles**, es decir que el
+juego no se podía perder y la economía no tenía de dónde agarrarse.
+Los niveles 5 llevan la clase `.lv-hard` (badge "DIFÍCIL" en el mapa).
+
+---
+
 ## Minijuegos
 
 ### MOBA 5v5 (canvas)
@@ -510,7 +559,10 @@ Dulce en la superficie, melancólico en el fondo. Confite sabe más de lo que di
 1. **Un solo archivo** — todo en `index.html`
 2. **Sin frameworks** — vanilla JS
 3. **Sin archivos externos de audio** — Web Audio API sintetizada
-4. **El jugador nunca siente presión de pagar** — monedas se ganan jugando
+4. **Modelo free-to-play** (cambiado en agosto 2026 por decisión del creador; antes decía
+   *"el jugador nunca siente presión de pagar"*). Ahora el juego copia deliberadamente la
+   economía del género: vidas que se agotan, moneda dura (gemas), alcancía que se abre
+   pagando y oferta de continuar al fallar. Ver la sección **Economía** más abajo.
 5. **Confite siempre en pantalla** — es el corazón narrativo del juego
 6. **Validar sintaxis después de cada cambio** — el comando `node -e "new Function(js)"` es obligatorio
 
