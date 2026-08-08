@@ -519,14 +519,22 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 /* ===== HÉROES ===== */
 #screen-heroes{padding:18px 16px 24px;gap:12px}
 #heroes-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 0 16px}
-.hero-card{border-radius:16px;padding:14px 16px;display:flex;gap:14px;align-items:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);transition:transform .15s}
+.hero-card{border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);transition:transform .15s,border-color .2s}
 .hero-card:active{transform:scale(.98)}
-.hero-card.locked-hero{opacity:.4;cursor:default}
+.hero-card.locked-hero{opacity:.55;cursor:default}
+.hero-card.equipped{border-color:rgba(245,184,0,.6);background:rgba(245,184,0,.07)}
+.hero-card-top{display:flex;gap:14px;align-items:center}
 .hero-icon{font-size:30px;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(255,255,255,.15)}
 .hero-info{flex:1;min-width:0}
-.hero-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream)}
+.hero-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream);display:flex;align-items:center;gap:6px}
 .hero-clan{font-size:10px;text-transform:uppercase;letter-spacing:.05em;margin-top:1px}
 .hero-role{font-size:11px;color:rgba(255,255,255,.55);margin-top:3px;line-height:1.35;font-style:italic}
+.hero-ability{font-size:11px;color:var(--gold);background:rgba(245,184,0,.10);border:1px solid rgba(245,184,0,.25);border-radius:10px;padding:6px 10px;line-height:1.35}
+.hero-equip-badge{font-size:9px;background:var(--gold);color:#3A1A00;padding:1px 7px;border-radius:99px;font-weight:700;letter-spacing:.02em}
+.hero-actions{display:flex;gap:8px}
+.hero-btn{flex:1;font-family:'Karla',sans-serif;font-weight:600;font-size:12px;border-radius:99px;padding:8px 10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.04);color:var(--cream);cursor:pointer}
+.hero-btn.primary{background:linear-gradient(135deg,var(--gold),#FF9E2C);color:#3A1A00;border:none}
+.hero-btn.ad{background:linear-gradient(135deg,#00D68A,#00A870);color:#042A1C;border:none}
 
 /* ===== MEMORIAS ===== */
 #screen-memories{padding:18px 16px 24px;gap:12px}
@@ -1589,7 +1597,8 @@ function defaultSave(){ return { stars:{1:{}}, unlocked:{1:1}, coins:0, building
   dgModeUnlocked:false, dgVictorySeen:false,
   // economía: vidas (escasez), gemas (moneda dura), alcancía (acumula y se abre pagando)
   lives:LIVES_MAX, livesAt:0, gems:25, piggy:0, piggyOpened:0, canvasDone:{},
-  dailyCal:{day:0, lastDate:null}, boosters:{moves:1,hammer:1,shuffle:1}, spentGems:0, levelsPlayed:0 }; }
+  dailyCal:{day:0, lastDate:null}, boosters:{moves:1,hammer:1,shuffle:1}, spentGems:0, levelsPlayed:0,
+  equippedHero:"dulce", heroAdUnlocked:{} }; }
 function migrateSave(s){
   // formato viejo (pre-multiterritorio): stars/unlocked planos, referidos siempre al territorio 1
   if(s.stars && typeof s.unlocked === "number"){
@@ -1605,6 +1614,8 @@ function migrateSave(s){
   if(!s.boosters) s.boosters = {moves:1,hammer:1,shuffle:1};
   if(!s.canvasDone) s.canvasDone = {};
   if(typeof s.levelsPlayed !== "number") s.levelsPlayed = 0;
+  if(!s.equippedHero) s.equippedHero = "dulce";
+  if(!s.heroAdUnlocked) s.heroAdUnlocked = {};
   return s;
 }
 
@@ -3102,6 +3113,7 @@ function startCanvasLevel(sceneId){
   cur = { n:"C", type:"canvas", isCanvas:true, sceneId, movesLeft:30, movesMax:30,
           cols:7, rows:8, score:0, progress:0, cascade:0, done:false,
           boostUsed:false, rainbowUsed:false, bombUsed:false, isDaily:false, thickFog:false };
+  if(hasHeroAbility("dulce")){ cur.movesLeft++; cur.movesMax++; }
   rainbowActive=false; bombActive=false;
   moveStreak=0; freneticStartTime=Date.now(); endSugarRush();
   document.getElementById("overlay").classList.remove("on","canvas-win");
@@ -3154,7 +3166,8 @@ async function finishCanvasLevel(){
   spawnConfetti();
   await delay(1150);
   const stars = cur.movesLeft>=8 ? 3 : cur.movesLeft>=3 ? 2 : 1;
-  const coins = 30 + stars*15;
+  let coins = 30 + stars*15;
+  if(hasHeroAbility("maple")) coins = Math.round(coins*1.2); // +20% equipada
   save.coins=(save.coins||0)+coins;
   if(!save.canvasDone) save.canvasDone={};
   save.canvasDone[cur.sceneId]=true;
@@ -3196,6 +3209,8 @@ function startLevel(n){
   cur = { n: lv.n, type, goal: lv.goal, target: lv.target, color: lv.color,
           movesLeft: lv.moves, movesMax: lv.moves,
           cols: lv.cols, rows: 8, score: 0, progress: 0, cascade:0, done:false, boostUsed:false, rainbowUsed:false, bombUsed:false, isDaily:false };
+  // Habilidad de Dulce Roja equipada: +1 movimiento de arranque
+  if(hasHeroAbility("dulce")){ cur.movesLeft++; cur.movesMax++; }
   rainbowActive = false;
   // V2: reset streak/frenetic/sugar rush
   moveStreak = 0; freneticStartTime = Date.now(); endSugarRush();
@@ -3277,6 +3292,8 @@ function renderPauseSettings(){
 const MOVES_BOOST_COST = 30;
 const RAINBOW_COST = 60;
 const BOMB_COST = 40;
+// Habilidad de Kenshi equipada: 25% menos costo en los power-ups de pausa
+function powerupCost(base){ return hasHeroAbility("kenshi") ? Math.round(base*0.75) : base; }
 function renderPauseBomb(){
   const row = document.getElementById("pause-bomb-row");
   const sub = document.getElementById("pause-bomb-sub");
@@ -3284,12 +3301,12 @@ function renderPauseBomb(){
   if(cur.bombUsed){
     row.style.opacity = ".4"; row.style.cursor = "default"; row.onclick = null;
     sub.textContent = "Ya usado en este nivel";
-  } else if((save.coins||0) < BOMB_COST){
+  } else if((save.coins||0) < powerupCost(BOMB_COST)){
     row.style.opacity = ".5"; row.style.cursor = "default"; row.onclick = null;
-    sub.textContent = `🍯 ${BOMB_COST} · necesitas ${BOMB_COST-(save.coins||0)} más`;
+    sub.textContent = `🍯 ${powerupCost(BOMB_COST)} · necesitas ${powerupCost(BOMB_COST)-(save.coins||0)} más`;
   } else {
     row.style.opacity = "1"; row.style.cursor = "pointer"; row.onclick = activateBomb;
-    sub.textContent = `🍯 ${BOMB_COST} · destruye un área 3×3`;
+    sub.textContent = `🍯 ${powerupCost(BOMB_COST)} · destruye un área 3×3`;
   }
 }
 function renderPauseBoost(){
@@ -3300,7 +3317,7 @@ function renderPauseBoost(){
     sub.textContent = "Ya usado en este nivel";
   } else {
     row.style.opacity = "1"; row.style.cursor = "pointer"; row.onclick = buyMoves;
-    sub.textContent = `🍯 ${MOVES_BOOST_COST} · una vez por nivel`;
+    sub.textContent = `🍯 ${powerupCost(MOVES_BOOST_COST)} · una vez por nivel`;
   }
 }
 function renderPauseRainbow(){
@@ -3310,21 +3327,22 @@ function renderPauseRainbow(){
   if(cur.rainbowUsed){
     row.style.opacity = ".4"; row.style.cursor = "default"; row.onclick = null;
     sub.textContent = "Ya usado en este nivel";
-  } else if((save.coins||0) < RAINBOW_COST){
+  } else if((save.coins||0) < powerupCost(RAINBOW_COST)){
     row.style.opacity = ".5"; row.style.cursor = "default"; row.onclick = null;
-    sub.textContent = `🍯 ${RAINBOW_COST} · necesitas ${RAINBOW_COST-(save.coins||0)} más`;
+    sub.textContent = `🍯 ${powerupCost(RAINBOW_COST)} · necesitas ${powerupCost(RAINBOW_COST)-(save.coins||0)} más`;
   } else {
     row.style.opacity = "1"; row.style.cursor = "pointer"; row.onclick = activateRainbow;
-    sub.textContent = `🍯 ${RAINBOW_COST} · borra todos los del color que elijas`;
+    sub.textContent = `🍯 ${powerupCost(RAINBOW_COST)} · borra todos los del color que elijas`;
   }
 }
 function buyMoves(){
   if(cur.boostUsed) return;
-  if((save.coins||0) < MOVES_BOOST_COST){
-    setConfiteGame(`Necesito ${MOVES_BOOST_COST-(save.coins||0)} 🍯 más para esto.`);
+  const cost = powerupCost(MOVES_BOOST_COST);
+  if((save.coins||0) < cost){
+    setConfiteGame(`Necesito ${cost-(save.coins||0)} 🍯 más para esto.`);
     return;
   }
-  save.coins -= MOVES_BOOST_COST;
+  save.coins -= cost;
   cur.boostUsed = true;
   cur.movesLeft += 5;
   persistSave();
@@ -3377,7 +3395,9 @@ function processObstacleDamage(clearedCells){
       const k=nr*cur.cols+nc;
       if(seen.has(k)) return;
       seen.add(k);
-      obstacles[nr][nc]--;
+      // Habilidad de Bastión equipada: daño doble a los bloques de chocolate
+      obstacles[nr][nc] -= hasHeroAbility("bastion") ? 2 : 1;
+      if(obstacles[nr][nc]<0) obstacles[nr][nc]=0;
       const el=cellEl(nr,nc);
       if(el){ el.classList.add("obstacle-hit"); setTimeout(()=>{ const e2=cellEl(nr,nc); if(e2) e2.classList.remove("obstacle-hit"); renderGrid(); }, 380); }
       if(obstacles[nr][nc]===0){ cleared++; cur.score+=200; }
@@ -3458,6 +3478,15 @@ function buildGrid(){
   board = Array.from({length:cur.rows},()=>Array.from({length:cur.cols},()=>randType()));
   while(findMatches().length>0 || !hasPossibleMove()){
     board = Array.from({length:cur.rows},()=>Array.from({length:cur.cols},()=>randType()));
+  }
+  // Habilidad de Mochi-ko equipada: el tablero siempre arranca con 1 Cristal ✨
+  if(hasHeroAbility("mochiko") && !board.flat().includes(SPECIAL)){
+    for(let tries=0; tries<20; tries++){
+      const r=rnd(cur.rows), c=rnd(cur.cols), prev=board[r][c];
+      board[r][c]=SPECIAL;
+      if(findMatches().length===0 && hasPossibleMove()) break;
+      board[r][c]=prev;
+    }
   }
   initStripes();
   initObstacles();
@@ -3606,7 +3635,10 @@ async function processCascade(){
     const basePts = matched.length*(matched.length>=5?150:matched.length>=4?100:50);
     const bonusPts = burstCells.length*30;
     const sugarMult = sugarRushActive ? 2 : 1;
-    const pts = Math.round((basePts + bonusPts) * sugarMult);
+    // Habilidad de Tang Wei equipada: +15% en cascadas (cur.cascade>=1 acá
+    // equivale a combo x2+ una vez incrementado más abajo)
+    const heroMult = (hasHeroAbility("tangwei") && cur.cascade>=1) ? 1.15 : 1;
+    const pts = Math.round((basePts + bonusPts) * sugarMult * heroMult);
     cur.score += pts; cur.cascade++;
     if(cur.cascade > (save.bestCascade||0)){ save.bestCascade = cur.cascade; persistSave(); }
     if(cur.isSurvival){ addSurvivalTime(matched.length, cur.cascade); }
@@ -3843,6 +3875,8 @@ function finishLevel(won){
       const bsKey = `${currentTerritory}_${cur.n}`;
       if(cur.score > (save.bestScores[bsKey]||0)) save.bestScores[bsKey] = cur.score;
     }
+    // Habilidad de Maple equipada: +20% de monedas al terminar un nivel
+    if(hasHeroAbility("maple")) coinsEarned = Math.round(coinsEarned*1.2);
     save.coins = (save.coins||0) + coinsEarned;
     // parte de lo ganado va a la alcancía: se ve crecer pero hay que pagar para sacarlo
     piggyAdd(Math.round(coinsEarned*0.6) + stars*10);
@@ -4388,11 +4422,12 @@ function getBestScore(territoryId, levelN){
 let bombActive = false;
 function activateBomb(){
   if(cur.bombUsed) return;
-  if((save.coins||0)<BOMB_COST){
-    setConfiteGame(`Necesito ${BOMB_COST-(save.coins||0)} 🍯 más para la bomba.`);
+  const cost = powerupCost(BOMB_COST);
+  if((save.coins||0)<cost){
+    setConfiteGame(`Necesito ${cost-(save.coins||0)} 🍯 más para la bomba.`);
     closePause(); return;
   }
-  save.coins-=BOMB_COST; persistSave();
+  save.coins-=cost; persistSave();
   cur.bombUsed=true;
   bombActive=true;
   rainbowActive=false;
@@ -4438,11 +4473,12 @@ async function useBombAt(row, col){
 let rainbowActive = false;
 function activateRainbow(){
   if(cur.rainbowUsed) return;
-  if((save.coins||0)<RAINBOW_COST){
-    setConfiteGame(`Necesito ${RAINBOW_COST-(save.coins||0)} 🍯 más para el Arco Iris.`);
+  const cost = powerupCost(RAINBOW_COST);
+  if((save.coins||0)<cost){
+    setConfiteGame(`Necesito ${cost-(save.coins||0)} 🍯 más para el Arco Iris.`);
     closePause(); return;
   }
-  save.coins-=RAINBOW_COST; persistSave();
+  save.coins-=cost; persistSave();
   cur.rainbowUsed=true;
   rainbowActive=true;
   closePause();
@@ -4480,6 +4516,42 @@ async function useRainbowOnColor(colorType){
 }
 
 /* ---------------- HÉROES ---------------- */
+/* Cada héroe (salvo la antagonista) da un bonus pasivo chico mientras está
+   equipado — save.equippedHero. Efectos deliberadamente modestos: no deben
+   volver el juego trivial, solo dar una razón para coleccionar y elegir.
+   Se leen desde: buildGrid() [mochiko], processCascade() [tangwei],
+   processObstacleDamage() [bastion], startLevel()/startCanvasLevel() [dulce],
+   openPause()/buyBooster() [kenshi], finishLevel() [maple]. */
+function heroAbilityText(id){
+  return {
+    dulce:   "+1 movimiento al empezar cada nivel",
+    mochiko: "El tablero siempre empieza con 1 Cristal ✨ listo",
+    tangwei: "+15% de puntos en cada cascada (combo x2 o más)",
+    bastion: "Los bloques de chocolate reciben el doble de daño",
+    kenshi:  "Los power-ups de pausa cuestan 25% menos monedas",
+    maple:   "+20% de monedas al terminar un nivel",
+    hexbr:   "Sin bonus — es un trofeo. No le vas a pedir poderes a tu némesis.",
+  }[id] || "";
+}
+function equippedHero(){ return HEROES.find(h=>h.id===(save.equippedHero||"dulce")) || HEROES[0]; }
+function hasHeroAbility(id){ return (save.equippedHero||"dulce")===id; }
+function equipHero(id){
+  if(id==="hexbr") return; // la antagonista es solo trofeo, no se equipa
+  save.equippedHero = id;
+  persistSave();
+  renderHeroes();
+  toast(`${HEROES.find(h=>h.id===id).name} equipada`);
+}
+function unlockHeroWithAd(id){
+  if(id==="hexbr") return; // revelación final de la historia — no se adelanta
+  // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
+  if(!save.heroAdUnlocked) save.heroAdUnlocked = {};
+  save.heroAdUnlocked[id] = true;
+  persistSave();
+  renderHeroes();
+  const h = HEROES.find(x=>x.id===id);
+  toast(`¡${h.name} desbloqueada! (anuncio simulado — falta conectar la red)`);
+}
 const HEROES = [
   {id:"dulce",    name:"Dulce Roja",            icon:"🍬", color:"#FF5C8A",
    clan:"Clan Caramelo", role:"Protagonista · Sanadora",
@@ -4515,26 +4587,42 @@ function renderHeroes(){
   list.innerHTML = "";
   let unlockedCount = 0;
   HEROES.forEach(h=>{
-    const unlocked = h.unlockAt();
+    const unlocked = h.unlockAt() || !!(save.heroAdUnlocked && save.heroAdUnlocked[h.id]);
     if(unlocked) unlockedCount++;
+    const equipped = (save.equippedHero||"dulce")===h.id;
     const card = document.createElement("div");
-    card.className = "hero-card" + (unlocked ? "" : " locked-hero");
+    card.className = "hero-card" + (unlocked ? "" : " locked-hero") + (equipped ? " equipped" : "");
     if(unlocked){
-      card.innerHTML = `
-        <div class="hero-icon" style="background:${h.color}22;border-color:${h.color}44">${h.icon}</div>
-        <div class="hero-info">
-          <div class="hero-name">${h.name}</div>
-          <div class="hero-clan" style="color:${h.color}">${h.clan}</div>
-          <div class="hero-role">${h.role} — ${h.desc}</div>
+      const abilityHtml = h.id==="hexbr" ? "" : `<div class="hero-ability">✨ ${heroAbilityText(h.id)}</div>`;
+      const equipBtn = h.id==="hexbr" ? "" : `<div class="hero-actions">
+          <button class="hero-btn ${equipped?"":"primary"}" ${equipped?"disabled":""} onclick="equipHero('${h.id}')">${equipped?"Equipado":"Equipar"}</button>
         </div>`;
+      card.innerHTML = `
+        <div class="hero-card-top">
+          <div class="hero-icon" style="background:${h.color}22;border-color:${h.color}44">${h.icon}</div>
+          <div class="hero-info">
+            <div class="hero-name">${h.name}${equipped?'<span class="hero-equip-badge">EQUIPADO</span>':''}</div>
+            <div class="hero-clan" style="color:${h.color}">${h.clan}</div>
+            <div class="hero-role">${h.role} — ${h.desc}</div>
+          </div>
+        </div>
+        ${abilityHtml}${equipBtn}`;
     } else {
+      // La Bruja Hexadecimal es la revelación final de la historia — no se
+      // vende. El resto sí se puede adelantar viendo un anuncio.
+      const canAdUnlock = h.id!=="hexbr";
       card.innerHTML = `
-        <div class="hero-icon" style="background:rgba(255,255,255,.04)">🔒</div>
-        <div class="hero-info">
-          <div class="hero-name" style="color:rgba(255,255,255,.4)">???</div>
-          <div class="hero-clan" style="color:rgba(255,255,255,.25)">Identidad desconocida</div>
-          <div class="hero-role">Sigue restaurando Dulcelandia para descubrir quién es.</div>
-        </div>`;
+        <div class="hero-card-top">
+          <div class="hero-icon" style="background:rgba(255,255,255,.04)">🔒</div>
+          <div class="hero-info">
+            <div class="hero-name" style="color:rgba(255,255,255,.4)">???</div>
+            <div class="hero-clan" style="color:rgba(255,255,255,.25)">Identidad desconocida</div>
+            <div class="hero-role">Sigue restaurando Dulcelandia para descubrir quién es.</div>
+          </div>
+        </div>
+        ${canAdUnlock ? `<div class="hero-actions">
+          <button class="hero-btn ad" onclick="unlockHeroWithAd('${h.id}')">🎬 Desbloquear ahora · anuncio</button>
+        </div>` : ""}`;
     }
     list.appendChild(card);
   });
