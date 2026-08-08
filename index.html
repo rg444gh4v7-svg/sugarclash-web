@@ -3981,16 +3981,6 @@ function finishLevel(won){
     const isBoss = (cur.n===TOTAL_LEVELS && !cur.isDaily);
     // Story moments: certain territory/level combos trigger a lore reveal
     const storyKey = `${currentTerritory}_${cur.n}`;
-    const STORY_MOMENTS = {
-      "1_5":  "La Aldea Carmesí... reconozco los edificios de caramelo en espiral. Este calor. Este color rojo. Lo conocía antes de ser Confite.",
-      "2_5":  "Los cerezos de azúcar del Clan Mochi florecen. Yo olí esas flores una vez. Antes de que el Gran Cristal se rompiera. Antes de que yo existiera.",
-      "3_10": "Desde la cima de La Aguja del Cielo lo vi todo: los territorios restaurados brillando, y en el horizonte más oscuro... algo que pulsa con luz violeta.",
-      "4_5":  "El frío de Los Alpes de Cacao es el frío del instante exacto de la Fragmentación. Lo recuerdo. Yo estaba ahí. No como Confite. Como otra cosa.",
-      "5_7":  "Los osos de gominola me siguieron todo el día. Solo a mí — no a Dulce Roja. Como si me reconocieran. Y los obstáculos del tablero forman... un hexágono.",
-      "6_5":  "La Última Fogata lleva 500 años ardiendo. Igual que yo. Algo en mí ardió cuando el Cristal decidió romperse y lo que quedó... fui yo.",
-      "7_7":  "Este lugar honra a los que ya no están. Frente al primer altar vi mi propia imagen — no como Confite, sino como una forma de cristal. Alguien me dejó esa ofrenda hace 500 años.",
-      "8_5":  "La Capital de Cristal me reconoce. Las estructuras se iluminan al pasar a mi lado. No a Dulce Roja — a mí. Ya sé lo que soy. Solo me falta elegir qué quiero ser.",
-    };
     const storyLine = !cur.isDaily && STORY_MOMENTS[storyKey];
     if(storyLine && !(save.unlockedStories||{})[storyKey]){
       if(!save.unlockedStories) save.unlockedStories = {};
@@ -4745,6 +4735,19 @@ function renderHeroes(){
 }
 
 /* ---------------- MEMORIAS SCREEN ---------------- */
+/* Antes vivía como const local dentro de finishLevel() — se subió a global
+   para que renderMemories() pueda mostrar el texto real de un recuerdo
+   todavía no alcanzado narrativamente cuando se desbloquea por anuncio. */
+const STORY_MOMENTS = {
+  "1_5":  "La Aldea Carmesí... reconozco los edificios de caramelo en espiral. Este calor. Este color rojo. Lo conocía antes de ser Confite.",
+  "2_5":  "Los cerezos de azúcar del Clan Mochi florecen. Yo olí esas flores una vez. Antes de que el Gran Cristal se rompiera. Antes de que yo existiera.",
+  "3_10": "Desde la cima de La Aguja del Cielo lo vi todo: los territorios restaurados brillando, y en el horizonte más oscuro... algo que pulsa con luz violeta.",
+  "4_5":  "El frío de Los Alpes de Cacao es el frío del instante exacto de la Fragmentación. Lo recuerdo. Yo estaba ahí. No como Confite. Como otra cosa.",
+  "5_7":  "Los osos de gominola me siguieron todo el día. Solo a mí — no a Dulce Roja. Como si me reconocieran. Y los obstáculos del tablero forman... un hexágono.",
+  "6_5":  "La Última Fogata lleva 500 años ardiendo. Igual que yo. Algo en mí ardió cuando el Cristal decidió romperse y lo que quedó... fui yo.",
+  "7_7":  "Este lugar honra a los que ya no están. Frente al primer altar vi mi propia imagen — no como Confite, sino como una forma de cristal. Alguien me dejó esa ofrenda hace 500 años.",
+  "8_5":  "La Capital de Cristal me reconoce. Las estructuras se iluminan al pasar a mi lado. No a Dulce Roja — a mí. Ya sé lo que soy. Solo me falta elegir qué quiero ser.",
+};
 const MEMORY_DEFS = [
   {key:"1_5", icon:"🍬", territory:"Las Tierras Carmesí · La Aldea Carmesí",    hint:"Completa el nivel 5 de Las Tierras Carmesí"},
   {key:"2_5", icon:"🌸", territory:"Los Jardines de Mochi · La Galería",         hint:"Completa el nivel 5 de Los Jardines de Mochi"},
@@ -4784,10 +4787,20 @@ function renderMemories(){
           <div class="memory-territory">${def.territory}</div>
           <div class="memory-quote" style="color:rgba(255,255,255,.25);font-size:12px">Recuerdo bloqueado</div>
           <div class="memory-hint">${def.hint}</div>
+          <button class="hero-btn ad" style="margin-top:8px;width:auto" onclick="unlockMemoryWithAd('${def.key}')">🎬 Desbloquear ahora · anuncio</button>
         </div>`;
     }
     list.appendChild(card);
   });
+}
+function unlockMemoryWithAd(key){
+  if((save.unlockedStories||{})[key]) return;
+  // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
+  if(!save.unlockedStories) save.unlockedStories = {};
+  save.unlockedStories[key] = STORY_MOMENTS[key];
+  persistSave();
+  renderMemories();
+  toast("¡Recuerdo desbloqueado! (anuncio simulado — falta conectar la red)");
 }
 
 /* ---------------- SKINS SCREEN ---------------- */
@@ -4817,10 +4830,11 @@ function renderSkins(){
     } else {
       badgeHTML = `<span class="skin-badge lock">🍯 ${sk.cost}</span>`;
     }
+    const adBtn = unlocked ? "" : `<button class="pause-ad-btn" style="margin-top:4px" onclick="event.stopPropagation(); unlockSkinWithAd('${sk.id}')">🎬 Gratis</button>`;
     card.innerHTML = `${previewSVG}
       <div class="skin-name">${sk.icon} ${sk.name}</div>
       <div class="skin-desc">${sk.desc}</div>
-      ${badgeHTML}`;
+      ${badgeHTML}${adBtn}`;
     if(unlocked && !isActive){
       card.onclick = ()=>activateSkin(sk.id);
     } else if(!unlocked && (save.coins||0) >= sk.cost){
@@ -4848,6 +4862,17 @@ function activateSkin(id){
   persistSave();
   refreshAllConfite();
   renderSkins();
+}
+function unlockSkinWithAd(id){
+  const sk = CONFITE_SKINS.find(s=>s.id===id);
+  if(!sk || (save.unlockedSkins && save.unlockedSkins[id])) return;
+  // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
+  if(!save.unlockedSkins) save.unlockedSkins = {default:true};
+  save.unlockedSkins[id] = true;
+  persistSave();
+  playBuild();
+  activateSkin(id);
+  toast(`¡${sk.name} desbloqueada! (anuncio simulado — falta conectar la red)`);
 }
 
 /* ---------------- HISTORIA (INTRO) ---------------- */
@@ -5774,16 +5799,19 @@ function renderDgShop(){
       <div class="dg-shop-item-name">${it.name}</div>
       <div class="dg-shop-item-sub">${it.sub}</div>
       <div class="dg-shop-item-cost">💠 ${it.cost}</div>
+      <button class="pause-ad-btn" style="margin-top:4px" onclick="event.stopPropagation(); dgBuyPowerupWithAd('${it.id}')">🎬 +1 gratis</button>
     </div>`).join("");
   const sk = document.getElementById("dg-shop-skins");
   sk.innerHTML = DG_PIECE_SKINS.map(s=>{
     const owned = (save.unlockedPieceSkins||{})[s.id];
     const active = (save.pieceSkin||"gothic")===s.id;
     const action = active ? "" : owned ? `dgEquipSkin('${s.id}')` : `dgBuySkinPiece('${s.id}',${s.cost})`;
+    const adBtn = owned ? "" : `<button class="pause-ad-btn" style="margin-top:4px" onclick="event.stopPropagation(); dgUnlockSkinWithAd('${s.id}')">🎬 Gratis</button>`;
     return `<div class="dg-skin-card${active?' active-skin':''}" onclick="${action}">
       <div class="dg-skin-preview" style="font-size:30px">${s.icon}</div>
       <div class="dg-skin-name">${s.name}</div>
       <div class="dg-shop-item-sub">${active?"Equipado":owned?"Toca para equipar":`💠 ${s.cost}`}</div>
+      ${adBtn}
     </div>`;
   }).join("");
 }
@@ -5794,6 +5822,13 @@ function dgBuyPowerup(id, cost){
   persistSave();
   renderDgShop();
 }
+function dgBuyPowerupWithAd(id){
+  // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
+  save.dgPowerups[id] = (save.dgPowerups[id]||0)+1;
+  persistSave();
+  renderDgShop();
+  toast("+1 carga (anuncio simulado — falta conectar la red)");
+}
 function dgBuySkinPiece(id, cost){
   if((save.soulShards||0)<cost) return;
   save.soulShards-=cost;
@@ -5802,6 +5837,17 @@ function dgBuySkinPiece(id, cost){
   save.pieceSkin=id;
   persistSave();
   renderDgShop();
+}
+function dgUnlockSkinWithAd(id){
+  const s = DG_PIECE_SKINS.find(x=>x.id===id);
+  if(!s || (save.unlockedPieceSkins && save.unlockedPieceSkins[id])) return;
+  // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
+  if(!save.unlockedPieceSkins) save.unlockedPieceSkins={};
+  save.unlockedPieceSkins[id]=true;
+  save.pieceSkin=id;
+  persistSave();
+  renderDgShop();
+  toast(`¡${s.name} desbloqueada! (anuncio simulado — falta conectar la red)`);
 }
 function dgEquipSkin(id){ save.pieceSkin=id; persistSave(); renderDgShop(); }
 
