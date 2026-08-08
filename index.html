@@ -137,6 +137,10 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .settings-row-title{font-size:14px;color:var(--cream);font-weight:600}
 .settings-row-sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px}
 .settings-row-danger{border-color:rgba(255,92,138,.3);background:rgba(255,92,138,.06)}
+/* Botón de anuncio dentro de una fila de power-up de pausa: el momento de
+   mayor intención de todo el juego (trabado, mirando el tablero). Siempre
+   visible mientras el power-up no se usó, sin importar si hay monedas. */
+.pause-ad-btn{flex-shrink:0;font-size:11px;font-weight:600;color:#042A1C;background:linear-gradient(135deg,#00D68A,#00A870);border:none;border-radius:99px;padding:8px 12px;cursor:pointer;white-space:nowrap}
 .settings-section-title{font-family:'Fraunces',serif;font-size:14px;color:var(--crystal);opacity:.7;margin-top:6px;padding:0 2px}
 .settings-stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding-bottom:16px}
 .stat-tile{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px 10px;display:flex;flex-direction:column;align-items:center;gap:4px}
@@ -1186,18 +1190,21 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
             <div class="settings-row-title" id="pause-boost-title">🍬 +5 movimientos</div>
             <div class="settings-row-sub" id="pause-boost-sub">🍯 30 · una vez por nivel</div>
           </div>
+          <button class="pause-ad-btn" id="pause-boost-ad-btn" onclick="event.stopPropagation(); useBoostWithAd()">🎬 Gratis</button>
         </div>
         <div class="settings-row" id="pause-bomb-row" onclick="activateBomb()" style="width:85%;max-width:280px">
           <div class="settings-row-label">
             <div class="settings-row-title" id="pause-bomb-title">💥 Bombazo</div>
             <div class="settings-row-sub" id="pause-bomb-sub">🍯 40 · destruye un área 3×3</div>
           </div>
+          <button class="pause-ad-btn" id="pause-bomb-ad-btn" onclick="event.stopPropagation(); useBombWithAd()">🎬 Gratis</button>
         </div>
         <div class="settings-row" id="pause-rainbow-row" onclick="activateRainbow()" style="width:85%;max-width:280px">
           <div class="settings-row-label">
             <div class="settings-row-title" id="pause-rainbow-title">🌈 Caramelo Arco Iris</div>
             <div class="settings-row-sub" id="pause-rainbow-sub">🍯 60 · borra todos los del color que elijas</div>
           </div>
+          <button class="pause-ad-btn" id="pause-rainbow-ad-btn" onclick="event.stopPropagation(); useRainbowWithAd()">🎬 Gratis</button>
         </div>
         <div class="settings-row" id="pause-timeextra-row" onclick="activateTimeExtra()" style="width:85%;max-width:280px;display:none">
           <div class="settings-row-label">
@@ -3297,7 +3304,9 @@ function powerupCost(base){ return hasHeroAbility("kenshi") ? Math.round(base*0.
 function renderPauseBomb(){
   const row = document.getElementById("pause-bomb-row");
   const sub = document.getElementById("pause-bomb-sub");
+  const adBtn = document.getElementById("pause-bomb-ad-btn");
   if(!row) return;
+  if(adBtn) adBtn.style.display = cur.bombUsed ? "none" : "";
   if(cur.bombUsed){
     row.style.opacity = ".4"; row.style.cursor = "default"; row.onclick = null;
     sub.textContent = "Ya usado en este nivel";
@@ -3312,6 +3321,8 @@ function renderPauseBomb(){
 function renderPauseBoost(){
   const row = document.getElementById("pause-boost-row");
   const sub = document.getElementById("pause-boost-sub");
+  const adBtn = document.getElementById("pause-boost-ad-btn");
+  if(adBtn) adBtn.style.display = cur.boostUsed ? "none" : "";
   if(cur.boostUsed){
     row.style.opacity = ".4"; row.style.cursor = "default"; row.onclick = null;
     sub.textContent = "Ya usado en este nivel";
@@ -3323,7 +3334,9 @@ function renderPauseBoost(){
 function renderPauseRainbow(){
   const row = document.getElementById("pause-rainbow-row");
   const sub = document.getElementById("pause-rainbow-sub");
+  const adBtn = document.getElementById("pause-rainbow-ad-btn");
   if(!row) return;
+  if(adBtn) adBtn.style.display = cur.rainbowUsed ? "none" : "";
   if(cur.rainbowUsed){
     row.style.opacity = ".4"; row.style.cursor = "default"; row.onclick = null;
     sub.textContent = "Ya usado en este nivel";
@@ -3349,6 +3362,16 @@ function buyMoves(){
   updateHud();
   renderPauseBoost();
   setConfiteGame("¡Ahí tienes 5 movimientos más!");
+  setConfiteMood("excited");
+}
+function useBoostWithAd(){
+  if(cur.boostUsed) return;
+  // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
+  cur.boostUsed = true;
+  cur.movesLeft += 5;
+  updateHud();
+  renderPauseBoost();
+  setConfiteGame("¡Ahí tienes 5 movimientos más! (anuncio simulado — falta conectar la red)");
   setConfiteMood("excited");
 }
 
@@ -4438,6 +4461,19 @@ function activateBomb(){
   document.querySelectorAll(".cell").forEach(el=>el.classList.add("bomb-glow"));
   setTimeout(()=>document.querySelectorAll(".cell").forEach(el=>el.classList.remove("bomb-glow")), 1100);
 }
+function useBombWithAd(){
+  if(cur.bombUsed) return;
+  // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
+  cur.bombUsed=true;
+  bombActive=true;
+  rainbowActive=false;
+  closePause();
+  updateHud();
+  setConfiteGame("💥 ¡Toca cualquier caramelo! (anuncio simulado — falta conectar la red)");
+  setConfiteMood("excited");
+  document.querySelectorAll(".cell").forEach(el=>el.classList.add("bomb-glow"));
+  setTimeout(()=>document.querySelectorAll(".cell").forEach(el=>el.classList.remove("bomb-glow")), 1100);
+}
 async function useBombAt(row, col){
   busy=true;
   const cellSet=[];
@@ -4484,6 +4520,18 @@ function activateRainbow(){
   closePause();
   updateHud();
   setConfiteGame("🌈 ¡Toca un caramelo para borrar todos los de ese tipo!");
+  setConfiteMood("excited");
+  document.querySelectorAll(".cell").forEach(el=>el.classList.add("rainbow-glow"));
+  setTimeout(()=>document.querySelectorAll(".cell").forEach(el=>el.classList.remove("rainbow-glow")), 1100);
+}
+function useRainbowWithAd(){
+  if(cur.rainbowUsed) return;
+  // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
+  cur.rainbowUsed=true;
+  rainbowActive=true;
+  closePause();
+  updateHud();
+  setConfiteGame("🌈 ¡Toca un caramelo! (anuncio simulado — falta conectar la red)");
   setConfiteMood("excited");
   document.querySelectorAll(".cell").forEach(el=>el.classList.add("rainbow-glow"));
   setTimeout(()=>document.querySelectorAll(".cell").forEach(el=>el.classList.remove("rainbow-glow")), 1100);
