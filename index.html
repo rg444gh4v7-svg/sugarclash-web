@@ -227,6 +227,40 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 #confite-game-svg{flex-shrink:0;transition:transform .25s}
 #confite-game-text{font-size:12px;color:var(--crystal);line-height:1.3}
 
+/* ===== MODO LIENZO (el color es la mecánica) ===== */
+#canvas-scene{position:absolute;z-index:0;border-radius:12px;overflow:hidden;pointer-events:none;box-shadow:0 0 40px rgba(0,0,0,.5)}
+#canvas-scene svg{display:block;width:100%;height:100%}
+#grid.canvas-mode{position:relative;z-index:2}
+#grid.canvas-mode .cell{background:none!important;border-color:transparent;box-shadow:none!important}
+/* fichas circulares: conservan el color del caramelo pero dejan ver la escena alrededor */
+#grid.canvas-mode .cell::after{content:"";position:absolute;left:50%;top:50%;width:74%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;z-index:-1;box-shadow:0 2px 6px rgba(0,0,0,.45),inset 0 -2px 4px rgba(0,0,0,.18),inset 0 2px 3px rgba(255,255,255,.35)}
+#grid.canvas-mode .cell.c0::after{background:linear-gradient(150deg,#FF7A7A,#D63A3A)}
+#grid.canvas-mode .cell.c1::after{background:linear-gradient(150deg,#6FB8FF,#2A6FCC)}
+#grid.canvas-mode .cell.c2::after{background:linear-gradient(150deg,#5FE0A5,#1FA86A)}
+#grid.canvas-mode .cell.c3::after{background:linear-gradient(150deg,#FFE470,#F0A800)}
+#grid.canvas-mode .cell.c4::after{background:linear-gradient(150deg,#C49DF0,#8B5CC4)}
+#grid.canvas-mode .cell.c5::after{background:linear-gradient(150deg,#FF9DC4,#E0457F)}
+#grid.canvas-mode .cell.cS::after{background:linear-gradient(150deg,#FFF0A8,#FF8C00);box-shadow:0 0 14px rgba(255,200,0,.75),inset 0 2px 3px rgba(255,255,255,.5)}
+#grid.canvas-mode .candy-icon{width:46%;height:46%;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
+#grid.canvas-mode .cell.selected{background:rgba(255,255,255,.18)!important}
+.cell.veil{position:relative}
+.cell.veil::before{content:"";position:absolute;inset:-2px;border-radius:8px;background:linear-gradient(150deg,#4A4652,#33303C);box-shadow:inset 0 1px 0 rgba(255,255,255,.10);z-index:-1}
+.cell.veil-2::before{background:linear-gradient(150deg,#5C5866,#403C4A)}
+.cell.veil-crack::before{animation:veilCrack .34s ease forwards}
+@keyframes veilCrack{0%{transform:scale(1);opacity:1}45%{transform:scale(1.1);opacity:.75;filter:brightness(1.9)}100%{transform:scale(.55) rotate(9deg);opacity:0}}
+@media (prefers-reduced-motion: reduce){ .cell.veil-crack::before{animation:none;opacity:0} }
+#canvas-goal{position:absolute;top:6px;left:50%;transform:translateX(-50%);z-index:5;font-size:11px;color:var(--cream);background:rgba(13,0,21,.72);border:1px solid rgba(255,255,255,.16);border-radius:99px;padding:4px 12px;white-space:nowrap;pointer-events:none}
+#canvas-goal b{color:var(--gold)}
+#grid.revealing .cell{animation:candyDissolve .55s ease forwards}
+@keyframes candyDissolve{to{opacity:0;transform:scale(.4) translateY(-14px)}}
+#canvas-scene.alive{animation:sceneAlive 1.1s cubic-bezier(.22,.61,.36,1)}
+@keyframes sceneAlive{0%{transform:scale(1);filter:saturate(.55) brightness(.8)}55%{transform:scale(1.035);filter:saturate(1.35) brightness(1.15)}100%{transform:scale(1);filter:saturate(1) brightness(1)}}
+@media (prefers-reduced-motion: reduce){
+  /* sin animación, pero el estado final sí se aplica: la pintura tiene que verse igual */
+  #grid.revealing .cell{animation:none;opacity:0}
+  #canvas-scene.alive{animation:none}
+}
+
 #grid-wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center}
 #grid{display:grid;gap:4px;width:100%;max-width:380px}
 .cell{aspect-ratio:1;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s;border:2px solid transparent;position:relative}
@@ -265,6 +299,9 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 
 #overlay,#tutorial-overlay,#pause-overlay{position:absolute;inset:0;background:rgba(7,13,31,.92);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:24px;z-index:10}
 #overlay.on,#tutorial-overlay.on,#pause-overlay.on{display:flex}
+/* al completar un lienzo la pintura es el premio: el resultado no debe taparla */
+#overlay.canvas-win{background:linear-gradient(to top,rgba(7,13,31,.94) 0%,rgba(7,13,31,.88) 26%,rgba(7,13,31,.55) 46%,transparent 66%);justify-content:flex-end;gap:8px;padding-bottom:18px}
+#overlay.canvas-win .overlay-icon{font-size:30px}
 .tutorial-icon{font-size:44px;animation:bob 1.4s ease-in-out infinite}
 .tutorial-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--gold)}
 .tutorial-text{font-size:14px;color:rgba(255,255,255,.8);line-height:1.5;max-width:280px}
@@ -764,6 +801,14 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     </div>
     <div id="world-restore-track"><div id="world-restore-fill"></div></div>
     <div id="confite-world-bubble">El mundo entero está gris... pero tú puedes devolverle el color.</div>
+    <div class="village-entry" style="background:linear-gradient(135deg,rgba(0,245,255,.16),rgba(255,45,122,.12));border-color:rgba(0,245,255,.4)" onclick="startCanvasLevel('amanecer')">
+      <div class="village-entry-icon">🎨</div>
+      <div class="village-entry-text">
+        <b>Lienzo · El Amanecer Carmesí</b>
+        <div class="village-entry-sub">Rompe el gris y descubre lo que había debajo</div>
+      </div>
+      <div class="village-entry-coins" style="color:var(--crystal)">NUEVO</div>
+    </div>
     <div class="village-entry" onclick="goTo('village')">
       <div class="village-entry-icon">🏘️</div>
       <div class="village-entry-text">
@@ -1516,6 +1561,7 @@ function goTo(name, territoryId){
   if(name!=="br" && brRunning){ brRunning=false; if(brRAF) cancelAnimationFrame(brRAF); }
   if(name!=="survival" && name!=="game") endSurvivalTimer();
   if(name!=="map") document.getElementById("boss-intro-overlay").classList.remove("on");
+  if(name!=="game") exitCanvasMode();
   if(name!=="dggame"){ dgStopTimer(); dgStopAmbient(); clearTimeout(dgHintTimerId); }
 }
 function toggleMute(){
@@ -2577,10 +2623,208 @@ function objectiveText(c){
   return `Meta: ${c.goal.toLocaleString()} pts`;
 }
 function checkWin(){
+  if(cur.isCanvas) return canvasFogLeft()===0;
   if(cur.type==="collect" || cur.type==="crystals") return cur.progress >= cur.target;
   return cur.score >= cur.goal;
 }
+/* ---------------- MODO LIENZO ----------------
+   El tablero está sobre una ilustración cubierta de gris. Cada match rompe el
+   gris y revela la pintura. Meta: destapar la escena entera.
+   Reusa el motor match-3 (board/stripes/findMatches/processCascade) y agrega
+   un array paralelo canvasFog[r][c] = 0 (limpio) | 1 | 2 (gris grueso). */
+let canvasFog = [];
+const CANVAS_SCENES = {
+  amanecer: {
+    name: "El Amanecer Carmesí",
+    line: "Este lugar... así se veía antes. Lo estás trayendo de vuelta.",
+    svg: `<svg viewBox="0 0 700 800" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="cs-sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2A0845"/><stop offset=".45" stop-color="#7B2A6B"/>
+          <stop offset=".72" stop-color="#E85C7A"/><stop offset="1" stop-color="#FFC46B"/>
+        </linearGradient>
+        <radialGradient id="cs-sun" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="#FFF6D8"/><stop offset=".55" stop-color="#FFD34D"/><stop offset="1" stop-color="#FFD34D" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="cs-river" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFE08A"/><stop offset="1" stop-color="#F5A623"/>
+        </linearGradient>
+      </defs>
+      <rect width="700" height="800" fill="url(#cs-sky)"/>
+      <circle cx="120" cy="90" r="3" fill="#fff" opacity=".75"/><circle cx="240" cy="52" r="2" fill="#fff" opacity=".5"/>
+      <circle cx="480" cy="70" r="2.5" fill="#fff" opacity=".6"/><circle cx="610" cy="132" r="2" fill="#fff" opacity=".45"/>
+      <circle cx="350" cy="470" r="210" fill="url(#cs-sun)" opacity=".85"/>
+      <circle cx="350" cy="470" r="66" fill="#FFF3C4"/>
+      <path d="M0 486 L104 400 L190 470 L268 392 L350 452 L440 380 L536 462 L622 404 L700 470 L700 560 L0 560 Z" fill="#4A2438"/>
+      <path d="M104 400 L146 434 L62 434 Z" fill="#fff" fill-opacity=".16"/>
+      <path d="M440 380 L486 420 L394 420 Z" fill="#fff" fill-opacity=".16"/>
+      <ellipse cx="168" cy="250" rx="76" ry="30" fill="#FFB7C5" fill-opacity=".62"/>
+      <ellipse cx="214" cy="236" rx="52" ry="24" fill="#FFD3DC" fill-opacity=".55"/>
+      <ellipse cx="536" cy="182" rx="62" ry="25" fill="#FFB7C5" fill-opacity=".5"/>
+      <ellipse cx="500" cy="170" rx="40" ry="19" fill="#FFD3DC" fill-opacity=".45"/>
+      <path d="M0 556 Q175 520 350 556 Q525 592 700 552 L700 800 L0 800 Z" fill="#C64B72"/>
+      <path d="M0 556 Q175 520 350 556 Q525 592 700 552 L700 596 Q525 634 350 598 Q175 562 0 600 Z" fill="#fff" fill-opacity=".12"/>
+      <path d="M292 800 Q318 690 350 620 Q382 690 408 800 Z" fill="url(#cs-river)" opacity=".92"/>
+      <path d="M330 700 Q350 672 370 700" stroke="#fff" stroke-opacity=".45" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M322 762 Q350 730 378 762" stroke="#fff" stroke-opacity=".3" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <g>
+        <rect x="126" y="612" width="11" height="82" rx="5" fill="#7A4A2E"/>
+        <circle cx="131" cy="596" r="40" fill="#FF5C8A"/><circle cx="131" cy="596" r="40" fill="none" stroke="#000" stroke-opacity=".1" stroke-width="3"/>
+        <path d="M131 566 A30 30 0 0 1 161 596" stroke="#fff" stroke-opacity=".4" stroke-width="7" fill="none" stroke-linecap="round"/>
+      </g>
+      <g>
+        <rect x="560" y="634" width="10" height="72" rx="5" fill="#7A4A2E"/>
+        <circle cx="565" cy="620" r="33" fill="#7FD8E8"/><circle cx="565" cy="620" r="33" fill="none" stroke="#000" stroke-opacity=".1" stroke-width="3"/>
+        <path d="M565 596 A24 24 0 0 1 589 620" stroke="#fff" stroke-opacity=".45" stroke-width="6" fill="none" stroke-linecap="round"/>
+      </g>
+      <g>
+        <rect x="228" y="656" width="9" height="60" rx="4" fill="#7A4A2E"/>
+        <circle cx="232" cy="644" r="27" fill="#FFD93D"/>
+        <path d="M232 626 A18 18 0 0 1 250 644" stroke="#fff" stroke-opacity=".45" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </g>
+      <g>
+        <rect x="418" y="640" width="88" height="66" rx="8" fill="#FFD9A0"/>
+        <path d="M406 642 L462 592 L518 642 Z" fill="#FF2D7A"/>
+        <path d="M406 642 L462 592 L462 612 L436 642 Z" fill="#fff" fill-opacity=".18"/>
+        <rect x="450" y="668" width="26" height="38" rx="4" fill="#7A4A2E"/>
+        <circle cx="470" cy="688" r="3" fill="#FFD700"/>
+        <rect x="424" y="656" width="18" height="16" rx="3" fill="#FFF3C4"/>
+      </g>
+      <ellipse cx="62" cy="742" rx="34" ry="13" fill="#000" fill-opacity=".08"/>
+      <circle cx="52" cy="726" r="13" fill="#FF7FB0"/><circle cx="76" cy="736" r="10" fill="#7FD8E8"/>
+      <circle cx="640" cy="748" r="14" fill="#FFD93D"/><circle cx="664" cy="762" r="10" fill="#FF7FB0"/>
+      <circle cx="300" cy="766" r="9" fill="#FF7FB0" fill-opacity=".9"/>
+      <circle cx="196" cy="782" r="11" fill="#7FD8E8" fill-opacity=".85"/>
+    </svg>`
+  }
+};
+function initCanvasFog(){
+  canvasFog = Array.from({length:cur.rows},()=>Array.from({length:cur.cols},()=>cur.thickFog?2:1));
+}
+function canvasFogLeft(){
+  let n=0;
+  for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols;c++) if(canvasFog[r] && canvasFog[r][c]>0) n++;
+  return n;
+}
+function damageCanvasFog(cells){
+  if(!cur.isCanvas || !canvasFog.length) return;
+  const seen=new Set();
+  cells.forEach(({r,c})=>{
+    const k=r*cur.cols+c;
+    if(seen.has(k)) return;
+    seen.add(k);
+    if(!canvasFog[r] || canvasFog[r][c]<=0) return;
+    canvasFog[r][c]--;
+    if(canvasFog[r][c]===0){
+      const el=cellEl(r,c);
+      if(el) el.classList.add("veil-crack");
+    }
+  });
+  updateCanvasGoal();
+}
+function updateCanvasGoal(){
+  const el=document.getElementById("canvas-goal");
+  if(!el || !cur.isCanvas) return;
+  const total=cur.rows*cur.cols*(cur.thickFog?2:1);
+  const left=canvasFogLeft();
+  const pct=Math.round((1-left/(cur.rows*cur.cols))*100);
+  el.innerHTML = left>0 ? `Revelado <b>${pct}%</b> · quedan ${left} de gris` : `<b>¡Escena completa!</b>`;
+}
+function layoutCanvasScene(){
+  const scene=document.getElementById("canvas-scene");
+  const grid=document.getElementById("grid");
+  if(!scene||!grid) return;
+  scene.style.left = grid.offsetLeft+"px";
+  scene.style.top = grid.offsetTop+"px";
+  scene.style.width = grid.offsetWidth+"px";
+  scene.style.height = grid.offsetHeight+"px";
+}
+function startCanvasLevel(sceneId){
+  const scene = CANVAS_SCENES[sceneId] || CANVAS_SCENES.amanecer;
+  cur = { n:"C", type:"canvas", isCanvas:true, sceneId, movesLeft:30, movesMax:30,
+          cols:7, rows:8, score:0, progress:0, cascade:0, done:false,
+          boostUsed:false, rainbowUsed:false, bombUsed:false, isDaily:false, thickFog:false };
+  rainbowActive=false; bombActive=false;
+  moveStreak=0; freneticStartTime=Date.now(); endSugarRush();
+  document.getElementById("overlay").classList.remove("on","canvas-win");
+  document.getElementById("pause-overlay").classList.remove("on");
+  pauseOpen=false;
+  document.getElementById("hud-level").textContent="🎨";
+  document.getElementById("objective-bar").textContent = `${scene.name} · devuélvele el color`;
+  const wrap=document.getElementById("grid-wrap");
+  let sceneEl=document.getElementById("canvas-scene");
+  if(!sceneEl){
+    sceneEl=document.createElement("div");
+    sceneEl.id="canvas-scene";
+    wrap.insertBefore(sceneEl, wrap.firstChild);
+  }
+  sceneEl.classList.remove("alive");
+  sceneEl.innerHTML=scene.svg;
+  sceneEl.style.display="";
+  let goalEl=document.getElementById("canvas-goal");
+  if(!goalEl){
+    goalEl=document.createElement("div");
+    goalEl.id="canvas-goal";
+    wrap.appendChild(goalEl);
+  }
+  goalEl.style.display="";
+  document.getElementById("screen-game").style.background="radial-gradient(ellipse at 50% -10%, #2A0845 0%, var(--dark) 70%)";
+  setConfiteGame("Debajo del gris todavía está el mundo. Rompelo y mirá lo que había.");
+  setConfiteMood("happy");
+  buildGrid();
+  initCanvasFog();
+  renderGrid();
+  updateHud(); updateComboPill(0); updateStreakPips();
+  goTo("game");
+  requestAnimationFrame(layoutCanvasScene);
+  document.getElementById("grid").classList.remove("revealing");
+}
+async function finishCanvasLevel(){
+  cur.done=true;
+  clearHint(); clearTimeout(hintTimerId);
+  const scene=CANVAS_SCENES[cur.sceneId]||CANVAS_SCENES.amanecer;
+  const grid=document.getElementById("grid");
+  const sceneEl=document.getElementById("canvas-scene");
+  const goalEl=document.getElementById("canvas-goal");
+  if(goalEl) goalEl.style.display="none";
+  playWin();
+  setConfiteGame(scene.line);
+  setConfiteMood("celebrate");
+  if(grid) grid.classList.add("revealing");
+  await delay(560);
+  if(sceneEl) sceneEl.classList.add("alive");
+  spawnConfetti();
+  await delay(1150);
+  const stars = cur.movesLeft>=8 ? 3 : cur.movesLeft>=3 ? 2 : 1;
+  const coins = 30 + stars*15;
+  save.coins=(save.coins||0)+coins;
+  if(!save.canvasDone) save.canvasDone={};
+  save.canvasDone[cur.sceneId]=true;
+  persistSave();
+  document.getElementById("overlay-icon").textContent="🎨";
+  document.getElementById("overlay-title").textContent=scene.name;
+  document.getElementById("overlay-sub").innerHTML=`Le devolviste el color a esta escena · <span style="color:var(--gold);font-weight:600">+${coins} 🍯</span>`;
+  document.getElementById("overlay-main-btn").textContent="Volver";
+  const contBtn=document.getElementById("overlay-continue-btn");
+  if(contBtn) contBtn.style.display="none";
+  const starsEls=document.querySelectorAll("#overlay-stars .s");
+  starsEls.forEach(el=>el.classList.remove("on"));
+  document.getElementById("overlay").classList.add("on","canvas-win");
+  starsEls.forEach((el,i)=>{ if(i<stars) setTimeout(()=>{el.classList.add("on"); playBuild&&playBuild();}, 260+i*200); });
+}
+function exitCanvasMode(){
+  const ov=document.getElementById("overlay");
+  if(ov) ov.classList.remove("canvas-win");
+  const sceneEl=document.getElementById("canvas-scene");
+  const goalEl=document.getElementById("canvas-goal");
+  if(sceneEl) sceneEl.style.display="none";
+  if(goalEl) goalEl.style.display="none";
+  const grid=document.getElementById("grid");
+  if(grid){ grid.classList.remove("canvas-mode","revealing"); }
+}
+
 function startLevel(n){
+  exitCanvasMode();
   const lv = LEVELS_BY_TERRITORY[currentTerritory][n-1];
   const type = lv.type || "score";
   cur = { n: lv.n, type, goal: lv.goal, target: lv.target, color: lv.color,
@@ -2858,6 +3102,7 @@ function buildGrid(){
 
 function renderGrid(){
   const gridEl = document.getElementById("grid");
+  gridEl.classList.toggle("canvas-mode", !!(cur && cur.isCanvas));
   gridEl.innerHTML = "";
   for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols;c++){
     const t = board[r][c];
@@ -2872,6 +3117,10 @@ function renderGrid(){
     if(stripes.length && stripes[r] && stripes[r][c]==='V') div.classList.add("stripe-v");
     if(stripes.length && stripes[r] && stripes[r][c]==='W') div.classList.add("wrapped");
     if(obstacles.length && obstacles[r] && obstacles[r][c]>0) div.classList.add(`obstacle-${obstacles[r][c]}`);
+    if(cur.isCanvas && canvasFog.length && canvasFog[r] && canvasFog[r][c]>0){
+      div.classList.add("veil");
+      if(canvasFog[r][c]>=2) div.classList.add("veil-2");
+    }
     gridEl.appendChild(div);
   }
 }
@@ -2978,6 +3227,8 @@ async function processCascade(){
     allCells.forEach(({r,c})=>clearStripeAt(r,c));
     // Damage adjacent obstacle cells
     processObstacleDamage(allCells);
+    // Modo lienzo: los matches rompen el gris que cubre la ilustración
+    damageCanvasFog(allCells);
 
     if(cur.type==="collect"){
       allCells.forEach(({r,c})=>{ if(board[r][c]===cur.color) cur.progress++; });
@@ -3157,7 +3408,9 @@ function updateHud(){
   const critical = !cur.isSurvival && cur.movesLeft <= 3 && cur.movesLeft > 0;
   movEl.classList.toggle("moves-critical", critical);
   document.getElementById("hud-score").textContent = cur.score.toLocaleString();
-  const pct = (cur.type==="collect" || cur.type==="crystals")
+  const pct = cur.isCanvas
+    ? Math.round((1 - canvasFogLeft()/(cur.rows*cur.cols))*100)
+    : (cur.type==="collect" || cur.type==="crystals")
     ? Math.min(100, Math.round(cur.progress/cur.target*100))
     : Math.min(100, Math.round(cur.score/cur.goal*100));
   document.getElementById("progress-fill").style.width = pct+"%";
@@ -3184,6 +3437,7 @@ function calcStars(){
   return 1;
 }
 function finishLevel(won){
+  if(cur.isCanvas && won){ finishCanvasLevel(); return; }
   cur.done = true;
   clearHint(); clearTimeout(hintTimerId);
   endSugarRush();
@@ -3269,10 +3523,15 @@ function finishLevel(won){
     playLose();
     document.getElementById("overlay-icon").textContent = "💔";
     document.getElementById("overlay-title").textContent = "Sin movimientos";
-    document.getElementById("overlay-sub").textContent = cur.type==="collect" ? `Recolectaste ${cur.progress} de ${cur.target}`
+    document.getElementById("overlay-sub").textContent = cur.isCanvas ? `Revelaste ${Math.round((1-canvasFogLeft()/(cur.rows*cur.cols))*100)}% de la escena · quedaron ${canvasFogLeft()} de gris`
+      : cur.type==="collect" ? `Recolectaste ${cur.progress} de ${cur.target}`
       : cur.type==="crystals" ? `Activaste ${cur.progress} de ${cur.target} Cristales`
       : `Llegaste a ${cur.score.toLocaleString()} de ${cur.goal.toLocaleString()}`;
-    setConfiteGame("Casi... ¿lo intentamos de nuevo?");
+    if(cur.isCanvas){
+      document.getElementById("overlay-icon").textContent = "🌫️";
+      document.getElementById("overlay-title").textContent = "El gris ganó esta vez";
+      setConfiteGame("Estuvimos cerca. Esa parte del mundo sigue esperando.");
+    } else setConfiteGame("Casi... ¿lo intentamos de nuevo?");
     setConfiteMood("sad");
     document.getElementById("overlay-main-btn").textContent = "Reintentar";
   }
@@ -3311,6 +3570,12 @@ function continueGame(){
   resetHintTimer();
 }
 function retryOrNext(){
+  if(cur.isCanvas){
+    document.getElementById("overlay").classList.remove("on");
+    if(cur.done && checkWin()){ exitCanvasMode(); goTo("world"); }
+    else startCanvasLevel(cur.sceneId);
+    return;
+  }
   if(cur.isSurvival){
     startSurvival(); return;
   }
