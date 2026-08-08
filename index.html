@@ -109,6 +109,8 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 }
 @keyframes nodeInvite{0%,100%{filter:grayscale(.75) brightness(.7) drop-shadow(0 3px 4px rgba(0,0,0,.4))}50%{filter:grayscale(0) brightness(1.05) drop-shadow(0 0 12px rgba(245,184,0,.55))}}
 .v-node.built .v-node-svg{transform:scale(1.04)}
+.v-node-ability{margin-top:4px;font-size:9px;color:var(--gold);background:rgba(245,184,0,.12);border:1px solid rgba(245,184,0,.3);border-radius:8px;padding:4px 7px;max-width:110px;text-align:center;line-height:1.3}
+.v-node-ad-btn{margin-top:5px;font-size:10px;font-weight:600;color:#042A1C;background:linear-gradient(135deg,#00D68A,#00A870);border:none;border-radius:99px;padding:6px 10px;cursor:pointer;white-space:nowrap}
 
 /* ===== ACHIEVEMENTS (Logros) ===== */
 #screen-achievements{padding:18px 16px 24px;gap:14px}
@@ -1629,20 +1631,25 @@ function migrateSave(s){
 /* ---------------- ECONOMÍA: VIDAS ----------------
    La escasez es el motor: sin derrota posible no hay nada que vender.
    5 vidas, se pierde 1 al fallar, se recupera 1 cada 25 minutos. */
+// Edificio Muelle de Cristal construido: +1 vida máxima
+function livesMax(){ return LIVES_MAX + (hasBuilding("muelle") ? 1 : 0); }
 function syncLives(){
-  if(save.lives >= LIVES_MAX){ save.livesAt = 0; return save.lives; }
+  const max = livesMax();
+  if(save.lives >= max){ save.livesAt = 0; return save.lives; }
   if(!save.livesAt){ save.livesAt = Date.now(); return save.lives; }
   const elapsed = Date.now() - save.livesAt;
-  const gained = Math.floor(elapsed / LIFE_REGEN_MS);
-  if(gained > 0){
-    save.lives = Math.min(LIVES_MAX, save.lives + gained);
-    save.livesAt = save.lives >= LIVES_MAX ? 0 : save.livesAt + gained*LIFE_REGEN_MS;
+  const intervals = Math.floor(elapsed / LIFE_REGEN_MS);
+  if(intervals > 0){
+    // Edificio Faro del Cristal construido: cada intervalo da 2 vidas en vez de 1
+    const perInterval = hasBuilding("faro") ? 2 : 1;
+    save.lives = Math.min(max, save.lives + intervals*perInterval);
+    save.livesAt = save.lives >= max ? 0 : save.livesAt + intervals*LIFE_REGEN_MS;
     persistSave();
   }
   return save.lives;
 }
 function msToNextLife(){
-  if(save.lives >= LIVES_MAX || !save.livesAt) return 0;
+  if(save.lives >= livesMax() || !save.livesAt) return 0;
   return Math.max(0, (save.livesAt + LIFE_REGEN_MS) - Date.now());
 }
 function fmtMs(ms){
@@ -1652,7 +1659,7 @@ function fmtMs(ms){
 function spendLife(){
   syncLives();
   if(save.lives <= 0) return false;
-  if(save.lives === LIVES_MAX) save.livesAt = Date.now();
+  if(save.lives === livesMax()) save.livesAt = Date.now();
   save.lives--;
   persistSave();
   updateLivesUI();
@@ -1660,18 +1667,20 @@ function spendLife(){
 }
 function addLives(n){
   syncLives();
-  save.lives = Math.min(LIVES_MAX, save.lives + n);
-  if(save.lives >= LIVES_MAX) save.livesAt = 0;
+  const max = livesMax();
+  save.lives = Math.min(max, save.lives + n);
+  if(save.lives >= max) save.livesAt = 0;
   persistSave();
   updateLivesUI();
 }
 function refillLivesWithGems(){
   syncLives();
-  if(save.lives >= LIVES_MAX){ toast("Ya tenés todas las vidas."); return; }
+  const max = livesMax();
+  if(save.lives >= max){ toast("Ya tenés todas las vidas."); return; }
   if((save.gems||0) < REFILL_LIVES_GEMS){ openShop(); return; }
   save.gems -= REFILL_LIVES_GEMS;
   save.spentGems = (save.spentGems||0)+REFILL_LIVES_GEMS;
-  save.lives = LIVES_MAX; save.livesAt = 0;
+  save.lives = max; save.livesAt = 0;
   persistSave();
   updateLivesUI();
   closeNoLives();
@@ -1684,7 +1693,7 @@ function updateLivesUI(){
   document.querySelectorAll(".lives-count").forEach(el=>el.textContent = n);
   document.querySelectorAll(".gems-count").forEach(el=>el.textContent = save.gems||0);
   document.querySelectorAll(".lives-timer").forEach(el=>{
-    el.textContent = n>=LIVES_MAX ? "LLENO" : fmtMs(msToNextLife());
+    el.textContent = n>=livesMax() ? "LLENO" : fmtMs(msToNextLife());
   });
   const nl = document.getElementById("nolives-timer");
   if(nl) nl.textContent = fmtMs(msToNextLife());
@@ -2185,7 +2194,7 @@ function renderVillage(){
   const wrap = document.getElementById("village-grid");
   wrap.innerHTML = "";
   const builtCount = BUILDINGS.filter(b=>save.buildings[b.id]).length;
-  const stepY = 170, topPad = 60, botPad = 100;
+  const stepY = 210, topPad = 60, botPad = 120; // más alto que antes: los nodos ahora pueden mostrar habilidad + botón de anuncio
   const totalH = topPad + (BUILDINGS.length-1)*stepY + botPad;
   const points = BUILDINGS.map((b,i)=>({x: VILLAGE_NODE_X[i]!==undefined ? VILLAGE_NODE_X[i] : 50, y: topPad + i*stepY}));
   let pathD = `M ${points[0].x} ${points[0].y}`;
@@ -2216,7 +2225,10 @@ function renderVillage(){
     node.style.top = points[i].y+"px";
     node.style.animationDelay = (i*55)+"ms";
     const sub = built ? "Construido" : unlocked ? `🍯 ${b.cost}` : "🔒 Bloqueado";
-    node.innerHTML = `<svg class="v-node-svg" viewBox="0 0 80 84">${villageBuildingSVG(b.id)}</svg><div class="v-node-label">${b.name}</div><div class="v-node-sub">${sub}</div>`;
+    const ability = buildingAbilityText(b.id);
+    const abilityHtml = (built && ability) ? `<div class="v-node-ability">✨ ${ability}</div>` : "";
+    const adHtml = (unlocked && !built) ? `<button class="v-node-ad-btn" onclick="event.stopPropagation(); buildStructureWithAd('${b.id}')">🎬 Construir ya</button>` : "";
+    node.innerHTML = `<svg class="v-node-svg" viewBox="0 0 80 84">${villageBuildingSVG(b.id)}</svg><div class="v-node-label">${b.name}</div><div class="v-node-sub">${sub}</div>${abilityHtml}${adHtml}`;
     if(built) node.onclick = ()=>setVillageBubble(b.line);
     else if(unlocked) node.onclick = ()=>buildStructure(b.id);
     scene.appendChild(node);
@@ -2225,6 +2237,26 @@ function renderVillage(){
   const pct = Math.round(builtCount/BUILDINGS.length*100);
   document.getElementById("village-pct").textContent = pct;
   document.getElementById("village-restore-fill").style.width = pct+"%";
+}
+/* Cada edificio da un bonus permanente chico una vez construido — igual
+   filosofía que los héroes: modesto, no rompe el balance, da una razón real
+   para terminar de construir la Aldea. hasBuilding() se consulta desde:
+   finishLevel()/finishCanvasLevel() [puesto,jardin,torre], resetHintTimer()
+   [fuente], powerupCost() [taller], processObstacleDamage() [forja],
+   doSwap() [dojo], syncLives() [muelle,faro]. */
+function hasBuilding(id){ return !!(save.buildings && save.buildings[id]); }
+function buildingAbilityText(id){
+  return {
+    puesto: "+5 🍯 extra al completar cualquier nivel",
+    fuente: "La pista aparece en 5s en vez de 8s",
+    jardin: "+10 🍯 extra en el desafío diario",
+    torre:  "+5% de puntos en todo el juego",
+    taller: "Los power-ups de pausa cuestan 5 🍯 menos",
+    muelle: "+1 vida máxima",
+    forja:  "Los bloques de chocolate reciben daño extra",
+    dojo:   "Sugar Rush se activa un combo antes",
+    faro:   "Cada vida que regenera, vuelven 2 en vez de 1",
+  }[id] || "";
 }
 function buildStructure(id){
   const b = BUILDINGS.find(x=>x.id===id);
@@ -2240,6 +2272,17 @@ function buildStructure(id){
   checkAchievements();
   renderVillage();
   setVillageBubble(b.line);
+}
+function buildStructureWithAd(id){
+  const b = BUILDINGS.find(x=>x.id===id);
+  if(!b || save.buildings[id]) return;
+  // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
+  playBuild();
+  save.buildings[id] = true;
+  persistSave();
+  checkAchievements();
+  renderVillage();
+  setVillageBubble(b.line + " (anuncio simulado — falta conectar la red)");
 }
 function setVillageBubble(text){
   document.getElementById("confite-village-bubble").textContent = text;
@@ -3175,6 +3218,7 @@ async function finishCanvasLevel(){
   const stars = cur.movesLeft>=8 ? 3 : cur.movesLeft>=3 ? 2 : 1;
   let coins = 30 + stars*15;
   if(hasHeroAbility("maple")) coins = Math.round(coins*1.2); // +20% equipada
+  if(hasBuilding("puesto")) coins += 5;
   save.coins=(save.coins||0)+coins;
   if(!save.canvasDone) save.canvasDone={};
   save.canvasDone[cur.sceneId]=true;
@@ -3300,7 +3344,11 @@ const MOVES_BOOST_COST = 30;
 const RAINBOW_COST = 60;
 const BOMB_COST = 40;
 // Habilidad de Kenshi equipada: 25% menos costo en los power-ups de pausa
-function powerupCost(base){ return hasHeroAbility("kenshi") ? Math.round(base*0.75) : base; }
+function powerupCost(base){
+  let cost = hasHeroAbility("kenshi") ? Math.round(base*0.75) : base;
+  if(hasBuilding("taller")) cost = Math.max(5, cost-5); // Taller de Dulce Roja: -5 fijas
+  return cost;
+}
 function renderPauseBomb(){
   const row = document.getElementById("pause-bomb-row");
   const sub = document.getElementById("pause-bomb-sub");
@@ -3418,8 +3466,12 @@ function processObstacleDamage(clearedCells){
       const k=nr*cur.cols+nc;
       if(seen.has(k)) return;
       seen.add(k);
-      // Habilidad de Bastión equipada: daño doble a los bloques de chocolate
-      obstacles[nr][nc] -= hasHeroAbility("bastion") ? 2 : 1;
+      // Habilidad de Bastión equipada: daño doble. Edificio Herrería
+      // construido: +1 de daño extra. Se acumulan (héroe y edificio son
+      // sistemas separados, apilar es la recompensa por tener ambos).
+      let dmg = hasHeroAbility("bastion") ? 2 : 1;
+      if(hasBuilding("forja")) dmg += 1;
+      obstacles[nr][nc] -= dmg;
       if(obstacles[nr][nc]<0) obstacles[nr][nc]=0;
       const el=cellEl(nr,nc);
       if(el){ el.classList.add("obstacle-hit"); setTimeout(()=>{ const e2=cellEl(nr,nc); if(e2) e2.classList.remove("obstacle-hit"); renderGrid(); }, 380); }
@@ -3584,7 +3636,9 @@ async function doSwap(r1,c1,r2,c2){
   }
   // Match! → build streak
   moveStreak++; updateStreakPips();
-  if(moveStreak >= 3 && !sugarRushActive && !cur.done) triggerSugarRush();
+  // Edificio Escuela de Kenshi construido: Sugar Rush se activa un combo antes
+  const sugarRushThreshold = hasBuilding("dojo") ? 2 : 3;
+  if(moveStreak >= sugarRushThreshold && !sugarRushActive && !cur.done) triggerSugarRush();
   cur.movesLeft--; cur.cascade=0; updateComboPill(0);
   checkAndCreateStripe(m, r2, c2);
   await processCascade();
@@ -3661,7 +3715,9 @@ async function processCascade(){
     // Habilidad de Tang Wei equipada: +15% en cascadas (cur.cascade>=1 acá
     // equivale a combo x2+ una vez incrementado más abajo)
     const heroMult = (hasHeroAbility("tangwei") && cur.cascade>=1) ? 1.15 : 1;
-    const pts = Math.round((basePts + bonusPts) * sugarMult * heroMult);
+    // Edificio Torre de Vigía construido: +5% de puntos en todo el juego
+    const buildMult = hasBuilding("torre") ? 1.05 : 1;
+    const pts = Math.round((basePts + bonusPts) * sugarMult * heroMult * buildMult);
     cur.score += pts; cur.cascade++;
     if(cur.cascade > (save.bestCascade||0)){ save.bestCascade = cur.cascade; persistSave(); }
     if(cur.isSurvival){ addSurvivalTime(matched.length, cur.cascade); }
@@ -3779,7 +3835,8 @@ function resetHintTimer(){
   clearHint();
   clearTimeout(hintTimerId);
   if(cur && !cur.done && !cur.isSurvival)
-    hintTimerId = setTimeout(showHint, 8000);
+    // Edificio Fuente de Miel construido: la pista aparece antes
+    hintTimerId = setTimeout(showHint, hasBuilding("fuente") ? 5000 : 8000);
 }
 
 function findMatches(){
@@ -3892,6 +3949,8 @@ function finishLevel(won){
         // Show streak bonus message briefly
         setTimeout(()=>{ popCombo(bonus, 1, `🔥 ¡Racha de ${save.dailyStreak} días! Bonus`); }, 900);
       }
+      // Edificio Jardín de Azúcar construido: +10 🍯 extra en el desafío diario
+      if(hasBuilding("jardin")) coinsEarned += 10;
     } else {
       // Save best score
       if(!save.bestScores) save.bestScores = {};
@@ -3900,6 +3959,8 @@ function finishLevel(won){
     }
     // Habilidad de Maple equipada: +20% de monedas al terminar un nivel
     if(hasHeroAbility("maple")) coinsEarned = Math.round(coinsEarned*1.2);
+    // Edificio Puesto de Caramelos construido: +5 🍯 fijas por nivel
+    if(hasBuilding("puesto")) coinsEarned += 5;
     save.coins = (save.coins||0) + coinsEarned;
     // parte de lo ganado va a la alcancía: se ve crecer pero hay que pagar para sacarlo
     piggyAdd(Math.round(coinsEarned*0.6) + stars*10);
