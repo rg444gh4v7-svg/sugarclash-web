@@ -87,29 +87,28 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .village-sub{font-size:12px;color:var(--crystal)}
 #village-restore-track{background:rgba(255,255,255,.08);border-radius:99px;height:8px;overflow:hidden}
 #village-restore-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--candy));border-radius:99px;transition:width .6s}
-#village-grid{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:22px;padding:16px 6px 20px;position:relative}
-#village-grid::before{content:"";position:absolute;left:50%;top:8px;bottom:8px;border-left:2px dashed rgba(245,184,0,.28)}
-.plot{position:relative;width:64%;border-radius:20px;padding:16px 10px 12px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;background:radial-gradient(ellipse at 50% 120%,rgba(245,184,0,.14),rgba(255,255,255,.03) 72%);border:1px solid rgba(255,255,255,.12);transition:transform .15s;cursor:pointer;z-index:1;animation:cardIn .38s ease backwards}
+#village-grid{flex:1;overflow-y:auto;overflow-x:hidden;position:relative}
+.village-scene{position:relative;width:100%}
+.village-path-svg{position:absolute;left:0;top:0;width:100%;height:100%;display:block}
+.v-deco{position:absolute;transform:translate(-50%,-50%);font-size:15px;opacity:.45;pointer-events:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,.4))}
+.v-node{position:absolute;left:0;top:0;transform:translate(-50%,-58px);width:80px;display:flex;flex-direction:column;align-items:center;cursor:pointer;z-index:2;animation:cardIn .4s ease backwards}
 @media (prefers-reduced-motion: reduce){
-  .plot{animation:none}
+  .v-node{animation:none}
 }
-.plot:nth-child(odd){align-self:flex-start}
-.plot:nth-child(even){align-self:flex-end}
-.plot:active{transform:scale(.96)}
-.plot-step{position:absolute;top:-9px;left:50%;transform:translateX(-50%);width:20px;height:20px;border-radius:50%;background:var(--dark);border:1px solid rgba(245,184,0,.45);font-size:10px;font-weight:600;color:var(--gold);display:flex;align-items:center;justify-content:center;z-index:2}
-.plot.built{background:radial-gradient(ellipse at 50% 120%,rgba(46,213,115,.18),rgba(255,255,255,.03) 72%);border-color:rgba(46,213,115,.4);cursor:default}
-.plot.built .plot-step{border-color:rgba(46,213,115,.5);color:#5EDB94}
-.plot.built .plot-icon{font-size:38px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.35))}
-.plot.unlocked-next{border-color:rgba(245,184,0,.5);animation:cardIn .38s ease backwards,plotInvite 2.2s ease-in-out infinite}
+.v-node-svg{width:64px;height:67px;flex-shrink:0;filter:drop-shadow(0 3px 4px rgba(0,0,0,.45));transition:filter .3s,transform .15s}
+.v-node:active .v-node-svg{transform:scale(.93)}
+.v-node-label{margin-top:2px;font-family:'Fraunces',serif;font-weight:600;font-size:10.5px;color:var(--cream);text-align:center;line-height:1.2;text-shadow:0 1px 3px rgba(0,0,0,.75);max-width:80px}
+.v-node-sub{font-size:9.5px;color:var(--gold);text-align:center;text-shadow:0 1px 3px rgba(0,0,0,.75)}
+.v-node.locked{cursor:default}
+.v-node.locked .v-node-svg{filter:grayscale(1) brightness(.4) drop-shadow(0 2px 3px rgba(0,0,0,.3));opacity:.5}
+.v-node.locked .v-node-label{color:rgba(255,255,255,.35)}
+.v-node.locked .v-node-sub{color:rgba(255,255,255,.3)}
+.v-node.unlocked-next .v-node-svg{filter:grayscale(.75) brightness(.7) drop-shadow(0 3px 4px rgba(0,0,0,.4));animation:nodeInvite 2.2s ease-in-out infinite}
 @media (prefers-reduced-motion: reduce){
-  .plot.unlocked-next{animation:none}
+  .v-node.unlocked-next .v-node-svg{animation:none}
 }
-@keyframes plotInvite{0%,100%{box-shadow:0 0 8px rgba(245,184,0,.12)}50%{box-shadow:0 0 22px rgba(245,184,0,.4)}}
-.plot.locked{opacity:.4;cursor:default}
-.plot-icon{font-size:30px}
-.plot-name{font-family:'Fraunces',serif;font-weight:600;font-size:12.5px;color:var(--cream);line-height:1.25}
-.plot-cost{font-size:11px;color:var(--gold)}
-.plot-status{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.04em}
+@keyframes nodeInvite{0%,100%{filter:grayscale(.75) brightness(.7) drop-shadow(0 3px 4px rgba(0,0,0,.4))}50%{filter:grayscale(0) brightness(1.05) drop-shadow(0 0 12px rgba(245,184,0,.55))}}
+.v-node.built .v-node-svg{transform:scale(1.04)}
 
 /* ===== ACHIEVEMENTS (Logros) ===== */
 #screen-achievements{padding:18px 16px 24px;gap:14px}
@@ -1690,29 +1689,123 @@ const BUILDINGS = [
   {id:"dojo",   name:"Escuela de Kenshi",     icon:"🥋", cost:470, line:"Kenshi entrena aquí al amanecer. Nunca falla."},
   {id:"faro",   name:"Faro del Cristal",      icon:"🔮", cost:570, line:"Dicen que en las noches claras, el faro brilla solo... como si recordara algo."},
 ];
+/* Posición horizontal (%) de cada edificio a lo largo del camino — a mano, en zigzag.
+   Debe tener BUILDINGS.length entradas; si se agrega una construcción, agregar una más aquí. */
+const VILLAGE_NODE_X = [30, 70, 24, 74, 34, 64, 22, 72, 30, 62];
+function villageBuildingSVG(id){
+  const shadow = `<ellipse cx="40" cy="78" rx="24" ry="5" fill="#000" fill-opacity=".28"/>`;
+  const ART = {
+    casa: `<path d="M14 42 L40 14 L66 42 Z" fill="#FF5C8A"/>
+      <path d="M14 42 L40 14 L40 24 L22 42 Z" fill="#fff" fill-opacity=".18"/>
+      <rect x="20" y="40" width="40" height="34" rx="8" fill="#FFD9A0"/>
+      <rect x="20" y="40" width="40" height="34" rx="8" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>
+      <path d="M34 30c0-4 3-6 6-6s6 2 6 6c0 4-6 10-6 10s-6-6-6-10z" fill="#FF93B3"/>
+      <rect x="33" y="56" width="14" height="18" rx="3" fill="#7A4A2E"/>
+      <circle cx="43" cy="65" r="1.6" fill="#FFD700"/>`,
+    puesto: `<rect x="16" y="34" width="4" height="40" fill="#B08050"/>
+      <rect x="60" y="34" width="4" height="40" fill="#B08050"/>
+      <path d="M14 34 L40 18 L66 34 Z" fill="#00C6E0"/>
+      <path d="M14 34 L22 34 L28 43 L20 43 Z" fill="#FF2D7A"/>
+      <path d="M28 34 L36 34 L40 43 L32 43 Z" fill="#FFD700"/>
+      <path d="M36 34 L44 34 L48 43 L40 43 Z" fill="#FF2D7A"/>
+      <path d="M44 34 L52 34 L56 43 L48 43 Z" fill="#FFD700"/>
+      <path d="M52 34 L60 34 L64 43 L56 43 Z" fill="#FF2D7A"/>
+      <rect x="18" y="52" width="44" height="20" rx="4" fill="#7A4A2E"/>
+      <rect x="18" y="52" width="44" height="6" rx="3" fill="#9C6B3F"/>
+      <circle cx="30" cy="48" r="5" fill="#FF7FB0"/><circle cx="40" cy="46" r="5" fill="#7FD8E8"/><circle cx="50" cy="48" r="5" fill="#FFD93D"/>`,
+    fuente: `<ellipse cx="40" cy="70" rx="22" ry="8" fill="#9C6B3F"/>
+      <rect x="20" y="50" width="40" height="22" rx="6" fill="#B08050"/>
+      <ellipse cx="40" cy="50" rx="20" ry="7" fill="#FFC94D"/>
+      <ellipse cx="40" cy="50" rx="20" ry="7" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="1.5"/>
+      <path d="M40 28c4 6 4 12 0 16-4-4-4-10 0-16z" fill="#FFB300"/>
+      <circle cx="40" cy="48" r="3" fill="#FFF3C4"/>`,
+    jardin: `<ellipse cx="40" cy="73" rx="27" ry="8" fill="#B084E8" fill-opacity=".35"/>
+      <line x1="23" y1="73" x2="23" y2="50" stroke="#7A4A2E" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="23" cy="42" r="10" fill="#FF7FB0"/>
+      <path d="M23 42a10 10 0 0 1 6.5-9.4" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="2"/>
+      <line x1="56" y1="73" x2="56" y2="52" stroke="#7A4A2E" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="56" cy="44" r="8" fill="#7FD8E8"/>
+      <path d="M37 71c0-4 3-6 4-6s4 2 4 6c0 3-4 6-4 6s-4-3-4-6z" fill="#FF5C8A"/>`,
+    torre: `<path d="M28 74 L30 24 L50 24 L52 74 Z" fill="#D4A24C"/>
+      <path d="M28 74 L30 24 L38 24 L36 74 Z" fill="#fff" fill-opacity=".15"/>
+      <path d="M24 24 L40 8 L56 24 Z" fill="#7A4A2E"/>
+      <circle cx="40" cy="38" r="2.4" fill="#3A2410"/><circle cx="40" cy="52" r="2.4" fill="#3A2410"/>
+      <line x1="40" y1="8" x2="40" y2="0" stroke="#7A4A2E" stroke-width="2"/>
+      <path d="M40 0 L52 4 L40 8 Z" fill="#00C6E0"/>`,
+    taller: `<rect x="18" y="42" width="44" height="32" rx="4" fill="#C47A4A"/>
+      <path d="M14 44 L40 26 L66 44 Z" fill="#7A4A2E"/>
+      <rect x="52" y="18" width="6" height="14" rx="2" fill="#5C3A22"/>
+      <ellipse cx="55" cy="14" rx="6" ry="4" fill="#fff" fill-opacity=".3"/><ellipse cx="60" cy="9" rx="5" ry="3.5" fill="#fff" fill-opacity=".22"/>
+      <circle cx="40" cy="56" r="9" fill="#FFD700" fill-opacity=".9"/>
+      <path d="M40 50v3M40 59v3M34 56h3M43 56h3M35.8 51.8l2 2M42.2 60.2l2 2M44.2 51.8l-2 2M37.8 60.2l-2 2" stroke="#7A4A2E" stroke-width="1.6" stroke-linecap="round"/>`,
+    muelle: `<path d="M8 68Q40 58 72 68L72 78 8 78Z" fill="#1F9ED0" fill-opacity=".55"/>
+      <path d="M8 68Q40 58 72 68" fill="none" stroke="#7FD8E8" stroke-width="2" stroke-opacity=".6"/>
+      <rect x="30" y="40" width="6" height="34" fill="#B08050"/>
+      <rect x="18" y="46" width="44" height="6" rx="2" fill="#9C6B3F"/><rect x="18" y="56" width="44" height="6" rx="2" fill="#B08050"/>
+      <polygon points="30,40 36,40 40,28 26,28" fill="#00C6E0" fill-opacity=".85"/>
+      <circle cx="33" cy="26" r="2" fill="#fff"/>`,
+    forja: `<rect x="18" y="40" width="44" height="34" rx="4" fill="#5C4A42"/>
+      <rect x="18" y="34" width="44" height="8" rx="2" fill="#3A2E28"/>
+      <rect x="50" y="18" width="7" height="18" rx="2" fill="#4A3A32"/>
+      <circle cx="53.5" cy="14" r="5" fill="#FF6B00" fill-opacity=".8"/><circle cx="53.5" cy="14" r="8" fill="#FF6B00" fill-opacity=".22"/>
+      <path d="M26 74 L26 66 L34 66 L36 62 L44 62 L44 66 L30 74 Z" fill="#2C2C2A"/>
+      <path d="M30 62h10v3h-10z" fill="#444441"/>`,
+    dojo: `<rect x="24" y="46" width="32" height="28" rx="3" fill="#8B2E3C"/>
+      <path d="M14 46 L40 34 L66 46 L58 46 L40 40 L22 46 Z" fill="#2C2C2A"/>
+      <path d="M18 34 L40 22 L62 34 L52 34 L40 28 L28 34 Z" fill="#4A1B28"/>
+      <rect x="38" y="14" width="4" height="10" fill="#2C2C2A"/><circle cx="40" cy="12" r="3" fill="#FFD700"/>
+      <rect x="36" y="52" width="8" height="22" fill="#3A0F16"/>`,
+    faro: `<path d="M32 74 L34 20 L46 20 L48 74 Z" fill="#F3E6FF"/>
+      <path d="M32 74 L34 55 L46 55 L48 74 Z" fill="#FF2D7A"/>
+      <path d="M32 55 L34 36 L46 36 L48 55 Z" fill="#F3E6FF"/>
+      <path d="M34 20 L46 20 L46 12 L34 12 Z" fill="#B0B0C0"/>
+      <polygon points="40,0 48,12 32,12" fill="url(#crystalGrad)"/>
+      <circle cx="40" cy="7" r="2" fill="#fff" fill-opacity=".9"/>`,
+  };
+  return shadow + (ART[id]||"");
+}
 function renderVillage(){
   document.getElementById("village-coins").textContent = save.coins||0;
-  const grid = document.getElementById("village-grid");
-  grid.innerHTML = "";
+  const wrap = document.getElementById("village-grid");
+  wrap.innerHTML = "";
   const builtCount = BUILDINGS.filter(b=>save.buildings[b.id]).length;
+  const stepY = 170, topPad = 60, botPad = 100;
+  const totalH = topPad + (BUILDINGS.length-1)*stepY + botPad;
+  const points = BUILDINGS.map((b,i)=>({x: VILLAGE_NODE_X[i]!==undefined ? VILLAGE_NODE_X[i] : 50, y: topPad + i*stepY}));
+  let pathD = `M ${points[0].x} ${points[0].y}`;
+  for(let i=1;i<points.length;i++) pathD += ` L ${points[i].x} ${points[i].y}`;
+  const DECO_ICONS = ["🌿","🍃","✨","🌸","🍂"];
+  const scene = document.createElement("div");
+  scene.className = "village-scene";
+  scene.style.height = totalH+"px";
+  scene.innerHTML = `<svg class="village-path-svg" viewBox="0 0 100 ${totalH}" preserveAspectRatio="none">
+    <path d="${pathD}" fill="none" stroke="#7A4A2E" stroke-width="5" stroke-opacity=".4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="${pathD}" fill="none" stroke="#FFD9A0" stroke-width="1.4" stroke-opacity=".35" stroke-dasharray="1 4" stroke-linecap="round"/>
+  </svg>`;
+  for(let i=0;i<points.length-1;i++){
+    const p = points[i], n = points[i+1];
+    const deco = document.createElement("div");
+    deco.className = "v-deco";
+    deco.style.left = ((p.x+n.x)/2 + (i%2? 9:-9))+"%";
+    deco.style.top = ((p.y+n.y)/2)+"px";
+    deco.textContent = DECO_ICONS[i%DECO_ICONS.length];
+    scene.appendChild(deco);
+  }
   BUILDINGS.forEach((b,i)=>{
     const built = !!save.buildings[b.id];
     const unlocked = built || i===builtCount;
-    const div = document.createElement("div");
-    div.className = "plot" + (built?" built":(unlocked?" unlocked-next":" locked"));
-    div.style.animationDelay = (i*50)+"ms";
-    const step = `<div class="plot-step">${i+1}</div>`;
-    if(built){
-      div.innerHTML = `${step}<div class="plot-icon">${b.icon}</div><div class="plot-name">${b.name}</div><div class="plot-status">Construido</div>`;
-      div.onclick = ()=>setVillageBubble(b.line);
-    } else if(unlocked){
-      div.innerHTML = `${step}<div class="plot-icon">🧱</div><div class="plot-name">${b.name}</div><div class="plot-cost">🍯 ${b.cost}</div>`;
-      div.onclick = ()=>buildStructure(b.id);
-    } else {
-      div.innerHTML = `${step}<div class="plot-icon">🔒</div><div class="plot-name">${b.name}</div><div class="plot-status">Bloqueado</div>`;
-    }
-    grid.appendChild(div);
+    const node = document.createElement("div");
+    node.className = "v-node" + (built?" built":(unlocked?" unlocked-next":" locked"));
+    node.style.left = points[i].x+"%";
+    node.style.top = points[i].y+"px";
+    node.style.animationDelay = (i*55)+"ms";
+    const sub = built ? "Construido" : unlocked ? `🍯 ${b.cost}` : "🔒 Bloqueado";
+    node.innerHTML = `<svg class="v-node-svg" viewBox="0 0 80 84">${villageBuildingSVG(b.id)}</svg><div class="v-node-label">${b.name}</div><div class="v-node-sub">${sub}</div>`;
+    if(built) node.onclick = ()=>setVillageBubble(b.line);
+    else if(unlocked) node.onclick = ()=>buildStructure(b.id);
+    scene.appendChild(node);
   });
+  wrap.appendChild(scene);
   const pct = Math.round(builtCount/BUILDINGS.length*100);
   document.getElementById("village-pct").textContent = pct;
   document.getElementById("village-restore-fill").style.width = pct+"%";

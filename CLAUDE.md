@@ -272,6 +272,33 @@ pasada de `processCascade()` para que no se autoconsuma.
 
 ---
 
+## Aldea de Confite — escena ilustrada
+
+`screen-village` NO es una lista/grid — es una escena: un camino serpenteante (SVG con
+`<path>` de segmentos rectos, `stroke-linejoin="round"`) que conecta las 10 construcciones
+de `BUILDINGS`, cada una posicionada de forma absoluta (`.v-node`) sobre el camino.
+
+- **Posiciones:** `VILLAGE_NODE_X` es un array de 10 valores (% horizontal, a mano, en
+  zigzag). Debe tener tantas entradas como `BUILDINGS.length` — si se agrega una
+  construcción nueva, agregar una entrada más aquí o el último nodo cae al centro (50%)
+  por el fallback en `renderVillage()`. La posición vertical es `topPad + i*stepY`
+  (constantes dentro de `renderVillage()`), no configurable por edificio.
+- **Ilustración:** `villageBuildingSVG(id)` devuelve el SVG (viewBox `0 0 80 84`) de cada
+  edificio en el mismo estilo plano que `confiteSVG()`/`candy-N` (formas simples, opacidad
+  para sombreado, sin fotos ni degradados complejos salvo `url(#crystalGrad)` reusado del
+  `<defs>` principal para el faro). Un solo SVG por edificio — **no** hay variantes
+  separadas por estado.
+- **Estados vía CSS, no vía markup distinto:** `built` / `unlocked-next` / `locked` son
+  clases en `.v-node` que aplican `filter` (grayscale/brightness/drop-shadow) sobre el
+  mismo SVG. `unlocked-next` además pulsa (`@keyframes nodeInvite`) para invitar a
+  construir. Si se necesita un edificio nuevo, solo hace falta agregar su entrada a
+  `ART` dentro de `villageBuildingSVG()` — el resto (posición, estado, clic) es genérico.
+- **Decoración ambiental:** hojas/flores/chispas (`DECO_ICONS`, emoji) se insertan como
+  `<div class="v-deco">` en los puntos medios entre construcciones — puramente visual,
+  `pointer-events:none`.
+
+---
+
 ## Minijuegos
 
 ### MOBA 5v5 (canvas)
