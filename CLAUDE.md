@@ -347,6 +347,58 @@ Los niveles 5 llevan la clase `.lv-hard` (badge "DIFÍCIL" en el mapa).
 
 ---
 
+## Canal: portales web (Poki / CrazyGames), no tiendas móviles
+
+Decisión del creador (agosto 2026): sin presupuesto de publicidad paga, así que instalar
+como app nativa no es viable — sin ads no hay instalaciones. Los portales web traen
+tráfico gratis a cambio de un revenue-share por publicidad. Esto cambia qué se prioriza:
+
+- **El jugador nunca paga con tarjeta.** El ingreso sale del portal (le pagan al juego
+  por cada anuncio mostrado), no del bolsillo del jugador. Por eso todo el flujo de
+  conversión se reordenó ads-first: "ver anuncio" es siempre la opción principal y
+  gratuita, gemas/pagos quedan como respaldo secundario que hoy ni siquiera cobra.
+- **Time-to-play bajo.** Los portales miden esto y lo usan para rankear el juego. La
+  intro es saltable en un toque (`skipIntro()`), y el tutorial de la primera partida
+  (`maybeShowTutorial()`) ya **no bloquea el tablero** — es una tarjeta no-modal anclada
+  abajo (`.tut-light`) que desaparece con el primer toque real en una celda
+  (`onCellClick()` llama a `dismissTutorial()` si `!save.tutorialSeen`, antes de
+  procesar el click). Si se agrega un tutorial nuevo en otra pantalla, seguir este
+  mismo patrón — no volver a un overlay bloqueante de pantalla completa.
+
+### Puntos de conversión (ads-first)
+| Momento | Función | Gratis primero |
+|---|---|---|
+| Sin vidas | `openNoLives()` | `watchAdForLife()` arriba, `refillLivesWithGems()` abajo |
+| Fallaste un nivel | overlay de derrota | `continueWithAd()` (una vez por intento) antes que `continueGame()` (gemas) |
+| Tienda | `openShop()` | "Ver un anuncio" es la primera fila de la lista |
+| Cada `PORTAL_AD_EVERY` niveles terminados | `portalAdBreak()`, llamada desde `exitToMap()` | intersticial — nunca en la primera sesión |
+
+### Checklist para conectar el SDK real del portal (falta hacer)
+Hoy todos los anuncios son simulados (`toast()` con aviso "falta conectar la red"). Para
+publicar de verdad en un portal:
+
+1. **Elegir portal y pedir cuenta de developer** (Poki Developer Portal o
+   CrazyGames Developer). Cada uno pide su propio `<script>` SDK.
+2. **Cargar el SDK** en el `<head>` de `index.html` (rompe el "un solo archivo" — es la
+   única excepción aceptable, es un requisito del portal, no una dependencia de proyecto).
+3. **Reemplazar los stubs**, todos ya identificados con `// TODO integración real` en el
+   código:
+   - `watchAdForGems()`, `watchAdForLife()`, `continueWithAd()` → llamar al rewarded ad
+     del SDK (`Poki.rewardedBreak()` / CrazyGames `SDK.ad.requestAd("rewarded")`) y solo
+     dar la recompensa en el callback de éxito, no antes.
+   - `portalAdBreak()` → `Poki.commercialBreak()` / CrazyGames
+     `SDK.ad.requestAd("midgame")`.
+4. **Eventos de ciclo de vida** que los portales exigen para medir sesiones: llamar al
+   equivalente de `gameLoadingFinished()` cuando el título termina de renderizar, y
+   `gameplayStart()`/`gameplayStop()` alrededor de cada nivel — buenos puntos de enganche
+   son `startLevel()`/`startCanvasLevel()` (inicio) y `finishLevel()`/`finishCanvasLevel()`
+   (fin).
+5. **Empaquetar y subir** según las reglas del portal (Poki: build zip; CrazyGames:
+   similar). Verificar que el juego cargue standalone sin `service-worker.js` activo —
+   algunos portales lo sirven desde su propio dominio/iframe y el SW puede interferir.
+
+---
+
 ## Minijuegos
 
 ### MOBA 5v5 (canvas)

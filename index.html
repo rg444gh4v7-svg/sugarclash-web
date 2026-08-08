@@ -344,6 +344,13 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 
 #overlay,#tutorial-overlay,#pause-overlay{position:absolute;inset:0;background:rgba(7,13,31,.92);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:24px;z-index:10}
 #overlay.on,#tutorial-overlay.on,#pause-overlay.on{display:flex}
+/* El tutorial de la primera partida NO tapa el tablero: un jugador de portal
+   quiere tocar algo ya. Se ancla abajo, deja ver los caramelos arriba, y
+   desaparece solo con el primer toque (ver dismissTutorial() en onCellClick). */
+#tutorial-overlay.tut-light{position:absolute;inset:auto 10px 10px 10px;background:rgba(15,5,28,.97);border:1px solid rgba(245,184,0,.35);border-radius:18px;padding:16px 18px;gap:8px;box-shadow:0 10px 30px rgba(0,0,0,.5);pointer-events:auto}
+#tutorial-overlay.tut-light .tutorial-icon{font-size:28px}
+#tutorial-overlay.tut-light .tutorial-title{font-size:16px}
+#tutorial-overlay.tut-light .tutorial-text{font-size:12.5px}
 /* al completar un lienzo la pintura es el premio: el resultado no debe taparla */
 #overlay.canvas-win{background:linear-gradient(to top,rgba(7,13,31,.94) 0%,rgba(7,13,31,.88) 26%,rgba(7,13,31,.55) 46%,transparent 66%);justify-content:flex-end;gap:8px;padding-bottom:18px}
 #overlay.canvas-win .overlay-icon{font-size:30px}
@@ -1148,6 +1155,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
           <button class="btn-sm btn-secondary" onclick="exitToMap()">Mapa</button>
           <button class="btn-sm btn-primary" onclick="retryOrNext()" id="overlay-main-btn">Reintentar</button>
         </div>
+        <button id="overlay-continue-ad-btn" class="btn-continue" onclick="continueWithAd()" style="display:none;background:linear-gradient(135deg,#00D68A,#00A870)">🎬 Ver anuncio · +5 movimientos gratis</button>
         <button id="overlay-continue-btn" class="btn-continue" onclick="continueGame()" style="display:none"></button>
       </div>
       <div id="tutorial-overlay">
@@ -1415,8 +1423,8 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div class="econ-big">💔</div>
       <h3>Te quedaste sin vidas</h3>
       <p>Vuelve una vida cada 25 minutos.<br>Próxima en <b id="nolives-timer" style="color:var(--crystal)">--:--</b></p>
-      <button class="econ-btn" onclick="refillLivesWithGems()">💎 60 · Llenar vidas</button>
-      <button class="econ-btn ghost" onclick="watchAdForLife()">🎬 Ver un anuncio · +1 vida</button>
+      <button class="econ-btn" onclick="watchAdForLife()">🎬 Ver un anuncio · +1 vida gratis</button>
+      <button class="econ-btn ghost" onclick="refillLivesWithGems()">💎 60 · Llenar todas</button>
       <button class="econ-btn ghost" onclick="closeNoLives()">Ahora no</button>
     </div>
   </div>
@@ -1581,7 +1589,7 @@ function defaultSave(){ return { stars:{1:{}}, unlocked:{1:1}, coins:0, building
   dgModeUnlocked:false, dgVictorySeen:false,
   // economía: vidas (escasez), gemas (moneda dura), alcancía (acumula y se abre pagando)
   lives:LIVES_MAX, livesAt:0, gems:25, piggy:0, piggyOpened:0, canvasDone:{},
-  dailyCal:{day:0, lastDate:null}, boosters:{moves:1,hammer:1,shuffle:1}, spentGems:0 }; }
+  dailyCal:{day:0, lastDate:null}, boosters:{moves:1,hammer:1,shuffle:1}, spentGems:0, levelsPlayed:0 }; }
 function migrateSave(s){
   // formato viejo (pre-multiterritorio): stars/unlocked planos, referidos siempre al territorio 1
   if(s.stars && typeof s.unlocked === "number"){
@@ -1596,6 +1604,7 @@ function migrateSave(s){
   if(!s.dailyCal) s.dailyCal = {day:0, lastDate:null};
   if(!s.boosters) s.boosters = {moves:1,hammer:1,shuffle:1};
   if(!s.canvasDone) s.canvasDone = {};
+  if(typeof s.levelsPlayed !== "number") s.levelsPlayed = 0;
   return s;
 }
 
@@ -1716,14 +1725,34 @@ function openShop(){
 }
 function closeShop(){ document.getElementById("shop-overlay").classList.remove("on"); }
 function watchAdForGems(){
-  // marcador de posición: no hay red de anuncios conectada todavía
+  // TODO integración real: pedir el rewarded ad al SDK del portal y solo
+  // dar la recompensa dentro del callback de éxito, no antes de mostrarlo.
   save.gems=(save.gems||0)+5; persistSave(); updateLivesUI();
   toast("+5 💎 (anuncio simulado — falta conectar la red)");
 }
 function watchAdForLife(){
+  // TODO integración real: mismo patrón que watchAdForGems() — recompensa
+  // solo en el callback de éxito del rewarded ad.
   addLives(1);
   closeNoLives();
   toast("+1 ❤️ (anuncio simulado — falta conectar la red)");
+}
+
+/* ---------------- INTERSTICIAL DE PORTAL ----------------
+   En Poki/CrazyGames el ingreso real no sale del bolsillo del jugador: el
+   portal le paga al juego por cada anuncio que muestra. El intersticial
+   entre niveles es el mayor generador de esa plata — más que cualquier
+   compra. Se muestra cada PORTAL_AD_EVERY sesiones terminadas, nunca en la
+   primera (nadie corta la primera partida de alguien nuevo).
+   Ver CLAUDE.md → "Checklist de integración de portal" para conectar el
+   SDK real (Poki.commercialBreak() / CrazyGames SDK.ad.requestAd("midgame")). */
+const PORTAL_AD_EVERY = 3;
+function portalAdBreak(){
+  save.levelsPlayed = (save.levelsPlayed||0)+1;
+  persistSave();
+  if(save.levelsPlayed<=1 || save.levelsPlayed%PORTAL_AD_EVERY!==0) return;
+  // TODO integración real: await callPortalCommercialBreak() del SDK del portal.
+  toast("📺 (intersticial simulado — falta conectar el SDK del portal)");
 }
 
 /* ---------------- CALENDARIO DIARIO ----------------
@@ -2321,6 +2350,10 @@ function exitToMap(){
   rainbowActive = false;
   endSurvivalTimer();
   endSugarRush();
+  // solo cuenta como "sesión completa" si el nivel realmente terminó (no si
+  // se salió desde pausa a mitad de partida) — así el intersticial no corta
+  // una jugada en curso, que rompería la relación con el jugador.
+  if(cur && cur.done) portalAdBreak();
   if(cur && cur.isSurvival){ goTo("minigames"); return; }
   goTo("map");
 }
@@ -3211,14 +3244,14 @@ function startLevel(n){
 let tutorialOpen = false;
 function maybeShowTutorial(){
   if(save.tutorialSeen) return;
-  tutorialOpen = true;
-  document.getElementById("tutorial-overlay").classList.add("on");
+  // no bloquea: el tablero queda visible y tocable, esto es solo una guía
+  document.getElementById("tutorial-overlay").classList.add("on","tut-light");
 }
 function dismissTutorial(){
   tutorialOpen = false;
   save.tutorialSeen = true;
   persistSave();
-  document.getElementById("tutorial-overlay").classList.remove("on");
+  document.getElementById("tutorial-overlay").classList.remove("on","tut-light");
 }
 
 let pauseOpen = false;
@@ -3460,7 +3493,8 @@ function renderGrid(){
 function cellEl(r,c){ return document.getElementById("grid").children[r*cur.cols+c]; }
 
 function onCellClick(r,c){
-  if(busy || cur.done || tutorialOpen || pauseOpen) return;
+  if(busy || cur.done || pauseOpen) return;
+  if(!save.tutorialSeen) dismissTutorial(); // primer toque real: la guía ya cumplió su función
   resetHintTimer();
   if(bombActive){
     bombActive = false;
@@ -3872,14 +3906,22 @@ function finishLevel(won){
   }
   const starsEls = document.querySelectorAll("#overlay-stars .s");
   starsEls.forEach(el=>el.classList.remove("on"));
-  // Continue button: show on loss if player has coins and not daily/survival
+  // Continuar al fallar: primero anuncio gratis (una vez por intento), después gemas.
   const contBtn = document.getElementById("overlay-continue-btn");
+  const contAdBtn = document.getElementById("overlay-continue-ad-btn");
   if(!won && !cur.isSurvival){
-    const cost = continueCost();
-    contBtn.textContent = `💎 ${cost} · Seguir jugando (+5 movimientos)`;
-    contBtn.style.display = "";
+    if(!cur.adContinueUsed){
+      contAdBtn.style.display = "";
+      contBtn.style.display = "none";
+    } else {
+      contAdBtn.style.display = "none";
+      const cost = continueCost();
+      contBtn.textContent = `💎 ${cost} · Seguir jugando (+5 movimientos)`;
+      contBtn.style.display = "";
+    }
   } else {
     contBtn.style.display = "none";
+    contAdBtn.style.display = "none";
   }
   overlay.classList.add("on");
   if(won){
@@ -3902,10 +3944,24 @@ function continueGame(){
   save.spentGems = (save.spentGems||0)+cost;
   cur.continuesUsed = (cur.continuesUsed||0)+1;
   persistSave();
+  _applyContinue();
+}
+/* Primer continuar de cada intento: gratis, a cambio de un anuncio recompensado.
+   Es el punto de mayor valor para un portal — no le cuesta nada al jugador y
+   el portal factura la impresión. Mismo patrón que watchAdForLife()/
+   watchAdForGems(); ver CLAUDE.md → "Checklist para conectar el SDK real". */
+function continueWithAd(){
+  // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
+  cur.adContinueUsed = true;
+  toast("+5 movimientos (anuncio simulado — falta conectar la red)");
+  _applyContinue();
+}
+function _applyContinue(){
   cur.done = false;
   cur.movesLeft += 5;
   document.getElementById("overlay").classList.remove("on");
   document.getElementById("overlay-continue-btn").style.display = "none";
+  document.getElementById("overlay-continue-ad-btn").style.display = "none";
   updateHud(); updateLivesUI();
   setConfiteGame("¡5 movimientos extra! ¡Aprovéchalos bien!");
   setConfiteMood("excited");
