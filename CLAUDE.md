@@ -377,7 +377,15 @@ tráfico gratis a cambio de un revenue-share por publicidad. Esto cambia qué se
 | Memoria de Confite bloqueada | `screen-memories` | `unlockMemoryWithAd(key)` — usa el texto real de `STORY_MOMENTS` (global, ya no vive dentro de `finishLevel()`) |
 | Skin de Confite bloqueada | `screen-skins` | `unlockSkinWithAd(id)` |
 | Piezas/skins de HEX CLASH | `screen-dgshop` | `dgBuyPowerupWithAd(id)` / `dgUnlockSkinWithAd(id)` |
-| Cada `PORTAL_AD_EVERY` niveles terminados | `portalAdBreak()`, llamada desde `exitToMap()` | intersticial — nunca en la primera sesión |
+
+⚠️ **Decisión del creador (agosto 2026): sin intersticial forzado.** Existió brevemente
+un `portalAdBreak()` que cortaba cada 3 niveles sin que el jugador lo pidiera — se sacó
+por completo (función, constante `PORTAL_AD_EVERY`, campo `save.levelsPlayed` y su
+llamada en `exitToMap()`) porque el creador identificó los anuncios forzados como la
+razón principal por la que él mismo abandona otros juegos. **Los 12 puntos de la tabla
+de arriba son ads-first pero siempre opt-in** — el jugador toca un botón a cambio de
+algo, nunca aparece un anuncio sin que lo pida. No reintroducir un intersticial forzado
+sin que el creador lo pida explícitamente.
 
 ### Héroes y edificios dan bonus de gameplay (agosto 2026)
 Los 7 héroes y los 10 edificios de la Aldea eran 100% cosméticos. Ahora cada uno (salvo
@@ -413,11 +421,14 @@ publicar de verdad en un portal:
    única excepción aceptable, es un requisito del portal, no una dependencia de proyecto).
 3. **Reemplazar los stubs**, todos ya identificados con `// TODO integración real` en el
    código:
-   - `watchAdForGems()`, `watchAdForLife()`, `continueWithAd()` → llamar al rewarded ad
-     del SDK (`Poki.rewardedBreak()` / CrazyGames `SDK.ad.requestAd("rewarded")`) y solo
-     dar la recompensa en el callback de éxito, no antes.
-   - `portalAdBreak()` → `Poki.commercialBreak()` / CrazyGames
-     `SDK.ad.requestAd("midgame")`.
+   - Todas las funciones `*WithAd()` (`watchAdForGems()`, `watchAdForLife()`,
+     `continueWithAd()`, `useBoostWithAd()`, `useBombWithAd()`, `useRainbowWithAd()`,
+     `unlockHeroWithAd()`, `buildStructureWithAd()`, `unlockMemoryWithAd()`,
+     `unlockSkinWithAd()`, `dgBuyPowerupWithAd()`, `dgUnlockSkinWithAd()`) → llamar al
+     rewarded ad del SDK (`Poki.rewardedBreak()` / CrazyGames
+     `SDK.ad.requestAd("rewarded")`) y dar la recompensa solo en el callback de éxito,
+     no antes. Todas son opt-in a propósito — no hay intersticial forzado, ver la nota
+     más arriba.
 4. **Eventos de ciclo de vida** que los portales exigen para medir sesiones: llamar al
    equivalente de `gameLoadingFinished()` cuando el título termina de renderizar, y
    `gameplayStart()`/`gameplayStop()` alrededor de cada nivel — buenos puntos de enganche

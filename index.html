@@ -1609,7 +1609,7 @@ function defaultSave(){ return { stars:{1:{}}, unlocked:{1:1}, coins:0, building
   dgModeUnlocked:false, dgVictorySeen:false,
   // economía: vidas (escasez), gemas (moneda dura), alcancía (acumula y se abre pagando)
   lives:LIVES_MAX, livesAt:0, gems:25, piggy:0, piggyOpened:0, canvasDone:{},
-  dailyCal:{day:0, lastDate:null}, boosters:{moves:1,hammer:1,shuffle:1}, spentGems:0, levelsPlayed:0,
+  dailyCal:{day:0, lastDate:null}, boosters:{moves:1,hammer:1,shuffle:1}, spentGems:0,
   equippedHero:"dulce", heroAdUnlocked:{} }; }
 function migrateSave(s){
   // formato viejo (pre-multiterritorio): stars/unlocked planos, referidos siempre al territorio 1
@@ -1625,7 +1625,6 @@ function migrateSave(s){
   if(!s.dailyCal) s.dailyCal = {day:0, lastDate:null};
   if(!s.boosters) s.boosters = {moves:1,hammer:1,shuffle:1};
   if(!s.canvasDone) s.canvasDone = {};
-  if(typeof s.levelsPlayed !== "number") s.levelsPlayed = 0;
   if(!s.equippedHero) s.equippedHero = "dulce";
   if(!s.heroAdUnlocked) s.heroAdUnlocked = {};
   return s;
@@ -1766,23 +1765,6 @@ function watchAdForLife(){
   addLives(1);
   closeNoLives();
   toast("+1 ❤️ (anuncio simulado — falta conectar la red)");
-}
-
-/* ---------------- INTERSTICIAL DE PORTAL ----------------
-   En Poki/CrazyGames el ingreso real no sale del bolsillo del jugador: el
-   portal le paga al juego por cada anuncio que muestra. El intersticial
-   entre niveles es el mayor generador de esa plata — más que cualquier
-   compra. Se muestra cada PORTAL_AD_EVERY sesiones terminadas, nunca en la
-   primera (nadie corta la primera partida de alguien nuevo).
-   Ver CLAUDE.md → "Checklist de integración de portal" para conectar el
-   SDK real (Poki.commercialBreak() / CrazyGames SDK.ad.requestAd("midgame")). */
-const PORTAL_AD_EVERY = 3;
-function portalAdBreak(){
-  save.levelsPlayed = (save.levelsPlayed||0)+1;
-  persistSave();
-  if(save.levelsPlayed<=1 || save.levelsPlayed%PORTAL_AD_EVERY!==0) return;
-  // TODO integración real: await callPortalCommercialBreak() del SDK del portal.
-  toast("📺 (intersticial simulado — falta conectar el SDK del portal)");
 }
 
 /* ---------------- CALENDARIO DIARIO ----------------
@@ -2437,10 +2419,6 @@ function exitToMap(){
   rainbowActive = false;
   endSurvivalTimer();
   endSugarRush();
-  // solo cuenta como "sesión completa" si el nivel realmente terminó (no si
-  // se salió desde pausa a mitad de partida) — así el intersticial no corta
-  // una jugada en curso, que rompería la relación con el jugador.
-  if(cur && cur.done) portalAdBreak();
   if(cur && cur.isSurvival){ goTo("minigames"); return; }
   goTo("map");
 }
