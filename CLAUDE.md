@@ -442,22 +442,57 @@ publicar de verdad en un portal:
 
 ## Minijuegos
 
+Se accede desde `screen-minigames` (hub con `MINIGAMES`, cada uno tiene su propia línea
+narrativa — "Las Guerras del Azúcar", "La Zona de la Bruja", "El Corazón Latiente"). Los
+tres están etiquetados como "Prototipo" en su propia descripción — no son multijugador
+real, es un jugador contra bots/IA.
+
+### Confite y monetización en MOBA/BR (agosto 2026)
+Antes de esta sesión, MOBA y BR eran las únicas pantallas del juego sin Confite visible
+durante la partida — rompía el principio "Confite siempre en pantalla" del juego
+principal. `mgConfiteSay(prefix, text, mood, cooldownKey, cooldownMs)` es el helper
+compartido: burbuja no-bloqueante arriba del canvas (`.mg-confite-pop`, reutiliza
+`confiteSVG()`), con cooldown por clave para no repetir el mismo aviso en pleno combate.
+Se llama desde `mobaCheckEnd()`/`brCheckEnd()` (corren cada frame vía `requestAnimationFrame`,
+por eso el cooldown es obligatorio) y desde `startMoba()`/`startBR()` al arrancar.
+
+**Revivir con anuncio** — mismo patrón ads-first que `continueWithAd()` en el juego
+principal: al perder, `mobaEndGame(false)`/`brEndGame(false)` ofrecen
+`mobaReviveWithAd()`/`brReviveWithAd()` (botón verde, una sola vez por partida, gratis)
+antes de mostrar la pantalla de derrota real. `mobaRevived`/`brRevived` son los flags que
+lo limitan a un uso — se resetean en `startMoba()`/`startBR()`. Revive al 60% de la vida
+máxima. Marcado con `// TODO integración real` como el resto de los ganchos de anuncio.
+
 ### MOBA 5v5 (canvas)
-- Variables globales con prefijo `moba*`
-- `mobaRunning`, `mobaRAF` para el game loop
-- El jugador controla un héroe, derrota 5 enemigos
-- `finishMoba(won, enemiesDefeated)` → guarda `save.mobaWins`
+- Variables globales con prefijo `moba*`; `mobaRunning`, `mobaRAF` para el game loop
+- El jugador controla a Dulce Roja + 4 aliados IA (`MOBA_ALLIES`, los mismos héroes de
+  `HEROES`) contra 5 "Fragmentos Hexadecimales" (`MOBA_ENEMIES`)
+- **Si el héroe equipado (`save.equippedHero`) está en `MOBA_ALLIES`, pelea con +20% de
+  vida máxima** y una corona 👑 sobre su unidad — conecta el sistema de héroes con el
+  minijuego en vez de vivir aislados. Se calcula en `startMoba()`, marcado como `isHero`.
+- `mobaEndGame(won)` → guarda `save.mobaWins`
+- `mobaRender()`: arena con gradiente dorado/caramelo + tinte de equipo (rosa aliados,
+  rojo enemigos) en vez del fondo plano de antes; unidades con `shadowBlur` del color de
+  equipo + sombra de piso + brillo especular, no círculos planos
 
 ### Battle Royale (canvas)
-- Variables globales con prefijo `br*`
-- `brRunning`, `brRAF` para el game loop
-- 20 jugadores, el jugador sobrevive hasta el final
-- `finishBR(placement)` → guarda `save.brWins`
+- Variables globales con prefijo `br*`; `brRunning`, `brRAF` para el game loop
+- `BR_TOTAL = 10` (jugador + 9 bots), zona que se achica (`brZone.r`) y daña si quedás
+  afuera
+- `brEndGame(won, othersAliveAtDeath)` → guarda `save.brWins` y `save.brBestPlacement`
+- `brRender()`: la zona ya no es un círculo rojo plano — el exterior es corrupción
+  púrpura con estática (`brStaticNoise`, precomputado una vez) en la paleta de HEX
+  CLASH, el interior de la zona segura tiene un resplandor dorado cálido, y el borde
+  pulsa entre púrpura y cian (`Date.now()` en la animación, no depende de un frame
+  counter propio)
 
 ### Supervivencia
-- Sin límite de movimientos, con timer que baja
+- **No es un canvas aparte — reusa el tablero match-3 real** (`buildGrid()`, `goTo("game")`)
+  con movimientos infinitos y un reloj que solo baja. Por eso `hasHeroAbility()`/
+  `hasBuilding()` (bonus de héroes y edificios) **sí aplican acá**, a diferencia de
+  MOBA/BR que corren en su propio canvas sin conexión al sistema de héroes.
 - Matches añaden tiempo: `addSurvivalTime(matchCount, cascade)`
-- `SURVIVAL_START_TIME = 15000ms`, `SURVIVAL_MAX_TIME = 30000ms`
+- `SURVIVAL_START_TIME = 12000ms`, `SURVIVAL_MAX_TIME = 18000ms`
 - `finishSurvival()` → guarda `save.survivalBest`
 
 ---

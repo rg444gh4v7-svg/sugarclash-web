@@ -191,6 +191,14 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 #br-overlay{position:absolute;inset:0;background:rgba(7,13,31,.92);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:24px;border-radius:14px;z-index:10}
 #br-overlay.on{display:flex}
 
+/* Confite reaccionando durante MOBA/BR: burbuja flotante no-bloqueante,
+   arriba del canvas, aparece y desaparece sola — mismo espíritu que el
+   tutorial no-modal del juego principal, nunca tapa el tablero de juego. */
+.mg-confite-pop{position:absolute;top:10px;left:50%;transform:translateX(-50%) translateY(-8px);display:flex;align-items:center;gap:7px;background:rgba(15,5,28,.94);border:1px solid rgba(245,184,0,.4);border-radius:14px;padding:6px 12px 6px 6px;box-shadow:0 6px 18px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:6;max-width:84%}
+.mg-confite-pop.on{opacity:1;transform:translateX(-50%) translateY(0)}
+.mg-confite-pop-svg{width:26px;height:24px;flex-shrink:0}
+.mg-confite-pop-text{font-size:11.5px;color:var(--cream);line-height:1.25;text-align:left}
+
 /* ===== MAP ===== */
 #screen-map{padding:18px 16px 24px;gap:14px}
 .map-header{display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -1028,10 +1036,15 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     <div class="mb-hint">Arrastra en el tablero para mover a Dulce Roja · toca ✨ para tu habilidad</div>
     <div id="mb-wrap">
       <canvas id="mb-canvas" width="340" height="460"></canvas>
+      <div class="mg-confite-pop" id="mb-confite-pop">
+        <svg class="mg-confite-pop-svg" viewBox="0 0 100 90" fill="none" id="mb-confite-pop-svg"></svg>
+        <div class="mg-confite-pop-text" id="mb-confite-pop-text"></div>
+      </div>
       <div id="mb-overlay">
         <div class="overlay-icon" id="mb-overlay-icon">🏆</div>
         <div class="overlay-title" id="mb-overlay-title"></div>
         <div class="overlay-sub" id="mb-overlay-sub"></div>
+        <button id="mb-revive-btn" class="btn-continue" style="background:linear-gradient(135deg,#00D68A,#00A870);display:none" onclick="mobaReviveWithAd()">🎬 Revivir con anuncio</button>
         <div class="overlay-btns">
           <button class="btn-sm btn-secondary" onclick="exitMoba()">Minijuegos</button>
           <button class="btn-sm btn-primary" onclick="startMoba()">Jugar de nuevo</button>
@@ -1051,10 +1064,15 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     <div class="mb-hint">Arrastra para moverte · mantente dentro del círculo · toca 💨 para un impulso de velocidad</div>
     <div id="br-wrap">
       <canvas id="br-canvas" width="340" height="460"></canvas>
+      <div class="mg-confite-pop" id="br-confite-pop">
+        <svg class="mg-confite-pop-svg" viewBox="0 0 100 90" fill="none" id="br-confite-pop-svg"></svg>
+        <div class="mg-confite-pop-text" id="br-confite-pop-text"></div>
+      </div>
       <div id="br-overlay">
         <div class="overlay-icon" id="br-overlay-icon">🏆</div>
         <div class="overlay-title" id="br-overlay-title"></div>
         <div class="overlay-sub" id="br-overlay-sub"></div>
+        <button id="br-revive-btn" class="btn-continue" style="background:linear-gradient(135deg,#00D68A,#00A870);display:none" onclick="brReviveWithAd()">🎬 Revivir con anuncio</button>
         <div class="overlay-btns">
           <button class="btn-sm btn-secondary" onclick="exitBR()">Minijuegos</button>
           <button class="btn-sm btn-primary" onclick="startBR()">Jugar de nuevo</button>
@@ -2450,6 +2468,29 @@ function renderMinigames(){
   });
 }
 
+/* ---------------- CONFITE EN MINIJUEGOS ----------------
+   MOBA y BR corren en su propio canvas, separado del HUD principal donde
+   Confite vive siempre — sin esto quedaban como las únicas pantallas del
+   juego sin él. Burbuja no-bloqueante arriba del canvas, con cooldown para
+   no spamear el mismo aviso durante el fragor del combate. */
+const mgConfiteTimers = {};
+function mgConfiteSay(prefix, text, mood, cooldownKey, cooldownMs){
+  if(cooldownKey){
+    const now = Date.now();
+    if(mgConfiteTimers[cooldownKey] && now - mgConfiteTimers[cooldownKey] < (cooldownMs||4000)) return;
+    mgConfiteTimers[cooldownKey] = now;
+  }
+  const svg = document.getElementById(prefix+"-confite-pop-svg");
+  const txt = document.getElementById(prefix+"-confite-pop-text");
+  const pop = document.getElementById(prefix+"-confite-pop");
+  if(!svg || !txt || !pop) return;
+  svg.innerHTML = confiteSVG(mood||"excited");
+  txt.textContent = text;
+  pop.classList.add("on");
+  clearTimeout(pop._hideTimer);
+  pop._hideTimer = setTimeout(()=>pop.classList.remove("on"), 2600);
+}
+
 /* ---------------- MOBA 5v5 (prototipo: jugador + 4 aliados IA vs 5 bots) ---------------- */
 const MOBA_W = 340, MOBA_H = 460;
 const MOBA_HERO_R = 12, MOBA_RANGE = 46, MOBA_SPEED = 1.5;
@@ -2514,41 +2555,81 @@ function updateMobaHud(){
   document.getElementById("mb-ally-hp").textContent = allyHp;
   document.getElementById("mb-enemy-hp").textContent = enemyHp;
 }
+let mobaRevived = false;
 function mobaCheckEnd(){
   const alliesAlive = mobaHeroes.some(h=>h.team==="ally" && h.alive);
   const enemiesAlive = mobaHeroes.some(h=>h.team==="enemy" && h.alive);
+  const enemiesDefeated = mobaHeroes.filter(h=>h.team==="enemy" && !h.alive).length;
   if(!enemiesAlive) mobaEndGame(true);
   else if(!alliesAlive) mobaEndGame(false);
+  else if(enemiesDefeated>=3) mgConfiteSay("mb","¡Ya casi! Quedan pocos.","excited","mb-close",6000);
+  else if(!mobaPlayer.alive) mgConfiteSay("mb","¡Dulce Roja cayó! Los demás siguen peleando.","worried","mb-playerdown",6000);
+  else if(mobaPlayer.hp/mobaPlayer.maxHp<0.3) mgConfiteSay("mb","¡Cuidado! Te queda poca vida.","worried","mb-lowhp",6000);
 }
 function mobaEndGame(won){
   mobaRunning = false;
   if(mobaRAF) cancelAnimationFrame(mobaRAF);
   const enemiesDefeated = mobaHeroes.filter(h=>h.team==="enemy" && !h.alive).length;
+  // Sin ganar, primero se ofrece revivir gratis por anuncio (una vez por partida)
+  if(!won && !mobaRevived){
+    document.getElementById("mb-overlay-icon").textContent = "💔";
+    document.getElementById("mb-overlay-title").textContent = "Tu equipo cayó";
+    document.getElementById("mb-overlay-sub").textContent = `${enemiesDefeated}/5 enemigos derrotados`;
+    document.getElementById("mb-revive-btn").style.display = "";
+    document.getElementById("mb-overlay").classList.add("on");
+    return;
+  }
   const coinsEarned = enemiesDefeated*8 + (won?30:0);
   save.coins = (save.coins||0) + coinsEarned;
   if(won) save.mobaWins = (save.mobaWins||0) + 1;
   persistSave();
   checkAchievements();
+  document.getElementById("mb-revive-btn").style.display = "none";
   document.getElementById("mb-overlay-icon").textContent = won ? "🏆" : "💔";
   document.getElementById("mb-overlay-title").textContent = won ? "¡Victoria!" : "Derrota";
   document.getElementById("mb-overlay-sub").textContent =
     `${enemiesDefeated}/5 enemigos derrotados · +${coinsEarned} 🍯${won?` · Victorias totales: ${save.mobaWins}`:""}`;
   document.getElementById("mb-overlay").classList.add("on");
-  if(won) spawnConfetti();
+  if(won){ spawnConfetti(); mgConfiteSay("mb","¡Ganamos! Sabía que podíamos.","celebrate"); }
+}
+function mobaReviveWithAd(){
+  // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
+  mobaRevived = true;
+  document.getElementById("mb-overlay").classList.remove("on");
+  document.getElementById("mb-revive-btn").style.display = "none";
+  mobaHeroes.forEach(h=>{ if(h.team==="ally"){ h.alive=true; h.hp=Math.round(h.maxHp*0.6); } });
+  mobaRunning = true;
+  if(mobaRAF) cancelAnimationFrame(mobaRAF);
+  mobaRAF = requestAnimationFrame(mobaStep);
+  mgConfiteSay("mb","¡De vuelta en pie! No te rindas.","excited");
+  toast("Equipo revivido al 60% de vida (anuncio simulado — falta conectar la red)");
 }
 function exitMoba(){
   mobaRunning = false;
   if(mobaRAF) cancelAnimationFrame(mobaRAF);
   document.getElementById("mb-overlay").classList.remove("on");
+  document.getElementById("mb-revive-btn").style.display = "none";
   goTo("minigames");
 }
 function mobaRender(){
   const ctx = mbCtx;
   ctx.clearRect(0,0,MOBA_W,MOBA_H);
-  ctx.strokeStyle = "rgba(255,255,255,.08)";
-  ctx.setLineDash([6,6]);
+  // Arena de caramelo dorado — "Las Guerras del Azúcar", arenas de antes de la Fragmentación
+  const bg = ctx.createRadialGradient(MOBA_W/2,MOBA_H*0.4,20,MOBA_W/2,MOBA_H*0.4,MOBA_W*0.85);
+  bg.addColorStop(0,"#3A2410"); bg.addColorStop(1,"#170027");
+  ctx.fillStyle = bg; ctx.fillRect(0,0,MOBA_W,MOBA_H);
+  const allyTint = ctx.createLinearGradient(0,MOBA_H,0,MOBA_H*0.5);
+  allyTint.addColorStop(0,"rgba(255,92,138,.16)"); allyTint.addColorStop(1,"rgba(255,92,138,0)");
+  ctx.fillStyle = allyTint; ctx.fillRect(0,MOBA_H*0.5,MOBA_W,MOBA_H*0.5);
+  const enemyTint = ctx.createLinearGradient(0,0,0,MOBA_H*0.5);
+  enemyTint.addColorStop(0,"rgba(255,92,92,.16)"); enemyTint.addColorStop(1,"rgba(255,92,92,0)");
+  ctx.fillStyle = enemyTint; ctx.fillRect(0,0,MOBA_W,MOBA_H*0.5);
+  ctx.strokeStyle = "rgba(245,184,0,.4)";
+  ctx.setLineDash([7,7]); ctx.lineWidth=1.5;
   ctx.beginPath(); ctx.moveTo(0,MOBA_H/2); ctx.lineTo(MOBA_W,MOBA_H/2); ctx.stroke();
   ctx.setLineDash([]);
+  ctx.strokeStyle = "rgba(245,184,0,.16)"; ctx.lineWidth=3;
+  ctx.strokeRect(5,5,MOBA_W-10,MOBA_H-10);
   mobaFlashes.forEach(f=>{
     ctx.beginPath();
     ctx.arc(f.x, f.y, f.ring ? f.r*(1-f.life)+10 : f.r+(1-f.life)*10, 0, Math.PI*2);
@@ -2556,13 +2637,22 @@ function mobaRender(){
   });
   mobaHeroes.forEach(h=>{
     if(!h.alive) return;
-    ctx.beginPath(); ctx.arc(h.x, h.y, MOBA_HERO_R, 0, Math.PI*2);
     const playerColor = (getActiveSkin&&getActiveSkin().cheeks)||"#FF9FBB";
-    ctx.fillStyle = h.team==="enemy" ? "#FF5C5C" : (h.isPlayer ? playerColor : "#7FD8E8");
-    ctx.fill();
-    if(h.isPlayer){ ctx.lineWidth=2.5; ctx.strokeStyle="#fff"; ctx.stroke(); }
+    const baseColor = h.team==="enemy" ? "#FF5C5C" : (h.isPlayer ? playerColor : "#7FD8E8");
+    // sombra de piso, para dar profundidad
+    ctx.beginPath(); ctx.ellipse(h.x, h.y+MOBA_HERO_R*0.75, MOBA_HERO_R*0.9, MOBA_HERO_R*0.32, 0, 0, Math.PI*2);
+    ctx.fillStyle = "rgba(0,0,0,.35)"; ctx.fill();
+    ctx.save();
+    ctx.shadowColor = baseColor; ctx.shadowBlur = h.isPlayer ? 16 : (h.isHero ? 10 : 7);
+    ctx.beginPath(); ctx.arc(h.x, h.y, MOBA_HERO_R, 0, Math.PI*2);
+    ctx.fillStyle = baseColor; ctx.fill();
+    ctx.restore();
+    if(h.isPlayer || h.isHero){ ctx.lineWidth=2.5; ctx.strokeStyle=h.isPlayer?"#fff":"rgba(245,184,0,.85)"; ctx.stroke(); }
+    ctx.beginPath(); ctx.ellipse(h.x-4, h.y-5, 4, 2.4, -0.5, 0, Math.PI*2);
+    ctx.fillStyle = "rgba(255,255,255,.55)"; ctx.fill();
     ctx.font = "14px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
     ctx.fillText(h.icon, h.x, h.y+1);
+    if(h.isHero && !h.isPlayer){ ctx.font="11px sans-serif"; ctx.fillText("👑", h.x, h.y-MOBA_HERO_R-11); }
     const w=26, barY=h.y-MOBA_HERO_R-8;
     ctx.fillStyle = "rgba(0,0,0,.4)"; ctx.fillRect(h.x-w/2, barY, w, 4);
     ctx.fillStyle = h.hp/h.maxHp>0.4 ? "#2ED573" : "#FF5C5C";
@@ -2643,12 +2733,19 @@ function mobaBindInput(){
 }
 function startMoba(){
   document.getElementById("mb-overlay").classList.remove("on");
+  document.getElementById("mb-revive-btn").style.display = "none";
+  mobaRevived = false;
   const canvas = document.getElementById("mb-canvas");
   mbCtx = canvas.getContext("2d");
   mobaBindInput();
   mobaHeroes = [];
+  // Si el héroe equipado está en el roster de aliados, pelea con +20% de
+  // vida y una corona en el HUD — conecta el sistema de héroes con el
+  // minijuego en vez de vivir aislados.
   MOBA_ALLIES.forEach((a,i)=>{
-    mobaHeroes.push(Object.assign({}, a, {team:"ally", x:60+i*55, y:MOBA_H-70, hp:MOBA_MAX_HP, maxHp:MOBA_MAX_HP, atkCd:0, alive:true, isPlayer:!!a.isPlayer}));
+    const isHero = !a.isPlayer && a.id===(save.equippedHero||"dulce");
+    const maxHp = Math.round(MOBA_MAX_HP * (isHero?1.2:1));
+    mobaHeroes.push(Object.assign({}, a, {team:"ally", x:60+i*55, y:MOBA_H-70, hp:maxHp, maxHp, atkCd:0, alive:true, isPlayer:!!a.isPlayer, isHero}));
   });
   MOBA_ENEMIES.forEach((e,i)=>{
     mobaHeroes.push(Object.assign({}, e, {team:"enemy", x:60+i*55, y:70, hp:MOBA_MAX_HP, maxHp:MOBA_MAX_HP, atkCd:0, alive:true, isPlayer:false}));
@@ -2663,6 +2760,7 @@ function startMoba(){
   mobaRunning = true;
   if(mobaRAF) cancelAnimationFrame(mobaRAF);
   mobaRAF = requestAnimationFrame(mobaStep);
+  mgConfiteSay("mb","¡Vamos! Protege a tu equipo.","excited");
 }
 
 /* ---------------- BATTLE ROYALE (prototipo: jugador vs 9 bots, zona que se reduce) ---------------- */
@@ -2673,7 +2771,7 @@ const BR_ZONE_DMG = 6, BR_ZONE_TICK = 45;
 const BR_ZONE_R0 = 280, BR_ZONE_RMIN = 42, BR_ZONE_SHRINK_FRAMES = 1800;
 const BR_DASH_CD_MAX = 380, BR_DASH_FRAMES = 55;
 const BR_ICONS = ["🐻","🍭","🍫","🍩","🍪","🧁","🍮","🍯","🍬"];
-let brCtx = null, brRunning = false, brRAF = null, brInputBound = false;
+let brCtx = null, brRunning = false, brRAF = null, brInputBound = false, brStaticNoise = null;
 let brUnits = [], brPlayer = null, brZone = null, brZoneElapsed = 0, brZoneDmgTimer = 0;
 let brDashCd = 0, brDashTimer = 0, brFlashes = [];
 let brJoystick = {active:false, baseX:0, baseY:0, dx:0, dy:0};
@@ -2722,45 +2820,90 @@ function updateBrHud(){
   zoneEl.textContent = brPlayer.alive ? (inZone ? "Dentro" : "¡Fuera!") : "—";
   zoneEl.style.color = (brPlayer.alive && !inZone) ? "#FF5C5C" : "";
 }
+let brRevived = false;
 function brCheckEnd(){
   const aliveCount = brUnits.filter(u=>u.alive).length;
   if(!brPlayer.alive){ brEndGame(false, aliveCount); return; }
-  if(aliveCount<=1){ brEndGame(true, 0); }
+  if(aliveCount<=1){ brEndGame(true, 0); return; }
+  if(aliveCount<=4) mgConfiteSay("br","¡Quedan pocas! Mantente en la zona.","excited","br-close",6000);
+  else if(brPlayer.hp/brPlayer.maxHp<0.3) mgConfiteSay("br","¡Tu vida está muy baja!","worried","br-lowhp",6000);
+  else{
+    const distToCenter = Math.hypot(brPlayer.x-brZone.cx, brPlayer.y-brZone.cy);
+    if(distToCenter > brZone.r-BR_UNIT_R) mgConfiteSay("br","¡La corrupción te está por alcanzar!","worried","br-outside",5000);
+  }
 }
 function brEndGame(won, othersAliveAtDeath){
   brRunning = false;
   if(brRAF) cancelAnimationFrame(brRAF);
   const placement = won ? 1 : othersAliveAtDeath+1;
+  // Sin ganar, primero se ofrece revivir gratis por anuncio (una vez por partida)
+  if(!won && !brRevived){
+    document.getElementById("br-overlay-icon").textContent = "💀";
+    document.getElementById("br-overlay-title").textContent = "La corrupción te alcanzó";
+    document.getElementById("br-overlay-sub").textContent = `Puesto ${placement}/${BR_TOTAL}`;
+    document.getElementById("br-revive-btn").style.display = "";
+    document.getElementById("br-overlay").classList.add("on");
+    return;
+  }
   const coinsEarned = Math.max(0, BR_TOTAL-placement)*6 + (won?40:0);
   save.coins = (save.coins||0) + coinsEarned;
   if(won) save.brWins = (save.brWins||0) + 1;
   if(!save.brBestPlacement || placement < save.brBestPlacement) save.brBestPlacement = placement;
   persistSave();
   checkAchievements();
+  document.getElementById("br-revive-btn").style.display = "none";
   document.getElementById("br-overlay-icon").textContent = won ? "🏆" : "💀";
   document.getElementById("br-overlay-title").textContent = won ? "¡Victoria Royale!" : "Eliminada";
   document.getElementById("br-overlay-sub").textContent =
     `Puesto ${placement}/${BR_TOTAL} · +${coinsEarned} 🍯${won?` · Victorias totales: ${save.brWins}`:""}`;
   document.getElementById("br-overlay").classList.add("on");
-  if(won) spawnConfetti();
+  if(won){ spawnConfetti(); mgConfiteSay("br","¡Victoria Royale! Increíble.","celebrate"); }
+}
+function brReviveWithAd(){
+  // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
+  brRevived = true;
+  document.getElementById("br-overlay").classList.remove("on");
+  document.getElementById("br-revive-btn").style.display = "none";
+  brPlayer.alive = true;
+  brPlayer.hp = Math.round(brPlayer.maxHp*0.6);
+  // reaparece cerca del centro de la zona actual, no donde cayó
+  brPlayer.x = brZone.cx + (Math.random()*40-20);
+  brPlayer.y = brZone.cy + (Math.random()*40-20);
+  brRunning = true;
+  if(brRAF) cancelAnimationFrame(brRAF);
+  brRAF = requestAnimationFrame(brStep);
+  mgConfiteSay("br","¡De vuelta! Cuidado con la zona.","excited");
+  toast("Revivida al 60% de vida (anuncio simulado — falta conectar la red)");
 }
 function exitBR(){
   brRunning = false;
   if(brRAF) cancelAnimationFrame(brRAF);
   document.getElementById("br-overlay").classList.remove("on");
+  document.getElementById("br-revive-btn").style.display = "none";
   goTo("minigames");
 }
 function brRender(){
   const ctx = brCtx;
   ctx.clearRect(0,0,BR_W,BR_H);
+  // Corrupción de la Bruja Hexadecimal: exterior violeta con estática,
+  // zona segura con un resplandor cálido — misma paleta que HEX CLASH.
+  const bg = ctx.createRadialGradient(BR_W/2,BR_H/2,10,BR_W/2,BR_H/2,BR_W*0.8);
+  bg.addColorStop(0,"#4A1B62"); bg.addColorStop(1,"#170027");
+  ctx.fillStyle = bg; ctx.fillRect(0,0,BR_W,BR_H);
+  if(!brStaticNoise) brStaticNoise = Array.from({length:70},()=>({x:Math.random()*BR_W,y:Math.random()*BR_H,r:Math.random()*1.4+0.4}));
+  ctx.fillStyle = "rgba(214,150,255,.28)";
+  brStaticNoise.forEach(p=>{ ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); });
   ctx.save();
-  ctx.fillStyle = "rgba(255,50,50,.16)";
-  ctx.fillRect(0,0,BR_W,BR_H);
-  ctx.globalCompositeOperation = "destination-out";
-  ctx.beginPath(); ctx.arc(brZone.cx, brZone.cy, brZone.r, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(brZone.cx, brZone.cy, brZone.r, 0, Math.PI*2); ctx.clip();
+  const safeGrad = ctx.createRadialGradient(brZone.cx,brZone.cy,0,brZone.cx,brZone.cy,brZone.r);
+  safeGrad.addColorStop(0,"rgba(245,184,0,.16)"); safeGrad.addColorStop(1,"rgba(245,184,0,.02)");
+  ctx.fillStyle = safeGrad; ctx.fillRect(0,0,BR_W,BR_H);
   ctx.restore();
+  const pulse = 0.5+0.5*Math.sin(Date.now()/260);
   ctx.beginPath(); ctx.arc(brZone.cx, brZone.cy, brZone.r, 0, Math.PI*2);
-  ctx.strokeStyle = "rgba(255,255,255,.5)"; ctx.lineWidth=2; ctx.stroke();
+  ctx.strokeStyle = `rgba(155,89,182,${0.55+pulse*0.3})`; ctx.lineWidth=3; ctx.stroke();
+  ctx.beginPath(); ctx.arc(brZone.cx, brZone.cy, brZone.r+3, 0, Math.PI*2);
+  ctx.strokeStyle = "rgba(0,245,255,.3)"; ctx.lineWidth=1; ctx.stroke();
   brFlashes.forEach(f=>{
     ctx.beginPath();
     ctx.arc(f.x, f.y, f.ring ? f.r*(1-f.life)+8 : f.r+(1-f.life)*10, 0, Math.PI*2);
@@ -2768,10 +2911,17 @@ function brRender(){
   });
   brUnits.forEach(u=>{
     if(!u.alive) return;
+    const baseColor = u.isPlayer ? "#F5B800" : "#7FD8E8";
+    ctx.beginPath(); ctx.ellipse(u.x, u.y+BR_UNIT_R*0.75, BR_UNIT_R*0.9, BR_UNIT_R*0.32, 0, 0, Math.PI*2);
+    ctx.fillStyle = "rgba(0,0,0,.35)"; ctx.fill();
+    ctx.save();
+    ctx.shadowColor = baseColor; ctx.shadowBlur = u.isPlayer ? 15 : 6;
     ctx.beginPath(); ctx.arc(u.x, u.y, BR_UNIT_R, 0, Math.PI*2);
-    ctx.fillStyle = u.isPlayer ? "#F5B800" : "#7FD8E8";
-    ctx.fill();
+    ctx.fillStyle = baseColor; ctx.fill();
+    ctx.restore();
     if(u.isPlayer){ ctx.lineWidth=2.5; ctx.strokeStyle="#fff"; ctx.stroke(); }
+    ctx.beginPath(); ctx.ellipse(u.x-3, u.y-4, 3.5, 2.2, -0.5, 0, Math.PI*2);
+    ctx.fillStyle = "rgba(255,255,255,.55)"; ctx.fill();
     ctx.font="13px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
     ctx.fillText(u.icon, u.x, u.y+1);
     const w=24, barY=u.y-BR_UNIT_R-7;
@@ -2880,6 +3030,8 @@ function brBindInput(){
 }
 function startBR(){
   document.getElementById("br-overlay").classList.remove("on");
+  document.getElementById("br-revive-btn").style.display = "none";
+  brRevived = false;
   const canvas = document.getElementById("br-canvas");
   brCtx = canvas.getContext("2d");
   brBindInput();
@@ -2904,6 +3056,7 @@ function startBR(){
   brRunning = true;
   if(brRAF) cancelAnimationFrame(brRAF);
   brRAF = requestAnimationFrame(brStep);
+  mgConfiteSay("br","¡Cuidado con la zona! No te quedes afuera.","excited");
 }
 
 /* ---------------- MAPA DE NIVELES ---------------- */
