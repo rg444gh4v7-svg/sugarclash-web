@@ -10,7 +10,7 @@
 
 ```
 sugarclash-web/index.html
-Líneas: ~5120 | Sintaxis: válida (node -e "new Function(js)")
+Líneas: ~6310 | Sintaxis: válida (node -e "new Function(js)")
 sugarclash-web/manifest.json, icon.svg, service-worker.js — PWA (offline + instalable)
 ```
 
@@ -75,11 +75,16 @@ Cada pantalla es una `<section class="screen" id="screen-NAME">`. `goTo(name)` a
 | `screen-daily` | (diario en world) | Desafío diario (integrado en world) |
 
 ### Overlays importantes
-- `#overlay` — resultado de nivel (win/loss)
-- `#pause-overlay` — menú de pausa con power-ups
+- `#overlay` — resultado de nivel (win/loss); con `.canvas-win` cuando es un Lienzo
+  completado, para no tapar la ilustración revelada
+- `#pause-overlay` — menú de pausa con power-ups (cada uno con botón "🎬 Gratis")
 - `#boss-intro-overlay` — intro dramática al tocar nivel jefe
 - `#territory-complete-overlay` — overlay al completar un territorio
-- `#tutorial-overlay` — tutorial primera vez
+- `#tutorial-overlay` — tutorial primera vez; con `.tut-light` no bloquea el tablero
+- `#nolives-overlay` / `#shop-overlay` / `#daily-cal-overlay` — economía (agosto 2026),
+  ver sección **Economía**
+- `.mg-confite-pop` (`#mb-confite-pop` / `#br-confite-pop`) — Confite reaccionando
+  arriba del canvas en MOBA/BR, ver sección **Minijuegos**
 
 ---
 
@@ -89,37 +94,46 @@ Cada pantalla es una `<section class="screen" id="screen-NAME">`. `goTo(name)` a
 // Clave localStorage
 const SAVE_KEY = "sugarclash_save_v1";
 
-// Estructura completa del save (ver defaultSave())
+// Estructura completa del save (ver defaultSave() — fuente de verdad real,
+// esto es un resumen legible, no copiarlo literal)
 {
+  // --- progreso Dulcelandia ---
   stars: {1: {5: 3, 6: 2, ...}, 2: {...}},  // estrellas por territorio/nivel
   unlocked: {1: 6, 2: 1, ...},               // nivel desbloqueado por territorio
-  coins: 0,
-  buildings: {casa: true},
-  tutorialSeen: false,
-  stripeTutorialSeen: false,
-  obstacleTutorialSeen: false,
-  muted: false,
-  lastTerritory: null,
-  achievements: {},
-  crystalsActivated: 0,
-  bestCascade: 0,
+  coins: 0, buildings: {casa: true},
+  tutorialSeen: false, stripeTutorialSeen: false, wrapTutorialSeen: false, obstacleTutorialSeen: false,
+  muted: false, lastTerritory: null, achievements: {},
+  crystalsActivated: 0, bestCascade: 0,
   bestScores: {},                             // clave: "territoryId_levelN"
-  dailyChallenge: null,
-  dailyStreak: 0,
-  lastDailyDate: null,
-  lastLoginDate: null,
-  loginStreak: 0,
-  territoryComplete: {},
-  introDone: false,
-  survivalBest: 0,
-  activeSkin: "default",
-  unlockedSkins: {default: true},
-  stripesCreated: 0,
-  mobaWins: 0,
-  brWins: 0,
+  dailyChallenge: null, dailyStreak: 0, lastDailyDate: null,
+  lastLoginDate: null, loginStreak: 0,        // también alimenta streakMult()
+  territoryComplete: {}, introDone: false, survivalBest: 0,
+  activeSkin: "default", unlockedSkins: {default: true},
+  stripesCreated: 0, wrappedCreated: 0,
+  mobaWins: 0, brWins: 0,
+  // brBestPlacement NO vive en defaultSave() — se crea recién en brEndGame() al
+  // terminar la primera partida de BR. Inconsistencia pre-existente, inofensiva
+  // porque el código siempre lo lee con `!save.brBestPlacement`, pero si se toca
+  // esa línea agregarlo a defaultSave()/migrateSave() de una vez.
   unlockedStories: {},                        // {key: "quote"} — Memorias de Confite
-  epilogueSeen: false,
-  chocolateDestroyed: 0,
+  epilogueSeen: false, chocolateDestroyed: 0,
+
+  // --- HEX CLASH (motor independiente, prefijo dg) ---
+  xp: 0, playerLevel: 1, soulShards: 0, dgUnlocked: 1, dgStars: {},
+  dgTimedBest: 0, dgZenBest: 0, dgScoreHistory: [],
+  pieceSkin: "gothic", unlockedPieceSkins: {gothic: true}, dgTutorialSeen: false,
+  dgPowerups: {bomb: 1, curse: 1, crystal: 1}, dgAmbientOn: true,
+  dgBombCreated: 0, dgCurseCreated: 0, dgCrystalCreated: 0, dgShadowBroken: 0,
+  dgModeUnlocked: false, dgVictorySeen: false,
+
+  // --- economía (agosto 2026, ver sección Economía) ---
+  lives: 5, livesAt: 0,                       // livesMax() puede subir el techo (Muelle)
+  gems: 25, piggy: 0, piggyOpened: 0,
+  canvasDone: {},                             // {sceneId: true} — modo Lienzo completado
+  dailyCal: {day: 0, lastDate: null},         // calendario de 7 días (distinto de loginStreak)
+  boosters: {moves: 1, hammer: 1, shuffle: 1},
+  spentGems: 0,
+  equippedHero: "dulce", heroAdUnlocked: {},  // {heroId: true} — desbloqueo anticipado por anuncio
 }
 
 // Siempre guardar con:
@@ -643,19 +657,21 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - ~~Exportar/importar guardado~~ — `exportSave()`/`importSave()` en Ajustes, código base64 del save
 - ~~Caramelo envuelto~~ — match en L/T shape → `stripes[r][c]='W'`, explota 3×3 (ver "Mecánicas especiales")
 - ~~PWA instalable~~ — `manifest.json` + `service-worker.js` ya en el repo
-
-### Alta prioridad
-1. **Sistema de vidas** — 5 vidas, se pierde 1 al fallar, se recarga 1 cada 30 min (o gastar monedas)
+- ~~Sistema de vidas~~ — `LIVES_MAX`/`livesMax()`, ver sección **Economía**
+- ~~Transiciones animadas~~ entre pantallas — `@keyframes screenIn` en `.screen.active`
 
 ### Media prioridad
-2. **Cofre semanal** — bonus grande por completar X niveles en 7 días
-3. **Transiciones animadas** entre pantallas (actualmente instantáneas)
-4. **Frases de transición** cuando Confite pasa de un territorio a otro
+1. **Cofre semanal** — bonus grande por completar X niveles en 7 días
+2. **Frases de transición** cuando Confite pasa de un territorio a otro
+3. **Más escenas de Lienzo** — hoy solo existe `amanecer` en `CANVAS_SCENES`; el modo
+   entero depende de tener variedad para no agotarse rápido, ver sección **Modo Lienzo**
 
 ### Baja prioridad
-5. **Modo infinito post-epílogo** — algo que hacer después de completar los 8 territorios
-6. **Partidas guardadas múltiples** (hoy solo hay un slot)
-7. **Capacitor packaging** para Android/iOS (requiere separar en archivos)
+4. **Modo infinito post-epílogo** — algo que hacer después de completar los 8 territorios
+5. **Partidas guardadas múltiples** (hoy solo hay un slot)
+6. **Capacitor packaging** para Android/iOS (requiere separar en archivos)
+7. **Conectar el SDK real del portal** — todos los anuncios son simulados hoy, ver
+   "Checklist para conectar el SDK real del portal" en la sección **Economía**
 
 ---
 
