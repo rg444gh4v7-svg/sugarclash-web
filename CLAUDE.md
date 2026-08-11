@@ -340,6 +340,17 @@ Si se agrega una constante de economía nueva, va en ese mismo bloque.
 - **Alcancía** (`save.piggy`): acumula un porcentaje de lo ganado en cada nivel vía
   `piggyAdd()`. Verla llenarse es gratis; vaciarla cuesta gemas.
 - **Calendario diario** (`DAILY_CAL`, 7 días): faltar un día reinicia la racha a 0.
+- **Cofre semanal** (`save.weeklyChest = {weekKey, count, claimed}`): completar
+  `WEEKLY_CHEST_GOAL` (15) niveles ganados —territorio, diario o Lienzo, no cuentan
+  MOBA/BR/Supervivencia/HEX CLASH, son economías aparte— dentro de la semana calendario
+  (lunes a domingo local) da `WEEKLY_CHEST_REWARD` (400 🍯 + 40 💎) una sola vez.
+  `getWeekKey()` identifica la semana por la fecha del lunes, igual de determinista que
+  `getDailyKey()` pero a escala semanal; `syncWeeklyChest()` reinicia el contador al
+  cambiar de semana **sin rodar** el progreso no reclamado — si no llegaste a 15, se
+  pierde. `addWeeklyChestProgress()` se llama desde `finishLevel()`/`finishCanvasLevel()`
+  cuando `won`. Pill `.weekly-chest-pill` en el HUD de `screen-world` (junto a la de
+  racha), overlay `#weekly-chest-overlay` con el mismo `.econ-modal` que el resto de la
+  economía.
 - **Tienda** (`GEM_PACKS`): ⚠️ **no procesa pagos reales** — falta conectar una pasarela.
   Los botones solo muestran un aviso. Lo mismo con los "anuncios": `watchAdForGems()` y
   `watchAdForLife()` son marcadores de posición, no hay red de anuncios conectada.
@@ -659,18 +670,18 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - ~~PWA instalable~~ — `manifest.json` + `service-worker.js` ya en el repo
 - ~~Sistema de vidas~~ — `LIVES_MAX`/`livesMax()`, ver sección **Economía**
 - ~~Transiciones animadas~~ entre pantallas — `@keyframes screenIn` en `.screen.active`
+- ~~Cofre semanal~~ — `save.weeklyChest`, ver sección **Economía**
 
 ### Media prioridad
-1. **Cofre semanal** — bonus grande por completar X niveles en 7 días
-2. **Frases de transición** cuando Confite pasa de un territorio a otro
-3. **Más escenas de Lienzo** — hoy solo existe `amanecer` en `CANVAS_SCENES`; el modo
+1. **Frases de transición** cuando Confite pasa de un territorio a otro
+2. **Más escenas de Lienzo** — hoy solo existe `amanecer` en `CANVAS_SCENES`; el modo
    entero depende de tener variedad para no agotarse rápido, ver sección **Modo Lienzo**
 
 ### Baja prioridad
-4. **Modo infinito post-epílogo** — algo que hacer después de completar los 8 territorios
-5. **Partidas guardadas múltiples** (hoy solo hay un slot)
-6. **Capacitor packaging** para Android/iOS (requiere separar en archivos)
-7. **Conectar el SDK real del portal** — todos los anuncios son simulados hoy, ver
+3. **Modo infinito post-epílogo** — algo que hacer después de completar los 8 territorios
+4. **Partidas guardadas múltiples** (hoy solo hay un slot)
+5. **Capacitor packaging** para Android/iOS (requiere separar en archivos)
+6. **Conectar el SDK real del portal** — todos los anuncios son simulados hoy, ver
    "Checklist para conectar el SDK real del portal" en la sección **Economía**
 
 ---

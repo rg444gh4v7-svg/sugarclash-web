@@ -282,11 +282,13 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .econ-pill.gems{border-color:rgba(0,245,255,.4);color:var(--crystal)}
 .econ-pill.streak-mult-pill{border-color:rgba(255,140,66,.4);color:#FF8C42}
 .econ-pill.streak-mult-pill.maxed{border-color:rgba(255,140,66,.7);background:rgba(255,140,66,.12);animation:nodeInvite 2.4s ease-in-out infinite}
+.econ-pill.weekly-chest-pill{border-color:rgba(245,184,0,.35)}
+.econ-pill.weekly-chest-pill.ready{border-color:var(--gold);background:rgba(245,184,0,.15);animation:nodeInvite 2s ease-in-out infinite}
 .econ-pill .lives-timer{font-size:9.5px;color:rgba(255,255,255,.5);font-weight:400}
 .econ-toast{position:fixed;left:50%;bottom:64px;transform:translateX(-50%);background:rgba(13,0,21,.94);border:1px solid rgba(245,184,0,.45);color:var(--cream);font-size:13px;padding:10px 16px;border-radius:99px;z-index:120;animation:toastIn .25s ease;max-width:88vw;text-align:center}
 @keyframes toastIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
-#nolives-overlay,#shop-overlay,#daily-cal-overlay{position:fixed;inset:0;background:rgba(7,3,16,.85);display:none;align-items:center;justify-content:center;z-index:110;padding:20px}
-#nolives-overlay.on,#shop-overlay.on,#daily-cal-overlay.on{display:flex}
+#nolives-overlay,#shop-overlay,#daily-cal-overlay,#weekly-chest-overlay{position:fixed;inset:0;background:rgba(7,3,16,.85);display:none;align-items:center;justify-content:center;z-index:110;padding:20px}
+#nolives-overlay.on,#shop-overlay.on,#daily-cal-overlay.on,#weekly-chest-overlay.on{display:flex}
 .econ-modal{background:linear-gradient(165deg,#2A0845,#170027);border:1px solid rgba(245,184,0,.4);border-radius:22px;padding:22px 20px;max-width:330px;width:100%;text-align:center;display:flex;flex-direction:column;gap:10px;box-shadow:0 18px 50px rgba(0,0,0,.6);max-height:88vh;overflow-y:auto}
 .econ-modal h3{font-family:'Fraunces',serif;font-weight:600;font-size:20px;color:var(--gold)}
 .econ-modal p{font-size:12.5px;color:rgba(255,255,255,.7);line-height:1.45}
@@ -867,6 +869,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div style="flex:1"></div>
       <div class="econ-pill streak-mult-pill" onclick="openDailyCal()" title="Racha de inicio de sesión">🔥 x1</div>
       <div class="econ-pill" onclick="openDailyCal()">🎁</div>
+      <div class="econ-pill weekly-chest-pill" onclick="openWeeklyChest()" title="Cofre semanal">📦 <span id="wc-pill-count">0/15</span></div>
     </div>
     <div class="piggy-card" id="piggy-card" onclick="confirmOpenPiggy()">
       <div class="piggy-icon">🐷</div>
@@ -1489,6 +1492,19 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     </div>
   </div>
 
+  <!-- ============ COFRE SEMANAL ============ -->
+  <div id="weekly-chest-overlay">
+    <div class="econ-modal">
+      <div class="econ-big">📦</div>
+      <h3>Cofre semanal</h3>
+      <p id="wc-sub">Completá niveles esta semana para el cofre.</p>
+      <div class="piggy-track" style="height:10px"><div class="piggy-fill" id="wc-fill"></div></div>
+      <div style="font-size:11px;color:rgba(255,255,255,.5)" id="wc-count">0 / 15 niveles</div>
+      <button class="econ-btn" id="wc-claim-btn" onclick="claimWeeklyChest()">Reclamar</button>
+      <button class="econ-btn ghost" onclick="closeWeeklyChest()">Cerrar</button>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -1628,7 +1644,8 @@ function defaultSave(){ return { stars:{1:{}}, unlocked:{1:1}, coins:0, building
   // economía: vidas (escasez), gemas (moneda dura), alcancía (acumula y se abre pagando)
   lives:LIVES_MAX, livesAt:0, gems:25, piggy:0, piggyOpened:0, canvasDone:{},
   dailyCal:{day:0, lastDate:null}, boosters:{moves:1,hammer:1,shuffle:1}, spentGems:0,
-  equippedHero:"dulce", heroAdUnlocked:{} }; }
+  equippedHero:"dulce", heroAdUnlocked:{},
+  weeklyChest:{weekKey:null, count:0, claimed:false} }; }
 function migrateSave(s){
   // formato viejo (pre-multiterritorio): stars/unlocked planos, referidos siempre al territorio 1
   if(s.stars && typeof s.unlocked === "number"){
@@ -1645,6 +1662,7 @@ function migrateSave(s){
   if(!s.canvasDone) s.canvasDone = {};
   if(!s.equippedHero) s.equippedHero = "dulce";
   if(!s.heroAdUnlocked) s.heroAdUnlocked = {};
+  if(!s.weeklyChest) s.weeklyChest = {weekKey:null, count:0, claimed:false};
   return s;
 }
 
@@ -1837,6 +1855,66 @@ function claimDailyCal(){
   persistSave();
   playBuild(); spawnConfetti();
   openDailyCal();
+  renderWorld();
+}
+/* ---------------- COFRE SEMANAL ----------------
+   Completar WEEKLY_CHEST_GOAL niveles (territorio, diario o Lienzo) dentro
+   de la semana calendario (lunes a domingo, hora local) da un bonus grande
+   de una sola vez. La semana se identifica por la fecha del lunes — igual
+   de determinista que getDailyKey() pero a escala semanal. Si el jugador no
+   llega al objetivo, el conteo se pierde al cambiar de semana (no rueda). */
+const WEEKLY_CHEST_GOAL = 15;
+const WEEKLY_CHEST_REWARD = {coins:400, gems:40};
+function getWeekKey(){
+  const d = new Date();
+  const dow = (d.getDay()+6)%7; // 0=lunes
+  const monday = new Date(d.getFullYear(), d.getMonth(), d.getDate()-dow);
+  return monday.toISOString().slice(0,10);
+}
+function syncWeeklyChest(){
+  if(!save.weeklyChest) save.weeklyChest = {weekKey:null, count:0, claimed:false};
+  const wk = getWeekKey();
+  if(save.weeklyChest.weekKey !== wk) save.weeklyChest = {weekKey:wk, count:0, claimed:false};
+}
+function addWeeklyChestProgress(){
+  syncWeeklyChest();
+  if(save.weeklyChest.claimed) return;
+  save.weeklyChest.count = Math.min(WEEKLY_CHEST_GOAL, (save.weeklyChest.count||0)+1);
+  updateWeeklyChestUI();
+}
+function updateWeeklyChestUI(){
+  syncWeeklyChest();
+  const st = save.weeklyChest;
+  const pill = document.getElementById("wc-pill-count");
+  if(pill) pill.textContent = `${st.count}/${WEEKLY_CHEST_GOAL}`;
+  const dot = document.querySelector(".weekly-chest-pill");
+  if(dot) dot.classList.toggle("ready", st.count>=WEEKLY_CHEST_GOAL && !st.claimed);
+}
+function openWeeklyChest(){
+  syncWeeklyChest();
+  const st = save.weeklyChest;
+  document.getElementById("wc-fill").style.width = Math.round(st.count/WEEKLY_CHEST_GOAL*100)+"%";
+  document.getElementById("wc-count").textContent = `${st.count} / ${WEEKLY_CHEST_GOAL} niveles`;
+  document.getElementById("wc-sub").textContent = st.claimed
+    ? "Ya reclamaste el cofre de esta semana. Volvé el lunes para uno nuevo."
+    : st.count>=WEEKLY_CHEST_GOAL
+      ? "¡Cofre listo! Reclamalo."
+      : `Completá ${WEEKLY_CHEST_GOAL} niveles esta semana (de territorio, diario o Lienzo) para ganar ${WEEKLY_CHEST_REWARD.coins} 🍯 y ${WEEKLY_CHEST_REWARD.gems} 💎.`;
+  document.getElementById("wc-claim-btn").style.display = (!st.claimed && st.count>=WEEKLY_CHEST_GOAL) ? "" : "none";
+  document.getElementById("weekly-chest-overlay").classList.add("on");
+}
+function closeWeeklyChest(){ document.getElementById("weekly-chest-overlay").classList.remove("on"); }
+function claimWeeklyChest(){
+  syncWeeklyChest();
+  const st = save.weeklyChest;
+  if(st.claimed || st.count<WEEKLY_CHEST_GOAL) return;
+  save.coins = (save.coins||0) + WEEKLY_CHEST_REWARD.coins;
+  save.gems = (save.gems||0) + WEEKLY_CHEST_REWARD.gems;
+  st.claimed = true;
+  persistSave();
+  playBuild(); spawnConfetti();
+  toast(`¡Cofre semanal! +${WEEKLY_CHEST_REWARD.coins} 🍯 +${WEEKLY_CHEST_REWARD.gems} 💎`);
+  openWeeklyChest();
   renderWorld();
 }
 /* ---------------- MULTIPLICADOR DE RACHA ----------------
@@ -2098,6 +2176,7 @@ function renderWorld(){
   if(pa) pa.textContent = save.piggy||0;
   updateLivesUI();
   updateStreakUI();
+  updateWeeklyChestUI();
   startLivesTicker();
   setWorldBubble(confiteWorldMsg(worldPct));
   checkAchievements();
@@ -3380,6 +3459,7 @@ async function finishCanvasLevel(){
   save.coins=(save.coins||0)+coins;
   if(!save.canvasDone) save.canvasDone={};
   save.canvasDone[cur.sceneId]=true;
+  addWeeklyChestProgress();
   persistSave();
   document.getElementById("overlay-icon").textContent="🎨";
   document.getElementById("overlay-title").textContent=scene.name;
@@ -4123,6 +4203,7 @@ function finishLevel(won){
     save.coins = (save.coins||0) + coinsEarned;
     // parte de lo ganado va a la alcancía: se ve crecer pero hay que pagar para sacarlo
     piggyAdd(Math.round(coinsEarned*0.6) + stars*10);
+    addWeeklyChestProgress();
     document.getElementById("overlay-icon").textContent = cur.isDaily ? "⭐" : "🏆";
     document.getElementById("overlay-title").textContent = cur.isDaily ? "¡Desafío Completado!" : "¡Nivel completado!";
     let progressText = cur.type==="collect" ? `${cur.progress}/${cur.target} recolectados`
