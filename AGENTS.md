@@ -1,0 +1,725 @@
+# Sugar Clash: Dulcelandia — AGENTS.md
+## Contexto completo del proyecto para nuevas sesiones de Codex
+
+> **Última actualización:** Agosto 2026 — archivo generado tras múltiples sesiones de desarrollo autónomo.
+> El creador (Jose) no es programador. Codex escribe todo el código. Jose toma las decisiones creativas.
+
+---
+
+## Estado actual del archivo
+
+```
+sugarclash-web/index.html
+Líneas: ~6310 | Sintaxis: válida (node -e "new Function(js)")
+sugarclash-web/manifest.json, icon.svg, service-worker.js — PWA (offline + instalable)
+```
+
+El proyecto ahora es un repo git (antes no lo era). `node` no está en el PATH del shell
+por defecto en este entorno — usar `export PATH="$HOME/.nvm/versions/node/v26.5.1/bin:$PATH"`
+antes del comando de validación de sintaxis si `node` no se encuentra.
+
+**Un solo archivo HTML/CSS/JS vanilla — intencional. No romper esta arquitectura.**
+
+---
+
+## Cómo validar cada cambio
+
+```bash
+# Extraer JS y validar sintaxis (correr después de CADA edición)
+node -e "new Function($(cat index.html | python3 -c "
+import sys, json
+txt = sys.stdin.read()
+start = txt.find('<script>') + len('<script>')
+end = txt.rfind('</script>')
+print(json.dumps(txt[start:end]))
+"))" && echo "SYNTAX OK"
+```
+
+Si el comando falla, hay un error de sintaxis. Nunca entregar una sesión sin que diga `SYNTAX OK`.
+
+---
+
+## Stack técnico
+
+- **HTML5 + CSS3 + JS vanilla** — sin frameworks, sin bundler
+- **Audio:** Web Audio API sintetizada (sin archivos externos). Funciones: `tone()`, `playPop()`, `playWin()`, `playLose()`, `playBuild()`, `playCrystal()`, `playShuffle()`, `playBomb()`
+- **Persistencia:** `localStorage` con clave `"sugarclash_save_v1"`
+- **Gráficos Confite:** SVG inline generado por `confiteSVG(mood, skin?)`
+- **Gráficos caramelos:** SVG `<defs>` en el HTML, referenciados con `<use href="#candy-N">`
+- **Fuente:** Fraunces (Google Fonts, cargada en el `<head>`)
+
+---
+
+## Arquitectura de pantallas
+
+Cada pantalla es una `<section class="screen" id="screen-NAME">`. `goTo(name)` activa la correcta.
+
+| ID pantalla | Función render | Descripción |
+|---|---|---|
+| `screen-title` | (estático) | Título principal |
+| `screen-intro` | `startIntro()` / `showIntroSlide(n)` | Intro narrativa (4 slides) |
+| `screen-world` | `renderWorld()` | Mapa mundial con 8 territorios |
+| `screen-map` | `renderMap()` | Mapa de niveles del territorio actual |
+| `screen-game` | `buildGrid()` + `renderGrid()` | Pantalla de juego match-3 |
+| `screen-village` | `renderVillage()` | Aldea de Confite |
+| `screen-achievements` | `renderAchievements()` | 21 logros |
+| `screen-settings` | `renderSettings()` | Ajustes + estadísticas |
+| `screen-minigames` | `renderMinigames()` | Hub de minijuegos |
+| `screen-moba` | `startMoba()` | MOBA 5v5 en canvas |
+| `screen-br` | `startBR()` | Battle Royale en canvas |
+| `screen-survival` | `startSurvival()` | Modo Supervivencia |
+| `screen-skins` | `renderSkins()` | 5 skins de Confite |
+| `screen-heroes` | `renderHeroes()` | 7 héroes |
+| `screen-memories` | `renderMemories()` | 8 fragmentos narrativos de Confite |
+| `screen-epilogue` | `startEpilogue()` / `showEpilogueSlide(n)` | Epílogo territorio 8 (7 slides) |
+| `screen-daily` | (diario en world) | Desafío diario (integrado en world) |
+
+### Overlays importantes
+- `#overlay` — resultado de nivel (win/loss); con `.canvas-win` cuando es un Lienzo
+  completado, para no tapar la ilustración revelada
+- `#pause-overlay` — menú de pausa con power-ups (cada uno con botón "🎬 Gratis")
+- `#boss-intro-overlay` — intro dramática al tocar nivel jefe
+- `#territory-complete-overlay` — overlay al completar un territorio
+- `#tutorial-overlay` — tutorial primera vez; con `.tut-light` no bloquea el tablero
+- `#nolives-overlay` / `#shop-overlay` / `#daily-cal-overlay` — economía (agosto 2026),
+  ver sección **Economía**
+- `.mg-confite-pop` (`#mb-confite-pop` / `#br-confite-pop`) — Confite reaccionando
+  arriba del canvas en MOBA/BR, ver sección **Minijuegos**
+
+---
+
+## Sistema de guardado
+
+```javascript
+// Clave localStorage
+const SAVE_KEY = "sugarclash_save_v1";
+
+// Estructura completa del save (ver defaultSave() — fuente de verdad real,
+// esto es un resumen legible, no copiarlo literal)
+{
+  // --- progreso Dulcelandia ---
+  stars: {1: {5: 3, 6: 2, ...}, 2: {...}},  // estrellas por territorio/nivel
+  unlocked: {1: 6, 2: 1, ...},               // nivel desbloqueado por territorio
+  coins: 0, buildings: {casa: true},
+  tutorialSeen: false, stripeTutorialSeen: false, wrapTutorialSeen: false, obstacleTutorialSeen: false,
+  muted: false, lastTerritory: null, achievements: {},
+  crystalsActivated: 0, bestCascade: 0,
+  bestScores: {},                             // clave: "territoryId_levelN"
+  dailyChallenge: null, dailyStreak: 0, lastDailyDate: null,
+  lastLoginDate: null, loginStreak: 0,        // también alimenta streakMult()
+  territoryComplete: {}, introDone: false, survivalBest: 0,
+  activeSkin: "default", unlockedSkins: {default: true},
+  stripesCreated: 0, wrappedCreated: 0,
+  mobaWins: 0, brWins: 0,
+  // brBestPlacement NO vive en defaultSave() — se crea recién en brEndGame() al
+  // terminar la primera partida de BR. Inconsistencia pre-existente, inofensiva
+  // porque el código siempre lo lee con `!save.brBestPlacement`, pero si se toca
+  // esa línea agregarlo a defaultSave()/migrateSave() de una vez.
+  unlockedStories: {},                        // {key: "quote"} — Memorias de Confite
+  epilogueSeen: false, chocolateDestroyed: 0,
+
+  // --- HEX CLASH (motor independiente, prefijo dg) ---
+  xp: 0, playerLevel: 1, soulShards: 0, dgUnlocked: 1, dgStars: {},
+  dgTimedBest: 0, dgZenBest: 0, dgScoreHistory: [],
+  pieceSkin: "gothic", unlockedPieceSkins: {gothic: true}, dgTutorialSeen: false,
+  dgPowerups: {bomb: 1, curse: 1, crystal: 1}, dgAmbientOn: true,
+  dgBombCreated: 0, dgCurseCreated: 0, dgCrystalCreated: 0, dgShadowBroken: 0,
+  dgModeUnlocked: false, dgVictorySeen: false,
+
+  // --- economía (agosto 2026, ver sección Economía) ---
+  lives: 5, livesAt: 0,                       // livesMax() puede subir el techo (Muelle)
+  gems: 25, piggy: 0, piggyOpened: 0,
+  canvasDone: {},                             // {sceneId: true} — modo Lienzo completado
+  dailyCal: {day: 0, lastDate: null},         // calendario de 7 días (distinto de loginStreak)
+  boosters: {moves: 1, hammer: 1, shuffle: 1},
+  spentGems: 0,
+  equippedHero: "dulce", heroAdUnlocked: {},  // {heroId: true} — desbloqueo anticipado por anuncio
+}
+
+// Siempre guardar con:
+persistSave(); // llama localStorage.setItem(SAVE_KEY, JSON.stringify(save))
+```
+
+**Regla:** cada vez que se añada un campo nuevo a `defaultSave()`, también añadirlo a `migrateSave()` si puede existir en saves viejos sin el campo.
+
+---
+
+## Estado del juego (variable `cur`)
+
+```javascript
+cur = {
+  n,            // número de nivel (o "D" para diario, "S" para supervivencia)
+  type,         // "score" | "collect" | "crystals"
+  goal,         // meta de puntuación (para type=score)
+  target,       // meta de colectar/cristales
+  color,        // tipo de caramelo a colectar (para type=collect)
+  movesLeft,    // movimientos restantes
+  movesMax,     // total de movimientos al inicio
+  cols, rows,   // dimensiones del tablero
+  score,
+  progress,     // para collect/crystals
+  cascade,      // contador de cascadas en turno actual
+  done,         // true cuando terminó el nivel
+  boostUsed,    // +5 movimientos ya usado
+  rainbowUsed,  // arco iris ya usado
+  bombUsed,     // bombazo ya usado
+  isDaily,
+  isSurvival,
+}
+```
+
+---
+
+## Tablero — arrays paralelos
+
+```javascript
+board[r][c]     // tipo de caramelo (0-5 = colores, 6 = SPECIAL/cristal, -1 = vacío)
+stripes[r][c]   // null | 'H' | 'V' (caramelo rayado)
+obstacles[r][c] // 0 | 1 | 2 (bloques de chocolate, HP)
+```
+
+**Regla:** cuando se añada un nuevo array paralelo, actualizarlo en `applyGravity()`, `fillEmpty()`, `shuffleBoard()` y `renderGrid()`.
+
+---
+
+## Territorios y niveles
+
+```javascript
+const TERRITORIES = [...]  // 8 territorios con id, name, icon, hue, desc, banner
+const TOTAL_LEVELS = 10    // niveles por territorio (el 10 siempre es el jefe)
+
+// Arrays de niveles por territorio:
+LEVELS_BY_TERRITORY[1..8]  // cada uno con objetos {n, type, goal/target, moves, cols, color?}
+```
+
+Convenciones de niveles:
+- Territorios 1-3: `cols: 7`
+- Territorios 4-5: mix 7-8 cols
+- Territorios 6-8: `cols: 8` desde nivel 3-6+
+- Nivel 10 de cada territorio = nivel jefe (`BOSS_LEVEL_NAMES[territoryId]`)
+
+---
+
+## Confite — el personaje
+
+```javascript
+// Moods disponibles: "happy" | "excited" | "worried" | "sad" | "celebrate"
+confiteSVG(mood, skin?)  // devuelve string de SVG
+
+// Para cambiar lo que dice Confite en el juego:
+setConfiteGame("texto")
+setConfiteMood("mood")
+bounceConfite()  // animación de rebote
+
+// Los SVGs de Confite están en estos elementos:
+// #confite-title, #confite-map, #confite-game-svg, #confite-skins-svg
+
+// Líneas de Confite durante el juego:
+CONFITE_LINES = {
+  comboBig: [...],
+  comboMed: [...],
+  lowMoves: [...],
+  stripeCreated: [...],
+  stripeExplode: [...],
+  bombUsed: [...],
+  crystalBurst: [...],
+}
+```
+
+---
+
+## Power-ups (en menú de pausa)
+
+| Nombre | Costo | Variable | Función |
+|---|---|---|---|
+| +5 Movimientos | 30 🍯 | `cur.boostUsed` | `buyMoves()` |
+| Bombazo 3×3 | 40 🍯 | `cur.bombUsed` | `activateBomb()` → `useBombAt(r,c)` |
+| Arco Iris | 60 🍯 | `cur.rainbowUsed` | `activateRainbow()` → `useRainbowOnColor(type)` |
+| Continuar (+5 movs) | 50 🍯 | — | `continueGame()` (solo en derrota) |
+
+`bombActive` y `rainbowActive` son booleanos globales — se verifican en `onCellClick()` antes del flujo normal.
+
+---
+
+## Mecánicas especiales
+
+### Caramelo rayado (stripes)
+- Se crea con match de 4+ en fila → `stripes[r][c] = 'H'` (horizontal)
+- Se crea con match de 4+ en columna → `stripes[r][c] = 'V'` (vertical)
+- Al combinarse en un match, limpia toda su fila o columna
+- CSS: `.cell.stripe-h::after` y `.cell.stripe-v::after`
+
+### Caramelo envuelto (wrapped)
+- Se crea con match en forma de L/T (match de 3+ en fila **y** 3+ en columna, cruzando en la
+  celda destino del swap) → `stripes[r][c] = 'W'` (mismo array paralelo que los rayados,
+  reutilizado con un tercer valor en vez de agregar uno nuevo)
+- Al combinarse en un match, limpia un área de 3×3 centrada en su celda
+- CSS: `.cell.wrapped::before` (anillo punteado) y `.cell.wrapped::after` (🎀 pulsante)
+- Detectado en `checkAndCreateStripe()`, la comprobación de L/T va **antes** que la de rayado
+  recto para tener prioridad cuando ambas condiciones se cumplen
+
+⚠️ **Nota de comportamiento:** tanto el rayado como el envuelto se crean y se auto-disparan
+en el mismo `processCascade()` que generó el match que los originó (porque `processCascade()`
+vuelve a llamar `findMatches()` sobre el mismo tablero antes de limpiar nada, y la celda
+recién convertida en especial cae dentro de ese mismo match). En la práctica esto significa
+que un match-4/L/T da un bonus de limpieza inmediato — el caramelo especial no queda
+"guardado" en el tablero esperando que el jugador lo combine después. Si algún día se quiere
+el comportamiento clásico (pieza persistente), hay que separar la detección de la primera
+pasada de `processCascade()` para que no se autoconsuma.
+
+### Caramelo especial / Cristal (SPECIAL = 6)
+- 5% de probabilidad en `randType()`
+- Al incluirse en un match, limpia toda su fila (burst)
+- Necesario para tipo de nivel `"crystals"`
+
+### Bloques de chocolate (obstacles)
+- Solo aparecen en territorios 4+ desde nivel 5
+- HP 1 (territorio 4-5) o HP 2 (territorio 6+)
+- Matches adyacentes los dañan → `processObstacleDamage(allCells)`
+- Al destruirse: +200 pts, `save.chocolateDestroyed++`
+- CSS: `.cell.obstacle-1::after` y `.cell.obstacle-2::after`
+
+### Hint system
+- Si el jugador no mueve en 8 segundos → `showHint()` pulsa 2 celdas
+- `resetHintTimer()` se llama en cada click
+- CSS: `.cell.hint-pulse`
+
+---
+
+## Aldea de Confite — escena ilustrada
+
+`screen-village` NO es una lista/grid — es una escena: un camino serpenteante (SVG con
+`<path>` de segmentos rectos, `stroke-linejoin="round"`) que conecta las 10 construcciones
+de `BUILDINGS`, cada una posicionada de forma absoluta (`.v-node`) sobre el camino.
+
+- **Posiciones:** `VILLAGE_NODE_X` es un array de 10 valores (% horizontal, a mano, en
+  zigzag). Debe tener tantas entradas como `BUILDINGS.length` — si se agrega una
+  construcción nueva, agregar una entrada más aquí o el último nodo cae al centro (50%)
+  por el fallback en `renderVillage()`. La posición vertical es `topPad + i*stepY`
+  (constantes dentro de `renderVillage()`), no configurable por edificio.
+- **Ilustración:** `villageBuildingSVG(id)` devuelve el SVG (viewBox `0 0 80 84`) de cada
+  edificio en el mismo estilo plano que `confiteSVG()`/`candy-N` (formas simples, opacidad
+  para sombreado, sin fotos ni degradados complejos salvo `url(#crystalGrad)` reusado del
+  `<defs>` principal para el faro). Un solo SVG por edificio — **no** hay variantes
+  separadas por estado.
+- **Estados vía CSS, no vía markup distinto:** `built` / `unlocked-next` / `locked` son
+  clases en `.v-node` que aplican `filter` (grayscale/brightness/drop-shadow) sobre el
+  mismo SVG. `unlocked-next` además pulsa (`@keyframes nodeInvite`) para invitar a
+  construir. Si se necesita un edificio nuevo, solo hace falta agregar su entrada a
+  `ART` dentro de `villageBuildingSVG()` — el resto (posición, estado, clic) es genérico.
+- **Decoración ambiental:** hojas/flores/chispas (`DECO_ICONS`, emoji) se insertan como
+  `<div class="v-deco">` en los puntos medios entre construcciones — puramente visual,
+  `pointer-events:none`.
+
+---
+
+## Economía (modelo free-to-play)
+
+Copia deliberada de la economía del género (Candy Crush / Royal Match). Antes de esto
+el juego no tenía escasez de ningún tipo y por eso no retenía ni podía monetizar.
+
+**Constantes** — declaradas **antes** de `let save = loadSave()` a propósito: `defaultSave()`
+y `migrateSave()` las usan, y un `const` en zona muerta temporal (TDZ) tira ReferenceError.
+Si se agrega una constante de economía nueva, va en ese mismo bloque.
+
+| Concepto | Constante | Valor |
+|---|---|---|
+| Vidas máximas | `LIVES_MAX` | 5 |
+| Regeneración | `LIFE_REGEN_MS` | 25 min |
+| Llenar vidas | `REFILL_LIVES_GEMS` | 60 💎 |
+| Tope alcancía | `PIGGY_CAP` | 1200 🍯 |
+| Abrir alcancía | `PIGGY_OPEN_GEMS` | 120 💎 |
+| Continuar al fallar | `CONTINUE_COSTS` | 25 → 50 → 100 💎 |
+
+- **Vidas:** `syncLives()` recalcula por tiempo transcurrido (no hay timer que "gaste"
+  vidas; se derivan de `save.livesAt`). Entrar a un nivel pasa por `tryStartLevel()`,
+  que cobra la vida — **nunca llamar `startLevel()` directo desde la UI** o el nivel
+  sale gratis.
+- **Gemas** (`save.gems`): moneda dura. Se gastan en continuar, llenar vidas y abrir la
+  alcancía. Se ganan con el calendario diario y (a futuro) anuncios.
+- **Alcancía** (`save.piggy`): acumula un porcentaje de lo ganado en cada nivel vía
+  `piggyAdd()`. Verla llenarse es gratis; vaciarla cuesta gemas.
+- **Calendario diario** (`DAILY_CAL`, 7 días): faltar un día reinicia la racha a 0.
+- **Cofre semanal** (`save.weeklyChest = {weekKey, count, claimed}`): completar
+  `WEEKLY_CHEST_GOAL` (15) niveles ganados —territorio, diario o Lienzo, no cuentan
+  MOBA/BR/Supervivencia/HEX CLASH, son economías aparte— dentro de la semana calendario
+  (lunes a domingo local) da `WEEKLY_CHEST_REWARD` (400 🍯 + 40 💎) una sola vez.
+  `getWeekKey()` identifica la semana por la fecha del lunes, igual de determinista que
+  `getDailyKey()` pero a escala semanal; `syncWeeklyChest()` reinicia el contador al
+  cambiar de semana **sin rodar** el progreso no reclamado — si no llegaste a 15, se
+  pierde. `addWeeklyChestProgress()` se llama desde `finishLevel()`/`finishCanvasLevel()`
+  cuando `won`. Pill `.weekly-chest-pill` en el HUD de `screen-world` (junto a la de
+  racha), overlay `#weekly-chest-overlay` con el mismo `.econ-modal` que el resto de la
+  economía.
+- **Tienda** (`GEM_PACKS`): ⚠️ **no procesa pagos reales** — falta conectar una pasarela.
+  Los botones solo muestran un aviso. Lo mismo con los "anuncios": `watchAdForGems()` y
+  `watchAdForLife()` son marcadores de posición, no hay red de anuncios conectada.
+
+### Curva de dificultad
+Los 80 niveles se rebalancearon midiendo con un bot (~1000 partidas). Estado actual
+medido con un bot codicioso sin previsión:
+
+| Tramo | Victoria del bot |
+|---|---|
+| Primeros 5 niveles | 98% (enganche, casi imposible perder) |
+| Niveles normales | 80% |
+| Niveles 5 y 10 (duros) | 70% |
+
+Un humano decente gana bastante más que el bot, así que la curva real es más suave.
+**Antes del rebalanceo el bot ganaba el 100% en 65 de los 80 niveles**, es decir que el
+juego no se podía perder y la economía no tenía de dónde agarrarse.
+Los niveles 5 llevan la clase `.lv-hard` (badge "DIFÍCIL" en el mapa).
+
+---
+
+## Canal: portales web (Poki / CrazyGames), no tiendas móviles
+
+Decisión del creador (agosto 2026): sin presupuesto de publicidad paga, así que instalar
+como app nativa no es viable — sin ads no hay instalaciones. Los portales web traen
+tráfico gratis a cambio de un revenue-share por publicidad. Esto cambia qué se prioriza:
+
+- **El jugador nunca paga con tarjeta.** El ingreso sale del portal (le pagan al juego
+  por cada anuncio mostrado), no del bolsillo del jugador. Por eso todo el flujo de
+  conversión se reordenó ads-first: "ver anuncio" es siempre la opción principal y
+  gratuita, gemas/pagos quedan como respaldo secundario que hoy ni siquiera cobra.
+- **Time-to-play bajo.** Los portales miden esto y lo usan para rankear el juego. La
+  intro es saltable en un toque (`skipIntro()`), y el tutorial de la primera partida
+  (`maybeShowTutorial()`) ya **no bloquea el tablero** — es una tarjeta no-modal anclada
+  abajo (`.tut-light`) que desaparece con el primer toque real en una celda
+  (`onCellClick()` llama a `dismissTutorial()` si `!save.tutorialSeen`, antes de
+  procesar el click). Si se agrega un tutorial nuevo en otra pantalla, seguir este
+  mismo patrón — no volver a un overlay bloqueante de pantalla completa.
+
+### Puntos de conversión (ads-first)
+| Momento | Función | Gratis primero |
+|---|---|---|
+| Sin vidas | `openNoLives()` | `watchAdForLife()` arriba, `refillLivesWithGems()` abajo |
+| Fallaste un nivel | overlay de derrota | `continueWithAd()` (una vez por intento) antes que `continueGame()` (gemas) |
+| Trabado en pleno nivel | menú de pausa | `useBoostWithAd()`/`useBombWithAd()`/`useRainbowWithAd()` — botón "🎬 Gratis" en cada power-up, visible mientras no se usó, sin importar el saldo de monedas |
+| Tienda | `openShop()` | "Ver un anuncio" es la primera fila de la lista |
+| Héroe bloqueado | `screen-heroes` | `unlockHeroWithAd(id)` — **excepto `hexbr`**, es la revelación final de la historia, no se vende (bloqueado en la función y en el render, por las dudas) |
+| Edificio de la Aldea bloqueado | `screen-village` | `buildStructureWithAd(id)` — termina la construcción sin esperar juntar monedas |
+| Memoria de Confite bloqueada | `screen-memories` | `unlockMemoryWithAd(key)` — usa el texto real de `STORY_MOMENTS` (global, ya no vive dentro de `finishLevel()`) |
+| Skin de Confite bloqueada | `screen-skins` | `unlockSkinWithAd(id)` |
+| Piezas/skins de HEX CLASH | `screen-dgshop` | `dgBuyPowerupWithAd(id)` / `dgUnlockSkinWithAd(id)` |
+
+⚠️ **Decisión del creador (agosto 2026): sin intersticial forzado.** Existió brevemente
+un `portalAdBreak()` que cortaba cada 3 niveles sin que el jugador lo pidiera — se sacó
+por completo (función, constante `PORTAL_AD_EVERY`, campo `save.levelsPlayed` y su
+llamada en `exitToMap()`) porque el creador identificó los anuncios forzados como la
+razón principal por la que él mismo abandona otros juegos. **Los 12 puntos de la tabla
+de arriba son ads-first pero siempre opt-in** — el jugador toca un botón a cambio de
+algo, nunca aparece un anuncio sin que lo pida. No reintroducir un intersticial forzado
+sin que el creador lo pida explícitamente.
+
+### Héroes y edificios dan bonus de gameplay (agosto 2026)
+Los 7 héroes y los 10 edificios de la Aldea eran 100% cosméticos. Ahora cada uno (salvo
+`hexbr` y la Choza inicial) da un bonus pasivo permanente mientras está equipado/construido
+— deliberadamente modesto, no debe volver el juego trivial. `hasHeroAbility(id)` y
+`hasBuilding(id)` son las funciones de consulta; se llaman desde `startLevel()`,
+`buildGrid()`, `processCascade()`, `processObstacleDamage()`, `powerupCost()`,
+`resetHintTimer()`, `doSwap()`, `syncLives()` y `finishLevel()`/`finishCanvasLevel()`.
+Los efectos de héroe y de edificio con el mismo tema (p. ej. Bastión el héroe y la
+Herrería el edificio, ambos dañan más los bloques de chocolate) se **acumulan** a
+propósito — son sistemas separados, apilar es la recompensa por tener los dos.
+Ver `heroAbilityText()` / `buildingAbilityText()` para la lista completa con sus números.
+
+`livesMax()` reemplaza las referencias directas a la constante `LIVES_MAX` en todo el
+sistema de vidas — el edificio Muelle de Cristal la sube en +1. Si se agrega otro efecto
+que toque el techo de vidas, tiene que pasar por esta función, nunca leer `LIVES_MAX` a secas.
+
+### Multiplicador de racha de inicio de sesión
+`streakMult()` — reusa `save.loginStreak` (ya trackeado por `checkLoginBonus()`, el bono
+de monedas al abrir el juego cada día) en vez de un contador nuevo. +10% de monedas por
+día consecutivo, tope x2 en el día 11; faltar un día rompe la racha a 1 → vuelve a x1.
+Se aplica en `finishLevel()` y `finishCanvasLevel()`, y se muestra siempre en el HUD
+(`.streak-mult-pill`, actualizado por `updateStreakUI()`) — no solo al reclamar el bono.
+El miedo a perder la racha trae de vuelta más que la promesa de ganarla.
+
+### Checklist para conectar el SDK real del portal (falta hacer)
+Hoy todos los anuncios son simulados (`toast()` con aviso "falta conectar la red"). Para
+publicar de verdad en un portal:
+
+1. **Elegir portal y pedir cuenta de developer** (Poki Developer Portal o
+   CrazyGames Developer). Cada uno pide su propio `<script>` SDK.
+2. **Cargar el SDK** en el `<head>` de `index.html` (rompe el "un solo archivo" — es la
+   única excepción aceptable, es un requisito del portal, no una dependencia de proyecto).
+3. **Reemplazar los stubs**, todos ya identificados con `// TODO integración real` en el
+   código:
+   - Todas las funciones `*WithAd()` (`watchAdForGems()`, `watchAdForLife()`,
+     `continueWithAd()`, `useBoostWithAd()`, `useBombWithAd()`, `useRainbowWithAd()`,
+     `unlockHeroWithAd()`, `buildStructureWithAd()`, `unlockMemoryWithAd()`,
+     `unlockSkinWithAd()`, `dgBuyPowerupWithAd()`, `dgUnlockSkinWithAd()`) → llamar al
+     rewarded ad del SDK (`Poki.rewardedBreak()` / CrazyGames
+     `SDK.ad.requestAd("rewarded")`) y dar la recompensa solo en el callback de éxito,
+     no antes. Todas son opt-in a propósito — no hay intersticial forzado, ver la nota
+     más arriba.
+4. **Eventos de ciclo de vida** que los portales exigen para medir sesiones: llamar al
+   equivalente de `gameLoadingFinished()` cuando el título termina de renderizar, y
+   `gameplayStart()`/`gameplayStop()` alrededor de cada nivel — buenos puntos de enganche
+   son `startLevel()`/`startCanvasLevel()` (inicio) y `finishLevel()`/`finishCanvasLevel()`
+   (fin).
+5. **Empaquetar y subir** según las reglas del portal (Poki: build zip; CrazyGames:
+   similar). Verificar que el juego cargue standalone sin `service-worker.js` activo —
+   algunos portales lo sirven desde su propio dominio/iframe y el SW puede interferir.
+
+---
+
+## Minijuegos
+
+Se accede desde `screen-minigames` (hub con `MINIGAMES`, cada uno tiene su propia línea
+narrativa — "Las Guerras del Azúcar", "La Zona de la Bruja", "El Corazón Latiente"). Los
+tres están etiquetados como "Prototipo" en su propia descripción — no son multijugador
+real, es un jugador contra bots/IA.
+
+### Confite y monetización en MOBA/BR (agosto 2026)
+Antes de esta sesión, MOBA y BR eran las únicas pantallas del juego sin Confite visible
+durante la partida — rompía el principio "Confite siempre en pantalla" del juego
+principal. `mgConfiteSay(prefix, text, mood, cooldownKey, cooldownMs)` es el helper
+compartido: burbuja no-bloqueante arriba del canvas (`.mg-confite-pop`, reutiliza
+`confiteSVG()`), con cooldown por clave para no repetir el mismo aviso en pleno combate.
+Se llama desde `mobaCheckEnd()`/`brCheckEnd()` (corren cada frame vía `requestAnimationFrame`,
+por eso el cooldown es obligatorio) y desde `startMoba()`/`startBR()` al arrancar.
+
+**Revivir con anuncio** — mismo patrón ads-first que `continueWithAd()` en el juego
+principal: al perder, `mobaEndGame(false)`/`brEndGame(false)` ofrecen
+`mobaReviveWithAd()`/`brReviveWithAd()` (botón verde, una sola vez por partida, gratis)
+antes de mostrar la pantalla de derrota real. `mobaRevived`/`brRevived` son los flags que
+lo limitan a un uso — se resetean en `startMoba()`/`startBR()`. Revive al 60% de la vida
+máxima. Marcado con `// TODO integración real` como el resto de los ganchos de anuncio.
+
+### MOBA 5v5 (canvas)
+- Variables globales con prefijo `moba*`; `mobaRunning`, `mobaRAF` para el game loop
+- El jugador controla a Dulce Roja + 4 aliados IA (`MOBA_ALLIES`, los mismos héroes de
+  `HEROES`) contra 5 "Fragmentos Hexadecimales" (`MOBA_ENEMIES`)
+- **Si el héroe equipado (`save.equippedHero`) está en `MOBA_ALLIES`, pelea con +20% de
+  vida máxima** y una corona 👑 sobre su unidad — conecta el sistema de héroes con el
+  minijuego en vez de vivir aislados. Se calcula en `startMoba()`, marcado como `isHero`.
+- `mobaEndGame(won)` → guarda `save.mobaWins`
+- `mobaRender()`: arena con gradiente dorado/caramelo + tinte de equipo (rosa aliados,
+  rojo enemigos) en vez del fondo plano de antes; unidades con `shadowBlur` del color de
+  equipo + sombra de piso + brillo especular, no círculos planos
+
+### Battle Royale (canvas)
+- Variables globales con prefijo `br*`; `brRunning`, `brRAF` para el game loop
+- `BR_TOTAL = 10` (jugador + 9 bots), zona que se achica (`brZone.r`) y daña si quedás
+  afuera
+- `brEndGame(won, othersAliveAtDeath)` → guarda `save.brWins` y `save.brBestPlacement`
+- `brRender()`: la zona ya no es un círculo rojo plano — el exterior es corrupción
+  púrpura con estática (`brStaticNoise`, precomputado una vez) en la paleta de HEX
+  CLASH, el interior de la zona segura tiene un resplandor dorado cálido, y el borde
+  pulsa entre púrpura y cian (`Date.now()` en la animación, no depende de un frame
+  counter propio)
+
+### Supervivencia
+- **No es un canvas aparte — reusa el tablero match-3 real** (`buildGrid()`, `goTo("game")`)
+  con movimientos infinitos y un reloj que solo baja. Por eso `hasHeroAbility()`/
+  `hasBuilding()` (bonus de héroes y edificios) **sí aplican acá**, a diferencia de
+  MOBA/BR que corren en su propio canvas sin conexión al sistema de héroes.
+- Matches añaden tiempo: `addSurvivalTime(matchCount, cascade)`
+- `SURVIVAL_START_TIME = 12000ms`, `SURVIVAL_MAX_TIME = 18000ms`
+- `finishSurvival()` → guarda `save.survivalBest`
+
+---
+
+## Narrativa implementada
+
+### Historia de Confite (REVELACIÓN FINAL)
+Confite es el quinto fragmento del Gran Cristal, que se partió a sí mismo hace 500 años para no ser esclavizado. La revelación ocurre en el epílogo del territorio 8 (`startEpilogue()` → 7 slides).
+
+### Fragmentos narrativos (Memorias de Confite)
+8 niveles especiales disparan una cita al completarlos:
+```javascript
+STORY_MOMENTS = {
+  "1_5": "Algo en este color...",
+  "2_5": "Olí algo parecido...",
+  "3_10": "Las Torres...",
+  "4_5": "El frío del chocolate...",
+  "5_7": "Las voces del bosque...",
+  "6_5": "Las fogatas...",
+  "7_7": "Este lugar honra...",
+  "8_5": "Ya sé lo que pasó...",
+}
+```
+Se guardan en `save.unlockedStories` y se ven en `screen-memories`.
+
+### Greeting por territorio
+`TERRITORY_CONFITE_GREET[1..8]` — Confite dice algo diferente al entrar a cada mapa.
+
+### Boss intro
+`BOSS_CONFITE_LINES[1..8]` — cita antes del nivel jefe de cada territorio.
+
+### Territorio completo
+`TERRITORY_COMPLETE_DATA[1..8]` — narrative + confite line al completar un territorio al 100%.
+
+---
+
+## Logros (ACHIEVEMENTS)
+
+21 logros totales. Formato:
+```javascript
+{id, name, icon, desc, check: ()=>boolean, progress?: ()=>number, target?: number}
+```
+
+Llamar `checkAchievements()` después de cualquier cambio que pueda desbloquear uno.
+Cada logro desbloqueado da `ACHIEVEMENT_REWARD = 50` monedas.
+Toast de logro: `achvToastQueue` + `showNextAchvToast()`.
+
+---
+
+## Skins de Confite
+
+```javascript
+const CONFITE_SKINS = [
+  {id:"default", name:"Confite", icon:"🩷", cost:0},
+  {id:"golden",  name:"Confite Dorado", icon:"✨", cost:200},
+  {id:"crystal", name:"Confite Cristal", icon:"💎", cost:300},
+  {id:"dark",    name:"Confite Oscuro", icon:"🖤", cost:250},
+  {id:"sakura",  name:"Confite Sakura", icon:"🌸", cost:180},
+]
+```
+
+`activateSkin(id)` → `save.activeSkin = id` → `refreshAllConfite()`.
+
+---
+
+## Desafío diario
+
+- Clave: `getDailyKey()` → fecha ISO (`YYYY-MM-DD`)
+- Config: `getDailyConfig()` → usa LCG seeded con la fecha (determinista)
+- Guardado en `save.dailyChallenge`, `save.dailyStreak`, `save.lastDailyDate`
+- Recompensa: 100 monedas al completar
+
+---
+
+## Login bonus
+
+- `checkLoginBonus()` llamado al iniciar si `save.introDone`
+- Bonus base: 10 monedas + 2 por día de racha (máx +20)
+- Guarda `save.lastLoginDate` y `save.loginStreak`
+
+---
+
+## Patrones de código importantes
+
+### Async/await en el tablero
+`processCascade()`, `doSwap()`, `useRainbowOnColor()`, `useBombAt()`, `useRainbowOnColor()` son todas `async`. Usan `delay(ms)` para animar.
+
+```javascript
+// SIEMPRE: al terminar cualquier acción async
+if(checkWin()){ finishLevel(true); return; }
+if(cur.movesLeft<=0){ finishLevel(false); return; }
+busy = false;
+resetHintTimer();
+```
+
+### `busy` flag
+`let busy = false` — se pone `true` durante animaciones. `onCellClick()` lo verifica primero. **Nunca olvidar poner `busy=false` al final de un flujo.**
+
+### Confetti
+`spawnConfetti()` — canvas temporal que se autodestrata. Llamar en victorias.
+
+### `rnd(n)` vs `Math.random()`
+Usar `rnd(n)` (alias de `Math.floor(Math.random()*n)`) para consistencia.
+
+---
+
+## HEX CLASH — modo Dark Gothic (motor independiente)
+
+Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `board`,
+`cur`, `stripes`, `obstacles`, etc. — todo tiene prefijo `dg`). Se accede desde el botón
+"🕯️ HEX CLASH · Modo Oscuro" en `screen-title` o desde `screen-dgmenu`.
+
+- **Pantallas:** `screen-dgmenu` (hub), `screen-dglevels` (20 niveles Historia),
+  `screen-dgshop` (cargas de poder + skins), `screen-dggame` (tablero).
+- **Estado del nivel:** `dgCur` (análogo a `cur`). Tableros: `dgBoard` (color 0..5, o
+  `DG_CRYSTAL`=9 comodín), `dgSpecialArr` (null|'BOMB'|'CURSE', paralelo como `stripes`),
+  `dgShadowArr` (HP 0/1/2, paralelo como `obstacles`, no cae con la gravedad).
+- **3 modos:** `dgStartLevel(n)` (Historia, `DG_LEVELS[0..19]` generados por
+  `dgLevelDef(n)`), `dgStartTimed()` (60s), `dgStartZen()` (sin límites).
+- **Piezas especiales** — detectadas en `dgAnalyzeSwapMatch(destR,destC)` justo tras el
+  swap, con prioridad: run≥5 → HEX BOMB (explota 3×3 al activarse); intersección de run
+  horizontal+vertical (forma L/T) → CHAIN CURSE (borra todo un color); run recta de 4 →
+  DARK CRYSTAL (comodín, se guarda directo en `dgBoard` como `DG_CRYSTAL`). La celda
+  destino se protege de el clear inmediato en `dgProcessCascade(initialSpecial,r,c)`
+  (parámetro `protectedCell`) para que la pieza quede en el tablero.
+- **Shadow Pieces:** dañadas por adyacencia en `dgDamageShadows()`, igual que los
+  bloques de chocolate. `dgShadowCountForLevel(n)` es la ÚNICA fuente de verdad para
+  cuántas hay y cuántas exige la meta — si se cambia una, cambiar la otra (si no, el
+  nivel puede quedar imposible de ganar).
+- **Combos:** `dgCur.cascade` multiplica puntos (cap x4), `dgShowCombo()` /`dgShake()`/
+  `dgFlash()` para el feedback visual.
+- **Progresión:** XP/nivel de jugador vía `dgAddXp()` (curva `dgXpForLevel()`, hasta
+  nivel 50), moneda "Soul Shards" (`save.soulShards`), cargas de power-up compradas en
+  la tienda (`save.dgPowerups`), 3 skins de pieza (`DG_PIECE_SKINS`, `save.pieceSkin`).
+- **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
+  motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
+  delay como pseudo-reverb).
+- **PWA:** `manifest.json` + `service-worker.js` (cache-first con fallback a red).
+  ⚠️ Al testear cambios en `index.html` con el service worker ya registrado, hay que
+  `unregister()` + `caches.delete()` y recargar — si no, se sirve una versión vieja
+  cacheada y los cambios "no aparecen" aunque el archivo en disco ya esté actualizado.
+
+---
+
+## Lo que falta (roadmap priorizado)
+
+### Hecho (movido del roadmap)
+- ~~Exportar/importar guardado~~ — `exportSave()`/`importSave()` en Ajustes, código base64 del save
+- ~~Caramelo envuelto~~ — match en L/T shape → `stripes[r][c]='W'`, explota 3×3 (ver "Mecánicas especiales")
+- ~~PWA instalable~~ — `manifest.json` + `service-worker.js` ya en el repo
+- ~~Sistema de vidas~~ — `LIVES_MAX`/`livesMax()`, ver sección **Economía**
+- ~~Transiciones animadas~~ entre pantallas — `@keyframes screenIn` en `.screen.active`
+- ~~Cofre semanal~~ — `save.weeklyChest`, ver sección **Economía**
+
+### Media prioridad
+1. **Frases de transición** cuando Confite pasa de un territorio a otro
+2. **Más escenas de Lienzo** — hoy solo existe `amanecer` en `CANVAS_SCENES`; el modo
+   entero depende de tener variedad para no agotarse rápido, ver sección **Modo Lienzo**
+
+### Baja prioridad
+3. **Modo infinito post-epílogo** — algo que hacer después de completar los 8 territorios
+4. **Partidas guardadas múltiples** (hoy solo hay un slot)
+5. **Capacitor packaging** para Android/iOS (requiere separar en archivos)
+6. **Conectar el SDK real del portal** — todos los anuncios son simulados hoy, ver
+   "Checklist para conectar el SDK real del portal" en la sección **Economía**
+
+---
+
+## El universo narrativo (resumen)
+
+**Mundo:** Dulcelandia — reino de dulces destruido hace 500 años.
+**Protagonista:** Dulce Roja, sanadora del Clan Caramelo.
+**Confite:** El quinto fragmento del Gran Cristal. Se partió a sí mismo para poder estar con el jugador. Su revelación completa ocurre en el epílogo del territorio 8.
+**Antagonista:** El Confitero Oscuro — villano con razón en el diagnóstico, solución equivocada.
+
+### Los 8 territorios
+1. Las Tierras Carmesí — caramelo clásico, hogar de Confite
+2. Los Jardines de Mochi — wagashi japonés, cerezos de azúcar
+3. Las Torres de Tanghulu — fruta caramelizada china
+4. Los Alpes de Cacao — chocolate suizo y belga
+5. El Bosque de Gominolas — gomitas alemanas, regaliz nórdico
+6. Las Praderas de Malvavisco — s'mores americanos, maple canadiense
+7. El Valle del Dulce de Leche — dulces latinoamericanos, Día de Muertos
+8. La Capital de Cristal — zona congelada, final del juego
+
+### Tono narrativo
+Dulce en la superficie, melancólico en el fondo. Confite sabe más de lo que dice. Cada territorio restaurado recupera color — literalmente en el CSS (`grayscale` → `grayscale(0)`).
+
+---
+
+## Principios que no se rompen
+
+1. **Un solo archivo** — todo en `index.html`
+2. **Sin frameworks** — vanilla JS
+3. **Sin archivos externos de audio** — Web Audio API sintetizada
+4. **Modelo free-to-play** — el juego copia deliberadamente la economía del género:
+   vidas que se agotan, moneda dura (gemas), alcancía que se abre pagando y oferta de
+   continuar al fallar. Ver la sección **Economía**. La escasez es intencional: sin
+   derrota posible no hay retención ni ingresos.
+5. **Confite siempre en pantalla** — es el corazón narrativo del juego
+6. **Validar sintaxis después de cada cambio** — el comando `node -e "new Function(js)"` es obligatorio
+
+---
+
+*Este archivo debe actualizarse al final de cada sesión de desarrollo importante.*
