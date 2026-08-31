@@ -1,4 +1,4 @@
-const CACHE_NAME = "sugarclash-v1";
+const CACHE_NAME = "sugarclash-v2";
 const ASSETS = ["./", "./index.html", "./manifest.json", "./icon.svg"];
 
 self.addEventListener("install", (event) => {
