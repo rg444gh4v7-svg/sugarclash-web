@@ -1,7 +1,7 @@
 # Sugar Clash: Dulcelandia — CLAUDE.md
 ## Contexto completo del proyecto para nuevas sesiones de Claude
 
-> **Última actualización:** Agosto 2026 — archivo generado tras múltiples sesiones de desarrollo autónomo.
+> **Última actualización:** Septiembre 2026 — archivo generado tras múltiples sesiones de desarrollo autónomo.
 > El creador (Jose) no es programador. Claude escribe todo el código. Jose toma las decisiones creativas.
 
 ---
@@ -10,8 +10,8 @@
 
 ```
 sugarclash-web/index.html
-Líneas: ~6310 | Sintaxis: válida (node -e "new Function(js)")
-sugarclash-web/manifest.json, icon.svg, service-worker.js — PWA (offline + instalable)
+Líneas: ~6850 | Sintaxis: válida (node -e "new Function(js)")
+sugarclash-web/manifest.json, icon.svg, title-world-v2.jpg, service-worker.js — PWA (offline + instalable)
 ```
 
 El proyecto ahora es un repo git (antes no lo era). `node` no está en el PATH del shell
@@ -19,6 +19,10 @@ por defecto en este entorno — usar `export PATH="$HOME/.nvm/versions/node/v26.
 antes del comando de validación de sintaxis si `node` no se encuentra.
 
 **Un solo archivo HTML/CSS/JS vanilla — intencional. No romper esta arquitectura.**
+
+`title-world-v2.jpg` es el único arte raster protagonista: fondo cinematográfico de portada,
+mapa y Liga. Está incluido en `service-worker.js` para funcionar offline. El motor y toda la
+interfaz siguen viviendo en `index.html`.
 
 ---
 

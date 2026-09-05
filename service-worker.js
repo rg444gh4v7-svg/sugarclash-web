@@ -1,5 +1,5 @@
-const CACHE_NAME = "sugarclash-v2";
-const ASSETS = ["./", "./index.html", "./manifest.json", "./icon.svg"];
+const CACHE_NAME = "sugarclash-v3";
+const ASSETS = ["./", "./index.html", "./manifest.json", "./icon.svg", "./title-world-v2.jpg"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

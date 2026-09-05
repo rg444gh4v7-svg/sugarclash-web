@@ -18,7 +18,8 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;background:var(--dark);font-family:'Karla',sans-serif;color:var(--cream)}
-#app{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+body::before{content:"";position:fixed;inset:-35px;background:linear-gradient(rgba(13,0,21,.76),rgba(13,0,21,.88)),url('title-world-v2.jpg') center/cover;filter:blur(24px) saturate(1.2);transform:scale(1.08);opacity:.72}
+#app{position:fixed;inset:0 auto 0 50%;width:min(100%,520px);transform:translateX(-50%);display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--dark);box-shadow:0 0 70px rgba(0,0,0,.72);border-left:1px solid rgba(255,255,255,.06);border-right:1px solid rgba(255,255,255,.06)}
 .screen{position:absolute;inset:0;display:none;flex-direction:column;opacity:0;transition:opacity .4s}
 .screen.active{display:flex;opacity:1;animation:screenIn .32s cubic-bezier(.22,.61,.36,1)}
 @keyframes screenIn{from{opacity:0;transform:translateY(10px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
@@ -28,31 +29,60 @@ html,body{height:100%;overflow:hidden;background:var(--dark);font-family:'Karla'
 button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 
 /* ===== TITLE ===== */
-#screen-title{align-items:center;justify-content:center;text-align:center;background:radial-gradient(ellipse at 50% 20%,#2A0845 0%,var(--dark) 70%);gap:18px;padding:24px}
-.logo{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(30px,8vw,52px);line-height:1.05;background:linear-gradient(110deg,var(--gold),var(--candy) 55%,var(--crystal));-webkit-background-clip:text;background-clip:text;color:transparent}
-.logo-sub{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--crystal);opacity:.85}
-#confite-title{width:88px;height:78px;animation:bob 2.4s ease-in-out infinite}
+#screen-title{align-items:center;justify-content:center;text-align:center;background:var(--dark);padding:0 22px;isolation:isolate;overflow:hidden}
+.title-world-art{position:absolute;inset:0;z-index:0;pointer-events:none}
+.title-world-art img{width:100%;height:100%;display:block;object-fit:cover;object-position:center 44%;animation:titleCamera 16s ease-in-out infinite alternate;filter:saturate(1.12) contrast(1.06)}
+@keyframes titleCamera{from{transform:scale(1.02) translateY(0)}to{transform:scale(1.1) translateY(-1.4%)}}
+.title-world-art::before{content:"";position:absolute;z-index:1;inset:0;background:radial-gradient(circle at 50% 23%,rgba(255,255,255,.04),transparent 27%),linear-gradient(90deg,rgba(13,0,21,.25),transparent 25% 75%,rgba(13,0,21,.28));mix-blend-mode:screen;animation:titlePulseLight 3.6s ease-in-out infinite alternate}
+.title-world-art::after{content:"";position:absolute;z-index:2;inset:0;background:linear-gradient(180deg,rgba(7,0,18,.1) 0%,rgba(13,0,21,.03) 31%,rgba(13,0,21,.36) 56%,rgba(13,0,21,.94) 91%,var(--dark));pointer-events:none}
+@keyframes titlePulseLight{to{opacity:.58}}
+.title-content{position:relative;z-index:3;width:min(100%,390px);height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:9px;padding:22px 0 18px}
+.title-eyebrow{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:.21em;text-transform:uppercase;color:#fff;padding:6px 11px;border-radius:99px;background:rgba(13,0,21,.52);border:1px solid rgba(0,245,255,.38);box-shadow:0 0 22px rgba(0,245,255,.12);backdrop-filter:blur(8px);text-shadow:0 0 12px rgba(0,245,255,.8)}
+.title-eyebrow-dot{width:7px;height:7px;border-radius:50%;background:var(--candy);box-shadow:0 0 0 4px rgba(255,45,122,.14),0 0 12px var(--candy);animation:titleAlarm 1.6s ease-in-out infinite}
+@keyframes titleAlarm{50%{transform:scale(.72);opacity:.65}}
+.logo{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(42px,11vw,60px);line-height:.88;letter-spacing:-.045em;background:linear-gradient(110deg,#fff 0%,#fff0a8 24%,var(--gold) 42%,#ff77aa 70%,#81fbff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 5px 1px rgba(59,9,45,.8)) drop-shadow(0 0 20px rgba(255,45,122,.48))}
+.logo small{display:block;font-family:'Karla',sans-serif;font-size:10px;letter-spacing:.36em;text-transform:uppercase;color:#fff;-webkit-text-fill-color:rgba(255,255,255,.76);margin-top:13px;font-weight:700}
+.logo-sub{font-size:12px;letter-spacing:.045em;color:rgba(255,255,255,.84);max-width:310px;line-height:1.4;text-shadow:0 2px 8px #0d0015}
+#confite-title{width:112px;height:100px;animation:bob 2.4s ease-in-out infinite;filter:drop-shadow(0 12px 7px rgba(0,0,0,.5)) drop-shadow(0 0 18px rgba(255,45,122,.75));isolation:isolate}
+.title-league-mini{width:min(100%,342px);display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;border-radius:15px;background:linear-gradient(105deg,rgba(50,12,80,.92),rgba(4,49,74,.87));border:1px solid rgba(125,251,255,.62);backdrop-filter:blur(14px);cursor:pointer;box-shadow:inset 0 1px rgba(255,255,255,.2),0 9px 26px rgba(0,0,0,.42),0 0 24px rgba(0,245,255,.12);transition:transform .18s,box-shadow .18s}
+.title-league-mini:active{transform:scale(.97)}
+.title-league-icon{font-size:22px}.title-league-copy{flex:1;min-width:0}
+.title-league-copy b{display:block;font-family:'Fraunces',serif;font-size:12px;color:var(--cream)}
+.title-league-copy span{display:block;font-size:9.5px;color:rgba(255,255,255,.5);margin-top:1px}
+.title-league-rank{font-family:'Fraunces',serif;font-size:16px;color:var(--gold);white-space:nowrap}
+.title-actions{display:flex;flex-direction:column;align-items:center;gap:7px;width:100%;margin-top:1px}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.btn-play{font-family:'Fraunces',serif;font-weight:600;font-size:19px;padding:14px 52px;border-radius:50px;background:linear-gradient(135deg,var(--gold),#FF8C42);color:var(--navy);box-shadow:0 8px 26px rgba(245,184,0,.4);animation:pulse 2s ease-in-out infinite}
+.btn-play{position:relative;font-family:'Fraunces',serif;font-weight:600;font-size:18px;padding:14px 52px;min-width:242px;border-radius:50px;background:linear-gradient(180deg,#fff4a3 0%,var(--gold) 40%,#ff8b2c 100%);color:#381124;border:1px solid rgba(255,255,255,.62);box-shadow:inset 0 2px 1px rgba(255,255,255,.78),inset 0 -5px 8px rgba(192,54,0,.2),0 7px 0 #9c3d1c,0 13px 28px rgba(255,93,40,.4);animation:pulse 2s ease-in-out infinite;text-shadow:0 1px rgba(255,255,255,.45)}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
-.btn-ghost{font-size:13px;font-weight:600;letter-spacing:.05em;padding:9px 22px;border-radius:50px;background:transparent;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7)}
-.sugar-p{position:absolute;bottom:-12px;border-radius:50%;pointer-events:none;opacity:0;animation:rise linear infinite}
+.btn-ghost{font-size:12px;font-weight:700;letter-spacing:.06em;padding:8px 21px;border-radius:50px;background:rgba(13,0,21,.56);border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.82);backdrop-filter:blur(9px);box-shadow:0 5px 14px rgba(0,0,0,.25)}
+.title-light-ray{position:absolute;z-index:2;top:-18%;width:70%;height:70%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.11),transparent);filter:blur(11px);transform-origin:50% 0;opacity:.55;animation:raySweep 6s ease-in-out infinite alternate}
+.title-light-ray.ray-a{left:-19%;transform:rotate(24deg)}.title-light-ray.ray-b{right:-24%;transform:rotate(-23deg);animation-delay:-2.4s}
+@keyframes raySweep{to{opacity:.18;filter:blur(18px)}}
+.title-shard{position:absolute;z-index:3;width:8px;height:13px;background:linear-gradient(145deg,#fff,var(--crystal) 42%,var(--candy));clip-path:polygon(50% 0,100% 35%,72% 100%,8% 72%);filter:drop-shadow(0 0 6px var(--crystal));animation:shardFloat 4s ease-in-out infinite}
+.title-shard.s1{left:14%;top:18%}.title-shard.s2{right:13%;top:26%;animation-delay:-1.3s;transform:scale(.7)}.title-shard.s3{left:19%;top:42%;animation-delay:-2.7s;transform:scale(.55)}.title-shard.s4{right:20%;top:48%;animation-delay:-.8s;transform:scale(.6)}
+@keyframes shardFloat{50%{translate:0 -13px;rotate:12deg;opacity:.55}}
+.sugar-p{position:absolute;bottom:-12px;border-radius:50%;pointer-events:none;opacity:0;animation:rise linear infinite;z-index:2}
 @keyframes rise{0%{transform:translateY(0) translateX(0) scale(1);opacity:0}8%{opacity:.75}60%{opacity:.4}100%{transform:translateY(-108vh) translateX(24px) scale(.6);opacity:0}}
-.fog{position:absolute;width:150%;height:42%;left:-25%;border-radius:50%;filter:blur(46px);pointer-events:none;animation:fogdrift 16s ease-in-out infinite alternate}
+.fog{position:absolute;width:150%;height:42%;left:-25%;border-radius:50%;filter:blur(46px);pointer-events:none;animation:fogdrift 16s ease-in-out infinite alternate;z-index:1}
 @keyframes fogdrift{from{transform:translateX(-5%);opacity:.30}to{transform:translateX(5%);opacity:.10}}
 .logo{animation:logoGlow 3.2s ease-in-out infinite alternate}
 @keyframes logoGlow{from{filter:drop-shadow(0 0 6px rgba(245,184,0,.15))}to{filter:drop-shadow(0 0 16px rgba(255,92,138,.35))}}
+@media (max-height:670px){
+  .title-content{gap:6px;padding-top:10px;padding-bottom:12px}#confite-title{width:78px;height:68px}.logo{font-size:38px}.logo small{margin-top:7px}.logo-sub{font-size:10px;max-width:275px}.title-league-mini{padding:7px 10px}.btn-play{padding-top:10px;padding-bottom:10px;box-shadow:inset 0 2px 1px rgba(255,255,255,.7),0 5px 0 #9c3d1c,0 10px 20px rgba(255,93,40,.34)}
+}
 
 /* ===== WORLD (mapa mundial) ===== */
-#screen-world{padding:18px 16px 24px;gap:12px}
-.world-header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#screen-world{padding:16px 14px 22px;gap:10px;isolation:isolate;background:#13031e;overflow:hidden}
+#screen-world::before{content:"";position:absolute;z-index:-2;inset:-8%;background:url('title-world-v2.jpg') center 54%/cover;filter:blur(7px) saturate(1.15);opacity:.34;transform:scale(1.08)}
+#screen-world::after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(13,0,21,.78) 0%,rgba(13,0,21,.9) 40%,#0d0015 86%)}
+.world-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 11px;border-radius:16px;background:linear-gradient(110deg,rgba(42,8,69,.76),rgba(10,31,55,.68));border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.25);backdrop-filter:blur(14px)}
 .world-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--gold)}
 .world-sub{font-size:12px;color:var(--crystal);margin-top:2px}
-#world-restore-track{background:rgba(255,255,255,.08);border-radius:99px;height:8px;overflow:hidden}
-#world-restore-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--candy),var(--gold),var(--crystal));border-radius:99px;transition:width .6s}
+#world-restore-track{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:99px;height:10px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.45)}
+#world-restore-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--candy),var(--gold),var(--crystal));border-radius:99px;transition:width .6s;box-shadow:0 0 12px var(--crystal)}
 #world-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:8px 2px 16px;position:relative}
-#world-list::before{content:"";position:absolute;left:50%;top:10px;bottom:10px;border-left:2px dashed rgba(255,255,255,.12)}
-.territory-card{position:relative;width:88%;border-radius:18px;padding:12px 14px;display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);transition:transform .15s,filter 1.2s;cursor:pointer;z-index:1;animation:cardIn .38s ease backwards}
+#world-list::before{content:"";position:absolute;left:50%;top:10px;bottom:10px;border-left:2px dashed rgba(0,245,255,.26);filter:drop-shadow(0 0 5px rgba(0,245,255,.45))}
+.territory-card{position:relative;width:89%;border-radius:19px;padding:12px 14px;display:flex;gap:12px;align-items:center;background:linear-gradient(120deg,rgba(43,13,66,.91),rgba(16,27,48,.85));border:1px solid rgba(255,255,255,.18);transition:transform .15s,filter 1.2s;cursor:pointer;z-index:1;animation:cardIn .38s ease backwards;box-shadow:inset 0 1px rgba(255,255,255,.1),0 9px 22px rgba(0,0,0,.34);backdrop-filter:blur(12px)}
 @keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @media (prefers-reduced-motion: reduce){
   .territory-card{animation:none}
@@ -63,7 +93,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .territory-card.locked{cursor:pointer;opacity:.5}
 .territory-card.restored{border-color:rgba(245,184,0,.45);box-shadow:0 0 18px rgba(245,184,0,.18);animation:restoredPulse 3s ease-in-out infinite}
 @keyframes restoredPulse{0%,100%{box-shadow:0 0 12px rgba(245,184,0,.15)}50%{box-shadow:0 0 28px rgba(245,184,0,.35)}}
-.t-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;border:1px solid rgba(255,255,255,.18)}
+.t-icon{width:54px;height:54px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;border:1px solid rgba(255,255,255,.3);box-shadow:inset 0 2px rgba(255,255,255,.22),inset 0 -5px 9px rgba(0,0,0,.22),0 5px 12px rgba(0,0,0,.28)}
 .t-info{flex:1;min-width:0}
 .t-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream)}
 .t-desc{font-size:11px;color:rgba(255,255,255,.55);margin-top:1px;line-height:1.35}
@@ -71,13 +101,73 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .t-fill{height:100%;border-radius:99px;transition:width .6s}
 .t-pct{font-size:10px;color:var(--crystal);margin-top:3px}
 
-.village-entry{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(245,184,0,.14),rgba(255,92,138,.08));border:1px solid rgba(245,184,0,.3);border-radius:14px;padding:10px 14px;cursor:pointer;transition:transform .15s}
+.village-entry{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(245,184,0,.18),rgba(255,92,138,.12));border:1px solid rgba(245,184,0,.38);border-radius:15px;padding:10px 14px;cursor:pointer;transition:transform .15s;box-shadow:inset 0 1px rgba(255,255,255,.09),0 7px 18px rgba(0,0,0,.22);backdrop-filter:blur(12px)}
 .village-entry:active{transform:scale(.97)}
 .village-entry-icon{font-size:28px}
 .village-entry-text{flex:1;min-width:0}
 .village-entry-text b{font-size:13px;color:var(--cream)}
 .village-entry-sub{font-size:11px;color:rgba(255,255,255,.55);margin-top:1px}
 .village-entry-coins{font-size:12px;font-weight:600;color:var(--gold);white-space:nowrap}
+.world-tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.world-tools .village-entry{padding:9px 10px;gap:7px;min-width:0;background:linear-gradient(125deg,rgba(43,13,66,.78),rgba(10,31,55,.72));border-color:rgba(255,255,255,.16)}
+.world-tools .village-entry-icon{font-size:21px}
+.world-tools .village-entry-text b{font-size:11px;white-space:nowrap}
+.world-tools .village-entry-sub{display:none}
+.world-tools .village-entry-coins{font-size:9px;max-width:48px;overflow:hidden;text-overflow:ellipsis}
+
+/* ===== LIGA DEL PRISMA ===== */
+.league-entry{position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(155,89,182,.28),rgba(0,245,255,.13));border-color:rgba(0,245,255,.5);box-shadow:0 0 20px rgba(0,245,255,.08)}
+.league-entry::after{content:"";position:absolute;inset:-60% -20%;background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.16) 50%,transparent 62%);transform:translateX(-70%);animation:leagueShine 4.8s ease-in-out infinite;pointer-events:none}
+@keyframes leagueShine{0%,58%{transform:translateX(-70%)}82%,100%{transform:translateX(70%)}}
+#screen-league{padding:18px 16px 24px;gap:12px;isolation:isolate;background:#0d0015;overflow:hidden}
+#screen-league::before{content:"";position:absolute;z-index:-2;inset:-7%;background:url('title-world-v2.jpg') center 25%/cover;filter:blur(6px) saturate(.9) hue-rotate(15deg);opacity:.32;transform:scale(1.08)}
+#screen-league::after{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(ellipse at 50% -12%,rgba(0,245,255,.23),transparent 46%),linear-gradient(180deg,rgba(13,0,21,.7),rgba(13,0,21,.95) 70%)}
+.league-header{display:flex;align-items:center;gap:10px}
+.league-title{font-family:'Fraunces',serif;font-weight:600;font-size:20px;color:var(--gold);flex:1}
+.league-week{font-size:10px;color:var(--crystal);border:1px solid rgba(0,245,255,.3);background:rgba(0,245,255,.07);border-radius:99px;padding:6px 9px}
+.league-scroll{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:2px 2px 18px}
+.league-scroll>*{flex-shrink:0}
+.league-hero{position:relative;overflow:hidden;border:1px solid rgba(0,245,255,.38);border-radius:18px;padding:16px;background:linear-gradient(135deg,rgba(32,6,58,.94),rgba(13,0,21,.96));box-shadow:0 10px 30px rgba(0,0,0,.28)}
+.league-hero::before{content:"";position:absolute;width:150px;height:150px;border-radius:50%;right:-62px;top:-72px;background:radial-gradient(circle,rgba(0,245,255,.2),transparent 68%);pointer-events:none}
+.league-kicker{font-size:9px;letter-spacing:.17em;text-transform:uppercase;color:var(--crystal);font-weight:700}
+.league-division{font-family:'Fraunces',serif;font-size:26px;color:var(--cream);margin-top:3px}
+.league-rule{font-size:11px;line-height:1.4;color:rgba(255,255,255,.58);margin-top:6px;max-width:320px}
+.league-player-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.league-stat{padding:9px 6px;border-radius:11px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);text-align:center}
+.league-stat b{display:block;font-family:'Fraunces',serif;font-size:18px;color:var(--gold)}
+.league-stat span{display:block;font-size:9px;color:rgba(255,255,255,.48);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.league-result{display:none;border-radius:13px;padding:10px 12px;background:rgba(245,184,0,.1);border:1px solid rgba(245,184,0,.3);font-size:11px;line-height:1.4;color:var(--cream)}
+.league-result.on{display:block}
+.league-duel{border-radius:17px;padding:14px;background:linear-gradient(135deg,rgba(255,45,122,.15),rgba(155,89,182,.14));border:1px solid rgba(255,45,122,.35)}
+.league-duel-top{display:flex;align-items:center;gap:11px}
+.league-rival-avatar{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:25px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);flex-shrink:0}
+.league-duel-info{flex:1;min-width:0}
+.league-duel-name{font-family:'Fraunces',serif;font-size:15px;color:var(--cream)}
+.league-duel-target{font-size:11px;color:rgba(255,255,255,.58);margin-top:3px}
+.league-duel-btn{width:100%;margin-top:12px;border-radius:12px;padding:12px 14px;background:linear-gradient(135deg,var(--gold),#FF8C42);color:var(--navy);font-weight:700;font-size:14px;box-shadow:0 6px 18px rgba(245,184,0,.22)}
+.league-board-title{display:flex;align-items:end;justify-content:space-between;gap:8px;font-family:'Fraunces',serif;font-size:15px;color:var(--gold);padding:2px 2px 0}
+.league-board-title span{font-family:'Karla',sans-serif;font-size:9px;font-weight:400;color:rgba(255,255,255,.4)}
+#league-list{display:flex;flex-direction:column;gap:6px}
+.league-row{display:grid;grid-template-columns:32px 34px 1fr auto;align-items:center;gap:8px;border-radius:12px;padding:8px 10px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08)}
+.league-row.player{background:linear-gradient(90deg,rgba(245,184,0,.17),rgba(255,45,122,.08));border-color:rgba(245,184,0,.46);box-shadow:0 0 14px rgba(245,184,0,.08)}
+.league-row.promo{border-left:3px solid var(--green)}
+.league-row.danger{border-left:3px solid var(--candy)}
+.league-pos{font-family:'Fraunces',serif;font-size:15px;color:rgba(255,255,255,.7);text-align:center}
+.league-avatar{font-size:21px;text-align:center}
+.league-name{font-size:12px;color:var(--cream);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.league-name small{display:block;font-size:9px;color:rgba(255,255,255,.4);margin-top:1px}
+.league-score{font-size:12px;font-weight:700;color:var(--gold);white-space:nowrap}
+.league-note{font-size:9.5px;color:rgba(255,255,255,.38);line-height:1.35;text-align:center;padding:0 12px}
+
+/* Carrera visible durante un duelo: el objetivo deja de ser abstracto. */
+#duel-race{display:none;border:1px solid rgba(0,245,255,.35);background:rgba(0,245,255,.07);border-radius:11px;padding:7px 10px}
+#duel-race.on{display:block}
+.duel-race-head{display:flex;justify-content:space-between;gap:8px;font-size:10px;color:rgba(255,255,255,.65)}
+.duel-race-head b{color:var(--crystal)}
+.duel-race-track{height:6px;border-radius:99px;background:rgba(255,255,255,.09);overflow:hidden;margin-top:5px;position:relative}
+.duel-race-target{position:absolute;right:0;top:0;bottom:0;width:3px;background:var(--candy);box-shadow:0 0 7px var(--candy);z-index:2}
+#duel-race-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--crystal));border-radius:99px;transition:width .25s}
+#duel-race.ahead{border-color:rgba(0,255,136,.55);background:rgba(0,255,136,.08)}
 
 /* ===== VILLAGE (Aldea) ===== */
 #screen-village{padding:18px 16px 24px;gap:12px;background:radial-gradient(ellipse at 50% 100%,rgba(245,184,0,.09) 0%,transparent 65%),var(--dark)}
@@ -155,20 +245,42 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .icon-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 
 /* ===== MINIGAMES (hub de modos) ===== */
-#screen-minigames{padding:18px 16px 24px;gap:12px}
+#screen-minigames{padding:18px 16px 24px;gap:12px;isolation:isolate;background:#0d0015;overflow:hidden}
+#screen-minigames::before{content:"";position:absolute;z-index:-2;inset:-8%;background:url('title-world-v2.jpg') center 68%/cover;filter:blur(8px) saturate(.78);opacity:.33;transform:scale(1.08)}
+#screen-minigames::after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(13,0,21,.73),rgba(13,0,21,.95) 65%)}
 .mg-header{display:flex;align-items:center;gap:10px}
-.mg-title{font-family:'Fraunces',serif;font-weight:600;font-size:19px;color:var(--gold);flex:1}
-#mg-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:6px 2px 16px}
-.mg-card{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px;cursor:pointer;transition:transform .15s}
+.mg-title{font-family:'Fraunces',serif;font-weight:600;font-size:18px;line-height:1.05;color:var(--gold);flex:1}
+.mg-title small{display:block;font-family:'Karla',sans-serif;font-size:8px;letter-spacing:.18em;color:var(--crystal);text-transform:uppercase;margin-bottom:4px}
+.mg-progress-badge{font-family:'Fraunces',serif;font-size:14px;color:var(--gold);padding:7px 10px;border-radius:99px;background:rgba(245,184,0,.1);border:1px solid rgba(245,184,0,.35)}
+#confite-mg-bubble{font-size:11.5px;line-height:1.4;color:#d4fdff;background:linear-gradient(105deg,rgba(0,245,255,.1),rgba(155,89,182,.13));border:1px solid rgba(0,245,255,.28);border-radius:14px;padding:9px 12px;backdrop-filter:blur(10px)}
+.mg-archive{border-radius:16px;padding:11px 13px;background:linear-gradient(110deg,rgba(50,12,78,.83),rgba(4,44,61,.72));border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 20px rgba(0,0,0,.23)}
+.mg-archive-top{display:flex;justify-content:space-between;gap:8px;align-items:center}.mg-archive-top span{font-size:8px;letter-spacing:.13em;color:var(--crystal)}.mg-archive-top b{font-size:10px;color:var(--gold)}
+.mg-archive-track{height:7px;border-radius:99px;background:rgba(0,0,0,.32);overflow:hidden;margin-top:7px}.mg-archive-track div{height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--candy),var(--gold),var(--crystal));box-shadow:0 0 9px var(--crystal);transition:width .5s}
+.mg-archive p{font-size:9.5px;line-height:1.35;color:rgba(255,255,255,.48);margin-top:7px}
+#mg-list{position:relative;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:11px;padding:6px 2px 16px 18px}
+#mg-list::before{content:"";position:absolute;left:7px;top:18px;bottom:26px;width:2px;background:linear-gradient(var(--candy),var(--gold),var(--crystal));box-shadow:0 0 7px rgba(0,245,255,.45);opacity:.65}
+.mg-card{position:relative;display:flex;align-items:center;gap:12px;background:linear-gradient(120deg,rgba(48,15,72,.92),rgba(12,28,48,.88));border:1px solid rgba(255,255,255,.16);border-radius:17px;padding:13px;cursor:pointer;transition:transform .15s,filter .2s;box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 22px rgba(0,0,0,.28);backdrop-filter:blur(12px)}
+.mg-card::before{content:"";position:absolute;left:-16px;top:24px;width:9px;height:9px;border-radius:50%;background:var(--crystal);border:2px solid #170027;box-shadow:0 0 9px var(--crystal)}
 .mg-card:active{transform:scale(.97)}
-.mg-card.locked{cursor:default;opacity:.55}
-.mg-icon{font-size:28px;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);flex-shrink:0}
+.mg-card.locked{cursor:default;filter:grayscale(.7) brightness(.55)}
+.mg-card.locked::before{background:#62566b;box-shadow:none}.mg-card.completed{border-color:rgba(245,184,0,.48);background:linear-gradient(120deg,rgba(87,47,8,.42),rgba(26,25,54,.9))}.mg-card.completed::before{background:var(--gold);box-shadow:0 0 9px var(--gold)}
+.mg-icon{font-size:29px;width:54px;height:58px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.13);box-shadow:inset 0 1px rgba(255,255,255,.12),0 5px 12px rgba(0,0,0,.25);flex-shrink:0}
 .mg-info{flex:1;min-width:0}
-.mg-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream)}
-.mg-desc{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px;line-height:1.35}
+.mg-chapter{font-size:8px;letter-spacing:.15em;color:var(--crystal);text-transform:uppercase;font-weight:700}
+.mg-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream);margin-top:2px}
+.mg-desc{font-size:10.5px;color:rgba(255,255,255,.58);margin-top:3px;line-height:1.35}
+.mg-objective{font-size:9.5px;color:var(--gold);margin-top:5px}
+.mg-reveal{font-size:9.5px;line-height:1.35;color:#d6fdff;margin-top:6px;padding-top:6px;border-top:1px solid rgba(0,245,255,.16);font-style:italic}
 .mg-tag{font-size:9px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;padding:3px 8px;border-radius:99px;margin-top:6px;display:inline-block}
 .mg-tag.ready{background:rgba(46,213,115,.15);color:var(--green)}
 .mg-tag.soon{background:rgba(255,255,255,.08);color:rgba(255,255,255,.5)}
+.mg-tag.done{background:rgba(245,184,0,.15);color:var(--gold)}
+
+#minigame-lore-overlay{position:fixed;inset:0;z-index:140;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(6,0,14,.9);backdrop-filter:blur(9px)}
+#minigame-lore-overlay.on{display:flex;animation:screenIn .35s ease}
+.mg-lore-modal{position:relative;overflow:hidden;width:min(100%,360px);padding:24px 20px 20px;text-align:center;border-radius:24px;background:linear-gradient(160deg,#35104b,#12051d 64%);border:1px solid rgba(0,245,255,.45);box-shadow:0 22px 60px rgba(0,0,0,.68),0 0 40px rgba(0,245,255,.12);display:flex;flex-direction:column;align-items:center;gap:10px}
+.mg-lore-glow{position:absolute;width:190px;height:190px;left:50%;top:-105px;translate:-50% 0;border-radius:50%;background:radial-gradient(circle,rgba(0,245,255,.34),transparent 67%);pointer-events:none}
+.mg-lore-chapter{font-size:9px;letter-spacing:.2em;color:var(--crystal);font-weight:700;z-index:1}.mg-lore-icon{font-size:46px;filter:drop-shadow(0 0 15px rgba(0,245,255,.55));z-index:1}.mg-lore-modal h3{font-family:'Fraunces',serif;color:var(--gold);font-size:23px}.mg-lore-modal blockquote{font-family:'Fraunces',serif;font-size:14px;line-height:1.45;color:#fff;font-style:italic}.mg-lore-modal p{font-size:11.5px;line-height:1.5;color:rgba(255,255,255,.67)}.mg-lore-reward{font-size:10px;color:var(--gold);padding:6px 11px;border-radius:99px;background:rgba(245,184,0,.1);border:1px solid rgba(245,184,0,.25)}
 
 /* ===== MOBA 5v5 (prototipo un jugador vs bots) ===== */
 #screen-moba{padding:10px 10px 14px;gap:8px}
@@ -209,7 +321,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 @keyframes bobSmall{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 .territory-banner{background:linear-gradient(135deg,rgba(255,92,138,.15),rgba(255,140,66,.1));border:1px solid rgba(245,184,0,.3);border-radius:14px;padding:10px 14px;font-size:13px;color:var(--cream)}
 .territory-banner b{color:var(--gold)}
-#confite-bubble,#confite-world-bubble{font-size:12px;color:var(--crystal);background:rgba(127,216,232,.08);border:1px solid rgba(127,216,232,.25);border-radius:12px;padding:8px 12px;min-height:18px;transition:opacity .3s}
+#confite-bubble,#confite-world-bubble{font-size:12px;color:#c9fdff;background:linear-gradient(105deg,rgba(0,245,255,.11),rgba(155,89,182,.14));border:1px solid rgba(127,216,232,.34);border-radius:13px;padding:8px 12px;min-height:18px;transition:opacity .3s;box-shadow:inset 0 1px rgba(255,255,255,.08),0 6px 18px rgba(0,0,0,.2);backdrop-filter:blur(12px)}
 #level-grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:6px 2px 12px;align-content:start}
 .level-node{aspect-ratio:1;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);position:relative;transition:transform .15s}
 .level-node:active{transform:scale(.94)}
@@ -225,19 +337,19 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .lock-icon{font-size:18px;opacity:.6}
 
 /* ===== GAME ===== */
-#screen-game{padding:10px 10px 14px;gap:8px}
+#screen-game{padding:10px 10px 14px;gap:8px;background:radial-gradient(circle at 50% -10%,#482069 0%,#180421 48%,#0d0015 100%)}
 .hud{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.hud-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:6px 12px;text-align:center;min-width:58px}
+.hud-stat{background:linear-gradient(145deg,rgba(70,28,96,.78),rgba(9,30,49,.72));border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:7px 12px;text-align:center;min-width:58px;box-shadow:inset 0 1px rgba(255,255,255,.1),0 6px 14px rgba(0,0,0,.25);backdrop-filter:blur(10px)}
 .hud-val{font-family:'Fraunces',serif;font-weight:600;font-size:19px;line-height:1}
 .hud-val.moves-critical{color:var(--candy);animation:criticalPulse .6s ease-in-out infinite}
 @keyframes criticalPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
 .hud-lbl{font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
-.back-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--cream);flex-shrink:0}
-#objective-bar{font-size:11px;color:var(--gold);background:rgba(245,184,0,.08);border:1px solid rgba(245,184,0,.25);border-radius:10px;padding:6px 10px;text-align:center}
-#progress-track{background:rgba(255,255,255,.08);border-radius:99px;height:9px;overflow:hidden}
-#progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--crystal),var(--green));border-radius:99px;transition:width .4s}
+.back-btn{width:44px;height:44px;border-radius:50%;background:linear-gradient(145deg,rgba(82,35,105,.8),rgba(20,11,42,.8));border:1px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--cream);flex-shrink:0;box-shadow:inset 0 2px rgba(255,255,255,.1),0 5px 14px rgba(0,0,0,.28)}
+#objective-bar{font-size:11px;color:#fff1a7;background:linear-gradient(105deg,rgba(89,47,5,.55),rgba(80,15,57,.55));border:1px solid rgba(255,215,0,.38);border-radius:11px;padding:7px 10px;text-align:center;box-shadow:inset 0 1px rgba(255,255,255,.08),0 5px 15px rgba(0,0,0,.2)}
+#progress-track{background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.1);border-radius:99px;height:10px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.45)}
+#progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--candy),var(--gold),var(--crystal));border-radius:99px;transition:width .4s;box-shadow:0 0 13px rgba(0,245,255,.65)}
 
-#confite-game-wrap{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:6px 10px;min-height:44px}
+#confite-game-wrap{display:flex;align-items:center;gap:8px;background:linear-gradient(100deg,rgba(255,45,122,.13),rgba(0,245,255,.08));border:1px solid rgba(127,216,232,.25);border-radius:14px;padding:6px 10px;min-height:44px;box-shadow:inset 0 1px rgba(255,255,255,.07),0 6px 18px rgba(0,0,0,.22);backdrop-filter:blur(10px)}
 #confite-game-svg{flex-shrink:0;transition:transform .25s}
 #confite-game-text{font-size:12px;color:var(--crystal);line-height:1.3}
 
@@ -324,11 +436,13 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .level-node.lv-hard{border-color:rgba(255,45,122,.55);box-shadow:0 0 14px rgba(255,45,122,.22)}
 .level-node.lv-hard::after{content:"DIFÍCIL";position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);background:var(--candy);color:#fff;font-size:7.5px;font-weight:700;letter-spacing:.05em;padding:1px 6px;border-radius:99px;white-space:nowrap}
 
-#grid-wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center}
-#grid{display:grid;gap:4px;width:100%;max-width:380px}
-.cell{aspect-ratio:1;border-radius:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s;border:2px solid transparent;position:relative}
-.candy-icon{width:66%;height:66%;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
-.cell.selected{transform:scale(1.1);border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.4)}
+#grid-wrap{position:relative;isolation:isolate;flex:1;display:flex;align-items:center;justify-content:center;padding:9px}
+#grid-wrap::before{content:"";position:absolute;z-index:-1;width:calc(100% - 4px);max-width:402px;height:calc(100% - 4px);max-height:500px;border-radius:24px;background:linear-gradient(145deg,rgba(70,31,94,.72),rgba(8,25,42,.78));border:1px solid rgba(255,255,255,.17);box-shadow:inset 0 1px rgba(255,255,255,.12),inset 0 -12px 32px rgba(0,0,0,.28),0 17px 38px rgba(0,0,0,.42),0 0 34px rgba(155,89,182,.12);backdrop-filter:blur(15px)}
+#grid{display:grid;gap:5px;width:100%;max-width:380px}
+.cell{aspect-ratio:1;border-radius:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s,filter .12s;border:1px solid rgba(255,255,255,.1);position:relative;background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025));box-shadow:inset 0 1px rgba(255,255,255,.08),0 2px 5px rgba(0,0,0,.18)}
+.cell:active{transform:scale(.9);filter:brightness(1.2)}
+.candy-icon{width:72%;height:72%;filter:drop-shadow(0 5px 4px rgba(0,0,0,.42)) drop-shadow(0 0 5px rgba(255,255,255,.12))}
+.cell.selected{transform:scale(1.09);border-color:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.36),0 0 20px rgba(0,245,255,.42);background:rgba(255,255,255,.16)}
 .cell.matched{animation:pop .3s ease forwards}
 .login-bonus-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(160deg,#2A0845 0%,#170027 100%);border:1px solid rgba(245,184,0,.5);border-radius:22px;padding:28px 24px 20px;text-align:center;z-index:60;min-width:240px;box-shadow:0 16px 48px rgba(0,0,0,.6);display:flex;flex-direction:column;align-items:center;gap:8px;animation:fadeInScale .35s cubic-bezier(.36,1.56,.64,1)}
 .lb-icon{font-size:44px;line-height:1}
@@ -446,11 +560,11 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .intro-heading{font-family:'Fraunces',serif;font-weight:600;font-size:22px;line-height:1.2;max-width:280px}
 .intro-heading.gold{background:linear-gradient(110deg,var(--gold),var(--candy));-webkit-background-clip:text;background-clip:text;color:transparent}
 .intro-body{font-size:13.5px;color:rgba(255,255,255,.78);line-height:1.6;max-width:270px}
-.intro-nav{position:absolute;bottom:28px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:12px}
+.intro-nav{position:absolute;z-index:2;bottom:28px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:12px}
 .intro-dots{display:flex;gap:7px}
 .intro-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.22);transition:background .3s,transform .3s}
 .intro-dot.on{background:var(--gold);transform:scale(1.3)}
-.intro-skip{position:absolute;top:18px;right:18px;font-size:12px;color:rgba(255,255,255,.35);cursor:pointer;padding:6px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.12);background:transparent}
+.intro-skip{position:absolute;z-index:2;top:18px;right:18px;font-size:12px;color:rgba(255,255,255,.48);cursor:pointer;padding:6px 12px;border-radius:99px;border:1px solid rgba(255,255,255,.16);background:rgba(13,0,21,.32)}
 .intro-next{font-family:'Fraunces',serif;font-weight:600;font-size:15px;padding:12px 44px;border-radius:50px;background:linear-gradient(135deg,var(--gold),#FF8C42);color:var(--navy);border:none;cursor:pointer}
 .intro-crystal-svg{width:72px;height:88px;animation:bob 2s ease-in-out infinite}
 
@@ -777,21 +891,36 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 
   <!-- ============ TITLE ============ -->
   <section id="screen-title" class="screen active">
-    <svg id="confite-title" viewBox="0 0 100 90" fill="none">
-      <ellipse cx="28" cy="14" rx="13" ry="22" fill="#FF8FB0" transform="rotate(-15 28 14)"/>
-      <ellipse cx="68" cy="14" rx="13" ry="22" fill="#FF8FB0" transform="rotate(15 68 14)"/>
-      <ellipse cx="48" cy="55" rx="38" ry="33" fill="#FF5C8A"/>
-      <circle cx="36" cy="50" r="6.5" fill="#2A1430"/><circle cx="60" cy="50" r="6.5" fill="#2A1430"/>
-      <circle cx="38" cy="47" r="2.2" fill="white"/><circle cx="62" cy="47" r="2.2" fill="white"/>
-      <path d="M36 64 Q48 72 60 64" stroke="#2A1430" stroke-width="3" stroke-linecap="round" fill="none"/>
-    </svg>
-    <div class="logo">Sugar Clash<br>Dulcelandia</div>
-    <div class="logo-sub">El mundo perdió su color</div>
-    <div style="height:8px"></div>
-    <button class="btn-play" id="btn-title-main" onclick="goTo('world')">▶ Jugar</button>
-    <button class="btn-ghost" id="btn-title-secondary" style="display:none" onclick="goTo('world')">Mapa mundial</button>
-    <button class="btn-ghost" id="btn-hexclash" style="border-color:rgba(0,245,255,.35);color:var(--crystal)">🕯️ HEX CLASH · Modo Oscuro</button>
-    <div id="confite-title-bubble" style="font-size:12px;color:var(--crystal);font-style:italic;margin-top:4px;opacity:.85;display:none"></div>
+    <div class="title-world-art" aria-hidden="true">
+      <img src="title-world-v2.jpg" alt="">
+      <div class="title-light-ray ray-a"></div>
+      <div class="title-light-ray ray-b"></div>
+      <i class="title-shard s1"></i><i class="title-shard s2"></i><i class="title-shard s3"></i><i class="title-shard s4"></i>
+    </div>
+    <div class="title-content">
+      <div class="title-eyebrow"><span class="title-eyebrow-dot"></span>El color está en juego</div>
+      <svg id="confite-title" viewBox="0 0 100 90" fill="none">
+        <ellipse cx="28" cy="14" rx="13" ry="22" fill="#FF8FB0" transform="rotate(-15 28 14)"/>
+        <ellipse cx="68" cy="14" rx="13" ry="22" fill="#FF8FB0" transform="rotate(15 68 14)"/>
+        <ellipse cx="48" cy="55" rx="38" ry="33" fill="#FF5C8A"/>
+        <circle cx="36" cy="50" r="6.5" fill="#2A1430"/><circle cx="60" cy="50" r="6.5" fill="#2A1430"/>
+        <circle cx="38" cy="47" r="2.2" fill="white"/><circle cx="62" cy="47" r="2.2" fill="white"/>
+        <path d="M36 64 Q48 72 60 64" stroke="#2A1430" stroke-width="3" stroke-linecap="round" fill="none"/>
+      </svg>
+      <div class="logo">Sugar Clash<small>Dulcelandia</small></div>
+      <div class="logo-sub">Restaura el mundo. Supera a los clanes. Descubre por qué Confite recuerda la oscuridad.</div>
+      <div class="title-league-mini" onclick="goTo('league')">
+        <div class="title-league-icon">⚔️</div>
+        <div class="title-league-copy"><b>Liga del Prisma</b><span id="title-league-division">Liga Semilla · temporada activa</span></div>
+        <div class="title-league-rank" id="title-league-rank">#—</div>
+      </div>
+      <div class="title-actions">
+        <button class="btn-play" id="btn-title-main" onclick="goTo('world')">▶ Jugar ahora</button>
+        <button class="btn-ghost" id="btn-title-secondary" style="display:none" onclick="goTo('world')">Mapa mundial</button>
+        <button class="btn-ghost" id="btn-hexclash" style="border-color:rgba(0,245,255,.35);color:var(--crystal)">🕯️ HEX CLASH · Modo Oscuro</button>
+      </div>
+      <div id="confite-title-bubble" style="font-size:11px;color:var(--crystal);font-style:italic;opacity:.85;display:none"></div>
+    </div>
   </section>
 
   <!-- ============ HISTORIA (INTRO NARRATIVA) ============ -->
@@ -896,6 +1025,14 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     </div>
     <div id="world-restore-track"><div id="world-restore-fill"></div></div>
     <div id="confite-world-bubble">El mundo entero está gris... pero tú puedes devolverle el color.</div>
+    <div class="village-entry league-entry" onclick="goTo('league')">
+      <div class="village-entry-icon">⚔️</div>
+      <div class="village-entry-text">
+        <b>Liga del Prisma</b>
+        <div class="village-entry-sub"><span id="world-league-rank">#—</span> · <span id="world-league-division">Liga Semilla</span></div>
+      </div>
+      <div class="village-entry-coins" style="color:var(--crystal)"><span id="world-league-points">0</span> 👑</div>
+    </div>
     <div class="village-entry" style="background:linear-gradient(135deg,rgba(0,245,255,.16),rgba(255,45,122,.12));border-color:rgba(0,245,255,.4)" onclick="startCanvasLevel('amanecer')">
       <div class="village-entry-icon">🎨</div>
       <div class="village-entry-text">
@@ -904,6 +1041,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       </div>
       <div class="village-entry-coins" style="color:var(--crystal)">NUEVO</div>
     </div>
+    <div class="world-tools" aria-label="Más formas de jugar">
     <div class="village-entry" onclick="goTo('village')">
       <div class="village-entry-icon">🏘️</div>
       <div class="village-entry-text">
@@ -921,12 +1059,12 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div class="village-entry-coins" id="world-achv-count">0/0</div>
     </div>
     <div class="village-entry" onclick="goTo('minigames')">
-      <div class="village-entry-icon">🎮</div>
+      <div class="village-entry-icon">🔮</div>
       <div class="village-entry-text">
-        <b>Minijuegos</b>
-        <div class="village-entry-sub">MOBA, Battle Royale, Supervivencia</div>
+        <b>Ecos del Cristal</b>
+        <div class="village-entry-sub">Capítulos jugables de la Fragmentación</div>
       </div>
-      <div class="village-entry-coins">3 modos</div>
+      <div class="village-entry-coins" id="world-mg-count">0/3</div>
     </div>
     <div class="village-entry" onclick="goTo('heroes')">
       <div class="village-entry-icon">⚔️</div>
@@ -952,7 +1090,44 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       </div>
       <div class="village-entry-coins" id="world-memories-count">0/8</div>
     </div>
+    </div>
     <div id="world-list"></div>
+  </section>
+
+  <!-- ============ LIGA DEL PRISMA ============ -->
+  <section id="screen-league" class="screen">
+    <div class="league-header">
+      <div class="back-btn" onclick="goTo('world')">←</div>
+      <div class="league-title">Liga del Prisma</div>
+      <div class="league-week" id="league-week">Semana</div>
+    </div>
+    <div class="league-scroll">
+      <div class="league-hero">
+        <div class="league-kicker">Restauradores en combate</div>
+        <div class="league-division" id="league-division">Liga Semilla</div>
+        <div class="league-rule" id="league-rule">Restaura niveles y vence duelos para ascender. Los dos primeros suben de división.</div>
+        <div class="league-player-stats">
+          <div class="league-stat"><b id="league-points">0</b><span>Coronas</span></div>
+          <div class="league-stat"><b id="league-wins">0</b><span>Duelos</span></div>
+          <div class="league-stat"><b id="league-streak">0</b><span>Racha</span></div>
+        </div>
+      </div>
+      <div class="league-result" id="league-last-result"></div>
+      <div class="league-duel">
+        <div class="league-duel-top">
+          <div class="league-rival-avatar" id="league-rival-avatar">🌸</div>
+          <div class="league-duel-info">
+            <div class="league-kicker">Reto directo</div>
+            <div class="league-duel-name" id="league-rival-name">Eco de Mochi-ko</div>
+            <div class="league-duel-target" id="league-rival-target">Supera 900 puntos en 12 movimientos</div>
+          </div>
+        </div>
+        <button class="league-duel-btn" onclick="tryStartLeagueDuel()">⚔️ Entrar al duelo · 1 vida</button>
+      </div>
+      <div class="league-board-title">Clasificación semanal <span>↑ 2 ascienden · ↓ 2 descienden</span></div>
+      <div id="league-list"></div>
+      <div class="league-note">Competencia local contra rivales simulados de los clanes. La clasificación real en línea llegará cuando exista servidor de cuentas.</div>
+    </div>
   </section>
 
   <!-- ============ ACHIEVEMENTS (Logros) ============ -->
@@ -1022,9 +1197,15 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <section id="screen-minigames" class="screen">
     <div class="mg-header">
       <div class="back-btn" onclick="goTo('world')">←</div>
-      <div class="mg-title">Minijuegos</div>
+      <div class="mg-title"><small>Archivo de Confite</small>Ecos de la Fragmentación</div>
+      <div class="mg-progress-badge" id="mg-progress-badge">0/3</div>
     </div>
-    <div id="confite-mg-bubble">Las Guerras del Azúcar, La Zona de la Bruja, El Corazón Latiente... Dulcelandia tiene muchas formas de jugar.</div>
+    <div id="confite-mg-bubble">El Cristal no cuenta recuerdos con palabras. Los convierte en pruebas que podemos vivir.</div>
+    <div class="mg-archive">
+      <div class="mg-archive-top"><span>MEMORIA RECONSTRUIDA</span><b id="mg-archive-count">0 de 3 ecos</b></div>
+      <div class="mg-archive-track"><div id="mg-archive-fill"></div></div>
+      <p>No son juegos separados: cada Eco revela qué ocurrió durante la Fragmentación y por qué Confite reconoce al Cristal.</p>
+    </div>
     <div id="mg-list"></div>
   </section>
 
@@ -1156,6 +1337,10 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     </div>
     <div id="objective-bar">Meta: 1,000 pts</div>
     <div id="progress-track"><div id="progress-fill"></div></div>
+    <div id="duel-race">
+      <div class="duel-race-head"><span>Tú: <b id="duel-player-score">0</b></span><span><span id="duel-rival-avatar">🌸</span> <span id="duel-rival-name">Rival</span>: <b id="duel-rival-score">900</b></span></div>
+      <div class="duel-race-track"><div id="duel-race-fill"></div><div class="duel-race-target"></div></div>
+    </div>
     <div id="survival-timer-bar"><div id="survival-timer-fill"></div></div>
     <div id="best-score-row"></div>
     <div id="streak-row">
@@ -1190,7 +1375,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
           <span class="s">⭐</span><span class="s">⭐</span><span class="s">⭐</span>
         </div>
         <div class="overlay-btns">
-          <button class="btn-sm btn-secondary" onclick="exitToMap()">Mapa</button>
+          <button class="btn-sm btn-secondary" onclick="exitToMap()" id="overlay-secondary-btn">Mapa</button>
           <button class="btn-sm btn-primary" onclick="retryOrNext()" id="overlay-main-btn">Reintentar</button>
         </div>
         <button id="overlay-continue-ad-btn" class="btn-continue" onclick="continueWithAd()" style="display:none;background:linear-gradient(135deg,#00D68A,#00A870)">🎬 Ver anuncio · +5 movimientos gratis</button>
@@ -1505,6 +1690,20 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     </div>
   </div>
 
+  <!-- ============ REVELACIÓN DE ECO ============ -->
+  <div id="minigame-lore-overlay">
+    <div class="mg-lore-modal">
+      <div class="mg-lore-glow"></div>
+      <div class="mg-lore-chapter" id="mg-lore-chapter">ECO I RECUPERADO</div>
+      <div class="mg-lore-icon" id="mg-lore-icon">💓</div>
+      <h3 id="mg-lore-title">El primer latido</h3>
+      <blockquote id="mg-lore-quote"></blockquote>
+      <p id="mg-lore-truth"></p>
+      <div class="mg-lore-reward">Memoria fijada · +50 🍯 · +10 👑</div>
+      <button class="econ-btn" onclick="closeMinigameLore()">Guardar este recuerdo</button>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -1638,14 +1837,15 @@ let sugarRushEndTime = 0;
 let freneticStartTime = 0;
 let moveStreak = 0; // consecutive match-producing swaps
 
-function defaultSave(){ return { stars:{1:{}}, unlocked:{1:1}, coins:0, buildings:{casa:true}, tutorialSeen:false, stripeTutorialSeen:false, wrapTutorialSeen:false, obstacleTutorialSeen:false, muted:false, lastTerritory:null, achievements:{}, crystalsActivated:0, bestCascade:0, bestScores:{}, dailyChallenge:null, dailyStreak:0, lastDailyDate:null, lastLoginDate:null, loginStreak:0, territoryComplete:{}, introDone:false, survivalBest:0, activeSkin:"default", unlockedSkins:{default:true}, stripesCreated:0, wrappedCreated:0, mobaWins:0, brWins:0, unlockedStories:{}, epilogueSeen:false, chocolateDestroyed:0,
+function defaultSave(){ return { stars:{1:{}}, unlocked:{1:1}, coins:0, buildings:{casa:true}, tutorialSeen:false, stripeTutorialSeen:false, wrapTutorialSeen:false, obstacleTutorialSeen:false, muted:false, lastTerritory:null, achievements:{}, crystalsActivated:0, bestCascade:0, bestScores:{}, dailyChallenge:null, dailyStreak:0, lastDailyDate:null, lastLoginDate:null, loginStreak:0, territoryComplete:{}, introDone:false, survivalBest:0, activeSkin:"default", unlockedSkins:{default:true}, stripesCreated:0, wrappedCreated:0, mobaWins:0, brWins:0, brBestPlacement:null, minigameLore:{}, unlockedStories:{}, epilogueSeen:false, chocolateDestroyed:0,
   xp:0, playerLevel:1, soulShards:0, dgUnlocked:1, dgStars:{}, dgTimedBest:0, dgZenBest:0, dgScoreHistory:[], pieceSkin:"gothic", unlockedPieceSkins:{gothic:true}, dgTutorialSeen:false, dgPowerups:{bomb:1,curse:1,crystal:1}, dgAmbientOn:true, dgBombCreated:0, dgCurseCreated:0, dgCrystalCreated:0, dgShadowBroken:0,
   dgModeUnlocked:false, dgVictorySeen:false,
   // economía: vidas (escasez), gemas (moneda dura), alcancía (acumula y se abre pagando)
   lives:LIVES_MAX, livesAt:0, gems:25, piggy:0, piggyOpened:0, canvasDone:{},
   dailyCal:{day:0, lastDate:null}, boosters:{moves:1,hammer:1,shuffle:1}, spentGems:0,
   equippedHero:"dulce", heroAdUnlocked:{},
-  weeklyChest:{weekKey:null, count:0, claimed:false} }; }
+  weeklyChest:{weekKey:null, count:0, claimed:false},
+  league:{weekKey:null,points:0,division:0,wins:0,losses:0,streak:0,bestStreak:0,lifetime:0,lastResult:null} }; }
 function migrateSave(s){
   // formato viejo (pre-multiterritorio): stars/unlocked planos, referidos siempre al territorio 1
   if(s.stars && typeof s.unlocked === "number"){
@@ -1663,6 +1863,16 @@ function migrateSave(s){
   if(!s.equippedHero) s.equippedHero = "dulce";
   if(!s.heroAdUnlocked) s.heroAdUnlocked = {};
   if(!s.weeklyChest) s.weeklyChest = {weekKey:null, count:0, claimed:false};
+  if(!s.minigameLore) s.minigameLore = {};
+  if(typeof s.brBestPlacement!=="number") s.brBestPlacement = null;
+  if(!s.league) s.league = {weekKey:null,points:0,division:0,wins:0,losses:0,streak:0,bestStreak:0,lifetime:0,lastResult:null};
+  if(typeof s.league.points!=="number") s.league.points=0;
+  if(typeof s.league.division!=="number") s.league.division=0;
+  if(typeof s.league.wins!=="number") s.league.wins=0;
+  if(typeof s.league.losses!=="number") s.league.losses=0;
+  if(typeof s.league.streak!=="number") s.league.streak=0;
+  if(typeof s.league.bestStreak!=="number") s.league.bestStreak=0;
+  if(typeof s.league.lifetime!=="number") s.league.lifetime=0;
   return s;
 }
 
@@ -1967,7 +2177,10 @@ function loadSave(){
   }catch(e){}
   return defaultSave();
 }
-function persistSave(){ localStorage.setItem(SAVE_KEY, JSON.stringify(save)); }
+function persistSave(){
+  try{ localStorage.setItem(SAVE_KEY, JSON.stringify(save)); return true; }
+  catch(e){ return false; }
+}
 function resetProgress(){
   if(!confirm("¿Borrar todo el progreso?")) return;
   save = defaultSave();
@@ -2020,6 +2233,7 @@ function goTo(name, territoryId){
   if(name==="village") renderVillage();
   if(name==="settings") renderSettings();
   if(name==="achievements") renderAchievements();
+  if(name==="league") renderLeague();
   if(name==="minigames") renderMinigames();
   if(name==="moba") startMoba();
   if(name==="br") startBR();
@@ -2031,7 +2245,7 @@ function goTo(name, territoryId){
   if(name==="dgmenu") renderDgMenu();
   if(name==="dglevels") renderDgLevels();
   if(name==="dgshop") renderDgShop();
-  if(name==="title") renderTitleHexButton();
+  if(name==="title"){ renderTitleHexButton(); renderTitleLeague(); }
   if(name!=="moba" && mobaRunning){ mobaRunning=false; if(mobaRAF) cancelAnimationFrame(mobaRAF); }
   if(name!=="br" && brRunning){ brRunning=false; if(brRAF) cancelAnimationFrame(brRAF); }
   if(name!=="survival" && name!=="game") endSurvivalTimer();
@@ -2061,6 +2275,7 @@ function renderSettings(){
     {val: save.survivalBest ? Math.floor(save.survivalBest/1000)+"s" : "—", lbl: "⏱️ Mejor supervivencia"},
     {val: save.dailyStreak||0, lbl: "🔥 Racha diaria"},
     {val: save.loginStreak||0, lbl: "📅 Racha de inicio"},
+    {val: `#${leaguePlayerRank()}`, lbl: "⚔️ Puesto en Liga"},
     {val: achvDone+"/"+ACHIEVEMENTS.length, lbl: "🏅 Logros"},
     {val: save.stripesCreated||0, lbl: "⚡ Rayos creados"},
     {val: Object.keys(save.unlockedStories||{}).length+"/8", lbl: "📖 Memorias"},
@@ -2128,6 +2343,14 @@ function renderTitleHexButton(){
     };
   }
 }
+function renderTitleLeague(){
+  syncLeague();
+  const division = LEAGUE_DIVISIONS[save.league.division||0];
+  const divisionEl = document.getElementById("title-league-division");
+  const rankEl = document.getElementById("title-league-rank");
+  if(divisionEl) divisionEl.textContent = `${division.icon} ${division.name} · ${save.league.points||0} coronas`;
+  if(rankEl) rankEl.textContent = `#${leaguePlayerRank()}`;
+}
 function renderWorld(){
   const list = document.getElementById("world-list");
   list.innerHTML = "";
@@ -2177,6 +2400,7 @@ function renderWorld(){
   updateLivesUI();
   updateStreakUI();
   updateWeeklyChestUI();
+  updateLeagueWorldCard();
   startLivesTicker();
   setWorldBubble(confiteWorldMsg(worldPct));
   checkAchievements();
@@ -2193,6 +2417,8 @@ function renderWorld(){
   const storyCount = save.unlockedStories ? Object.keys(save.unlockedStories).length : 0;
   const worldMem = document.getElementById("world-memories-count");
   if(worldMem) worldMem.textContent = `${storyCount}/8`;
+  const worldMg = document.getElementById("world-mg-count");
+  if(worldMg) worldMg.textContent = `${minigameLoreCount()}/3`;
 }
 function setWorldBubble(text){
   document.getElementById("confite-world-bubble").textContent = text;
@@ -2204,6 +2430,144 @@ function confiteWorldMsg(pct){
   if(pct<60)   return "Más de la mitad de Dulcelandia respira de nuevo.";
   if(pct<100)  return "Casi todo el mundo recupera su color... ¿qué esconderá lo que falta?";
   return "¡Dulcelandia entera brilla otra vez! Pero... ¿por qué sigo sin recordar de dónde vengo?";
+}
+
+/* ---------------- LIGA DEL PRISMA ----------------
+   Competencia semanal local: el progreso normal alimenta una clasificación
+   y los duelos usan el tablero real. Los rivales son ecos simulados de los
+   clanes; la UI lo dice de forma explícita hasta que exista un servidor. */
+const LEAGUE_DIVISIONS = [
+  {name:"Liga Semilla", icon:"🌱", color:"#3DD68C", duelTarget:850, winPoints:28},
+  {name:"Liga Bronce", icon:"🥉", color:"#CD7F32", duelTarget:1150, winPoints:32},
+  {name:"Liga Plata", icon:"🥈", color:"#C8D4E3", duelTarget:1500, winPoints:36},
+  {name:"Liga Oro", icon:"🥇", color:"#FFD700", duelTarget:1900, winPoints:40},
+  {name:"Liga Cristal", icon:"💎", color:"#00F5FF", duelTarget:2350, winPoints:46}
+];
+const LEAGUE_RIVALS = [
+  {id:"mochi",name:"Eco de Mochi-ko",avatar:"🌸",clan:"Jardines de Mochi"},
+  {id:"tang",name:"Eco de Tang Wei",avatar:"🍡",clan:"Torres de Tanghulu"},
+  {id:"cacao",name:"Eco de Bastión",avatar:"🛡️",clan:"Alpes de Cacao"},
+  {id:"gomi",name:"Eco de Kenshi",avatar:"🐻",clan:"Bosque de Gominolas"},
+  {id:"maple",name:"Eco de Maple",avatar:"🔥",clan:"Praderas de Malvavisco"},
+  {id:"catrina",name:"Eco de Catrina",avatar:"💀",clan:"Valle del Dulce de Leche"},
+  {id:"hex",name:"Eco Hexadecimal",avatar:"💠",clan:"Capital de Cristal"}
+];
+function leagueHash(text){
+  let h=2166136261;
+  for(let i=0;i<text.length;i++){ h^=text.charCodeAt(i); h=Math.imul(h,16777619); }
+  return h>>>0;
+}
+function leagueDayIndex(){ return (new Date().getDay()+6)%7; }
+function leagueDaysLeft(){ return 6-leagueDayIndex(); }
+function leagueRivalScore(rival,index,weekKey,dayIndex,division){
+  const seed=leagueHash(`${weekKey}:${rival.id}:${division}`);
+  const pace=8+division*3+(seed%8);
+  const opening=(seed>>>5)%15;
+  const pressure=index*3+Math.floor(((seed>>>11)%9)*Math.max(1,dayIndex)/3);
+  return opening+(dayIndex+1)*pace+pressure;
+}
+function leagueStandings(weekKey,dayIndex){
+  const lg=save.league;
+  const division=Math.max(0,Math.min(LEAGUE_DIVISIONS.length-1,lg.division||0));
+  const rows=LEAGUE_RIVALS.map((r,i)=>({...r,score:leagueRivalScore(r,i,weekKey,dayIndex,division),isPlayer:false}));
+  rows.push({id:"player",name:"Dulce Roja",avatar:"🍬",clan:"Tú · Restauradora",score:lg.points||0,isPlayer:true});
+  rows.sort((a,b)=>b.score-a.score || (a.isPlayer?-1:b.isPlayer?1:a.name.localeCompare(b.name)));
+  return rows;
+}
+function syncLeague(){
+  if(!save.league) save.league={weekKey:null,points:0,division:0,wins:0,losses:0,streak:0,bestStreak:0,lifetime:0,lastResult:null};
+  const lg=save.league, currentWeek=getWeekKey();
+  if(!lg.weekKey){ lg.weekKey=currentWeek; persistSave(); return; }
+  if(lg.weekKey===currentWeek) return;
+  const oldDivision=lg.division||0;
+  const finalRows=leagueStandings(lg.weekKey,6);
+  const finalRank=finalRows.findIndex(r=>r.isPlayer)+1;
+  let newDivision=oldDivision, movement="mantuviste tu división", rewardCoins=0, rewardGems=0;
+  if(finalRank<=2 && oldDivision<LEAGUE_DIVISIONS.length-1){ newDivision++; movement="ascendiste de división"; rewardCoins=180+oldDivision*60; rewardGems=10+oldDivision*5; }
+  else if(finalRank>=7 && oldDivision>0){ newDivision--; movement="descendiste de división"; }
+  else if(finalRank<=3){ rewardCoins=100+oldDivision*40; rewardGems=5+oldDivision*3; movement="aseguraste el podio"; }
+  save.coins=(save.coins||0)+rewardCoins;
+  save.gems=(save.gems||0)+rewardGems;
+  save.league={
+    weekKey:currentWeek,points:0,division:newDivision,wins:0,losses:0,streak:0,
+    bestStreak:lg.bestStreak||0,lifetime:lg.lifetime||0,
+    lastResult:{rank:finalRank,movement,rewardCoins,rewardGems,from:oldDivision,to:newDivision}
+  };
+  persistSave();
+}
+function leaguePlayerRank(){
+  syncLeague();
+  return leagueStandings(save.league.weekKey,leagueDayIndex()).findIndex(r=>r.isPlayer)+1;
+}
+function leagueOpponent(){
+  const rows=leagueStandings(save.league.weekKey,leagueDayIndex());
+  const playerIndex=rows.findIndex(r=>r.isPlayer);
+  if(playerIndex>0) return rows[playerIndex-1];
+  return rows.find(r=>!r.isPlayer);
+}
+function leagueDuelConfig(){
+  syncLeague();
+  const div=Math.max(0,Math.min(LEAGUE_DIVISIONS.length-1,save.league.division||0));
+  const cycle=(save.league.wins||0)%4;
+  return {target:LEAGUE_DIVISIONS[div].duelTarget+cycle*100,moves:12,cols:div>=3?8:7};
+}
+function awardLeaguePoints(amount,reason){
+  syncLeague();
+  const gain=Math.max(0,Math.round(amount||0));
+  if(!gain) return 0;
+  save.league.points=(save.league.points||0)+gain;
+  save.league.lifetime=(save.league.lifetime||0)+gain;
+  save.league.lastGain={amount:gain,reason:reason||"Partida",at:Date.now()};
+  persistSave();
+  updateLeagueWorldCard();
+  return gain;
+}
+function updateLeagueWorldCard(){
+  syncLeague();
+  const div=LEAGUE_DIVISIONS[Math.max(0,Math.min(LEAGUE_DIVISIONS.length-1,save.league.division||0))];
+  const rankEl=document.getElementById("world-league-rank");
+  const divEl=document.getElementById("world-league-division");
+  const ptsEl=document.getElementById("world-league-points");
+  if(rankEl) rankEl.textContent=`#${leaguePlayerRank()}`;
+  if(divEl) divEl.textContent=`${div.icon} ${div.name}`;
+  if(ptsEl) ptsEl.textContent=save.league.points||0;
+}
+function renderLeague(){
+  syncLeague();
+  const lg=save.league;
+  const div=LEAGUE_DIVISIONS[Math.max(0,Math.min(LEAGUE_DIVISIONS.length-1,lg.division||0))];
+  const rows=leagueStandings(lg.weekKey,leagueDayIndex());
+  const rank=rows.findIndex(r=>r.isPlayer)+1;
+  const days=leagueDaysLeft();
+  document.getElementById("league-week").textContent=days===0?"Último día":`${days}d restantes`;
+  const divEl=document.getElementById("league-division");
+  divEl.textContent=`${div.icon} ${div.name}`; divEl.style.color=div.color;
+  document.getElementById("league-rule").textContent=rank<=2
+    ? `Vas en zona de ascenso. Defiende el puesto: cada nivel completado suma Coronas.`
+    : rank>=7 && (lg.division||0)>0
+      ? `Estás en zona de descenso. Un duelo puede cambiar la semana.`
+      : `Restaura niveles y vence duelos. Los dos primeros ascienden; los dos últimos descienden.`;
+  document.getElementById("league-points").textContent=lg.points||0;
+  document.getElementById("league-wins").textContent=lg.wins||0;
+  document.getElementById("league-streak").textContent=lg.streak||0;
+  const result=document.getElementById("league-last-result");
+  if(lg.lastResult){
+    const rr=lg.lastResult, reward=rr.rewardCoins||rr.rewardGems?` · +${rr.rewardCoins} 🍯 +${rr.rewardGems} 💎`:"";
+    result.textContent=`Semana anterior: puesto #${rr.rank}, ${rr.movement}${reward}`;
+    result.classList.add("on");
+  } else result.classList.remove("on");
+  const rival=leagueOpponent(), cfg=leagueDuelConfig();
+  document.getElementById("league-rival-avatar").textContent=rival.avatar;
+  document.getElementById("league-rival-name").textContent=rival.name;
+  document.getElementById("league-rival-target").textContent=`Supera ${cfg.target.toLocaleString()} puntos en ${cfg.moves} movimientos`;
+  const list=document.getElementById("league-list");
+  list.innerHTML=rows.map((r,i)=>{
+    const zone=i<2?" promo":i>=rows.length-2?" danger":"";
+    return `<div class="league-row${r.isPlayer?" player":""}${zone}">
+      <div class="league-pos">${i+1}</div><div class="league-avatar">${r.avatar}</div>
+      <div class="league-name">${r.name}<small>${r.clan}</small></div><div class="league-score">${r.score} 👑</div>
+    </div>`;
+  }).join("");
 }
 
 /* ---------------- ALDEA (Modo Construcción) ---------------- */
@@ -2516,35 +2880,99 @@ function exitToMap(){
   rainbowActive = false;
   endSurvivalTimer();
   endSugarRush();
+  if(cur && cur.isLeague){ goTo("league"); return; }
   if(cur && cur.isSurvival){ goTo("minigames"); return; }
   goTo("map");
 }
 
 /* ---------------- MINIJUEGOS (hub) ---------------- */
 const MINIGAMES = [
-  {id:"moba", name:"Las Guerras del Azúcar", icon:"⚔️", ready:true,
-   desc:"Antes de la Fragmentación, los cinco clanes resolvían disputas en arenas de caramelo. Controla a Dulce Roja junto a los guerreros de Dulcelandia. Prototipo de un jugador contra bots."},
-  {id:"br", name:"La Zona de la Bruja", icon:"🏆", ready:true,
-   desc:"La corrupción de la Bruja Hexadecimal crea zonas de niebla que se contraen. Los guerreros atrapados tienen una sola opción: sobrevivir. Prototipo de un jugador contra 9 bots."},
-  {id:"survival", name:"El Corazón Latiente", icon:"⏱️", ready:true,
-   desc:"Los cristaleros del Gran Cristal entrenaban su concentración manteniendo un caramelo en el aire. El tablero nunca para. El desafío no es ganar — es sostenerse."},
+  {id:"survival", chapter:"Eco I", name:"El Primer Latido", icon:"💓", gate:null,
+   desc:"Confite oye un pulso debajo del tablero. No es música: es una memoria física del Gran Cristal intentando reconocerte.",
+   objective:"Alcanza 300 puntos antes de que el pulso se apague.",
+   quote:"Ese latido... no viene del tablero. Viene de mí.",
+   truth:"Confite comparte el mismo pulso mágico del Gran Cristal. Es la primera prueba de que no es solo una criatura de Dulcelandia."},
+  {id:"moba", chapter:"Eco II", name:"La Última Guerra del Azúcar", icon:"⚔️", gate:"survival",
+   desc:"El Cristal reconstruye su último día usando rostros conocidos: cinco defensores contra los fragmentos creados para encadenarlo.",
+   objective:"Vence una batalla para estabilizar el recuerdo.",
+   quote:"Esos no somos nosotros... son los rostros que el Cristal eligió para poder contármelo.",
+   truth:"Los clanes no buscaban destruir el Cristal: querían convertir su voluntad en un arma. La Fragmentación fue su única salida."},
+  {id:"br", chapter:"Eco III", name:"La Huida de la Grieta", icon:"🕳️", gate:"moba",
+   desc:"Cada combatiente es el eco de un fragmento que intenta escapar mientras la energía descartada se vuelve corrupción.",
+   objective:"Llega al podio para encontrar el origen de la niebla.",
+   quote:"La niebla no perseguía a los fragmentos. Estaba aprendiendo de ellos.",
+   truth:"La energía expulsada durante la Fragmentación cayó en la grieta y creció durante 500 años. Así nació la Bruja Hexadecimal."},
 ];
+function minigameLoreDone(id){ return !!(save.minigameLore && save.minigameLore[id]); }
+function minigameUnlocked(id){
+  const def=MINIGAMES.find(m=>m.id===id);
+  return !!def && (!def.gate || minigameLoreDone(def.gate));
+}
+function minigameLoreCount(){ return MINIGAMES.filter(m=>minigameLoreDone(m.id)).length; }
+function startMinigameChapter(id){
+  if(!minigameUnlocked(id)){
+    const def=MINIGAMES.find(m=>m.id===id), prev=MINIGAMES.find(m=>m.id===def?.gate);
+    toast(`Primero recupera ${prev?.chapter||"el Eco anterior"}: ${prev?.name||"recuerdo bloqueado"}.`);
+    return;
+  }
+  goTo(id);
+}
 function renderMinigames(){
   const list = document.getElementById("mg-list");
   list.innerHTML = "";
+  const recovered=minigameLoreCount();
+  document.getElementById("mg-progress-badge").textContent=`${recovered}/3`;
+  document.getElementById("mg-archive-count").textContent=`${recovered} de 3 ecos`;
+  document.getElementById("mg-archive-fill").style.width=`${Math.round(recovered/3*100)}%`;
+  const bubble=document.getElementById("confite-mg-bubble");
+  bubble.textContent=recovered===0 ? "El primero late debajo del tablero... Si lo sostengo, quizá recuerde por qué el Cristal me conoce."
+    : recovered===1 ? "El pulso abrió otra memoria: una guerra. Pero el Cristal usa nuestros rostros para contar algo mucho más antiguo."
+    : recovered===2 ? "Ya sé por qué se rompió. Ahora falta descubrir qué nació con todo lo que expulsó."
+    : "Los tres Ecos encajan: mi pulso, su decisión y el nacimiento de la Bruja. Yo estaba allí... porque era parte de él.";
   MINIGAMES.forEach(m=>{
+    const unlocked=minigameUnlocked(m.id), done=minigameLoreDone(m.id);
+    const gate=MINIGAMES.find(g=>g.id===m.gate);
     const div = document.createElement("div");
-    div.className = "mg-card" + (m.ready ? "" : " locked");
+    div.className = `mg-card${unlocked?"":" locked"}${done?" completed":""}`;
     div.innerHTML = `
-      <div class="mg-icon">${m.icon}</div>
+      <div class="mg-icon">${unlocked?m.icon:"🔒"}</div>
       <div class="mg-info">
+        <div class="mg-chapter">${m.chapter} · ${done?"Memoria recuperada":unlocked?"Señal detectada":"Eco bloqueado"}</div>
         <div class="mg-name">${m.name}</div>
         <div class="mg-desc">${m.desc}</div>
-        <span class="mg-tag ${m.ready?'ready':'soon'}">${m.ready?'Jugable':'Próximamente'}</span>
+        <div class="mg-objective">${unlocked?m.objective:`Se abre al completar ${gate?.chapter}: ${gate?.name}`}</div>
+        ${done?`<div class="mg-reveal">“${m.quote}”</div>`:""}
+        <span class="mg-tag ${done?'done':unlocked?'ready':'soon'}">${done?'Revivir Eco':unlocked?'Entrar al recuerdo':'Continúa la historia'}</span>
       </div>`;
-    if(m.ready) div.onclick = ()=>goTo(m.id);
+    div.onclick = ()=>startMinigameChapter(m.id);
     list.appendChild(div);
   });
+}
+function unlockMinigameLore(id){
+  if(minigameLoreDone(id)) return false;
+  const def=MINIGAMES.find(m=>m.id===id);
+  if(!def) return false;
+  if(!save.minigameLore) save.minigameLore={};
+  save.minigameLore[id]={at:Date.now(),quote:def.quote};
+  save.coins=(save.coins||0)+50;
+  awardLeaguePoints(10,`${def.chapter} recuperado`);
+  persistSave();
+  setTimeout(()=>showMinigameLoreReveal(id),650);
+  return true;
+}
+function showMinigameLoreReveal(id){
+  const def=MINIGAMES.find(m=>m.id===id);
+  if(!def) return;
+  document.getElementById("mg-lore-chapter").textContent=`${def.chapter.toUpperCase()} RECUPERADO`;
+  document.getElementById("mg-lore-icon").textContent=def.icon;
+  document.getElementById("mg-lore-title").textContent=def.name;
+  document.getElementById("mg-lore-quote").textContent=`“${def.quote}”`;
+  document.getElementById("mg-lore-truth").textContent=def.truth;
+  document.getElementById("minigame-lore-overlay").classList.add("on");
+  playCrystal();
+}
+function closeMinigameLore(){
+  document.getElementById("minigame-lore-overlay").classList.remove("on");
 }
 
 /* ---------------- CONFITE EN MINIJUEGOS ----------------
@@ -2661,15 +3089,17 @@ function mobaEndGame(won){
   const coinsEarned = enemiesDefeated*8 + (won?30:0);
   save.coins = (save.coins||0) + coinsEarned;
   if(won) save.mobaWins = (save.mobaWins||0) + 1;
+  const leagueGain = won ? awardLeaguePoints(18,"Victoria en Guerras del Azúcar") : 0;
+  const loreUnlocked = won ? unlockMinigameLore("moba") : false;
   persistSave();
   checkAchievements();
   document.getElementById("mb-revive-btn").style.display = "none";
   document.getElementById("mb-overlay-icon").textContent = won ? "🏆" : "💔";
   document.getElementById("mb-overlay-title").textContent = won ? "¡Victoria!" : "Derrota";
   document.getElementById("mb-overlay-sub").textContent =
-    `${enemiesDefeated}/5 enemigos derrotados · +${coinsEarned} 🍯${won?` · Victorias totales: ${save.mobaWins}`:""}`;
+    `${enemiesDefeated}/5 enemigos derrotados · +${coinsEarned} 🍯${leagueGain?` · +${leagueGain} 👑`:""}${loreUnlocked?" · ECO II RECUPERADO":""}${won?` · Victorias totales: ${save.mobaWins}`:""}`;
   document.getElementById("mb-overlay").classList.add("on");
-  if(won){ spawnConfetti(); mgConfiteSay("mb","¡Ganamos! Sabía que podíamos.","celebrate"); }
+  if(won){ spawnConfetti(); mgConfiteSay("mb",loreUnlocked?"Lo recuerdo: no querían romperlo. Querían obligarlo a obedecer.":"El recuerdo se mantiene estable. Ya sé lo que intentaron hacerle.",loreUnlocked?"worried":"celebrate"); }
 }
 function mobaReviveWithAd(){
   // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
@@ -2839,7 +3269,7 @@ function startMoba(){
   mobaRunning = true;
   if(mobaRAF) cancelAnimationFrame(mobaRAF);
   mobaRAF = requestAnimationFrame(mobaStep);
-  mgConfiteSay("mb","¡Vamos! Protege a tu equipo.","excited");
+  mgConfiteSay("mb","El Cristal usa nuestros rostros para contar su última guerra. Protege a los cinco defensores.","worried");
 }
 
 /* ---------------- BATTLE ROYALE (prototipo: jugador vs 9 bots, zona que se reduce) ---------------- */
@@ -2928,15 +3358,19 @@ function brEndGame(won, othersAliveAtDeath){
   save.coins = (save.coins||0) + coinsEarned;
   if(won) save.brWins = (save.brWins||0) + 1;
   if(!save.brBestPlacement || placement < save.brBestPlacement) save.brBestPlacement = placement;
+  const leagueGain = won ? awardLeaguePoints(24,"Victoria Royale") : placement<=3 ? awardLeaguePoints(8,"Podio Royale") : 0;
+  const loreUnlocked = placement<=3 ? unlockMinigameLore("br") : false;
   persistSave();
   checkAchievements();
   document.getElementById("br-revive-btn").style.display = "none";
   document.getElementById("br-overlay-icon").textContent = won ? "🏆" : "💀";
   document.getElementById("br-overlay-title").textContent = won ? "¡Victoria Royale!" : "Eliminada";
   document.getElementById("br-overlay-sub").textContent =
-    `Puesto ${placement}/${BR_TOTAL} · +${coinsEarned} 🍯${won?` · Victorias totales: ${save.brWins}`:""}`;
+    `Puesto ${placement}/${BR_TOTAL} · +${coinsEarned} 🍯${leagueGain?` · +${leagueGain} 👑`:""}${loreUnlocked?" · ECO III RECUPERADO":""}${won?` · Victorias totales: ${save.brWins}`:""}`;
   document.getElementById("br-overlay").classList.add("on");
-  if(won){ spawnConfetti(); mgConfiteSay("br","¡Victoria Royale! Increíble.","celebrate"); }
+  if(won) spawnConfetti();
+  if(loreUnlocked) mgConfiteSay("br","La niebla estaba aprendiendo... aquí empezó la Bruja Hexadecimal.","worried");
+  else if(won) mgConfiteSay("br","¡Victoria! Ya conocemos el camino de salida.","celebrate");
 }
 function brReviveWithAd(){
   // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
@@ -3135,7 +3569,7 @@ function startBR(){
   brRunning = true;
   if(brRAF) cancelAnimationFrame(brRAF);
   brRAF = requestAnimationFrame(brStep);
-  mgConfiteSay("br","¡Cuidado con la zona! No te quedes afuera.","excited");
+  mgConfiteSay("br","Esto no era una arena. Eran los fragmentos huyendo de algo que acababa de nacer.","worried");
 }
 
 /* ---------------- MAPA DE NIVELES ---------------- */
@@ -3460,11 +3894,13 @@ async function finishCanvasLevel(){
   if(!save.canvasDone) save.canvasDone={};
   save.canvasDone[cur.sceneId]=true;
   addWeeklyChestProgress();
+  const leagueGain=awardLeaguePoints(12,"Lienzo restaurado");
   persistSave();
   document.getElementById("overlay-icon").textContent="🎨";
   document.getElementById("overlay-title").textContent=scene.name;
-  document.getElementById("overlay-sub").innerHTML=`Le devolviste el color a esta escena · <span style="color:var(--gold);font-weight:600">+${coins} 🍯</span>`;
+  document.getElementById("overlay-sub").innerHTML=`Le devolviste el color a esta escena · <span style="color:var(--gold);font-weight:600">+${coins} 🍯</span> · <span style="color:var(--crystal);font-weight:600">+${leagueGain} 👑</span>`;
   document.getElementById("overlay-main-btn").textContent="Volver";
+  document.getElementById("overlay-secondary-btn").textContent="Mapa";
   const contBtn=document.getElementById("overlay-continue-btn");
   if(contBtn) contBtn.style.display="none";
   const starsEls=document.querySelectorAll("#overlay-stars .s");
@@ -3544,6 +3980,37 @@ function startLevel(n){
   }
   goTo("game");
   maybeShowTutorial();
+}
+
+/* Duelo de Liga: misma gramática del match-3, pero con un rival y una meta
+   visible. Cuesta una vida para que el resultado tenga peso. */
+function tryStartLeagueDuel(){
+  syncLives();
+  if(save.lives<=0){ openNoLives(); return; }
+  spendLife();
+  startLeagueDuel();
+}
+function startLeagueDuel(){
+  exitCanvasMode();
+  syncLeague();
+  const rival=leagueOpponent();
+  const cfg=leagueDuelConfig();
+  cur={n:"L",type:"score",goal:cfg.target,target:0,color:0,
+    movesLeft:cfg.moves,movesMax:cfg.moves,cols:cfg.cols,rows:8,
+    score:0,progress:0,cascade:0,done:false,boostUsed:false,rainbowUsed:false,bombUsed:false,
+    isDaily:false,isLeague:true,leagueRival:{id:rival.id,name:rival.name,avatar:rival.avatar,clan:rival.clan},duelAheadAnnounced:false};
+  rainbowActive=false; bombActive=false;
+  moveStreak=0; freneticStartTime=Date.now(); endSugarRush();
+  document.getElementById("overlay").classList.remove("on","canvas-win");
+  document.getElementById("pause-overlay").classList.remove("on");
+  pauseOpen=false;
+  document.getElementById("hud-level").textContent="⚔️";
+  document.getElementById("objective-bar").textContent=`Duelo contra ${rival.name} · supera ${cfg.target.toLocaleString()} pts`;
+  document.getElementById("screen-game").style.background="radial-gradient(ellipse at 50% -10%, rgba(0,245,255,.22) 0%, #160421 42%, var(--dark) 76%)";
+  setConfiteGame(`${rival.name} ya marcó ${cfg.target.toLocaleString()}. ¡Cada cascada cuenta!`);
+  setConfiteMood("excited");
+  updateHud(); showBestScore(); updateComboPill(0); updateStreakPips();
+  buildGrid(); goTo("game"); maybeShowTutorial();
 }
 let tutorialOpen = false;
 function maybeShowTutorial(){
@@ -3677,7 +4144,7 @@ function initStripes(){ stripes = Array.from({length:cur.rows},()=>Array(cur.col
 let obstacles = [];
 function initObstacles(){
   obstacles = Array.from({length:cur.rows},()=>Array(cur.cols).fill(0));
-  if(cur.isDaily || cur.isSurvival || !currentTerritory) return;
+  if(cur.isDaily || cur.isSurvival || cur.isLeague || !currentTerritory) return;
   const t=currentTerritory, n=cur.n;
   if(t<4 || n<5) return; // only territory 4+ from level 5+
   const count = Math.min(Math.floor((t-3)*0.8 + (n-5)*0.4 + 1), 6);
@@ -4131,7 +4598,27 @@ function updateHud(){
     ? Math.min(100, Math.round(cur.progress/cur.target*100))
     : Math.min(100, Math.round(cur.score/cur.goal*100));
   document.getElementById("progress-fill").style.width = pct+"%";
+  updateDuelRaceUI();
   updateFreneticBadge();
+}
+function updateDuelRaceUI(){
+  const race=document.getElementById("duel-race");
+  if(!race) return;
+  if(!cur || !cur.isLeague){ race.classList.remove("on","ahead"); return; }
+  const target=Math.max(1,cur.goal||1);
+  const pct=Math.min(100,Math.round(cur.score/target*100));
+  race.classList.add("on");
+  race.classList.toggle("ahead",cur.score>=target);
+  document.getElementById("duel-player-score").textContent=cur.score.toLocaleString();
+  document.getElementById("duel-rival-score").textContent=target.toLocaleString();
+  document.getElementById("duel-rival-avatar").textContent=cur.leagueRival.avatar;
+  document.getElementById("duel-rival-name").textContent=cur.leagueRival.name;
+  document.getElementById("duel-race-fill").style.width=pct+"%";
+  if(cur.score>=target && !cur.duelAheadAnnounced){
+    cur.duelAheadAnnounced=true;
+    setConfiteGame("¡Lo superaste! ¡La victoria es nuestra!");
+    setConfiteMood("celebrate"); bounceConfite();
+  }
 }
 function popCombo(pts,streak,label){
   const div = document.createElement("div");
@@ -4155,6 +4642,7 @@ function calcStars(){
 }
 function finishLevel(won){
   if(cur.isCanvas && won){ finishCanvasLevel(); return; }
+  if(cur.isLeague){ finishLeagueDuel(won); return; }
   cur.done = true;
   clearHint(); clearTimeout(hintTimerId);
   endSugarRush();
@@ -4204,12 +4692,13 @@ function finishLevel(won){
     // parte de lo ganado va a la alcancía: se ve crecer pero hay que pagar para sacarlo
     piggyAdd(Math.round(coinsEarned*0.6) + stars*10);
     addWeeklyChestProgress();
+    const leagueGain=awardLeaguePoints(cur.isDaily?12:stars*5+(cur.n===TOTAL_LEVELS?10:0),cur.isDaily?"Desafío diario":cur.n===TOTAL_LEVELS?"Jefe vencido":"Nivel restaurado");
     document.getElementById("overlay-icon").textContent = cur.isDaily ? "⭐" : "🏆";
     document.getElementById("overlay-title").textContent = cur.isDaily ? "¡Desafío Completado!" : "¡Nivel completado!";
     let progressText = cur.type==="collect" ? `${cur.progress}/${cur.target} recolectados`
       : cur.type==="crystals" ? `${cur.progress}/${cur.target} Cristales activados`
       : `${cur.score.toLocaleString()} puntos`;
-    document.getElementById("overlay-sub").innerHTML = `${progressText} · <span style="color:var(--gold);font-weight:600">+${coinsEarned} 🍯</span>`;
+    document.getElementById("overlay-sub").innerHTML = `${progressText} · <span style="color:var(--gold);font-weight:600">+${coinsEarned} 🍯</span> · <span style="color:var(--crystal);font-weight:600">+${leagueGain} 👑</span>`;
     if(!cur.isDaily){
       if(!save.stars[currentTerritory]) save.stars[currentTerritory] = {};
       save.stars[currentTerritory][cur.n] = Math.max(save.stars[currentTerritory][cur.n]||0, stars);
@@ -4252,6 +4741,7 @@ function finishLevel(won){
     setConfiteMood("sad");
     document.getElementById("overlay-main-btn").textContent = "Reintentar";
   }
+  document.getElementById("overlay-secondary-btn").textContent="Mapa";
   const starsEls = document.querySelectorAll("#overlay-stars .s");
   starsEls.forEach(el=>el.classList.remove("on"));
   // Continuar al fallar: primero anuncio gratis (una vez por intento), después gemas.
@@ -4277,6 +4767,56 @@ function finishLevel(won){
       if(i<stars) setTimeout(()=>{ el.classList.add("on"); playBuild&&playBuild(); }, 300+i*220);
     });
   }
+}
+function finishLeagueDuel(won){
+  if(!cur || cur.done) return;
+  cur.done=true;
+  clearHint(); clearTimeout(hintTimerId); endSugarRush();
+  pauseOpen=false;
+  document.getElementById("pause-overlay").classList.remove("on");
+  syncLeague();
+  const lg=save.league;
+  const divIndex=Math.max(0,Math.min(LEAGUE_DIVISIONS.length-1,lg.division||0));
+  const div=LEAGUE_DIVISIONS[divIndex];
+  let leagueDelta=0, coinsEarned=0;
+  if(won){
+    const oldStreak=lg.streak||0;
+    lg.wins=(lg.wins||0)+1;
+    lg.streak=oldStreak+1;
+    lg.bestStreak=Math.max(lg.bestStreak||0,lg.streak);
+    leagueDelta=div.winPoints+Math.min(12,cur.movesLeft*2)+Math.min(8,oldStreak*2);
+    coinsEarned=30+divIndex*10;
+    save.coins=(save.coins||0)+coinsEarned;
+    awardLeaguePoints(leagueDelta,"Duelo ganado");
+    playWin(); spawnConfetti();
+    document.getElementById("overlay-icon").textContent="⚔️";
+    document.getElementById("overlay-title").textContent="¡Rival superado!";
+    document.getElementById("overlay-sub").innerHTML=`${cur.score.toLocaleString()} vs ${cur.goal.toLocaleString()} · <span style="color:var(--crystal);font-weight:700">+${leagueDelta} 👑</span> · <span style="color:var(--gold);font-weight:700">+${coinsEarned} 🍯</span>`;
+    document.getElementById("overlay-main-btn").textContent="Ver clasificación";
+    setConfiteGame(`¡Victoria! Racha de ${lg.streak}. La Liga ya sabe quiénes somos.`);
+    setConfiteMood("celebrate");
+  } else {
+    const lost=Math.min(lg.points||0,8+divIndex*2);
+    lg.points=Math.max(0,(lg.points||0)-lost);
+    lg.losses=(lg.losses||0)+1;
+    lg.streak=0;
+    leagueDelta=-lost;
+    persistSave();
+    playLose();
+    document.getElementById("overlay-icon").textContent="💔";
+    document.getElementById("overlay-title").textContent="El rival resistió";
+    document.getElementById("overlay-sub").innerHTML=`${cur.score.toLocaleString()} de ${cur.goal.toLocaleString()} pts${lost?` · <span style="color:var(--candy);font-weight:700">-${lost} 👑</span>`:""}`;
+    document.getElementById("overlay-main-btn").textContent="Revancha";
+    setConfiteGame("Perdimos la racha, no la semana. Ya vimos cómo juega.");
+    setConfiteMood("worried");
+  }
+  persistSave();
+  const starsEls=document.querySelectorAll("#overlay-stars .s");
+  starsEls.forEach(el=>el.classList.remove("on"));
+  document.getElementById("overlay-secondary-btn").textContent="Liga";
+  document.getElementById("overlay-continue-btn").style.display="none";
+  document.getElementById("overlay-continue-ad-btn").style.display="none";
+  document.getElementById("overlay").classList.add("on");
 }
 /* Continuar al fallar: el momento de mayor conversión del género. El costo
    sube cada vez dentro del mismo intento para que la decisión no sea trivial. */
@@ -4318,6 +4858,12 @@ function _applyContinue(){
   resetHintTimer();
 }
 function retryOrNext(){
+  if(cur.isLeague){
+    document.getElementById("overlay").classList.remove("on");
+    if(checkWin()) goTo("league");
+    else tryStartLeagueDuel();
+    return;
+  }
   if(cur.isCanvas){
     document.getElementById("overlay").classList.remove("on");
     if(cur.done && checkWin()){ exitCanvasMode(); goTo("world"); }
@@ -4391,15 +4937,22 @@ function confiteSVG(mood, skinOverride){
       <ellipse cx="64" cy="60" rx="2.5" ry="4" fill="#7FD8E8" fill-opacity=".9"/>`
   };
   return `
-    <ellipse cx="28" cy="14" rx="13" ry="22" fill="${e}" transform="rotate(-15 28 14)"/>
+    <ellipse cx="48" cy="86" rx="26" ry="3.8" fill="#000" fill-opacity=".26"/>
+    <ellipse cx="28" cy="14" rx="13" ry="22" fill="${e}" stroke="${ey}" stroke-opacity=".18" stroke-width="1.6" transform="rotate(-15 28 14)"/>
     <ellipse cx="28" cy="16" rx="7" ry="13" fill="${ei}" transform="rotate(-15 28 16)"/>
-    <ellipse cx="68" cy="14" rx="13" ry="22" fill="${e}" transform="rotate(15 68 14)"/>
+    <ellipse cx="68" cy="14" rx="13" ry="22" fill="${e}" stroke="${ey}" stroke-opacity=".18" stroke-width="1.6" transform="rotate(15 68 14)"/>
     <ellipse cx="68" cy="16" rx="7" ry="13" fill="${ei}" transform="rotate(15 68 16)"/>
-    <ellipse cx="48" cy="55" rx="38" ry="33" fill="${b}"/>
-    <ellipse cx="34" cy="40" rx="11" ry="6" fill="#fff" fill-opacity=".28" transform="rotate(-18 34 40)"/>
+    <ellipse cx="26" cy="80" rx="12" ry="7" fill="${e}" stroke="${ey}" stroke-opacity=".15" stroke-width="1.3" transform="rotate(-12 26 80)"/>
+    <ellipse cx="70" cy="80" rx="12" ry="7" fill="${e}" stroke="${ey}" stroke-opacity=".15" stroke-width="1.3" transform="rotate(12 70 80)"/>
+    <ellipse cx="48" cy="55" rx="38" ry="33" fill="${b}" stroke="${ey}" stroke-opacity=".2" stroke-width="1.8"/>
+    <ellipse cx="48" cy="68" rx="24" ry="14" fill="#fff" fill-opacity=".055"/>
+    <ellipse cx="34" cy="39" rx="12" ry="6.5" fill="#fff" fill-opacity=".34" transform="rotate(-18 34 39)"/>
+    <circle cx="28" cy="34" r="2.1" fill="#fff" fill-opacity=".42"/>
     <ellipse cx="27" cy="61" rx="5.5" ry="3.5" fill="${c}" fill-opacity=".85"/>
     <ellipse cx="69" cy="61" rx="5.5" ry="3.5" fill="${c}" fill-opacity=".85"/>
-    ${faces[mood] || faces.happy}`;
+    ${faces[mood] || faces.happy}
+    <path d="m48 56 2 2-2 2-2-2Z" fill="${ey}" fill-opacity=".42"/>
+    <path d="m79 31 1.4 3.2 3.4 1.2-3.4 1.2-1.4 3.2-1.4-3.2-3.4-1.2 3.4-1.2Z" fill="#fff" fill-opacity=".72"/>`;
 }
 function setConfiteMood(mood){
   const el = document.getElementById("confite-game-svg");
@@ -5169,14 +5722,14 @@ function startSurvival(){
   document.getElementById("hud-level").textContent = "⏱";
   document.getElementById("hud-moves").textContent = "12";
   document.getElementById("hud-score").textContent = "0";
-  document.getElementById("objective-bar").textContent = "Haz combos para ganar tiempo · ¡no dejes que el reloj llegue a cero!";
+  document.getElementById("objective-bar").textContent = "Eco I · sostén el pulso y alcanza 300 puntos";
   document.getElementById("progress-track").style.display = "none";
   document.getElementById("survival-timer-bar").style.display = "block";
-  updateSurvivalHud(); updateComboPill(0); updateStreakPips();
+  updateSurvivalHud(); updateDuelRaceUI(); updateComboPill(0); updateStreakPips();
   const bestRowEl = document.getElementById("best-score-row");
   if(bestRowEl) bestRowEl.textContent = save.survivalBest ? `Récord: ${save.survivalBest.toLocaleString()} pts` : "";
-  setConfiteGame("¡Modo Supervivencia! Cada combo te da más tiempo. ¡Rápido!");
-  setConfiteMood("excited");
+  setConfiteGame("Ese latido no viene del tablero... lo siento dentro de mí. ¡Ayúdame a sostenerlo!");
+  setConfiteMood("worried");
   document.getElementById("screen-game").style.background =
     "radial-gradient(ellipse at 50% -10%, color-mix(in srgb, #9B59B6 22%, var(--dark)) 0%, var(--dark) 70%)";
   buildGrid(); goTo("game"); maybeShowTutorial();
@@ -5210,18 +5763,21 @@ function finishSurvival(){
   if(isNewBest) save.survivalBest = cur.score;
   const coins = Math.floor(cur.score/150);
   save.coins = (save.coins||0) + coins;
+  const leagueGain = isNewBest ? awardLeaguePoints(Math.min(18,5+Math.floor(cur.score/1000)),"Récord de Supervivencia") : 0;
+  const loreUnlocked = cur.score>=300 ? unlockMinigameLore("survival") : false;
   persistSave();
   checkAchievements();
   playLose();
   document.getElementById("overlay-icon").textContent = "⏱";
   document.getElementById("overlay-title").textContent = "¡Tiempo!";
   document.getElementById("overlay-sub").textContent =
-    `${cur.score.toLocaleString()} pts${isNewBest?" · ¡Nuevo récord!":` · Mejor: ${save.survivalBest.toLocaleString()}`}${coins>0?` · +${coins} 🍯`:""}`;
+    `${cur.score.toLocaleString()} pts${isNewBest?" · ¡Nuevo récord!":` · Mejor: ${save.survivalBest.toLocaleString()}`}${coins>0?` · +${coins} 🍯`:""}${leagueGain?` · +${leagueGain} 👑`:""}${loreUnlocked?" · ECO I RECUPERADO":""}`;
   const starsEls = document.querySelectorAll("#overlay-stars .s");
   starsEls.forEach(el=>el.classList.remove("on"));
   document.getElementById("overlay-main-btn").textContent = "Intentar de nuevo";
-  setConfiteGame(isNewBest?"¡NUEVO RÉCORD! Eso estuvo increíble.":"¡Casi! ¿Lo intentamos de nuevo?");
-  setConfiteMood(isNewBest?"celebrate":"worried");
+  document.getElementById("overlay-secondary-btn").textContent = "Minijuegos";
+  setConfiteGame(loreUnlocked?"Ese pulso... era mío. El Cristal y yo latimos igual.":cur.score<300?"El pulso se apagó. Necesito 300 puntos para oírlo completo.":isNewBest?"El Eco sigue estable. Ya puedo recordar su latido.":"Casi... ¿lo intentamos de nuevo?");
+  setConfiteMood(loreUnlocked?"worried":isNewBest?"celebrate":"worried");
   document.getElementById("overlay").classList.add("on");
 }
 function endSurvivalTimer(){
@@ -5824,19 +6380,22 @@ function dgFinishRun(won){
   document.getElementById("dg-pause-overlay").classList.remove("on");
   const overlay = document.getElementById("dg-overlay");
   let xpGain = Math.max(5, Math.floor(dgCur.score/40));
+  let leagueGain = 0;
   let stars = 0;
   if(dgCur.isTimed || dgCur.isZen){
     won = true; // no hay "derrota" en tiempo límite/zen, solo fin de la partida
     const bestKey = dgCur.isTimed ? "dgTimedBest" : "dgZenBest";
-    if(dgCur.score > (save[bestKey]||0)) save[bestKey] = dgCur.score;
+    const isNewBest = dgCur.score > (save[bestKey]||0);
+    if(isNewBest) save[bestKey] = dgCur.score;
     const shards = Math.floor(dgCur.score/50);
     save.soulShards = (save.soulShards||0) + shards;
     dgPushScoreHistory(dgCur.isTimed?"Tiempo Límite":"Zen", dgCur.score);
     dgAddXp(xpGain);
+    if(isNewBest) leagueGain=awardLeaguePoints(Math.min(15,5+Math.floor(dgCur.score/1200)),"Récord en HEX CLASH");
     document.getElementById("dg-overlay-icon").textContent = "🏁";
     document.getElementById("dg-overlay-title").textContent = dgCur.isTimed ? "¡Tiempo agotado!" : "Partida terminada";
     document.getElementById("dg-overlay-sub").textContent = `${dgCur.score.toLocaleString()} puntos`;
-    document.getElementById("dg-overlay-xp").textContent = `+${xpGain} XP · +${shards} 💠`;
+    document.getElementById("dg-overlay-xp").textContent = `+${xpGain} XP · +${shards} 💠${leagueGain?` · +${leagueGain} 👑`:""}`;
     document.getElementById("dg-overlay-stars").style.display = "none";
     document.getElementById("dg-overlay-main-btn").textContent = "Jugar de nuevo";
     playWin();
@@ -5848,10 +6407,11 @@ function dgFinishRun(won){
     save.dgStars[dgCur.n] = Math.max(save.dgStars[dgCur.n]||0, stars);
     if(dgCur.n >= (save.dgUnlocked||1)) save.dgUnlocked = dgCur.n+1;
     dgAddXp(xpGain);
+    leagueGain=awardLeaguePoints(8+stars*3+(dgCur.isBoss?8:0),dgCur.isBoss?"Jefe de HEX vencido":"Nivel HEX superado");
     document.getElementById("dg-overlay-icon").textContent = dgCur.isBoss ? "👑" : "🏆";
     document.getElementById("dg-overlay-title").textContent = "¡Nivel superado!";
     document.getElementById("dg-overlay-sub").textContent = dgObjectiveText(dgCur).replace("Meta: ", "");
-    document.getElementById("dg-overlay-xp").textContent = `+${xpGain} XP · +${shards} 💠`;
+    document.getElementById("dg-overlay-xp").textContent = `+${xpGain} XP · +${shards} 💠 · +${leagueGain} 👑`;
     document.getElementById("dg-overlay-stars").style.display = "";
     document.getElementById("dg-overlay-main-btn").textContent = dgCur.n<20 ? "Siguiente nivel" : "Volver al menú";
     playWin(); spawnConfetti();
@@ -6221,7 +6781,7 @@ function updateComboPill(cascade){
 function showBestScore(){
   const el = document.getElementById("best-score-row");
   if(!el) return;
-  if(cur && !cur.isDaily && !cur.isSurvival && cur.type === "score"){
+  if(cur && !cur.isDaily && !cur.isSurvival && !cur.isLeague && cur.type === "score"){
     const best = getBestScore(currentTerritory, cur.n);
     el.textContent = best > 0 ? `🏅 Récord: ${best.toLocaleString()} pts` : "";
   } else if(cur && cur.isSurvival){
@@ -6374,6 +6934,7 @@ function renderPauseTimeExtra(){
 })();
 renderMap();
 renderTitleHexButton();
+renderTitleLeague();
 // Daily login bonus (only for returning players with some progress)
 if(save.introDone) checkLoginBonus();
 // Show story intro for new players
