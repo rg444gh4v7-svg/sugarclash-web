@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Sugar Clash, quinto fragmento">
+  <defs>
+    <linearGradient id="a-bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#16132A"/><stop offset="1" stop-color="#070710"/></linearGradient>
+    <linearGradient id="a-pink" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FF4D92"/><stop offset="1" stop-color="#A51E66"/></linearGradient>
+    <linearGradient id="a-violet" x1="1" y1="0" x2="0" y2="1"><stop stop-color="#8D65FF"/><stop offset="1" stop-color="#38238F"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="118" fill="url(#a-bg)"/>
+  <circle cx="256" cy="256" r="156" fill="none" stroke="#F6C960" stroke-width="10"/>
+  <path d="M256 100A156 156 0 0 0 100 256h156V100Z" fill="url(#a-pink)"/>
+  <path d="M256 100v156h156A156 156 0 0 0 256 100Z" fill="#30205E"/>
+  <path d="M256 256H100a156 156 0 0 0 156 156V256Z" fill="#D83B7A"/>
+  <path d="M256 256v156a156 156 0 0 0 156-156H256Z" fill="url(#a-violet)"/>
+  <path d="M256 141 281 215 359 215 296 260 320 335 256 290 192 335 216 260 153 215 231 215Z" fill="#0C0B19"/>
+  <path d="M256 160 276 220 339 220 288 256 307 315 256 278 205 315 224 256 173 220 236 220Z" fill="none" stroke="#F6C960" stroke-width="8"/>
+  <circle cx="256" cy="256" r="10" fill="#F6C960"/>
+</svg>
