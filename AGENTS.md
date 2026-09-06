@@ -114,11 +114,8 @@ const SAVE_KEY = "sugarclash_save_v1";
   territoryComplete: {}, introDone: false, survivalBest: 0,
   activeSkin: "default", unlockedSkins: {default: true},
   stripesCreated: 0, wrappedCreated: 0,
-  mobaWins: 0, brWins: 0,
-  // brBestPlacement NO vive en defaultSave() — se crea recién en brEndGame() al
-  // terminar la primera partida de BR. Inconsistencia pre-existente, inofensiva
-  // porque el código siempre lo lee con `!save.brBestPlacement`, pero si se toca
-  // esa línea agregarlo a defaultSave()/migrateSave() de una vez.
+  mobaWins: 0, brWins: 0, brBestPlacement: null,
+  minigameLore: {},                           // {survival|moba|br: {at, quote}}
   unlockedStories: {},                        // {key: "quote"} — Memorias de Confite
   epilogueSeen: false, chocolateDestroyed: 0,
 
@@ -471,10 +468,21 @@ publicar de verdad en un portal:
 
 ## Minijuegos
 
-Se accede desde `screen-minigames` (hub con `MINIGAMES`, cada uno tiene su propia línea
-narrativa — "Las Guerras del Azúcar", "La Zona de la Bruja", "El Corazón Latiente"). Los
-tres están etiquetados como "Prototipo" en su propia descripción — no son multijugador
-real, es un jugador contra bots/IA.
+`screen-minigames` es el **Archivo de Confite**: los tres modos no son extras sueltos,
+sino los `Ecos de la Fragmentación`. `MINIGAMES` es su fuente de verdad narrativa y los
+desbloquea en orden, guardando cada revelación en `save.minigameLore`.
+
+1. **Eco I — El Primer Latido** (`survival`): llegar a 300 puntos revela que Confite
+   comparte el pulso del Gran Cristal y abre el MOBA.
+2. **Eco II — La Última Guerra del Azúcar** (`moba`): ganar una partida revela que los
+   clanes quisieron esclavizar la voluntad del Cristal y abre Battle Royale.
+3. **Eco III — La Huida de la Grieta** (`br`): terminar en el podio revela que la energía
+   expulsada durante la Fragmentación dio origen a la Bruja Hexadecimal.
+
+`unlockMinigameLore(id)` entrega la memoria, +50 🍯 y +10 👑, y abre
+`#minigame-lore-overlay`. `renderMinigames()` dibuja la línea de tiempo; las tres piezas
+también se agregan al final de `renderMemories()` para que las once memorias vivan en un
+solo archivo. Los modos siguen siendo un jugador contra bots/IA.
 
 ### Confite y monetización en MOBA/BR (agosto 2026)
 Antes de esta sesión, MOBA y BR eran las únicas pantallas del juego sin Confite visible
