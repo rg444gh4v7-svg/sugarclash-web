@@ -10,8 +10,8 @@
 
 ```
 sugarclash-web/index.html
-Líneas: ~6850 | Sintaxis: válida (node -e "new Function(js)")
-sugarclash-web/manifest.json, icon.svg, title-world-v2.jpg, service-worker.js — PWA (offline + instalable)
+Líneas: ~7075 | Sintaxis: válida (node -e "new Function(js)")
+sugarclash-web/manifest.json, icon.svg, title-world-v3-hd.jpg, service-worker.js — PWA (offline + instalable)
 ```
 
 El proyecto ahora es un repo git (antes no lo era). `node` no está en el PATH del shell
@@ -20,9 +20,9 @@ antes del comando de validación de sintaxis si `node` no se encuentra.
 
 **Un solo archivo HTML/CSS/JS vanilla — intencional. No romper esta arquitectura.**
 
-`title-world-v2.jpg` es el único arte raster protagonista: fondo cinematográfico de portada,
-mapa y Liga. Está incluido en `service-worker.js` para funcionar offline. El motor y toda la
-interfaz siguen viviendo en `index.html`.
+`title-world-v3-hd.jpg` es el único arte raster protagonista (1706×3688): fondo cinematográfico
+de portada, mapa, Liga y Archivo de Confite. Está incluido en `service-worker.js` para funcionar
+offline. El motor, los emblemas vectoriales y toda la interfaz siguen viviendo en `index.html`.
 
 ---
 
@@ -77,6 +77,18 @@ Cada pantalla es una `<section class="screen" id="screen-NAME">`. `goTo(name)` a
 | `screen-memories` | `renderMemories()` | 8 fragmentos narrativos de Confite |
 | `screen-epilogue` | `startEpilogue()` / `showEpilogueSlide(n)` | Epílogo territorio 8 (7 slides) |
 | `screen-daily` | (diario en world) | Desafío diario (integrado en world) |
+
+### Dirección visual del mapa (septiembre 2026)
+- `renderWorld()` dibuja los 8 territorios como una ruta alternada, no como una lista plana.
+  `territoryEmblemSVG(id, locked)` genera un emblema vectorial propio para cada territorio;
+  no volver a sustituirlos por emojis genéricos.
+- `renderMap()` usa una ruta vertical serpenteante con nombres de nivel, hitos conectados,
+  progreso `Ruta N/10` y un emblema narrativo del territorio en el banner.
+- `--territory-hue` gobierna atmósfera, ruta, hitos y brillo en cada mapa. Las animaciones
+  `worldCamera`, `mapAtmosphere`, `routeFlow`, `cardIn` y `mapNodeIn` respetan
+  `prefers-reduced-motion`.
+- La imagen protagonista solo ambienta. La navegación y los símbolos son HTML/CSS/SVG para
+  mantener nitidez en pantallas Retina y coherencia entre territorios.
 
 ### Overlays importantes
 - `#overlay` — resultado de nivel (win/loss); con `.canvas-win` cuando es un Lienzo

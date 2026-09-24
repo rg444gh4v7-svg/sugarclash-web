@@ -19,7 +19,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;background:var(--dark);font-family:'Karla',sans-serif;color:var(--cream)}
-body::before{content:"";position:fixed;inset:-35px;background:linear-gradient(rgba(13,0,21,.76),rgba(13,0,21,.88)),url('title-world-v2.jpg') center/cover;filter:blur(24px) saturate(1.2);transform:scale(1.08);opacity:.72}
+body::before{content:"";position:fixed;inset:-35px;background:linear-gradient(rgba(13,0,21,.74),rgba(13,0,21,.86)),url('title-world-v3-hd.jpg') center/cover;filter:blur(22px) saturate(1.16);transform:scale(1.08);opacity:.78}
 #app{position:fixed;inset:0 auto 0 50%;width:min(100%,520px);transform:translateX(-50%);display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--dark);box-shadow:0 0 70px rgba(0,0,0,.72);border-left:1px solid rgba(255,255,255,.06);border-right:1px solid rgba(255,255,255,.06)}
 .screen{position:absolute;inset:0;display:none;flex-direction:column;opacity:0;transition:opacity .4s}
 .screen.active{display:flex;opacity:1;animation:screenIn .32s cubic-bezier(.22,.61,.36,1)}
@@ -74,28 +74,39 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 
 /* ===== WORLD (mapa mundial) ===== */
 #screen-world{padding:16px 14px 22px;gap:10px;isolation:isolate;background:#13031e;overflow:hidden}
-#screen-world::before{content:"";position:absolute;z-index:-2;inset:-8%;background:url('title-world-v2.jpg') center 54%/cover;filter:blur(7px) saturate(1.15);opacity:.34;transform:scale(1.08)}
-#screen-world::after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(13,0,21,.78) 0%,rgba(13,0,21,.9) 40%,#0d0015 86%)}
+#screen-world::before{content:"";position:absolute;z-index:-2;inset:-8%;background:url('title-world-v3-hd.jpg') center 54%/cover;filter:saturate(1.08) contrast(1.04);opacity:.42;transform:scale(1.04);animation:worldCamera 18s ease-in-out infinite alternate}
+#screen-world::after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(13,0,21,.62) 0%,rgba(13,0,21,.83) 38%,#0d0015 88%),radial-gradient(circle at 18% 22%,rgba(255,92,138,.13),transparent 30%),radial-gradient(circle at 82% 35%,rgba(113,59,205,.17),transparent 32%)}
+@keyframes worldCamera{from{transform:scale(1.04) translate3d(0,0,0)}to{transform:scale(1.1) translate3d(-1.2%,-1.4%,0)}}
 .world-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 11px;border-radius:16px;background:linear-gradient(110deg,rgba(42,8,69,.76),rgba(10,31,55,.68));border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.25);backdrop-filter:blur(14px)}
 .world-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--gold)}
 .world-sub{font-size:12px;color:var(--crystal);margin-top:2px}
 #world-restore-track{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:99px;height:10px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.45)}
 #world-restore-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--candy),var(--gold),var(--crystal));border-radius:99px;transition:width .6s;box-shadow:0 0 12px var(--crystal)}
-#world-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:8px 2px 16px;position:relative}
-#world-list::before{content:"";position:absolute;left:50%;top:10px;bottom:10px;border-left:2px dashed rgba(0,245,255,.26);filter:drop-shadow(0 0 5px rgba(0,245,255,.45))}
-.territory-card{position:relative;width:89%;border-radius:19px;padding:12px 14px;display:flex;gap:12px;align-items:center;background:linear-gradient(120deg,rgba(43,13,66,.91),rgba(16,27,48,.85));border:1px solid rgba(255,255,255,.18);transition:transform .15s,filter 1.2s;cursor:pointer;z-index:1;animation:cardIn .38s ease backwards;box-shadow:inset 0 1px rgba(255,255,255,.1),0 9px 22px rgba(0,0,0,.34);backdrop-filter:blur(12px)}
-@keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+#world-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:22px;padding:8px 4px 30px;position:relative;scrollbar-width:none;mask-image:linear-gradient(to bottom,transparent 0,#000 16px,#000 calc(100% - 22px),transparent)}
+#world-list::-webkit-scrollbar{display:none}
+#world-list::before{content:"";position:absolute;left:50%;top:88px;bottom:30px;width:4px;transform:translateX(-50%);border-radius:99px;background:linear-gradient(180deg,var(--candy),var(--gold),var(--crystal),#7445d8,var(--candy));background-size:100% 240%;box-shadow:0 0 13px rgba(0,245,255,.48);opacity:.72;animation:routeFlow 7s linear infinite}
+@keyframes routeFlow{to{background-position:0 240%}}
+.world-journey{position:relative;z-index:2;align-self:center;width:calc(100% - 8px);padding:12px 15px;border-radius:18px;background:linear-gradient(110deg,rgba(20,15,40,.91),rgba(27,9,46,.88));border:1px solid rgba(246,201,96,.34);box-shadow:inset 0 1px rgba(255,255,255,.08),0 12px 30px rgba(0,0,0,.34);backdrop-filter:blur(14px)}
+.world-journey-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.world-journey-kicker{font-size:8px;letter-spacing:.17em;text-transform:uppercase;color:var(--crystal)}.world-journey-title{font-family:'Fraunces',serif;font-size:16px;color:var(--cream);margin-top:2px}.world-journey-count{font-family:'Fraunces',serif;color:var(--gold);font-size:18px;white-space:nowrap}.world-journey-note{font-size:9.5px;color:rgba(255,255,255,.48);margin-top:6px;line-height:1.35}
+.territory-card{position:relative;width:86%;min-height:96px;border-radius:22px;padding:12px 14px;display:flex;gap:12px;align-items:center;background:linear-gradient(125deg,rgba(32,18,51,.94),rgba(10,25,43,.9));border:1px solid rgba(255,255,255,.19);transition:transform .18s,filter 1.2s,border-color .25s;cursor:pointer;z-index:1;animation:cardIn .55s cubic-bezier(.2,.75,.25,1) backwards;box-shadow:inset 0 1px rgba(255,255,255,.1),0 13px 30px rgba(0,0,0,.42);backdrop-filter:blur(14px);overflow:visible}
+.territory-card::after{content:"";position:absolute;top:50%;width:15%;height:30px;border-color:rgba(246,201,96,.38);border-style:solid;pointer-events:none;opacity:.8}
+.territory-card.map-left{align-self:flex-start}.territory-card.map-right{align-self:flex-end}
+.territory-card.map-left::after{right:-16%;border-width:0 2px 2px 0;border-radius:0 0 18px 0}
+.territory-card.map-right::after{left:-16%;border-width:0 0 2px 2px;border-radius:0 0 0 18px}
+.territory-card .route-pin{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:#171326;border:3px solid var(--territory-color,var(--crystal));box-shadow:0 0 0 4px rgba(13,0,21,.86),0 0 16px var(--territory-color,var(--crystal));transform:translateY(-50%);z-index:4}
+.territory-card.map-left .route-pin{right:-22.4%}.territory-card.map-right .route-pin{left:-22.4%}
+@keyframes cardIn{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media (prefers-reduced-motion: reduce){
   .territory-card{animation:none}
 }
-.territory-card:nth-child(odd){align-self:flex-start}
-.territory-card:nth-child(even){align-self:flex-end}
 .territory-card:active{transform:scale(.97)}
-.territory-card.locked{cursor:pointer;opacity:.5}
-.territory-card.restored{border-color:rgba(245,184,0,.45);box-shadow:0 0 18px rgba(245,184,0,.18);animation:restoredPulse 3s ease-in-out infinite}
+.territory-card.locked{cursor:pointer;opacity:.54}.territory-card.locked .t-emblem{filter:grayscale(1);opacity:.55}
+.territory-card.restored{border-color:rgba(245,184,0,.58);box-shadow:0 0 24px rgba(245,184,0,.18),0 13px 30px rgba(0,0,0,.42);animation:restoredPulse 3.6s ease-in-out infinite}
 @keyframes restoredPulse{0%,100%{box-shadow:0 0 12px rgba(245,184,0,.15)}50%{box-shadow:0 0 28px rgba(245,184,0,.35)}}
-.t-icon{width:54px;height:54px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;border:1px solid rgba(255,255,255,.3);box-shadow:inset 0 2px rgba(255,255,255,.22),inset 0 -5px 9px rgba(0,0,0,.22),0 5px 12px rgba(0,0,0,.28)}
+.t-icon{width:64px;height:68px;border-radius:19px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--territory-color,var(--candy));background:radial-gradient(circle at 38% 28%,color-mix(in srgb,var(--territory-color) 28%,transparent),rgba(8,9,22,.94) 68%);border:1px solid color-mix(in srgb,var(--territory-color) 58%,transparent);box-shadow:inset 0 1px rgba(255,255,255,.18),inset 0 -8px 18px rgba(0,0,0,.32),0 8px 18px rgba(0,0,0,.35)}
+.t-emblem{width:50px;height:50px;display:block;filter:drop-shadow(0 4px 7px rgba(0,0,0,.35));transition:filter .4s,transform .3s}.territory-card:active .t-emblem{transform:scale(.94)}
 .t-info{flex:1;min-width:0}
+.t-step{font-size:7.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--territory-color,var(--crystal));font-weight:700;margin-bottom:2px}
 .t-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream)}
 .t-desc{font-size:11px;color:rgba(255,255,255,.55);margin-top:1px;line-height:1.35}
 .t-bar{margin-top:7px;background:rgba(255,255,255,.1);height:6px;border-radius:99px;overflow:hidden}
@@ -121,7 +132,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .league-entry::after{content:"";position:absolute;inset:-60% -20%;background:linear-gradient(110deg,transparent 38%,rgba(255,255,255,.16) 50%,transparent 62%);transform:translateX(-70%);animation:leagueShine 4.8s ease-in-out infinite;pointer-events:none}
 @keyframes leagueShine{0%,58%{transform:translateX(-70%)}82%,100%{transform:translateX(70%)}}
 #screen-league{padding:18px 16px 24px;gap:12px;isolation:isolate;background:#0d0015;overflow:hidden}
-#screen-league::before{content:"";position:absolute;z-index:-2;inset:-7%;background:url('title-world-v2.jpg') center 25%/cover;filter:blur(6px) saturate(.9) hue-rotate(15deg);opacity:.32;transform:scale(1.08)}
+#screen-league::before{content:"";position:absolute;z-index:-2;inset:-7%;background:url('title-world-v3-hd.jpg') center 25%/cover;filter:blur(5px) saturate(.9) hue-rotate(15deg);opacity:.34;transform:scale(1.08)}
 #screen-league::after{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(ellipse at 50% -12%,rgba(0,245,255,.23),transparent 46%),linear-gradient(180deg,rgba(13,0,21,.7),rgba(13,0,21,.95) 70%)}
 .league-header{display:flex;align-items:center;gap:10px}
 .league-title{font-family:'Fraunces',serif;font-weight:600;font-size:20px;color:var(--gold);flex:1}
@@ -247,7 +258,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 
 /* ===== MINIGAMES (hub de modos) ===== */
 #screen-minigames{padding:18px 16px 24px;gap:12px;isolation:isolate;background:#0d0015;overflow:hidden}
-#screen-minigames::before{content:"";position:absolute;z-index:-2;inset:-8%;background:url('title-world-v2.jpg') center 68%/cover;filter:blur(8px) saturate(.78);opacity:.33;transform:scale(1.08)}
+#screen-minigames::before{content:"";position:absolute;z-index:-2;inset:-8%;background:url('title-world-v3-hd.jpg') center 68%/cover;filter:blur(7px) saturate(.82);opacity:.35;transform:scale(1.08)}
 #screen-minigames::after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(13,0,21,.73),rgba(13,0,21,.95) 65%)}
 .mg-header{display:flex;align-items:center;gap:10px}
 .mg-title{font-family:'Fraunces',serif;font-weight:600;font-size:18px;line-height:1.05;color:var(--gold);flex:1}
@@ -314,29 +325,45 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .mg-confite-pop-text{font-size:11.5px;color:var(--cream);line-height:1.25;text-align:left}
 
 /* ===== MAP ===== */
-#screen-map{padding:18px 16px 24px;gap:14px}
-.map-header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#screen-map{padding:18px 16px 24px;gap:11px;isolation:isolate;overflow:hidden;background:#0d0015;--territory-hue:#ff5c8a}
+#screen-map::before{content:"";position:absolute;z-index:-2;inset:-7%;background:url('title-world-v3-hd.jpg') center 58%/cover;filter:saturate(.78) contrast(1.06);opacity:.3;transform:scale(1.06);animation:mapAtmosphere 20s ease-in-out infinite alternate}
+#screen-map::after{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 50% -8%,color-mix(in srgb,var(--territory-hue) 24%,transparent),transparent 45%),linear-gradient(180deg,rgba(9,5,20,.67),rgba(13,0,21,.93) 62%,#0d0015)}
+@keyframes mapAtmosphere{to{transform:scale(1.12) translate3d(1.2%,-1%,0);filter:saturate(.9) contrast(1.08)}}
+.map-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 9px;border-radius:17px;background:rgba(12,9,27,.66);border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 1px rgba(255,255,255,.07),0 8px 24px rgba(0,0,0,.28);backdrop-filter:blur(14px)}
 .map-title{font-family:'Fraunces',serif;font-weight:600;font-size:20px;color:var(--gold)}
 .stars-total{font-size:13px;color:var(--crystal);display:flex;align-items:center;gap:5px}
 #confite-map{width:46px;height:42px;cursor:pointer;animation:bobSmall 3s ease-in-out infinite}
 #confite-skins-svg{animation:bobSmall 3.4s ease-in-out infinite}
 @keyframes bobSmall{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-.territory-banner{background:linear-gradient(135deg,rgba(255,92,138,.15),rgba(255,140,66,.1));border:1px solid rgba(245,184,0,.3);border-radius:14px;padding:10px 14px;font-size:13px;color:var(--cream)}
+.territory-banner{position:relative;min-height:82px;background:linear-gradient(125deg,rgba(18,14,36,.88),rgba(36,11,54,.8));border:1px solid rgba(245,184,0,.3);border-radius:18px;padding:12px 14px 12px 91px;font-size:12px;line-height:1.42;color:rgba(255,255,255,.77);overflow:hidden;box-shadow:inset 0 1px rgba(255,255,255,.09),0 10px 24px rgba(0,0,0,.3);backdrop-filter:blur(13px)}
 .territory-banner b{color:var(--gold)}
+.territory-banner-art{position:absolute;left:9px;top:50%;width:68px;height:68px;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;color:var(--territory-hue);background:radial-gradient(circle,color-mix(in srgb,var(--territory-hue) 24%,transparent),transparent 68%)}
+.territory-banner-art .t-emblem{width:62px;height:62px}.territory-banner-copy{position:relative;z-index:1}
+.map-route-summary{display:flex;align-items:center;gap:10px;padding:0 4px}.map-route-label{font-size:8px;letter-spacing:.13em;color:rgba(255,255,255,.52);text-transform:uppercase;white-space:nowrap}.map-route-track{height:5px;flex:1;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}.map-route-fill{height:100%;width:0;background:linear-gradient(90deg,var(--territory-hue),var(--gold));box-shadow:0 0 10px var(--territory-hue);border-radius:inherit;transition:width .65s cubic-bezier(.2,.75,.25,1)}
 #confite-bubble,#confite-world-bubble{font-size:12px;color:#c9fdff;background:linear-gradient(105deg,rgba(0,245,255,.11),rgba(155,89,182,.14));border:1px solid rgba(127,216,232,.34);border-radius:13px;padding:8px 12px;min-height:18px;transition:opacity .3s;box-shadow:inset 0 1px rgba(255,255,255,.08),0 6px 18px rgba(0,0,0,.2);backdrop-filter:blur(12px)}
-#level-grid{flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:6px 2px 12px;align-content:start}
-.level-node{aspect-ratio:1;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);position:relative;transition:transform .15s}
+#level-grid{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:19px;padding:10px 5px 35px;position:relative;scrollbar-width:none;mask-image:linear-gradient(to bottom,transparent,#000 13px,#000 calc(100% - 22px),transparent)}
+#level-grid::-webkit-scrollbar{display:none}
+#level-grid::before{content:"";position:absolute;left:50%;top:26px;bottom:38px;width:4px;transform:translateX(-50%);border-radius:99px;background:linear-gradient(180deg,var(--territory-hue),var(--gold),var(--crystal));box-shadow:0 0 11px color-mix(in srgb,var(--territory-hue) 65%,transparent);opacity:.72}
+.level-node{width:46%;min-height:104px;border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:linear-gradient(145deg,rgba(39,22,57,.92),rgba(11,22,39,.9));border:1px solid rgba(255,255,255,.16);position:relative;transition:transform .15s,border-color .3s;box-shadow:inset 0 1px rgba(255,255,255,.09),0 11px 25px rgba(0,0,0,.35);backdrop-filter:blur(12px);animation:mapNodeIn .5s cubic-bezier(.2,.75,.25,1) backwards;z-index:1}
+.level-node:nth-child(odd){align-self:flex-start}.level-node:nth-child(even){align-self:flex-end}.level-node.boss-level{align-self:center;width:62%;min-height:116px}
+.level-node::before{content:"";position:absolute;top:50%;width:17%;border-top:2px solid color-mix(in srgb,var(--territory-hue) 52%,transparent)}
+.level-node:nth-child(odd)::before{right:-18%}.level-node:nth-child(even)::before{left:-18%}.level-node.boss-level::before{display:none}
+.level-node::after{content:"";position:absolute;top:50%;width:11px;height:11px;border-radius:50%;background:#0d0015;border:3px solid var(--territory-hue);box-shadow:0 0 10px var(--territory-hue);transform:translateY(-50%)}
+.level-node:nth-child(odd)::after{right:-23.8%}.level-node:nth-child(even)::after{left:-23.8%}.level-node.boss-level::after{left:50%;top:-16px;transform:translateX(-50%)}
+@keyframes mapNodeIn{from{opacity:0;transform:translateY(20px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
 .level-node:active{transform:scale(.94)}
-.level-node.locked{opacity:.35;pointer-events:none}
-.level-node.cleared{background:rgba(46,213,115,.1);border-color:rgba(46,213,115,.35)}
-.level-node.boss-level{background:rgba(245,184,0,.1);border-color:rgba(245,184,0,.4);box-shadow:0 0 10px rgba(245,184,0,.2)}
+.level-node.locked{opacity:.4;pointer-events:none;filter:grayscale(.8)}
+.level-node.cleared{background:linear-gradient(145deg,rgba(46,213,115,.15),rgba(11,29,39,.92));border-color:rgba(46,213,115,.46)}
+.level-node.boss-level{background:linear-gradient(145deg,rgba(106,69,9,.56),rgba(42,17,52,.92));border-color:rgba(245,184,0,.55);box-shadow:0 0 22px rgba(245,184,0,.2),0 12px 28px rgba(0,0,0,.4)}
 .level-node.boss-level.cleared{background:rgba(245,184,0,.18);border-color:var(--gold);box-shadow:0 0 16px rgba(245,184,0,.35)}
 .level-num{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--cream)}
+.level-name{font-size:8px;line-height:1.15;text-align:center;color:rgba(255,255,255,.53);padding:0 8px;max-width:100%}.level-node.cleared .level-name{color:rgba(207,255,231,.66)}
 .lv-type-badge{position:absolute;top:5px;right:6px;font-size:11px;opacity:.7}
 .level-stars{display:flex;gap:2px;font-size:11px}
 .level-stars .s{opacity:.25}
 .level-stars .s.on{opacity:1}
 .lock-icon{font-size:18px;opacity:.6}
+@media (prefers-reduced-motion:reduce){#screen-world::before,#screen-map::before,#world-list::before,.level-node{animation:none}.territory-card{animation:none}}
 
 /* ===== GAME ===== */
 #screen-game{padding:10px 10px 14px;gap:8px;background:radial-gradient(circle at 50% -10%,#482069 0%,#180421 48%,#0d0015 100%)}
@@ -436,7 +463,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .booster-chip .bc-name{font-size:9.5px;color:rgba(255,255,255,.7)}
 .booster-chip .bc-count{font-size:10px;color:var(--gold);font-weight:600}
 .level-node.lv-hard{border-color:rgba(255,45,122,.55);box-shadow:0 0 14px rgba(255,45,122,.22)}
-.level-node.lv-hard::after{content:"DIFÍCIL";position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);background:var(--candy);color:#fff;font-size:7.5px;font-weight:700;letter-spacing:.05em;padding:1px 6px;border-radius:99px;white-space:nowrap}
+.hard-badge{position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);background:var(--candy);color:#fff;font-size:7.5px;font-weight:700;letter-spacing:.05em;padding:2px 7px;border-radius:99px;white-space:nowrap;box-shadow:0 3px 9px rgba(255,45,122,.38);z-index:3}
 
 #grid-wrap{position:relative;isolation:isolate;flex:1;display:flex;align-items:center;justify-content:center;padding:9px}
 #grid-wrap::before{content:"";position:absolute;z-index:-1;width:calc(100% - 4px);max-width:402px;height:calc(100% - 4px);max-height:500px;border-radius:24px;background:linear-gradient(145deg,rgba(70,31,94,.72),rgba(8,25,42,.78));border:1px solid rgba(255,255,255,.17);box-shadow:inset 0 1px rgba(255,255,255,.12),inset 0 -12px 32px rgba(0,0,0,.28),0 17px 38px rgba(0,0,0,.42),0 0 34px rgba(155,89,182,.12);backdrop-filter:blur(15px)}
@@ -900,7 +927,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <!-- ============ TITLE ============ -->
   <section id="screen-title" class="screen active">
     <div class="title-world-art" aria-hidden="true">
-      <img src="title-world-v2.jpg" alt="">
+      <img src="title-world-v3-hd.jpg" alt="Dulcelandia dividida entre el reino restaurado y la corrupción violeta">
       <div class="title-light-ray ray-a"></div>
       <div class="title-light-ray ray-b"></div>
       <i class="title-shard s1"></i><i class="title-shard s2"></i><i class="title-shard s3"></i><i class="title-shard s4"></i>
@@ -1327,7 +1354,11 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div class="map-title" id="map-title">Las Tierras Carmesí</div>
       <div class="stars-total">⭐ <span id="total-stars">0</span>/30</div>
     </div>
-    <div class="territory-banner" id="territory-banner">El territorio inicial de <b>Confite</b>. Restaura sus 10 niveles para devolverle el color.</div>
+    <div class="territory-banner" id="territory-banner"><div class="territory-banner-copy">El territorio inicial de <b>Confite</b>. Restaura sus 10 niveles para devolverle el color.</div></div>
+    <div class="map-route-summary">
+      <span class="map-route-label" id="map-route-label">Ruta 0/10</span>
+      <div class="map-route-track"><div class="map-route-fill" id="map-route-fill"></div></div>
+    </div>
     <div id="confite-bubble">Toca un nivel para empezar. ¡Estoy aquí si me necesitas!</div>
     <div id="level-lore" style="font-size:11px;color:var(--crystal);font-style:italic;opacity:.85;padding:0 4px"></div>
     <div id="level-grid"></div>
@@ -2320,6 +2351,24 @@ const TERRITORIES = [
    banner:"El tiempo se detuvo aquí hace 500 años, en el instante exacto en que el Cristal se rompió a sí mismo. Restaura sus 10 niveles... y quizás, por fin, entiendas por qué."},
 ];
 
+/* Emblemas vectoriales propios: sustituyen emojis genéricos en el mapa sin
+   sumar archivos ni romper el modo offline. Comparten lenguaje visual, pero
+   cada territorio conserva una silueta reconocible incluso a tamaño pequeño. */
+function territoryEmblemSVG(id, locked=false){
+  const art = {
+    1:`<path d="M14 40h36v9H14z" fill="currentColor" opacity=".35"/><path d="M18 40V24h8v16m12 0V18h8v22M22 24l8-9 8 9m4-6 7-8 7 8" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="34" r="4" fill="#fff" opacity=".86"/>`,
+    2:`<path d="M32 31c-19-2-18-15-10-18 7-3 11 5 10 10-1-15 13-16 17-8 4 8-5 13-17 16 15-1 17 12 10 17-7 5-14-3-10-17-4 14-17 14-20 6-3-8 7-13 20-6Z" fill="currentColor"/><circle cx="32" cy="31" r="7" fill="#fff" opacity=".9"/><path d="M32 38v14" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>`,
+    3:`<path d="m15 49 9-35 9 35m-5-19h-8m17 19 7-29 7 29m-11-15h8" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="14" r="4" fill="#fff" opacity=".88"/><circle cx="44" cy="20" r="4" fill="#fff" opacity=".7"/>`,
+    4:`<path d="m8 47 16-27 8 11 8-18 17 34Z" fill="currentColor" opacity=".85"/><path d="m17 32 7-12 5 7 3 4 8-18 8 13" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round" opacity=".82"/><path d="M14 47h43" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>`,
+    5:`<path d="M29 50V34m8 16V31" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><circle cx="23" cy="25" r="12" fill="currentColor" opacity=".78"/><circle cx="39" cy="20" r="14" fill="currentColor"/><circle cx="48" cy="31" r="10" fill="currentColor" opacity=".82"/><path d="M16 51h38" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".72"/>`,
+    6:`<path d="M32 52c-13-7-14-17-5-25 0 7 5 6 7 1 3-7-1-12 4-18 13 12 17 29-6 42Z" fill="currentColor"/><path d="M32 45c-6-4-7-9-2-14 1 4 4 4 6 0 4 6 4 10-4 14Z" fill="#fff" opacity=".88"/><path d="m15 50 34-16m0 16L15 34" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>`,
+    7:`<path d="M17 30c0-13 8-20 15-20s15 7 15 20c0 8-4 11-8 14v8H25v-8c-4-3-8-6-8-14Z" fill="currentColor"/><circle cx="26" cy="29" r="5" fill="#10101f"/><circle cx="39" cy="29" r="5" fill="#10101f"/><path d="m28 43 4-4 4 4M25 50h14" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".78"/><path d="m12 18 7-2m33 2-7-2" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>`,
+    8:`<path d="M32 7 49 24 42 51H22L15 24Z" fill="currentColor" opacity=".86"/><path d="m32 7 2 44M15 24h34L32 7 22 51m27-27L42 51 32 34 22 51 15 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round" opacity=".72"/><circle cx="32" cy="32" r="5" fill="#fff" opacity=".9"/>`
+  };
+  const lock = locked ? `<g transform="translate(41 40)"><rect width="17" height="14" rx="4" fill="#0c0b18" stroke="currentColor" stroke-width="2"/><path d="M4 1v-3a4.5 4.5 0 0 1 9 0v3" fill="none" stroke="currentColor" stroke-width="2.5"/></g>` : "";
+  return `<svg class="t-emblem" viewBox="0 0 64 64" fill="none" aria-hidden="true">${art[id]||art[8]}${lock}</svg>`;
+}
+
 function territoryProgress(id){
   const levels = LEVELS_BY_TERRITORY[id];
   if(!levels) return 0; // territorio sin niveles todavía
@@ -2363,7 +2412,20 @@ function renderWorld(){
   const list = document.getElementById("world-list");
   list.innerHTML = "";
   renderDailyCard(list);
+  const journey = document.createElement("div");
+  journey.className = "world-journey";
+  journey.innerHTML = `
+    <div class="world-journey-top">
+      <div>
+        <div class="world-journey-kicker">La ruta del Gran Cristal</div>
+        <div class="world-journey-title">Dulcelandia despierta</div>
+      </div>
+      <div class="world-journey-count" id="world-journey-count">0 / 8</div>
+    </div>
+    <div class="world-journey-note" id="world-journey-note">La niebla todavía oculta el primer recuerdo.</div>`;
+  list.appendChild(journey);
   let total = 0;
+  let restoredCount = 0;
   TERRITORIES.forEach((t,i)=>{
     const p = territoryProgress(t.id);
     total += p;
@@ -2371,12 +2433,20 @@ function renderWorld(){
     const pct = Math.round(p*100);
     const card = document.createElement("div");
     const restored = p>=1;
-    card.className = "territory-card" + (unlocked?"":" locked") + (restored?" restored":"");
+    if(restored) restoredCount++;
+    card.className = `territory-card ${i%2===0?"map-left":"map-right"}${unlocked?"":" locked"}${restored?" restored":""}`;
+    card.style.setProperty("--territory-color", t.hue);
     card.style.filter = `grayscale(${Math.max(0,(1-p)).toFixed(2)})`;
-    card.style.animationDelay = (i*45)+"ms";
+    card.style.animationDelay = (i*70)+"ms";
+    const routeState = restored ? "Restaurado" : unlocked ? "Ruta abierta" : "Bajo la niebla";
     card.innerHTML = `
-      <div class="t-icon" style="background:${t.hue};position:relative">${unlocked?t.icon:"🔒"}${restored?`<span style="position:absolute;bottom:-6px;right:-6px;font-size:13px">✨</span>`:""}  </div>
+      <span class="route-pin" aria-hidden="true"></span>
+      <div class="t-icon" style="--territory-color:${t.hue};position:relative">
+        ${territoryEmblemSVG(t.id,!unlocked)}
+        ${restored?`<span style="position:absolute;bottom:-5px;right:-5px;font-size:13px;filter:drop-shadow(0 0 6px #f5b800)">✦</span>`:""}
+      </div>
       <div class="t-info">
+        <div class="t-step">Territorio ${String(i+1).padStart(2,"0")} · ${routeState}</div>
         <div class="t-name">${t.name}</div>
         <div class="t-desc">${unlocked?t.desc:"Territorio corrompido. Restaura el anterior para abrir el camino."}</div>
         <div class="t-bar"><div class="t-fill" style="width:${pct}%;background:${t.hue}"></div></div>
@@ -2396,6 +2466,12 @@ function renderWorld(){
     }
     list.appendChild(card);
   });
+  document.getElementById("world-journey-count").textContent = `${restoredCount} / ${TERRITORIES.length}`;
+  document.getElementById("world-journey-note").textContent = restoredCount===0
+    ? "Cada territorio recuperado reconstruye un fragmento de la memoria de Confite."
+    : restoredCount===TERRITORIES.length
+      ? "La ruta está completa. El Gran Cristal vuelve a respirar."
+      : `${TERRITORIES.length-restoredCount} territorios siguen atrapados en la Fragmentación.`;
   const worldPct = Math.round(total/TERRITORIES.length*100);
   document.getElementById("world-pct").textContent = worldPct;
   document.getElementById("world-restore-fill").style.width = worldPct+"%";
@@ -3584,28 +3660,31 @@ function startBR(){
 function renderMap(){
   const territory = TERRITORIES.find(t=>t.id===currentTerritory);
   const levels = LEVELS_BY_TERRITORY[currentTerritory];
+  const screenMap = document.getElementById("screen-map");
+  screenMap.style.setProperty("--territory-hue", territory.hue);
   const titleEl = document.getElementById("map-title");
   titleEl.textContent = territory.name;
   titleEl.style.color = territory.hue;
   const bannerEl = document.getElementById("territory-banner");
-  bannerEl.innerHTML = territory.banner;
-  bannerEl.style.background = `linear-gradient(135deg, ${territory.hue}26, ${territory.hue}14)`;
+  bannerEl.innerHTML = `<div class="territory-banner-art" style="--territory-hue:${territory.hue}">${territoryEmblemSVG(territory.id)}</div><div class="territory-banner-copy">${territory.banner}</div>`;
+  bannerEl.style.setProperty("--territory-hue", territory.hue);
   bannerEl.style.borderColor = `${territory.hue}4D`;
-  document.getElementById("screen-map").style.background =
-    `radial-gradient(ellipse at 50% -10%, color-mix(in srgb, ${territory.hue} 24%, var(--dark)) 0%, var(--dark) 70%)`;
 
   const territoryStars = save.stars[currentTerritory] || {};
   const unlockedLevel = save.unlocked[currentTerritory] || 1;
   const grid = document.getElementById("level-grid");
   grid.innerHTML = "";
   let totalStars = 0;
-  levels.forEach(lv=>{
+  let clearedCount = 0;
+  levels.forEach((lv,index)=>{
     const stars = territoryStars[lv.n] || 0;
     totalStars += stars;
+    if(stars>0) clearedCount++;
     const unlocked = lv.n <= unlockedLevel;
     const div = document.createElement("div");
     const isBoss = lv.n === TOTAL_LEVELS;
     div.className = "level-node" + (unlocked? (stars>0?" cleared":"") : " locked") + (isBoss?" boss-level":"");
+    div.style.animationDelay = (index*55)+"ms";
     const lname = LEVEL_NAMES_ALL[currentTerritory] && LEVEL_NAMES_ALL[currentTerritory][lv.n];
     if(lname) div.title = lname;
     if(unlocked){
@@ -3614,27 +3693,32 @@ function renderMap(){
       const typeIcon = lv.type==="collect" ? `<div class="lv-type-badge">🍬</div>` : lv.type==="crystals" ? `<div class="lv-type-badge">✨</div>` : "";
       // los niveles 5 son picos de dificultad a propósito: avisarlo crea expectativa
       if(lv.n===5 && !isBoss) div.classList.add("lv-hard");
+      const hardHtml = lv.n===5 && !isBoss ? `<span class="hard-badge">Difícil</span>` : "";
       div.innerHTML = isBoss
         ? `<div class="level-num">👑</div>
+           <div class="level-name">${lname||"Guardián del territorio"}</div>
            <div class="level-stars">
              <span class="s ${stars>=1?'on':''}">⭐</span>
              <span class="s ${stars>=2?'on':''}">⭐</span>
              <span class="s ${stars>=3?'on':''}">⭐</span>
            </div>${bestHtml}`
         : `${typeIcon}<div class="level-num">${lv.n}</div>
+           <div class="level-name">${lname||`Nivel ${lv.n}`}</div>
            <div class="level-stars">
              <span class="s ${stars>=1?'on':''}">⭐</span>
              <span class="s ${stars>=2?'on':''}">⭐</span>
              <span class="s ${stars>=3?'on':''}">⭐</span>
-           </div>${bestHtml}`;
+           </div>${bestHtml}${hardHtml}`;
       div.onclick = isBoss ? ()=>showBossIntro(lv.n) : ()=>tryStartLevel(lv.n);
     } else {
       div.innerHTML = isBoss
-        ? `<div class="lock-icon">👑</div><div class="level-num" style="font-size:12px;color:var(--gold)">Jefe</div>`
-        : `<div class="lock-icon">🔒</div><div class="level-num" style="font-size:15px">${lv.n}</div>`;
+        ? `<div class="lock-icon">👑</div><div class="level-num" style="font-size:12px;color:var(--gold)">Jefe</div><div class="level-name">${lname||"Guardián oculto"}</div>`
+        : `<div class="lock-icon">🔒</div><div class="level-num" style="font-size:15px">${lv.n}</div><div class="level-name">${lname||"Ruta en la niebla"}</div>`;
     }
     grid.appendChild(div);
   });
+  document.getElementById("map-route-label").textContent = `Ruta ${clearedCount}/${levels.length}`;
+  document.getElementById("map-route-fill").style.width = `${Math.round(clearedCount/levels.length*100)}%`;
   document.getElementById("total-stars").textContent = totalStars;
   confiteMapSay(totalStars);
   const loreEl = document.getElementById("level-lore");
