@@ -1,60 +1,56 @@
-# Sugar Clash: Dulcelandia — Build Web v1
+# Sugar Clash: Dulcelandia
 
-## Qué es esto
+Juego web de restauración, memoria y estrategia match-3. Dulce Roja acompaña a
+Confite por ocho territorios; cada capítulo devuelve color y revela parte de la
+Fragmentación. Los tres Ecos del Cristal son recuerdos jugables, no modos aislados.
 
-El Modo Puzzle completo, jugable de verdad, corriendo en un solo archivo HTML.
-No necesita instalación, internet (excepto las fuentes la primera vez), ni configuración.
+Producción: https://sugarclash-web.vercel.app/
 
-## Cómo probarlo AHORA
+## Desarrollo y pruebas
 
-1. Haz doble clic en `index.html`
-2. Se abre en tu navegador
-3. Juega los 10 niveles de Las Tierras Carmesí
+Todo el motor, interfaz y narrativa viven intencionalmente en `index.html`, sin
+frameworks ni compilación. `title-world-v3-hd.jpg` ambienta las pantallas y los
+emblemas son SVG. Audio sintetizado. Guardado local: `sugarclash_save_v1`.
 
-Tu progreso se guarda automáticamente en el navegador (localStorage).
-Si cierras y vuelves a abrir, sigues donde lo dejaste.
-
-## Qué incluye esta versión
-
-- Pantalla de título con Confite animado
-- Mapa de 10 niveles con sistema de estrellas y bloqueo progresivo
-- Tablero match-3 completo: combos, cascadas, gravedad, caramelo especial dorado
-- Confite reacciona con frases distintas según lo que hagas (combos grandes, pocos movimientos)
-- Sonido "pop" sintetizado (sin archivos de audio externos)
-- Progreso guardado entre sesiones
-
-## Qué NO incluye todavía (próximos pasos)
-
-- Arte real (usa formas de colores como placeholder — los prompts de Midjourney ya están escritos)
-- Música de fondo
-- Los otros 7 territorios
-- Aldea, MOBA, Battle Royale, Cooperativo
-- Multijugador / Firebase
-
-## Cómo convertirlo en app real para tu teléfono (cuando esté listo)
-
-Esto se hace con **Capacitor** (gratis, de Ionic). El proceso resumido:
-
-```bash
-npm install -g @capacitor/cli
-npx cap init "Sugar Clash" "com.tunombre.sugarclash"
-npx cap add android
-npx cap copy
-npx cap open android
+```sh
+python3 -m http.server 4177 --bind 127.0.0.1
+node --test tests/*.test.cjs
 ```
 
-Eso abre Android Studio con tu juego ya empaquetado como proyecto Android,
-listo para generar el .apk e instalarlo en tu teléfono o subirlo a Google Play.
+Abrir `http://127.0.0.1:4177/`. Las pruebas cubren especiales persistentes, cadenas,
+gravedad, barajado, campaña, sintaxis y comportamiento de la caché online/offline.
+El worker v8 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
+No borrar los datos del navegador: eso elimina el progreso.
 
-(Cuando lleguemos a esa fase, te doy la guía completa paso a paso.)
+## Iteración actual
 
-## Estructura
+- Una pulsación desde portada hasta la siguiente partida; prólogo opcional.
+- Misión narrativa visible, campamento plegable y mapas sin scrolls anidados.
+- Poderes que sobreviven a su creación y activan otros poderes en cadena.
+- Intercambios y caídas animados, con respeto a movimiento reducido.
+- Recuerdos y consecuencias visibles en el resultado de cada nivel.
 
-```
-sugarclash-web/
-├── index.html      ← todo el juego (HTML + CSS + JS en un solo archivo)
-└── README.md        ← este archivo
-```
+## Qué falta para una prueba comercial real
 
-Mantenerlo en un solo archivo es intencional: así es más fácil de probar,
-compartir, y empaquetar con Capacitor más adelante.
+Esto todavía no demuestra retención ni ingresos. Liga, MOBA y Battle Royale no
+son multijugador real; los rivales son simulados. Los anuncios son demostraciones
+y no generan ingresos. No hay cobros reales ni analítica remota conectada.
+
+La siguiente inversión debe ser una prueba con jugadores nuevos, no más sistemas:
+
+1. Observar si entienden la primera jugada y el objetivo sin ayuda.
+2. Medir tiempo hasta jugar, abandonos, intentos por nivel y sesiones repetidas.
+3. Comprobar si guardan poderes con intención y recuerdan qué busca Confite.
+4. Registrar dónde abandonan; corregir ese punto y repetir con la misma prueba.
+5. Revalidar los 80 niveles tras el cambio de especiales; los antiguos resultados
+   del bot ya no validan este balance.
+
+Después, seleccionar un portal y conectar su SDK de anuncios recompensados,
+siempre voluntarios. No añadir intersticiales forzados. Ver `AGENTS.md` para las
+reglas de arquitectura, economía y continuidad narrativa.
+
+## Publicación
+
+El proyecto está vinculado a Vercel en `.vercel/` (configuración local, no se sube).
+Guardar commit, hacer push y ejecutar `vercel --prod` con la cuenta autorizada.
+El push de Git por sí solo no garantiza el despliegue: verificar la URL pública.

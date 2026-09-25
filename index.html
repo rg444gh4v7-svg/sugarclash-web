@@ -73,28 +73,29 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 }
 
 /* ===== WORLD (mapa mundial) ===== */
-#screen-world{padding:16px 14px 22px;gap:10px;isolation:isolate;background:#13031e;overflow:hidden}
-#screen-world::before{content:"";position:absolute;z-index:-2;inset:-8%;background:url('title-world-v3-hd.jpg') center 54%/cover;filter:saturate(1.08) contrast(1.04);opacity:.42;transform:scale(1.04);animation:worldCamera 18s ease-in-out infinite alternate}
+#screen-world{padding:16px 14px 22px;gap:10px;isolation:isolate;background:#13031e;overflow-y:auto;overflow-x:hidden}
+#screen-world>*,#world-list>*{flex-shrink:0}
+#screen-world::before{content:"";position:absolute;z-index:-2;inset:0;background:url('title-world-v3-hd.jpg') center 54%/cover;filter:saturate(1.08) contrast(1.04);opacity:.42;animation:worldCamera 18s ease-in-out infinite alternate}
 #screen-world::after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(13,0,21,.62) 0%,rgba(13,0,21,.83) 38%,#0d0015 88%),radial-gradient(circle at 18% 22%,rgba(255,92,138,.13),transparent 30%),radial-gradient(circle at 82% 35%,rgba(113,59,205,.17),transparent 32%)}
-@keyframes worldCamera{from{transform:scale(1.04) translate3d(0,0,0)}to{transform:scale(1.1) translate3d(-1.2%,-1.4%,0)}}
+@keyframes worldCamera{to{background-position:48% 50%}}
 .world-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 11px;border-radius:16px;background:linear-gradient(110deg,rgba(42,8,69,.76),rgba(10,31,55,.68));border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.25);backdrop-filter:blur(14px)}
 .world-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--gold)}
 .world-sub{font-size:12px;color:var(--crystal);margin-top:2px}
 #world-restore-track{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:99px;height:10px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.45)}
 #world-restore-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--candy),var(--gold),var(--crystal));border-radius:99px;transition:width .6s;box-shadow:0 0 12px var(--crystal)}
-#world-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:22px;padding:8px 4px 30px;position:relative;scrollbar-width:none;mask-image:linear-gradient(to bottom,transparent 0,#000 16px,#000 calc(100% - 22px),transparent)}
+#world-list{flex:none;display:flex;flex-direction:column;gap:22px;padding:8px 4px 30px;position:relative}
 #world-list::-webkit-scrollbar{display:none}
 #world-list::before{content:"";position:absolute;left:50%;top:88px;bottom:30px;width:4px;transform:translateX(-50%);border-radius:99px;background:linear-gradient(180deg,var(--candy),var(--gold),var(--crystal),#7445d8,var(--candy));background-size:100% 240%;box-shadow:0 0 13px rgba(0,245,255,.48);opacity:.72;animation:routeFlow 7s linear infinite}
 @keyframes routeFlow{to{background-position:0 240%}}
 .world-journey{position:relative;z-index:2;align-self:center;width:calc(100% - 8px);padding:12px 15px;border-radius:18px;background:linear-gradient(110deg,rgba(20,15,40,.91),rgba(27,9,46,.88));border:1px solid rgba(246,201,96,.34);box-shadow:inset 0 1px rgba(255,255,255,.08),0 12px 30px rgba(0,0,0,.34);backdrop-filter:blur(14px)}
 .world-journey-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.world-journey-kicker{font-size:8px;letter-spacing:.17em;text-transform:uppercase;color:var(--crystal)}.world-journey-title{font-family:'Fraunces',serif;font-size:16px;color:var(--cream);margin-top:2px}.world-journey-count{font-family:'Fraunces',serif;color:var(--gold);font-size:18px;white-space:nowrap}.world-journey-note{font-size:9.5px;color:rgba(255,255,255,.48);margin-top:6px;line-height:1.35}
 .territory-card{position:relative;width:86%;min-height:96px;border-radius:22px;padding:12px 14px;display:flex;gap:12px;align-items:center;background:linear-gradient(125deg,rgba(32,18,51,.94),rgba(10,25,43,.9));border:1px solid rgba(255,255,255,.19);transition:transform .18s,filter 1.2s,border-color .25s;cursor:pointer;z-index:1;animation:cardIn .55s cubic-bezier(.2,.75,.25,1) backwards;box-shadow:inset 0 1px rgba(255,255,255,.1),0 13px 30px rgba(0,0,0,.42);backdrop-filter:blur(14px);overflow:visible}
-.territory-card::after{content:"";position:absolute;top:50%;width:15%;height:30px;border-color:rgba(246,201,96,.38);border-style:solid;pointer-events:none;opacity:.8}
+.territory-card::after{display:none}
 .territory-card.map-left{align-self:flex-start}.territory-card.map-right{align-self:flex-end}
 .territory-card.map-left::after{right:-16%;border-width:0 2px 2px 0;border-radius:0 0 18px 0}
 .territory-card.map-right::after{left:-16%;border-width:0 0 2px 2px;border-radius:0 0 0 18px}
 .territory-card .route-pin{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:#171326;border:3px solid var(--territory-color,var(--crystal));box-shadow:0 0 0 4px rgba(13,0,21,.86),0 0 16px var(--territory-color,var(--crystal));transform:translateY(-50%);z-index:4}
-.territory-card.map-left .route-pin{right:-22.4%}.territory-card.map-right .route-pin{left:-22.4%}
+.territory-card.map-left .route-pin{left:calc(58.14% - 7px);top:-12px}.territory-card.map-right .route-pin{left:calc(41.86% - 7px);top:-12px}
 @keyframes cardIn{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media (prefers-reduced-motion: reduce){
   .territory-card{animation:none}
@@ -126,6 +127,19 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .world-tools .village-entry-text b{font-size:11px;white-space:nowrap}
 .world-tools .village-entry-sub{display:none}
 .world-tools .village-entry-coins{font-size:9px;max-width:48px;overflow:hidden;text-overflow:ellipsis}
+.campaign-card{position:relative;overflow:hidden;padding:18px;border-radius:22px;border:1px solid color-mix(in srgb,var(--mission-color) 65%,transparent);background:linear-gradient(95deg,rgba(8,11,25,.96),rgba(8,11,25,.63)),url('title-world-v3-hd.jpg') center 45%/cover;box-shadow:0 14px 30px #0005,inset 0 1px #fff2}
+.campaign-kicker{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--mission-color);font-weight:700}
+.campaign-card h2{font:600 25px/1.1 'Fraunces',serif;margin:8px 75px 8px 0;color:var(--cream)}
+.campaign-card p{font-size:12px;line-height:1.55;color:#ded6e8;margin:0 48px 14px 0}
+.campaign-art{position:absolute;right:11px;top:23px;opacity:.8;filter:drop-shadow(0 0 16px var(--mission-color))}.campaign-art .t-emblem{width:78px;height:78px}
+.campaign-next{font-size:10px;color:#c8bfd5;margin-bottom:10px}
+.campaign-play{width:100%;min-height:46px;border:1px solid #ffe8a077;border-radius:12px;background:linear-gradient(110deg,#f8cd78,#e6a953);color:#261922;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 4px 18px #e6a95325}
+.campaign-play:active{transform:scale(.98)}
+#world-extras{border:1px solid #ffffff24;border-radius:15px;background:#131426ce;padding:12px}
+#world-extras summary{cursor:pointer;font-size:12px;color:var(--cream);min-height:24px;line-height:24px}
+#world-extras[open]>:not(summary){margin-top:10px}
+.overlay-story{font-size:12px;line-height:1.5;color:#e9d7b4;max-width:280px;padding:10px 12px;border-left:2px solid var(--gold);background:#ffffff08;text-align:left}
+.overlay-story:empty{display:none}
 
 /* ===== LIGA DEL PRISMA ===== */
 .league-entry{position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(155,89,182,.28),rgba(0,245,255,.13));border-color:rgba(0,245,255,.5);box-shadow:0 0 20px rgba(0,245,255,.08)}
@@ -326,9 +340,9 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 
 /* ===== MAP ===== */
 #screen-map{padding:18px 16px 24px;gap:11px;isolation:isolate;overflow:hidden;background:#0d0015;--territory-hue:#ff5c8a}
-#screen-map::before{content:"";position:absolute;z-index:-2;inset:-7%;background:url('title-world-v3-hd.jpg') center 58%/cover;filter:saturate(.78) contrast(1.06);opacity:.3;transform:scale(1.06);animation:mapAtmosphere 20s ease-in-out infinite alternate}
+#screen-map::before{content:"";position:absolute;z-index:-2;inset:0;background:url('title-world-v3-hd.jpg') center 58%/cover;filter:saturate(.78) contrast(1.06);opacity:.3;animation:mapAtmosphere 20s ease-in-out infinite alternate}
 #screen-map::after{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 50% -8%,color-mix(in srgb,var(--territory-hue) 24%,transparent),transparent 45%),linear-gradient(180deg,rgba(9,5,20,.67),rgba(13,0,21,.93) 62%,#0d0015)}
-@keyframes mapAtmosphere{to{transform:scale(1.12) translate3d(1.2%,-1%,0);filter:saturate(.9) contrast(1.08)}}
+@keyframes mapAtmosphere{to{background-position:52% 54%;filter:saturate(.9) contrast(1.08)}}
 .map-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 9px;border-radius:17px;background:rgba(12,9,27,.66);border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 1px rgba(255,255,255,.07),0 8px 24px rgba(0,0,0,.28);backdrop-filter:blur(14px)}
 .map-title{font-family:'Fraunces',serif;font-weight:600;font-size:20px;color:var(--gold)}
 .stars-total{font-size:13px;color:var(--crystal);display:flex;align-items:center;gap:5px}
@@ -341,15 +355,18 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .territory-banner-art .t-emblem{width:62px;height:62px}.territory-banner-copy{position:relative;z-index:1}
 .map-route-summary{display:flex;align-items:center;gap:10px;padding:0 4px}.map-route-label{font-size:8px;letter-spacing:.13em;color:rgba(255,255,255,.52);text-transform:uppercase;white-space:nowrap}.map-route-track{height:5px;flex:1;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}.map-route-fill{height:100%;width:0;background:linear-gradient(90deg,var(--territory-hue),var(--gold));box-shadow:0 0 10px var(--territory-hue);border-radius:inherit;transition:width .65s cubic-bezier(.2,.75,.25,1)}
 #confite-bubble,#confite-world-bubble{font-size:12px;color:#c9fdff;background:linear-gradient(105deg,rgba(0,245,255,.11),rgba(155,89,182,.14));border:1px solid rgba(127,216,232,.34);border-radius:13px;padding:8px 12px;min-height:18px;transition:opacity .3s;box-shadow:inset 0 1px rgba(255,255,255,.08),0 6px 18px rgba(0,0,0,.2);backdrop-filter:blur(12px)}
-#level-grid{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:19px;padding:10px 5px 35px;position:relative;scrollbar-width:none;mask-image:linear-gradient(to bottom,transparent,#000 13px,#000 calc(100% - 22px),transparent)}
+#screen-map{overflow-y:auto;overflow-x:hidden}
+#screen-map>*{flex-shrink:0}
+#level-grid{flex:none;display:flex;flex-direction:column;gap:19px;padding:10px 5px 35px;position:relative}
+.level-node{flex-shrink:0}
 #level-grid::-webkit-scrollbar{display:none}
 #level-grid::before{content:"";position:absolute;left:50%;top:26px;bottom:38px;width:4px;transform:translateX(-50%);border-radius:99px;background:linear-gradient(180deg,var(--territory-hue),var(--gold),var(--crystal));box-shadow:0 0 11px color-mix(in srgb,var(--territory-hue) 65%,transparent);opacity:.72}
 .level-node{width:46%;min-height:104px;border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;background:linear-gradient(145deg,rgba(39,22,57,.92),rgba(11,22,39,.9));border:1px solid rgba(255,255,255,.16);position:relative;transition:transform .15s,border-color .3s;box-shadow:inset 0 1px rgba(255,255,255,.09),0 11px 25px rgba(0,0,0,.35);backdrop-filter:blur(12px);animation:mapNodeIn .5s cubic-bezier(.2,.75,.25,1) backwards;z-index:1}
 .level-node:nth-child(odd){align-self:flex-start}.level-node:nth-child(even){align-self:flex-end}.level-node.boss-level{align-self:center;width:62%;min-height:116px}
-.level-node::before{content:"";position:absolute;top:50%;width:17%;border-top:2px solid color-mix(in srgb,var(--territory-hue) 52%,transparent)}
-.level-node:nth-child(odd)::before{right:-18%}.level-node:nth-child(even)::before{left:-18%}.level-node.boss-level::before{display:none}
+.level-node::before{content:"";position:absolute;top:50%;width:8.7%;border-top:2px solid color-mix(in srgb,var(--territory-hue) 52%,transparent)}
+.level-node:nth-child(odd)::before{right:-8.7%}.level-node:nth-child(even)::before{left:-8.7%}.level-node.boss-level::before{display:none}
 .level-node::after{content:"";position:absolute;top:50%;width:11px;height:11px;border-radius:50%;background:#0d0015;border:3px solid var(--territory-hue);box-shadow:0 0 10px var(--territory-hue);transform:translateY(-50%)}
-.level-node:nth-child(odd)::after{right:-23.8%}.level-node:nth-child(even)::after{left:-23.8%}.level-node.boss-level::after{left:50%;top:-16px;transform:translateX(-50%)}
+.level-node:nth-child(odd)::after{right:calc(-8.7% - 6px)}.level-node:nth-child(even)::after{left:calc(-8.7% - 6px)}.level-node.boss-level::after{left:50%;top:-16px;transform:translateX(-50%)}
 @keyframes mapNodeIn{from{opacity:0;transform:translateY(20px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
 .level-node:active{transform:scale(.94)}
 .level-node.locked{opacity:.4;pointer-events:none;filter:grayscale(.8)}
@@ -368,6 +385,9 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 /* ===== GAME ===== */
 #screen-game{padding:10px 10px 14px;gap:8px;background:radial-gradient(circle at 50% -10%,#482069 0%,#180421 48%,#0d0015 100%)}
 .hud{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#screen-game .hud{flex-wrap:nowrap;gap:6px}
+#screen-game .hud-stat{flex:1;min-width:0;padding:7px 4px}
+#screen-game .hud-val{font-size:17px}
 .hud-stat{background:linear-gradient(145deg,rgba(70,28,96,.78),rgba(9,30,49,.72));border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:7px 12px;text-align:center;min-width:58px;box-shadow:inset 0 1px rgba(255,255,255,.1),0 6px 14px rgba(0,0,0,.25);backdrop-filter:blur(10px)}
 .hud-val{font-family:'Fraunces',serif;font-weight:600;font-size:19px;line-height:1}
 .hud-val.moves-critical{color:var(--candy);animation:criticalPulse .6s ease-in-out infinite}
@@ -499,6 +519,10 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .c4{background:linear-gradient(135deg,#B084E8,#8B5CC4)}
 .c5{background:linear-gradient(135deg,#FF7FB0,#E0457F)}
 .cS{background:linear-gradient(135deg,#FFE066,#FF8C00);box-shadow:0 0 10px rgba(255,200,0,.5)}
+.cell.c0{--piece:#ff6477}.cell.c1{--piece:#59b8f5}.cell.c2{--piece:#4ce2ac}.cell.c3{--piece:#ffd664}.cell.c4{--piece:#b896fb}.cell.c5{--piece:#fc87b8}.cell.cS{--piece:#ffd674}
+:where(#grid:not(.canvas-mode)) .cell{color:var(--piece);background:radial-gradient(ellipse at 30% 15%,color-mix(in srgb,var(--piece) 24%,#272038),#161424 80%);border-color:color-mix(in srgb,var(--piece) 28%,transparent);box-shadow:inset 0 1px #ffffff1a,inset 0 -3px 6px #0006,0 3px 6px #0005}
+:where(#grid:not(.canvas-mode)) .candy-icon{width:90%;height:90%;filter:drop-shadow(0 4px 2px #0007) drop-shadow(0 0 4px color-mix(in srgb,currentColor 22%,transparent))}
+#grid.canvas-mode .cell{color:#fff8ee}
 
 .combo-pop{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--gold);pointer-events:none;animation:flashout .8s ease forwards;white-space:nowrap;z-index:5}
 @keyframes flashout{0%{opacity:1;transform:translate(-50%,-60%) scale(1)}100%{opacity:0;transform:translate(-50%,-110%) scale(1.15)}}
@@ -826,11 +850,11 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <!-- c0: caramelo torcido (bombón clásico) -->
   <symbol id="candy-0" viewBox="0 0 64 64">
     <clipPath id="clip-c0"><ellipse cx="32" cy="32" rx="15" ry="13"/></clipPath>
-    <path d="M17 22 L5 14 Q2 32 5 50 L17 42 Z" fill="#FFF8EE" fill-opacity=".92"/>
-    <path d="M47 22 L59 14 Q62 32 59 50 L47 42 Z" fill="#FFF8EE" fill-opacity=".92"/>
+    <path d="M17 22 L5 14 Q2 32 5 50 L17 42 Z" fill="currentColor" fill-opacity=".92"/>
+    <path d="M47 22 L59 14 Q62 32 59 50 L47 42 Z" fill="currentColor" fill-opacity=".92"/>
     <path d="M5 14 Q2 32 5 50" stroke="#000" stroke-opacity=".10" stroke-width="2" fill="none"/>
     <path d="M59 14 Q62 32 59 50" stroke="#000" stroke-opacity=".10" stroke-width="2" fill="none"/>
-    <ellipse cx="32" cy="32" rx="15" ry="13" fill="#FFF8EE" fill-opacity=".92"/>
+    <ellipse cx="32" cy="32" rx="15" ry="13" fill="currentColor" fill-opacity=".92"/>
     <g clip-path="url(#clip-c0)">
       <ellipse cx="32" cy="43" rx="17" ry="8" fill="#000" fill-opacity=".10"/>
       <path d="M23 20 Q30 30 23 44" stroke="#000" stroke-opacity=".08" stroke-width="4" fill="none"/>
@@ -843,11 +867,11 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <!-- c1: gomita oso -->
   <symbol id="candy-1" viewBox="0 0 64 64">
     <clipPath id="clip-c1"><path d="M32 14c11 0 18 9 18 21s-8 21-18 21-18-9-18-21 7-21 18-21z"/></clipPath>
-    <circle cx="23" cy="16" r="7" fill="#FFF8EE" fill-opacity=".92"/>
-    <circle cx="41" cy="16" r="7" fill="#FFF8EE" fill-opacity=".92"/>
+    <circle cx="23" cy="16" r="7" fill="currentColor" fill-opacity=".92"/>
+    <circle cx="41" cy="16" r="7" fill="currentColor" fill-opacity=".92"/>
     <circle cx="23" cy="16" r="3" fill="#000" fill-opacity=".10"/>
     <circle cx="41" cy="16" r="3" fill="#000" fill-opacity=".10"/>
-    <path d="M32 14c11 0 18 9 18 21s-8 21-18 21-18-9-18-21 7-21 18-21z" fill="#FFF8EE" fill-opacity=".92"/>
+    <path d="M32 14c11 0 18 9 18 21s-8 21-18 21-18-9-18-21 7-21 18-21z" fill="currentColor" fill-opacity=".92"/>
     <g clip-path="url(#clip-c1)">
       <ellipse cx="32" cy="51" rx="17" ry="9" fill="#000" fill-opacity=".10"/>
     </g>
@@ -859,7 +883,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <!-- c2: gomita cuadrada -->
   <symbol id="candy-2" viewBox="0 0 64 64">
     <clipPath id="clip-c2"><rect x="13" y="13" width="38" height="38" rx="11"/></clipPath>
-    <rect x="13" y="13" width="38" height="38" rx="11" fill="#FFF8EE" fill-opacity=".92"/>
+    <rect x="13" y="13" width="38" height="38" rx="11" fill="currentColor" fill-opacity=".92"/>
     <g clip-path="url(#clip-c2)">
       <ellipse cx="32" cy="50" rx="23" ry="9" fill="#000" fill-opacity=".10"/>
     </g>
@@ -875,7 +899,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     <clipPath id="clip-c3"><circle cx="32" cy="24" r="19"/></clipPath>
     <rect x="29" y="34" width="6" height="24" rx="3" fill="#FFF8EE" fill-opacity=".85"/>
     <rect x="29" y="34" width="2.5" height="24" rx="1.2" fill="#000" fill-opacity=".08"/>
-    <circle cx="32" cy="24" r="19" fill="#FFF8EE" fill-opacity=".92"/>
+    <circle cx="32" cy="24" r="19" fill="currentColor" fill-opacity=".92"/>
     <g clip-path="url(#clip-c3)">
       <ellipse cx="32" cy="38" rx="20" ry="9" fill="#000" fill-opacity=".10"/>
       <path d="M32 10 A14 14 0 1 1 18 24" fill="none" stroke="#000" stroke-opacity=".10" stroke-width="4" stroke-linecap="round"/>
@@ -888,7 +912,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <!-- c4: caramelo espiral -->
   <symbol id="candy-4" viewBox="0 0 64 64">
     <clipPath id="clip-c4"><circle cx="32" cy="32" r="20"/></clipPath>
-    <circle cx="32" cy="32" r="20" fill="#FFF8EE" fill-opacity=".92"/>
+    <circle cx="32" cy="32" r="20" fill="currentColor" fill-opacity=".92"/>
     <g clip-path="url(#clip-c4)">
       <ellipse cx="32" cy="47" rx="21" ry="9" fill="#000" fill-opacity=".10"/>
       <path d="M32 18 a14 14 0 1 1 -9.9 4.1" fill="none" stroke="#000" stroke-opacity=".12" stroke-width="4" stroke-linecap="round"/>
@@ -901,7 +925,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <!-- c5: corazón gominola -->
   <symbol id="candy-5" viewBox="0 0 64 64">
     <clipPath id="clip-c5"><path d="M32 54 C10 40 6 24 18 16 C25 11 32 15 32 22 C32 15 39 11 46 16 C58 24 54 40 32 54 Z"/></clipPath>
-    <path d="M32 54 C10 40 6 24 18 16 C25 11 32 15 32 22 C32 15 39 11 46 16 C58 24 54 40 32 54 Z" fill="#FFF8EE" fill-opacity=".92"/>
+    <path d="M32 54 C10 40 6 24 18 16 C25 11 32 15 32 22 C32 15 39 11 46 16 C58 24 54 40 32 54 Z" fill="currentColor" fill-opacity=".92"/>
     <g clip-path="url(#clip-c5)">
       <ellipse cx="32" cy="48" rx="19" ry="10" fill="#000" fill-opacity=".10"/>
     </g>
@@ -950,8 +974,9 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
         <div class="title-league-rank" id="title-league-rank">#—</div>
       </div>
       <div class="title-actions">
-        <button class="btn-play" id="btn-title-main" onclick="goTo('world')">▶ Jugar ahora</button>
-        <button class="btn-ghost" id="btn-title-secondary" style="display:none" onclick="goTo('world')">Mapa mundial</button>
+        <button class="btn-play" id="btn-title-main" onclick="continueCampaign()">▶ Jugar historia</button>
+        <button class="btn-ghost" id="btn-title-secondary" onclick="goTo('world')">Explorar el mundo</button>
+        <button class="btn-ghost" onclick="startIntro()">El origen de la Fragmentación</button>
         <button class="btn-ghost" id="btn-hexclash" style="border-color:rgba(0,245,255,.35);color:var(--crystal)">🕯️ HEX CLASH · Modo Oscuro</button>
       </div>
       <div id="confite-title-bubble" style="font-size:11px;color:var(--crystal);font-style:italic;opacity:.85;display:none"></div>
@@ -1060,6 +1085,8 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     </div>
     <div id="world-restore-track"><div id="world-restore-fill"></div></div>
     <div id="confite-world-bubble">El mundo entero está gris... pero tú puedes devolverle el color.</div>
+    <div id="campaign-mission" class="campaign-card"></div>
+    <details id="world-extras"><summary>Campamento · aldea, héroes y ecos</summary>
     <div class="village-entry league-entry" onclick="goTo('league')">
       <div class="village-entry-icon">⚔️</div>
       <div class="village-entry-text">
@@ -1126,6 +1153,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div class="village-entry-coins" id="world-memories-count">0/8</div>
     </div>
     </div>
+    </details>
     <div id="world-list"></div>
   </section>
 
@@ -1371,7 +1399,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div class="hud-stat"><div class="hud-val" id="hud-moves">20</div><div class="hud-lbl">Movs</div></div>
       <div class="hud-stat"><div class="hud-val" id="hud-score">0</div><div class="hud-lbl">Puntos</div></div>
       <div class="hud-stat"><div class="hud-val" id="hud-level">1</div><div class="hud-lbl">Nivel</div></div>
-      <div class="hud-stat" id="hud-combo-stat"><div class="hud-val" id="hud-combo-mult">x1</div><div class="hud-lbl">Combo</div></div>
+      <div class="hud-stat" id="hud-combo-stat"><div class="hud-val" id="hud-combo-mult">—</div><div class="hud-lbl">Cascada</div></div>
       <div class="back-btn" onclick="openPause()">⏸️</div>
     </div>
     <div id="objective-bar">Meta: 1,000 pts</div>
@@ -1410,6 +1438,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
         <div class="overlay-icon" id="overlay-icon">🍬</div>
         <div class="overlay-title" id="overlay-title"></div>
         <div class="overlay-sub" id="overlay-sub"></div>
+        <div class="overlay-story" id="overlay-story" aria-live="polite"></div>
         <div class="overlay-stars" id="overlay-stars">
           <span class="s">⭐</span><span class="s">⭐</span><span class="s">⭐</span>
         </div>
@@ -2269,6 +2298,7 @@ function goTo(name, territoryId){
   document.getElementById("screen-"+name).classList.add("active");
   if(name==="map"){ if(territoryId) currentTerritory = territoryId; renderMap(); }
   if(name==="world") renderWorld();
+  if(name==="game") document.getElementById("overlay-story").textContent="";
   if(name==="village") renderVillage();
   if(name==="settings") renderSettings();
   if(name==="achievements") renderAchievements();
@@ -2408,10 +2438,46 @@ function renderTitleLeague(){
   if(divisionEl) divisionEl.textContent = `${division.icon} ${division.name} · ${save.league.points||0} coronas`;
   if(rankEl) rankEl.textContent = `#${leaguePlayerRank()}`;
 }
+// Territory goals and consequences share one source of truth; saves remain compatible.
+const CAMPAIGN_ARCS={
+  1:{title:"Un hogar entre las cenizas",purpose:"El gris cortó la ruta hacia la aldea. Devuélvele el color para que Confite encuentre el camino a casa.",steps:["Abre el sendero hacia la aldea.","Reconstruye el camino hasta la torre.","Cruza las puertas y enfrenta al guardián."],resolution:"El camino a casa vuelve a existir. Pero Confite oye una melodía que llega desde los Jardines de Mochi."},
+  2:{title:"La melodía bajo la niebla",purpose:"Confite reconoce una canción entre los cerezos dormidos. Despierta los jardines para seguir su origen.",steps:["Devuelve el color a los cerezos.","Sigue la melodía a través del jardín.","Libera el último sendero de la niebla."],resolution:"Los cerezos vuelven a florecer. La canción no termina aquí: su eco alcanza las Torres de Tanghulu."},
+  3:{title:"Lo que las torres callaron",purpose:"Las torres guardan rastros de la antigua guerra. Restaura sus caminos para descubrir qué intentaron proteger.",steps:["Alcanza las torres exteriores.","Recupera las señales de la antigua defensa.","Abre la ruta hacia la torre más alta."],resolution:"La defensa de Tanghulu vuelve a brillar. Al otro lado de las montañas, el cacao aún conserva las cicatrices de aquella guerra."},
+  4:{title:"El frío de la guerra",purpose:"El chocolate endurecido bloquea el paso por los Alpes. Rompe sus barreras para devolver calor a la montaña.",steps:["Abre una ruta por las laderas.","Rompe el chocolate que encierra los caminos.","Libera el paso a través de la cumbre."],resolution:"El deshielo abre el paso. Desde el Bosque de Gominolas llegan voces que pronuncian el nombre de Confite."},
+  5:{title:"El bosque que recuerda",purpose:"El bosque reconoce a Confite, aunque él no recuerda haber estado aquí. Restaura sus claros para escuchar sus voces.",steps:["Despeja los claros del bosque.","Sigue las voces entre las raíces.","Alcanza el corazón del bosque."],resolution:"El bosque recupera su voz. Confite recuerda fogatas lejanas: una última reunión antes de la Fragmentación."},
+  6:{title:"Las últimas fogatas",purpose:"Las praderas guardan el recuerdo de quienes se reunieron antes de perderlo todo. Devuelve la luz a sus caminos.",steps:["Enciende de nuevo los senderos.","Conecta los refugios de la pradera.","Recupera el lugar de la última fogata."],resolution:"Las fogatas vuelven a iluminar la pradera. La ruta continúa hacia el valle donde nadie ha olvidado a los ausentes."},
+  7:{title:"Los nombres que quedan",purpose:"En el valle, recordar es resistir. Recupera sus colores para honrar a quienes la Fragmentación dejó atrás.",steps:["Restaura los caminos de bienvenida.","Devuelve la luz a los lugares de memoria.","Abre el paso que lleva a la Capital."],resolution:"El valle vuelve a honrar a sus ausentes. Solo queda la Capital de Cristal, donde Confite tendrá que enfrentar su recuerdo."},
+  8:{title:"La verdad del Cristal",purpose:"Todos los caminos conducen aquí. Despierta la Capital para descubrir por qué el Gran Cristal eligió romperse.",steps:["Cruza las calles detenidas en el tiempo.","Reúne las huellas de la Fragmentación.","Alcanza el Gran Cristal y escucha a Confite."],resolution:"La Capital recupera su color. Confite está listo para contarte la verdad."}
+};
+function campaignNext(){
+  const territory=TERRITORIES.find(t=>territoryUnlocked(t.id)&&territoryProgress(t.id)<1)||TERRITORIES[TERRITORIES.length-1];
+  const n=LEVELS_BY_TERRITORY[territory.id].find(lv=>!(save.stars[territory.id]?.[lv.n]>0))?.n||TOTAL_LEVELS;
+  return {territory,n:Math.min(n,save.unlocked[territory.id]||1),complete:territoryProgress(8)>=1};
+}
+function continueCampaign(){
+  const {territory,n}=campaignNext();
+  if(!save.introDone){ save.introDone=true; persistSave(); }
+  goTo("map",territory.id);
+  if(n===TOTAL_LEVELS) showBossIntro(n); else tryStartLevel(n);
+}
+function renderCampaignMission(){
+  const {territory:t,n,complete}=campaignNext(),arc=CAMPAIGN_ARCS[t.id];
+  const el=document.getElementById("campaign-mission");
+  el.style.setProperty('--mission-color',t.hue);
+  el.innerHTML=`<div class="campaign-kicker">${complete?'Historia restaurada':`Capítulo ${String(t.id).padStart(2,'0')} · ${Math.round(territoryProgress(t.id)*100)}% restaurado`}</div>
+    <div class="campaign-art" aria-hidden="true">${territoryEmblemSVG(t.id,false)}</div>
+    <h2>${arc.title}</h2><p>${complete?'Dulcelandia vuelve a respirar. Puedes regresar a sus caminos y recuperar las memorias que te faltan.':arc.purpose}</p>
+    <div class="campaign-next">${complete?'Vuelve al Gran Cristal':`${arc.steps[n<4?0:n<8?1:2]} · Ruta ${n}/10`}</div>
+    <button class="campaign-play" onclick="continueCampaign()">${complete?'Volver a jugar':`Continuar historia · ${n===TOTAL_LEVELS?'Guardián':`Nivel ${n}`}`} →</button>`;
+}
 function renderWorld(){
+  renderCampaignMission();
+  const camp=document.getElementById("world-extras");
+  camp.appendChild(document.getElementById("piggy-card"));
   const list = document.getElementById("world-list");
   list.innerHTML = "";
-  renderDailyCard(list);
+  const oldDaily=camp.querySelector('.daily-card'); if(oldDaily) oldDaily.remove();
+  renderDailyCard(camp);
   const journey = document.createElement("div");
   journey.className = "world-journey";
   journey.innerHTML = `
@@ -2436,7 +2502,7 @@ function renderWorld(){
     if(restored) restoredCount++;
     card.className = `territory-card ${i%2===0?"map-left":"map-right"}${unlocked?"":" locked"}${restored?" restored":""}`;
     card.style.setProperty("--territory-color", t.hue);
-    card.style.filter = `grayscale(${Math.max(0,(1-p)).toFixed(2)})`;
+    card.style.filter = `grayscale(${unlocked?Math.max(0,.6-p):1})`;
     card.style.animationDelay = (i*70)+"ms";
     const routeState = restored ? "Restaurado" : unlocked ? "Ruta abierta" : "Bajo la niebla";
     card.innerHTML = `
@@ -4028,7 +4094,7 @@ function startLevel(n){
           cols: lv.cols, rows: 8, score: 0, progress: 0, cascade:0, done:false, boostUsed:false, rainbowUsed:false, bombUsed:false, isDaily:false };
   // Habilidad de Dulce Roja equipada: +1 movimiento de arranque
   if(hasHeroAbility("dulce")){ cur.movesLeft++; cur.movesMax++; }
-  rainbowActive = false;
+  rainbowActive = false; bombActive = false;
   // V2: reset streak/frenetic/sugar rush
   moveStreak = 0; freneticStartTime = Date.now(); endSugarRush();
   save.lastTerritory = currentTerritory;
@@ -4049,7 +4115,8 @@ function startLevel(n){
   if(isBossLevel) startMsg = "¡El nivel jefe! El más difícil del territorio. ¡Dalo todo!";
   else if(cur.type==="collect") startMsg = `Recolecta ${cur.target} ${CANDY_NAMES[cur.color]}. Los rayados limpian filas enteras.`;
   else if(cur.type==="crystals") startMsg = "Conecta los Cristales ✨ con cascadas. ¡Son poderosos!";
-  else startMsg = cur.score===0 && cur.goal>3000 ? "Nivel exigente. Las cascadas multiplican los puntos. ¡Piensa antes de mover!" : "¡Nuevo nivel! Haz tu primer movimiento.";
+  else startMsg = cur.goal>3000 ? "Guarda un rayado: al combinarlo podrás encadenar poderes." : "Combina 3 para restaurar color; combina 4 para guardar un poder.";
+  if(n===1) startMsg=CAMPAIGN_ARCS[currentTerritory].purpose;
   setConfiteGame(startMsg);
   setConfiteMood(isBossLevel ? "worried" : "happy");
   const terr = TERRITORIES.find(t=>t.id===currentTerritory);
@@ -4297,20 +4364,24 @@ function gravityStripes(){
   }
 }
 function checkAndCreateStripe(matchedCells, destR, destC){
-  /* If the player's move created an L/T shape (match-3+ in a row AND match-3+ in a column,
-     crossing at the swapped cell) → Wrapped candy, explodes 3x3 when combined.
-     Else if match-4+ in a row → H stripe. Else if match-4+ in a column → V stripe. */
-  const rowCounts={}, colCounts={};
-  matchedCells.forEach(({r,c})=>{
-    rowCounts[r]=(rowCounts[r]||0)+1;
-    colCounts[c]=(colCounts[c]||0)+1;
-  });
-  if((rowCounts[destR]||0)>=3 && (colCounts[destC]||0)>=3){
-    if(stripes[destR]){ stripes[destR][destC]='W'; save.wrappedCreated=(save.wrappedCreated||0)+1; persistSave(); _wrapCreatedReact(); }
-    return;
-  }
-  for(const r in rowCounts){ if(rowCounts[r]>=4){ if(stripes[destR]){ stripes[destR][destC]='H'; save.stripesCreated=(save.stripesCreated||0)+1; persistSave(); _stripeCreatedReact(); } return; } }
-  for(const c in colCounts){ if(colCounts[c]>=4){ if(stripes[destR]){ stripes[destR][destC]='V'; save.stripesCreated=(save.stripesCreated||0)+1; persistSave(); _stripeCreatedReact(); } return; } }
+  const color=board[destR][destC];
+  if(color<0 || color===SPECIAL || stripes[destR][destC] || !matchedCells.some(p=>p.r===destR&&p.c===destC)) return null;
+  const run=(dr,dc)=>{
+    let count=1;
+    for(const sign of [-1,1]){
+      let r=destR+dr*sign,c=destC+dc*sign;
+      while(r>=0&&r<cur.rows&&c>=0&&c<cur.cols&&board[r][c]===color){ count++; r+=dr*sign; c+=dc*sign; }
+    }
+    return count;
+  };
+  const horizontal=run(0,1), vertical=run(1,0);
+  const kind=horizontal>=3&&vertical>=3 ? 'W' : horizontal>=4 ? 'H' : vertical>=4 ? 'V' : null;
+  if(!kind) return null;
+  stripes[destR][destC]=kind;
+  const stat=kind==='W'?'wrappedCreated':'stripesCreated';
+  save[stat]=(save[stat]||0)+1; persistSave();
+  if(kind==='W') _wrapCreatedReact(); else _stripeCreatedReact();
+  return {r:destR,c:destC};
 }
 function _stripeCreatedReact(){
   const pool=CONFITE_LINES.stripeCreated;
@@ -4367,7 +4438,7 @@ function buildGrid(){
   resetHintTimer();
 }
 
-function renderGrid(){
+function renderGrid(motion=[]){
   const gridEl = document.getElementById("grid");
   gridEl.classList.toggle("canvas-mode", !!(cur && cur.isCanvas));
   gridEl.innerHTML = "";
@@ -4376,7 +4447,7 @@ function renderGrid(){
     const div = document.createElement("div");
     div.className = "cell " + COLORCLASS[t];
     if(cur.cols>=8) div.style.borderRadius="7px";
-    div.innerHTML = `<svg class="candy-icon" viewBox="0 0 64 64"><use href="#${CANDY_IDS[t]}"></use></svg>`;
+    div.innerHTML = t<0 ? "" : `<svg class="candy-icon" viewBox="0 0 64 64"><use href="#${CANDY_IDS[t]}"></use></svg>`;
     div.dataset.r=r; div.dataset.c=c;
     div.onclick = ()=>onCellClick(r,c);
     if(sel && sel[0]===r && sel[1]===c) div.classList.add("selected");
@@ -4389,6 +4460,14 @@ function renderGrid(){
       if(canvasFog[r][c]>=2) div.classList.add("veil-2");
     }
     gridEl.appendChild(div);
+  }
+  if(motion.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    const first=gridEl.firstElementChild;
+    const step=first.getBoundingClientRect().width+parseFloat(getComputedStyle(gridEl).gap);
+    motion.forEach(({r,c,dr=0,dc=0})=>{
+      const el=cellEl(r,c);
+      if(el?.animate) el.animate([{transform:`translate(${dc*step}px,${dr*step}px)`,opacity:.65},{transform:'translate(0,0)',opacity:1}],{duration:200,easing:'cubic-bezier(.2,.75,.3,1)'});
+    });
   }
 }
 function cellEl(r,c){ return document.getElementById("grid").children[r*cur.cols+c]; }
@@ -4420,15 +4499,16 @@ function onCellClick(r,c){
 
 async function doSwap(r1,c1,r2,c2){
   busy = true;
-  swapCells(r1,c1,r2,c2); swapStripes(r1,c1,r2,c2); renderGrid();
-  await delay(160);
+  const motion=[{r:r1,c:c1,dr:r2-r1,dc:c2-c1},{r:r2,c:c2,dr:r1-r2,dc:c1-c2}];
+  swapCells(r1,c1,r2,c2); swapStripes(r1,c1,r2,c2); renderGrid(motion);
+  await delay(200);
   const m = findMatches();
   if(m.length===0){
     // No match → reset streak
     moveStreak = 0; updateStreakPips();
-    swapCells(r1,c1,r2,c2); swapStripes(r1,c1,r2,c2); renderGrid();
-    await delay(160);
-    busy = false;
+    swapCells(r1,c1,r2,c2); swapStripes(r1,c1,r2,c2); renderGrid(motion);
+    await delay(200);
+    busy = false; resetHintTimer();
     return;
   }
   // Match! → build streak
@@ -4437,62 +4517,47 @@ async function doSwap(r1,c1,r2,c2){
   const sugarRushThreshold = hasBuilding("dojo") ? 2 : 3;
   if(moveStreak >= sugarRushThreshold && !sugarRushActive && !cur.done) triggerSugarRush();
   cur.movesLeft--; cur.cascade=0; updateComboPill(0);
-  checkAndCreateStripe(m, r2, c2);
-  await processCascade();
+  const created=checkAndCreateStripe(m,r2,c2)||checkAndCreateStripe(m,r1,c1);
+  await processCascade(created);
   updateHud();
   if(checkWin()){ finishLevel(true); return; }
   if(cur.movesLeft<=0){ finishLevel(false); return; }
-  busy = false;
+  busy = false; resetHintTimer();
 }
 
-async function processCascade(){
+// Traverse effects once per tile: an explosion can ignite another special.
+// A newly earned special survives its creation wave, then falls with its candy.
+function expandMatchEffects(matched, protectedCell=null){
+  const cells=[], seen=new Set();
+  let crystalBursts=0, stripeTriggers=0, wrapTriggers=0;
+  const add=(r,c)=>{
+    if(r<0||r>=cur.rows||c<0||c>=cur.cols||board[r][c]<0) return;
+    if(protectedCell&&protectedCell.r===r&&protectedCell.c===c) return;
+    const key=r*cur.cols+c;
+    if(!seen.has(key)){ seen.add(key); cells.push({r,c}); }
+  };
+  matched.forEach(({r,c})=>add(r,c));
+  for(let i=0;i<cells.length;i++){
+    const {r,c}=cells[i], stripe=stripes[r]?.[c];
+    if(board[r][c]===SPECIAL){ crystalBursts++; for(let cc=0;cc<cur.cols;cc++) add(r,cc); }
+    if(stripe==='H'){ stripeTriggers++; for(let cc=0;cc<cur.cols;cc++) add(r,cc); }
+    if(stripe==='V'){ stripeTriggers++; for(let rr=0;rr<cur.rows;rr++) add(rr,c); }
+    if(stripe==='W'){ wrapTriggers++; for(let rr=r-1;rr<=r+1;rr++) for(let cc=c-1;cc<=c+1;cc++) add(rr,cc); }
+  }
+  return {cells,crystalBursts,stripeTriggers,wrapTriggers};
+}
+
+async function processCascade(protectedCell=null){
   let matched = findMatches();
   while(matched.length>0){
-    const key = (r,c)=> r*cur.cols+c;
-    const cellSet = new Set(matched.map(({r,c})=>key(r,c)));
-    // los especiales dentro del match activan un Estallido de Cristal: limpian toda su fila
-    const burstCells = [];
-    let burstTriggers = 0;
-    let stripeTriggers = 0;
-    let wrapTriggers = 0;
-    matched.forEach(({r,c})=>{
-      if(board[r][c]===SPECIAL){
-        burstTriggers++;
-        for(let cc=0; cc<cur.cols; cc++){
-          const k = key(r,cc);
-          if(!cellSet.has(k)){ cellSet.add(k); burstCells.push({r,c:cc}); }
-        }
-      }
-      // Striped candy triggers
-      if(stripes.length && stripes[r] && stripes[r][c]){
-        if(stripes[r][c]==='H'){
-          stripeTriggers++;
-          for(let cc=0;cc<cur.cols;cc++){
-            const k=key(r,cc);
-            if(!cellSet.has(k)){ cellSet.add(k); burstCells.push({r,c:cc}); }
-          }
-        } else if(stripes[r][c]==='V'){
-          stripeTriggers++;
-          for(let rr=0;rr<cur.rows;rr++){
-            const k=key(rr,c);
-            if(!cellSet.has(k)){ cellSet.add(k); burstCells.push({r:rr,c}); }
-          }
-        } else if(stripes[r][c]==='W'){
-          wrapTriggers++;
-          for(let rr=r-1;rr<=r+1;rr++) for(let cc=c-1;cc<=c+1;cc++){
-            if(rr<0||rr>=cur.rows||cc<0||cc>=cur.cols) continue;
-            const k=key(rr,cc);
-            if(!cellSet.has(k)){ cellSet.add(k); burstCells.push({r:rr,c:cc}); }
-          }
-        }
-        clearStripeAt(r,c);
-      }
-    });
+    const {cells:allCells,crystalBursts:burstTriggers,stripeTriggers,wrapTriggers}=expandMatchEffects(matched,protectedCell);
+    protectedCell=null;
+    const originalKeys=new Set(matched.map(({r,c})=>r*cur.cols+c));
+    const burstCells=allCells.filter(({r,c})=>!originalKeys.has(r*cur.cols+c));
     if(burstTriggers>0){
       save.crystalsActivated = (save.crystalsActivated||0) + burstTriggers;
       persistSave();
     }
-    const allCells = [...cellSet].map(k=>({r:Math.floor(k/cur.cols), c:k%cur.cols}));
     // Clear stripes for all cells being removed
     allCells.forEach(({r,c})=>clearStripeAt(r,c));
     // Damage adjacent obstacle cells
@@ -4503,7 +4568,7 @@ async function processCascade(){
     if(cur.type==="collect"){
       allCells.forEach(({r,c})=>{ if(board[r][c]===cur.color) cur.progress++; });
     } else if(cur.type==="crystals"){
-      matched.forEach(({r,c})=>{ if(board[r][c]===SPECIAL) cur.progress++; });
+      cur.progress+=burstTriggers;
     }
 
     const basePts = matched.length*(matched.length>=5?150:matched.length>=4?100:50);
@@ -4540,9 +4605,9 @@ async function processCascade(){
     if(cur.cascade >= 3) shakeGrid();
     await delay(getFreneticDelay(260));
     allCells.forEach(({r,c})=>{ board[r][c] = -1; });
-    applyGravity(); renderGrid();
+    const falling=applyGravity(); renderGrid(falling);
     await delay(getFreneticDelay(220));
-    fillEmpty(); renderGrid();
+    const arriving=fillEmpty(); renderGrid(arriving);
     await delay(getFreneticDelay(200));
     matched = findMatches();
   }
@@ -4583,16 +4648,17 @@ function hasPossibleMove(){
   return false;
 }
 function shuffleBoard(){
-  const flat = board.flat();
+  const flat = board.flatMap((row,r)=>row.map((color,c)=>({color,stripe:stripes[r]?.[c]||null})));
   let attempts = 0;
   do{
     for(let i=flat.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [flat[i],flat[j]]=[flat[j],flat[i]]; }
     let idx=0;
-    for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols;c++) board[r][c]=flat[idx++];
+    for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols;c++){
+      const piece=flat[idx++]; board[r][c]=piece.color; stripes[r][c]=piece.stripe;
+    }
     attempts++;
   } while((findMatches().length>0 || !hasPossibleMove()) && attempts<200);
-  initStripes(); // reset stripes on shuffle
-  initObstacles(); // reset obstacles on shuffle
+  // Obstacles stay in place with their current damage; earned specials are retained.
 }
 
 /* ---------- HINT SYSTEM ---------- */
@@ -4640,12 +4706,14 @@ function findMatches(){
   const found = new Set();
   for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols-2;c++){
     const t=board[r][c];
+    if(t<0) continue;
     if(board[r][c+1]===t && board[r][c+2]===t){
       let k=c; while(k<cur.cols && (board[r][k]===t||board[r][k]===SPECIAL)) found.add(r*cur.cols+(k++));
     }
   }
   for(let c=0;c<cur.cols;c++) for(let r=0;r<cur.rows-2;r++){
     const t=board[r][c];
+    if(t<0) continue;
     if(board[r+1][c]===t && board[r+2][c]===t){
       let k=r; while(k<cur.rows && (board[k][c]===t||board[k][c]===SPECIAL)) found.add((k++)*cur.cols+c);
     }
@@ -4654,9 +4722,12 @@ function findMatches(){
 }
 function swapCells(r1,c1,r2,c2){ [board[r1][c1],board[r2][c2]]=[board[r2][c2],board[r1][c1]]; }
 function applyGravity(){
+  const motion=[];
   for(let c=0;c<cur.cols;c++){
     let col=[], scol=[];
     for(let r=cur.rows-1;r>=0;r--) if(board[r][c]!==-1){
+      const dest=cur.rows-1-col.length;
+      if(dest!==r) motion.push({r:dest,c,dr:r-dest});
       col.push(board[r][c]);
       scol.push(stripes.length && stripes[r] ? stripes[r][c] : null);
     }
@@ -4666,14 +4737,18 @@ function applyGravity(){
       if(stripes.length && stripes[r]) stripes[r][c] = scol[cur.rows-1-r];
     }
   }
+  return motion;
 }
 function fillEmpty(){
+  const motion=[];
   for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols;c++){
     if(board[r][c]===-1){
+      motion.push({r,c,dr:-Math.min(r+1,3)});
       board[r][c]=randType();
       if(stripes.length && stripes[r]) stripes[r][c]=null;
     }
   }
+  return motion;
 }
 function delay(ms){ return new Promise(res=>setTimeout(res,ms)); }
 
@@ -4742,6 +4817,8 @@ function finishLevel(won){
   document.getElementById("pause-overlay").classList.remove("on");
   const overlay = document.getElementById("overlay");
   const stars = won ? calcStars() : 0;
+  const storyEl=document.getElementById("overlay-story");
+  storyEl.textContent="";
   if(won){
     playWin();
     spawnConfetti();
@@ -4803,6 +4880,10 @@ function finishLevel(won){
     // Story moments: certain territory/level combos trigger a lore reveal
     const storyKey = `${currentTerritory}_${cur.n}`;
     const storyLine = !cur.isDaily && STORY_MOMENTS[storyKey];
+    if(!cur.isDaily){
+      const arc=CAMPAIGN_ARCS[currentTerritory];
+      storyEl.textContent=storyLine || (isBoss ? arc.resolution : `${LEVEL_NAMES_ALL[currentTerritory][cur.n]} recupera su color. ${arc.steps[cur.n<4?0:cur.n<8?1:2]}`);
+    }
     if(storyLine && !(save.unlockedStories||{})[storyKey]){
       if(!save.unlockedStories) save.unlockedStories = {};
       save.unlockedStories[storyKey] = storyLine;
@@ -4969,7 +5050,8 @@ function retryOrNext(){
     exitToMap(); return;
   }
   if(cur.done && checkWin() && cur.n<TOTAL_LEVELS){
-    tryStartLevel(cur.n+1);
+    if(cur.n+1===TOTAL_LEVELS){ goTo("map",currentTerritory); showBossIntro(TOTAL_LEVELS); }
+    else tryStartLevel(cur.n+1);
   } else if(cur.done && checkWin()){
     exitToMap();
   } else {
@@ -6896,7 +6978,7 @@ function updateComboPill(cascade){
   const el = document.getElementById("hud-combo-mult");
   if(!el) return;
   const mult = Math.min(Math.max(1, cascade), 4);
-  el.textContent = "x" + mult;
+  el.textContent = cascade>0 ? String(cascade) : "—";
   el.className = "hud-val" + (mult >= 4 ? " x4" : mult >= 3 ? " x3" : mult >= 2 ? " x2" : "");
 }
 
@@ -7039,7 +7121,7 @@ function renderPauseTimeExtra(){
   if(save.lastTerritory && LEVELS_BY_TERRITORY[save.lastTerritory]){
     const btn = document.getElementById("btn-title-main");
     btn.textContent = "▶ Continuar";
-    btn.onclick = ()=> goTo("map", save.lastTerritory);
+    btn.onclick = continueCampaign;
     document.getElementById("btn-title-secondary").style.display = "";
     const bubbleEl = document.getElementById("confite-title-bubble");
     if(bubbleEl){
@@ -7060,8 +7142,7 @@ renderTitleHexButton();
 renderTitleLeague();
 // Daily login bonus (only for returning players with some progress)
 if(save.introDone) checkLoginBonus();
-// Show story intro for new players
-if(!save.introDone){ startIntro(); }
+// Story is playable immediately; the full prologue remains optional on the title.
 // Red de seguridad: si Las Tierras Carmesí ya estaban restauradas antes de esta
 // actualización (save.territoryComplete[1] ya era true), el overlay de territorio
 // completo no se re-dispara — así que desbloqueamos HEX CLASH aquí también.

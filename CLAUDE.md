@@ -271,14 +271,13 @@ CONFITE_LINES = {
 - Detectado en `checkAndCreateStripe()`, la comprobación de L/T va **antes** que la de rayado
   recto para tener prioridad cuando ambas condiciones se cumplen
 
-⚠️ **Nota de comportamiento:** tanto el rayado como el envuelto se crean y se auto-disparan
-en el mismo `processCascade()` que generó el match que los originó (porque `processCascade()`
-vuelve a llamar `findMatches()` sobre el mismo tablero antes de limpiar nada, y la celda
-recién convertida en especial cae dentro de ese mismo match). En la práctica esto significa
-que un match-4/L/T da un bonus de limpieza inmediato — el caramelo especial no queda
-"guardado" en el tablero esperando que el jugador lo combine después. Si algún día se quiere
-el comportamiento clásico (pieza persistente), hay que separar la detección de la primera
-pasada de `processCascade()` para que no se autoconsuma.
+**Actualizado:** los especiales sobreviven a su creación. `checkAndCreateStripe()`
+comprueba runs contiguos del mismo color en cada extremo del intercambio y devuelve
+la celda creada. `processCascade(protectedCell)` la protege solo durante la primera
+oleada; después cae con la gravedad y puede activarse en otra cascada.
+`expandMatchEffects()` encadena rayados, envueltos y cristales alcanzados, una vez
+por celda. Barajar conserva los pares caramelo/poder y el daño de los obstáculos.
+Intercambios y caídas se animan respetando movimiento reducido.
 
 ### Caramelo especial / Cristal (SPECIAL = 6)
 - 5% de probabilidad en `randType()`
@@ -679,14 +678,26 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
   motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
   delay como pseudo-reverb).
-- **PWA:** `manifest.json` + `service-worker.js` (cache-first con fallback a red).
-  ⚠️ Al testear cambios en `index.html` con el service worker ya registrado, hay que
-  `unregister()` + `caches.delete()` y recargar — si no, se sirve una versión vieja
-  cacheada y los cambios "no aparecen" aunque el archivo en disco ya esté actualizado.
+- **PWA v8:** HTML prioriza red con fallback offline; imágenes usan caché y se
+  actualizan en segundo plano. Solo se eliminan cachés antiguas `sugarclash-*`.
+  No borrar localStorage para actualizar. Una instalación con el worker anterior
+  puede necesitar cerrar y abrir una vez más tras recibir la actualización.
 
 ---
 
 ## Lo que falta (roadmap priorizado)
+
+### Iteración de jugabilidad, narrativa y móvil
+- `CAMPAIGN_ARCS`: propósito, tres etapas y consecuencia para cada territorio.
+  `campaignNext()` encuentra el primer nivel pendiente accesible sin cambiar el save.
+- Portada → `continueCampaign()` → `tryStartLevel()`: una pulsación para jugar,
+  prólogo opcional. El guardián conserva su introducción antes del nivel 10.
+- Mapa mundial y mapa de niveles: un scroll vertical por pantalla; menú secundario
+  plegado en `#world-extras`, misión principal en `#campaign-mission`.
+- Los recuerdos se muestran en `#overlay-story` al ganar, no detrás del resultado.
+- Validación sin dependencias: `node --test tests/*.test.cjs` (motor, campaña y caché).
+- El cambio de poderes altera el balance: las tasas históricas del bot ya no son
+  evidencia del balance actual. Falta nueva prueba completa de los 80 niveles.
 
 ### Hecho (movido del roadmap)
 - ~~Exportar/importar guardado~~ — `exportSave()`/`importSave()` en Ajustes, código base64 del save
