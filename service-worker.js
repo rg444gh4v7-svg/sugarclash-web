@@ -1,9 +1,11 @@
-const CACHE_NAME = "sugarclash-v8";
+const CACHE_NAME = "sugarclash-v9";
 const ASSETS = ["./", "./index.html", "./manifest.json", "./icon.svg", "./icon-192.png", "./icon-512.png", "./icon-ios-180.png", "./title-world-v3-hd.jpg"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(
+      ASSETS.map((asset) => new Request(new URL(asset, self.location.href), {cache:"reload"}))
+    )).then(() => self.skipWaiting())
   );
 });
 
@@ -18,12 +20,15 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const request=event.request;
   if(request.method!=="GET" || new URL(request.url).origin!==self.location.origin) return;
-  const navigation=request.mode==="navigate";
-  const network=fetch(request).then(async response=>{
+  const document=request.mode==="navigate" || new URL(request.url).pathname.endsWith("/index.html");
+  // A network-first document must bypass the browser's separate HTTP cache too.
+  const network=fetch(request,document?{cache:"no-store"}:undefined).then(async response=>{
     if(response.ok){
-      const cache=await caches.open(CACHE_NAME);
-      await cache.put(request,response.clone());
-      if(navigation) await cache.put("./index.html",response.clone());
+      try{
+        const cache=await caches.open(CACHE_NAME);
+        await cache.put(request,response.clone());
+        if(document) await cache.put("./index.html",response.clone());
+      }catch{} // Storage pressure must not replace a successful online response.
     }
     return response;
   });
@@ -32,11 +37,11 @@ self.addEventListener("fetch", (event) => {
   event.respondWith((async()=>{
     const cache=await caches.open(CACHE_NAME);
     const cached=await cache.match(request);
-    if(!navigation && cached) return cached;
+    if(!document && cached) return cached;
     try{
       const response=await network;
-      if(response.ok || !navigation) return response;
+      if(response.ok || !document) return response;
     }catch{}
-    return cached || (navigation && await cache.match("./index.html")) || Response.error();
+    return cached || (document && await cache.match("./index.html")) || Response.error();
   })());
 });

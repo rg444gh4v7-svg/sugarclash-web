@@ -19,11 +19,16 @@ node --test tests/*.test.cjs
 
 Abrir `http://127.0.0.1:4177/`. Las pruebas cubren especiales persistentes, cadenas,
 gravedad, barajado, campaña, sintaxis y comportamiento de la caché online/offline.
-El worker v8 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
+El worker v9 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
 No borrar los datos del navegador: eso elimina el progreso.
 
 ## Iteración actual
 
+- Edición **Pulso del Cristal · 15.10**, identificable en la portada.
+- Desliza para intercambiar; el tablero se ajusta a la altura de pantalla.
+- Cinco piezas crean un cristal; combina poderes entre sí o cristal con color.
+- Pulso manual de Confite: carga en tres jugadas y elige dos turnos de puntos dobles.
+- La escena del territorio recupera color durante cada partida.
 - Una pulsación desde portada hasta la siguiente partida; prólogo opcional.
 - Misión narrativa visible, campamento plegable y mapas sin scrolls anidados.
 - Poderes que sobreviven a su creación y activan otros poderes en cadena.
@@ -31,6 +36,12 @@ No borrar los datos del navegador: eso elimina el progreso.
 - Recuerdos y consecuencias visibles en el resultado de cada nivel.
 
 ## Qué falta para una prueba comercial real
+
+En la revisión del 15.10 pasaron 23 pruebas del motor/caché y una comprobación de
+interfaz ejecutada con DOM: campaña, deslizamiento, pulso, intercambio inválido,
+ajuste de tamaño y guardado. Un bot codicioso recorrió los 80 niveles y ganó 73
+en una sola partida por nivel; es una comprobación preliminar, no una medición
+estadística del equilibrio ni de retención. Queda revisión visual en teléfono.
 
 Esto todavía no demuestra retención ni ingresos. Liga, MOBA y Battle Royale no
 son multijugador real; los rivales son simulados. Los anuncios son demostraciones

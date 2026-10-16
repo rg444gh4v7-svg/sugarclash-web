@@ -280,8 +280,13 @@ por celda. Barajar conserva los pares caramelo/poder y el daño de los obstácul
 Intercambios y caídas se animan respetando movimiento reducido.
 
 ### Caramelo especial / Cristal (SPECIAL = 6)
-- 5% de probabilidad en `randType()`
-- Al incluirse en un match, limpia toda su fila (burst)
+- Se crea al alinear 5 piezas, protegido durante su primera oleada.
+- Aparición natural: 1% normal, 5% en metas de cristales, 2.5% en Supervivencia.
+- Al incluirse en un match, limpia toda su fila (burst).
+- Intercambiado con un color libera todas las piezas de ese color; dos cristales
+  liberan todo el tablero. Dos rayados/envueltos adyacentes pueden activar sus
+  efectos sin formar un match; `canCombineSpecials()` también alimenta pistas y
+  detección de movimientos para evitar barajados incorrectos.
 - Necesario para tipo de nivel `"crystals"`
 
 ### Bloques de chocolate (obstacles)
@@ -678,7 +683,7 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
   motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
   delay como pseudo-reverb).
-- **PWA v8:** HTML prioriza red con fallback offline; imágenes usan caché y se
+- **PWA v9:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
   actualizan en segundo plano. Solo se eliminan cachés antiguas `sugarclash-*`.
   No borrar localStorage para actualizar. Una instalación con el worker anterior
   puede necesitar cerrar y abrir una vez más tras recibir la actualización.
@@ -688,6 +693,17 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 ## Lo que falta (roadmap priorizado)
 
 ### Iteración de jugabilidad, narrativa y móvil
+- **Pulso del Cristal · 15.10:** deslizamiento con Pointer Events y toque doble.
+  `fitGameBoard()` calcula el ancho según filas y altura disponible. La ventana
+  `#restoration-window` recupera color junto con el progreso y muestra el lugar
+  y propósito narrativo actual.
+- **Pulso de Confite:** carga con 3 jugadas válidas (2 con Escuela). Se activa
+  manualmente y duplica puntos durante 2 intercambios válidos; errores, pausas y
+  espera no lo gastan. Reusa los nombres internos `sugarRushActive`/`moveStreak`.
+- `boardRun` invalida acciones pendientes al salir/cambiar de tablero; comprobarlo
+  tras esperas antes de tocar arrays o cerrar el turno. No persistirlo.
+- El título muestra la edición. Registro SW con `updateViaCache:'none'`, aviso
+  de actualización fuera de partida y comprobación al volver a la app.
 - `CAMPAIGN_ARCS`: propósito, tres etapas y consecuencia para cada territorio.
   `campaignNext()` encuentra el primer nivel pendiente accesible sin cambiar el save.
 - Portada → `continueCampaign()` → `tryStartLevel()`: una pulsación para jugar,

@@ -14,8 +14,8 @@ function engine(rows=5,cols=5){
     board:Array.from({length:rows},(_,r)=>Array.from({length:cols},(_,c)=>(r+c)%6)),
     stripes:Array.from({length:rows},()=>Array(cols).fill(null)),
     obstacles:Array.from({length:rows},()=>Array(cols).fill(0)),
-    persistSave(){},_stripeCreatedReact(){},_wrapCreatedReact(){}});
-  for(const name of ['checkAndCreateStripe','expandMatchEffects','findMatches','applyGravity','shuffleBoard','hasPossibleMove']) vm.runInContext(source(name),ctx);
+    persistSave(){},_stripeCreatedReact(){},_wrapCreatedReact(){},setConfiteGame(){},setConfiteMood(){}});
+  for(const name of ['checkAndCreateStripe','expandMatchEffects','findMatches','applyGravity','shuffleBoard','canCombineSpecials','specialSwapCells','hasPossibleMove']) vm.runInContext(source(name),ctx);
   ctx.swapCells=(r,c,rr,cc)=>{[ctx.board[r][c],ctx.board[rr][cc]]=[ctx.board[rr][cc],ctx.board[r][c]];};
   return ctx;
 }
@@ -79,7 +79,7 @@ test('A full cascade preserves its newly created special and awards points',asyn
   e.board[2]=[1,1,1,1,4];
   const protectedCell=e.checkAndCreateStripe(e.findMatches(),2,2);
   const noop=()=>{};
-  Object.assign(e,{sugarRushActive:false,hasHeroAbility:()=>false,hasBuilding:()=>false,
+  Object.assign(e,{boardRun:1,sugarRushActive:false,hasHeroAbility:()=>false,hasBuilding:()=>false,
     processObstacleDamage:noop,damageCanvasFog:noop,updateComboPill:noop,updateFreneticBadge:noop,
     popCombo:noop,playPop:noop,spawnCandyParticles:noop,shakeGrid:noop,renderGrid:noop,
     updateHud:noop,reactConfite:noop,clearStripeAt:(r,c)=>e.stripes[r][c]=null,
@@ -90,6 +90,45 @@ test('A full cascade preserves its newly created special and awards points',asyn
   assert.equal(e.cur.score,400); assert.equal(e.cur.cascade,1);
   assert.equal(e.stripes.flat().filter(Boolean).length,1);
   assert.equal(e.findMatches().length,0);
+});
+test('Five aligned candies create a crystal which survives its creation wave',async()=>{
+  const e=engine(5,6); e.board[2]=[1,1,1,1,1,4];
+  const original=e.findMatches(); const p=e.checkAndCreateStripe(original,2,2);
+  assert.equal(e.board[2][2],6); assert.equal(e.stripes[2][2],null);
+  const effect=e.expandMatchEffects(original,p);
+  assert.equal(effect.crystalBursts,0); assert.equal(effect.cells.length,4);
+});
+test('A crystal swap targets its chosen color and both exchanged cells',()=>{
+  const e=engine(); e.board[1][1]=6; e.board[1][2]=2;
+  const targets=e.specialSwapCells(1,1,1,2);
+  assert.ok(targets.some(p=>p.r===1&&p.c===1));
+  assert.ok(e.board.flatMap((row,r)=>row.map((v,c)=>({v,r,c}))).filter(p=>p.v===2).every(p=>targets.some(q=>q.r===p.r&&q.c===p.c)));
+  assert.ok(targets.every(p=>e.board[p.r][p.c]===2||(p.r===1&&p.c===1)));
+});
+test('Two crystals clear the board and two striped powers can activate without a color match',()=>{
+  const e=engine(); e.board[0][0]=e.board[0][1]=6;
+  assert.equal(e.specialSwapCells(0,0,0,1).length,25);
+  const t=engine(); t.stripes[1][1]='H';t.stripes[1][2]='V';
+  assert.equal(t.findMatches().length,0);assert.equal(t.canCombineSpecials(1,1,1,2),true);
+  assert.ok(t.expandMatchEffects(t.specialSwapCells(1,1,1,2)).cells.length>=9);
+  assert.equal(t.specialSwapCells(3,3,3,4),null);
+});
+test('A cancelled board run cannot continue clearing the board after its animation',async()=>{
+  const e=engine(); Object.assign(e.cur,{type:'score',score:0,cascade:0,movesLeft:10}); e.board[2]=[1,1,1,2,4];
+  const before=JSON.stringify(e.board),noop=()=>{};
+  Object.assign(e,{boardRun:1,sugarRushActive:false,hasHeroAbility:()=>false,hasBuilding:()=>false,
+    processObstacleDamage:noop,damageCanvasFog:noop,updateComboPill:noop,updateFreneticBadge:noop,popCombo:noop,
+    playPop:noop,spawnCandyParticles:noop,cellEl:()=>null,getFreneticDelay:x=>x,delay:async()=>{e.boardRun++;},clearStripeAt:noop});
+  vm.runInContext(source('processCascade'),e); await e.processCascade();
+  assert.equal(JSON.stringify(e.board),before);
+});
+test('Pulse activation is player-controlled and lasts two turns without a timer',()=>{
+  const e=vm.createContext({cur:{done:false},busy:false,pauseOpen:false,moveStreak:2,sugarRushActive:false,
+    hasBuilding:()=>false,document:{getElementById:()=>({classList:{add(){}}})},
+    setConfiteGame(){},setConfiteMood(){},bounceConfite(){},playCrystal(){},updateStreakPips(){}});
+  vm.runInContext(source('triggerSugarRush'),e); e.triggerSugarRush(); assert.equal(e.sugarRushActive,false);
+  e.moveStreak=3;e.triggerSugarRush(); assert.equal(e.sugarRushActive,true); assert.equal(e.cur.pulseMoves,2);
+  e.triggerSugarRush(); assert.equal(e.cur.pulseMoves,2);
 });
 test('Campaign resumes the first unfinished accessible chapter without resetting progress',()=>{
   const e=vm.createContext({TERRITORIES:Array.from({length:8},(_,i)=>({id:i+1})),TOTAL_LEVELS:10,

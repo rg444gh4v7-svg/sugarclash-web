@@ -384,6 +384,24 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 
 /* ===== GAME ===== */
 #screen-game{padding:10px 10px 14px;gap:8px;background:radial-gradient(circle at 50% -10%,#482069 0%,#180421 48%,#0d0015 100%)}
+#screen-game>*:not(#grid-wrap){flex-shrink:0}
+#screen-game{--territory-hue:#FF5C8A}
+.restoration-window{position:relative;isolation:isolate;overflow:hidden;min-height:76px;border:1px solid color-mix(in srgb,var(--territory-hue) 45%,transparent);border-radius:18px;padding:12px 78px 12px 14px;background:#151120;box-shadow:inset 0 1px #ffffff1a,0 8px 24px #0004}
+.restoration-window::before{content:"";position:absolute;inset:0;z-index:-2;background:url('title-world-v3-hd.jpg') var(--scene-position,35% 46%)/cover;filter:grayscale(var(--scene-grey,100%));transition:filter .6s}
+.restoration-window::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#0d0919ed,#0d09198c 75%,#0d09194d)}
+.restoration-kicker{font-size:8px;text-transform:uppercase;letter-spacing:.16em;color:var(--territory-hue)}
+.restoration-name{font:600 17px/1.15 'Fraunces',serif;margin:4px 0;color:#fff0dc}
+.restoration-detail{font-size:10px;line-height:1.35;color:#ded4e5}
+#restoration-emblem{position:absolute;right:12px;top:12px;filter:grayscale(var(--scene-grey,100%));transition:filter .6s}#restoration-emblem .t-emblem{width:52px;height:52px}
+.pulse-button{flex-shrink:0;border-radius:12px;min-width:72px;min-height:44px;padding:5px 8px;border:1px solid #e6c17788;background:linear-gradient(135deg,#b68c43,#f5dba4);color:#241326;font-size:11px;font-weight:700}
+.pulse-button:disabled{background:#1b172b;color:#afa5bd;border-color:#ffffff24;cursor:default}
+.pulse-button.ready{box-shadow:0 0 18px #ffd6744d}
+.power-guide{font-size:10px;letter-spacing:.03em;line-height:1.25;text-align:center;color:#c5b8d2;padding:0 6px}
+#grid{touch-action:none;user-select:none;-webkit-user-select:none}
+#app-update{position:absolute;bottom:16px;left:8%;width:84%;z-index:90;padding:13px;border-radius:14px;color:#201229;background:#f6d799;box-shadow:0 6px 30px #0009;font-weight:700}
+.build-badge{font-size:9px;letter-spacing:.08em;color:#c6bbd3}
+@media(max-height:700px){#screen-game{gap:5px}.restoration-window{min-height:64px;padding-top:8px;padding-bottom:8px}.restoration-name{font-size:15px}.restoration-detail{font-size:9px}#confite-game-text{font-size:11px}}
+@media(max-height:700px){#overlay.on,#pause-overlay.on{justify-content:flex-start;overflow-y:auto;gap:8px;padding:12px}#overlay .overlay-icon{font-size:30px}#overlay .overlay-title{font-size:21px}#overlay .overlay-story{font-size:11px;padding:6px 9px}}
 .hud{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 #screen-game .hud{flex-wrap:nowrap;gap:6px}
 #screen-game .hud-stat{flex:1;min-width:0;padding:7px 4px}
@@ -485,7 +503,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .level-node.lv-hard{border-color:rgba(255,45,122,.55);box-shadow:0 0 14px rgba(255,45,122,.22)}
 .hard-badge{position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);background:var(--candy);color:#fff;font-size:7.5px;font-weight:700;letter-spacing:.05em;padding:2px 7px;border-radius:99px;white-space:nowrap;box-shadow:0 3px 9px rgba(255,45,122,.38);z-index:3}
 
-#grid-wrap{position:relative;isolation:isolate;flex:1;display:flex;align-items:center;justify-content:center;padding:9px}
+#grid-wrap{position:relative;isolation:isolate;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:9px}
 #grid-wrap::before{content:"";position:absolute;z-index:-1;width:calc(100% - 4px);max-width:402px;height:calc(100% - 4px);max-height:500px;border-radius:24px;background:linear-gradient(145deg,rgba(70,31,94,.72),rgba(8,25,42,.78));border:1px solid rgba(255,255,255,.17);box-shadow:inset 0 1px rgba(255,255,255,.12),inset 0 -12px 32px rgba(0,0,0,.28),0 17px 38px rgba(0,0,0,.42),0 0 34px rgba(155,89,182,.12);backdrop-filter:blur(15px)}
 #grid{display:grid;gap:5px;width:100%;max-width:380px}
 .cell{aspect-ratio:1;border-radius:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s,filter .12s;border:1px solid rgba(255,255,255,.1);position:relative;background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025));box-shadow:inset 0 1px rgba(255,255,255,.08),0 2px 5px rgba(0,0,0,.18)}
@@ -980,6 +998,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
         <button class="btn-ghost" id="btn-hexclash" style="border-color:rgba(0,245,255,.35);color:var(--crystal)">🕯️ HEX CLASH · Modo Oscuro</button>
       </div>
       <div id="confite-title-bubble" style="font-size:11px;color:var(--crystal);font-style:italic;opacity:.85;display:none"></div>
+      <div class="build-badge">PULSO DEL CRISTAL · 15.10</div>
     </div>
   </section>
 
@@ -1429,9 +1448,17 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
         <path d="M36 64 Q48 72 60 64" stroke="#2A1430" stroke-width="3" stroke-linecap="round" fill="none"/>
       </svg>
       <div id="confite-game-text">¡Vamos! Haz tu primer movimiento.</div>
+      <button id="pulse-button" class="pulse-button" onclick="triggerSugarRush()" disabled title="Tres jugadas cargan dos turnos con puntos dobles">Pulso 0/3</button>
     </div>
+    <div id="restoration-window" class="restoration-window">
+      <div class="restoration-kicker">Restaurando <span id="restoration-percent">0%</span></div>
+      <div id="restoration-name" class="restoration-name"></div>
+      <div id="restoration-detail" class="restoration-detail"></div>
+      <div id="restoration-emblem" aria-hidden="true"></div>
+    </div>
+    <div class="power-guide">4 en línea: rayo · 5: cristal · L o T: explosión</div>
     <div id="grid-wrap">
-      <div id="sugar-rush-banner">⚡ SUGAR RUSH — x2 PUNTOS — <span id="sugar-rush-timer">10</span>s</div>
+      <div id="sugar-rush-banner">PULSO DE CONFITE · x2 · <span id="sugar-rush-timer">2</span> turnos</div>
       <canvas id="particle-canvas"></canvas>
       <div id="grid"></div>
       <div id="overlay">
@@ -1452,7 +1479,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div id="tutorial-overlay">
         <div class="tutorial-icon">👆</div>
         <div class="tutorial-title">¿Cómo se juega?</div>
-        <div class="tutorial-text">Toca dos caramelos que estén juntos para intercambiarlos. Si alineas 3 o más iguales, ¡desaparecen y sumas puntos!</div>
+        <div class="tutorial-text">Desliza un caramelo hacia el de al lado. Junta 3 para devolver color; con 4 guardas un rayo. También puedes tocar dos piezas.</div>
         <button class="btn-sm btn-primary" onclick="dismissTutorial()">¡Entendido!</button>
       </div>
       <div id="pause-overlay">
@@ -1772,6 +1799,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     </div>
   </div>
 
+  <button id="app-update" onclick="location.reload()" hidden>Nueva versión lista · Actualizar</button>
 </div>
 
 <script>
@@ -1896,12 +1924,12 @@ let cur = null;     // estado del nivel en curso
 let board = [];
 let sel = null;
 let busy = false;
+let boardRun = 0;
+let appUpdateAvailable = false;
 let askLock = false;
 
 /* ---- V2 mechanics state ---- */
 let sugarRushActive = false;
-let sugarRushTimerId = null;
-let sugarRushEndTime = 0;
 let freneticStartTime = 0;
 let moveStreak = 0; // consecutive match-producing swaps
 
@@ -2294,11 +2322,16 @@ function importSave(){
 
 /* ---------------- NAVEGACIÓN ---------------- */
 function goTo(name, territoryId){
+  if(name!=="game" && document.getElementById("screen-game").classList.contains("active")){ boardRun++; clearTimeout(hintTimerId); }
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("screen-"+name).classList.add("active");
   if(name==="map"){ if(territoryId) currentTerritory = territoryId; renderMap(); }
   if(name==="world") renderWorld();
-  if(name==="game") document.getElementById("overlay-story").textContent="";
+  if(name==="game"){
+    document.getElementById("overlay-story").textContent="";
+    renderRestorationScene();
+    requestAnimationFrame(fitGameBoard);
+  }
   if(name==="village") renderVillage();
   if(name==="settings") renderSettings();
   if(name==="achievements") renderAchievements();
@@ -2321,6 +2354,7 @@ function goTo(name, territoryId){
   if(name!=="map") document.getElementById("boss-intro-overlay").classList.remove("on");
   if(name!=="game") exitCanvasMode();
   if(name!=="dggame"){ dgStopTimer(); dgStopAmbient(); clearTimeout(dgHintTimerId); }
+  refreshAppUpdateNotice();
 }
 function toggleMute(){
   save.muted = !save.muted;
@@ -2873,7 +2907,7 @@ function buildingAbilityText(id){
     taller: "Los power-ups de pausa cuestan 5 🍯 menos",
     muelle: "+1 vida máxima",
     forja:  "Los bloques de chocolate reciben daño extra",
-    dojo:   "Sugar Rush se activa un combo antes",
+    dojo:   "El Pulso de Confite se carga en 2 jugadas en lugar de 3",
     faro:   "Cada vida que regenera, vuelven 2 en vez de 1",
   }[id] || "";
 }
@@ -4188,11 +4222,13 @@ let pauseOpen = false;
 function openPause(){
   if(cur.done || tutorialOpen || busy) return;
   pauseOpen = true;
+  updateStreakPips();
   renderPauseSettings();
   document.getElementById("pause-overlay").classList.add("on");
 }
 function closePause(){
   pauseOpen = false;
+  updateStreakPips();
   document.getElementById("pause-overlay").classList.remove("on");
 }
 function renderPauseSettings(){
@@ -4293,7 +4329,10 @@ const COLORCLASS = ["c0","c1","c2","c3","c4","c5","cS"];
 const SPECIAL = 6;
 
 function rnd(n){ return Math.floor(Math.random()*n); }
-function randType(){ return Math.random()<0.05 ? SPECIAL : rnd(6); }
+function randType(){
+  const chance=cur?.type==="crystals" ? .05 : cur?.isSurvival ? .025 : .01;
+  return Math.random()<chance ? SPECIAL : rnd(6);
+}
 
 /* stripes[r][c] = null | 'H' | 'V' */
 let stripes = [];
@@ -4375,6 +4414,12 @@ function checkAndCreateStripe(matchedCells, destR, destC){
     return count;
   };
   const horizontal=run(0,1), vertical=run(1,0);
+  if(horizontal>=5 || vertical>=5){
+    board[destR][destC]=SPECIAL;
+    setConfiteGame("¡Cinco unidos! Intercambia ese cristal con el color que quieras liberar.");
+    setConfiteMood("excited");
+    return {r:destR,c:destC};
+  }
   const kind=horizontal>=3&&vertical>=3 ? 'W' : horizontal>=4 ? 'H' : vertical>=4 ? 'V' : null;
   if(!kind) return null;
   stripes[destR][destC]=kind;
@@ -4415,6 +4460,8 @@ function showWrapTutorial(){
 }
 
 function buildGrid(){
+  boardRun++;
+  initStripes();
   const gridEl = document.getElementById("grid");
   gridEl.style.gridTemplateColumns = `repeat(${cur.cols}, 1fr)`;
   gridEl.style.gap = cur.cols>=8 ? "3px" : "4px";
@@ -4461,6 +4508,7 @@ function renderGrid(motion=[]){
     }
     gridEl.appendChild(div);
   }
+  fitGameBoard();
   if(motion.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
     const first=gridEl.firstElementChild;
     const step=first.getBoundingClientRect().width+parseFloat(getComputedStyle(gridEl).gap);
@@ -4472,7 +4520,55 @@ function renderGrid(motion=[]){
 }
 function cellEl(r,c){ return document.getElementById("grid").children[r*cur.cols+c]; }
 
+function fitGameBoard(){
+  if(!cur) return;
+  const wrap=document.getElementById("grid-wrap"),grid=document.getElementById("grid");
+  if(!wrap.clientHeight) return;
+  const gap=cur.cols>=8?3:4;
+  const cell=Math.max(1,Math.floor((wrap.clientHeight-18-gap*(cur.rows-1))/cur.rows));
+  grid.style.width=Math.min(380,wrap.clientWidth-18,cell*cur.cols+gap*(cur.cols-1))+"px";
+}
+function renderRestorationScene(){
+  const t=TERRITORIES.find(t=>t.id===currentTerritory)||TERRITORIES[0];
+  const campaign=!cur.isCanvas&&!cur.isDaily&&!cur.isLeague&&!cur.isSurvival;
+  document.getElementById("screen-game").style.setProperty('--territory-hue',t.hue);
+  const panel=document.getElementById("restoration-window");
+  panel.style.setProperty('--scene-position',`${22+t.id*6}% ${38+t.id*3}%`);
+  document.getElementById("restoration-name").textContent=campaign?LEVEL_NAMES_ALL[t.id][cur.n]:cur.isCanvas?"El Amanecer Carmesí":cur.isSurvival?"Eco I · El Primer Latido":cur.isLeague?"El duelo de los clanes":"El latido de hoy";
+  document.getElementById("restoration-detail").textContent=campaign?CAMPAIGN_ARCS[t.id].steps[cur.n<4?0:cur.n<8?1:2]:cur.isSurvival?"Mantén vivo el pulso que Confite reconoce.":cur.isLeague?"Una rivalidad nacida de la Fragmentación.":"Cada combinación le devuelve color a Dulcelandia.";
+  document.getElementById("restoration-emblem").innerHTML=territoryEmblemSVG(t.id,false);
+  updateHud(); updateStreakPips();
+}
+
+let boardPointer=null,ignoreBoardClickUntil=0;
+function initBoardGestures(){
+  const grid=document.getElementById("grid");
+  grid.addEventListener('pointerdown',e=>{
+    const cell=e.target.closest('.cell');
+    if(!cell||busy||!cur||cur.done||pauseOpen||!e.isPrimary) return;
+    boardPointer={r:+cell.dataset.r,c:+cell.dataset.c,x:e.clientX,y:e.clientY,id:e.pointerId};
+  });
+  grid.addEventListener('pointercancel',()=>boardPointer=null);
+  grid.addEventListener('pointerup',e=>{
+    const p=boardPointer; boardPointer=null;
+    if(!p||p.id!==e.pointerId||busy||cur.done||pauseOpen) return;
+    const dx=e.clientX-p.x,dy=e.clientY-p.y;
+    if(Math.max(Math.abs(dx),Math.abs(dy))<14) return;
+    e.preventDefault();
+    if(bombActive||rainbowActive){ onCellClick(p.r,p.c); ignoreBoardClickUntil=Date.now()+350; return; }
+    const r=p.r+(Math.abs(dy)>Math.abs(dx)?Math.sign(dy):0);
+    const c=p.c+(Math.abs(dx)>=Math.abs(dy)?Math.sign(dx):0);
+    ignoreBoardClickUntil=Date.now()+350;
+    if(r<0||r>=cur.rows||c<0||c>=cur.cols) return;
+    if(!save.tutorialSeen) dismissTutorial();
+    resetHintTimer(); sel=null; renderGrid(); doSwap(p.r,p.c,r,c);
+  });
+  if('ResizeObserver' in window) new ResizeObserver(fitGameBoard).observe(document.getElementById("grid-wrap"));
+  else window.addEventListener('resize',fitGameBoard);
+}
+
 function onCellClick(r,c){
+  if(Date.now()<ignoreBoardClickUntil) return;
   if(busy || cur.done || pauseOpen) return;
   if(!save.tutorialSeen) dismissTutorial(); // primer toque real: la guía ya cumplió su función
   resetHintTimer();
@@ -4498,31 +4594,52 @@ function onCellClick(r,c){
 }
 
 async function doSwap(r1,c1,r2,c2){
+  if(busy || !cur || cur.done || pauseOpen || Math.abs(r1-r2)+Math.abs(c1-c2)!==1) return;
+  const run=boardRun;
   busy = true;
+  try{
   const motion=[{r:r1,c:c1,dr:r2-r1,dc:c2-c1},{r:r2,c:c2,dr:r1-r2,dc:c1-c2}];
   swapCells(r1,c1,r2,c2); swapStripes(r1,c1,r2,c2); renderGrid(motion);
   await delay(200);
+  if(run!==boardRun || cur.done) return;
   const m = findMatches();
-  if(m.length===0){
-    // No match → reset streak
-    moveStreak = 0; updateStreakPips();
+  const powerCells=specialSwapCells(r1,c1,r2,c2);
+  if(m.length===0 && !powerCells){
     swapCells(r1,c1,r2,c2); swapStripes(r1,c1,r2,c2); renderGrid(motion);
     await delay(200);
-    busy = false; resetHintTimer();
     return;
   }
-  // Match! → build streak
-  moveStreak++; updateStreakPips();
-  // Edificio Escuela de Kenshi construido: Sugar Rush se activa un combo antes
-  const sugarRushThreshold = hasBuilding("dojo") ? 2 : 3;
-  if(moveStreak >= sugarRushThreshold && !sugarRushActive && !cur.done) triggerSugarRush();
+  const pulsing=sugarRushActive;
+  if(!pulsing) moveStreak=Math.min(hasBuilding("dojo")?2:3,moveStreak+1);
+  updateStreakPips();
   cur.movesLeft--; cur.cascade=0; updateComboPill(0);
-  const created=checkAndCreateStripe(m,r2,c2)||checkAndCreateStripe(m,r1,c1);
-  await processCascade(created);
+  const created=powerCells ? null : checkAndCreateStripe(m,r2,c2)||checkAndCreateStripe(m,r1,c1);
+  if(powerCells){ setConfiteGame("Dos fuerzas, un mismo latido. ¡Mira cómo se conectan!"); setConfiteMood("excited"); }
+  await processCascade(created,powerCells||m,run);
+  if(run!==boardRun || cur.done) return;
+  if(pulsing){ cur.pulseMoves--; if(cur.pulseMoves<=0) endSugarRush(); else updateStreakPips(); }
   updateHud();
   if(checkWin()){ finishLevel(true); return; }
   if(cur.movesLeft<=0){ finishLevel(false); return; }
-  busy = false; resetHintTimer();
+  }finally{
+    if(run===boardRun){ busy=false; if(!cur.done) resetHintTimer(); }
+  }
+}
+
+function canCombineSpecials(r1,c1,r2,c2){
+  return board[r1][c1]===SPECIAL || board[r2][c2]===SPECIAL || !!(stripes[r1]?.[c1]&&stripes[r2]?.[c2]);
+}
+function specialSwapCells(r1,c1,r2,c2){
+  if(!canCombineSpecials(r1,c1,r2,c2)) return null;
+  const a=board[r1][c1],b=board[r2][c2],cells=[{r:r1,c:c1},{r:r2,c:c2}];
+  if(a===SPECIAL || b===SPECIAL){
+    const color=a===SPECIAL?b:a;
+    for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols;c++){
+      if(board[r][c]>=0 && (color===SPECIAL || board[r][c]===color)) cells.push({r,c});
+    }
+  }
+  const seen=new Set();
+  return cells.filter(({r,c})=>{const key=r*cur.cols+c;if(seen.has(key))return false;seen.add(key);return true;});
 }
 
 // Traverse effects once per tile: an explosion can ignite another special.
@@ -4547,8 +4664,8 @@ function expandMatchEffects(matched, protectedCell=null){
   return {cells,crystalBursts,stripeTriggers,wrapTriggers};
 }
 
-async function processCascade(protectedCell=null){
-  let matched = findMatches();
+async function processCascade(protectedCell=null,initialCells=null,run=boardRun){
+  let matched = initialCells || findMatches();
   while(matched.length>0){
     const {cells:allCells,crystalBursts:burstTriggers,stripeTriggers,wrapTriggers}=expandMatchEffects(matched,protectedCell);
     protectedCell=null;
@@ -4597,18 +4714,20 @@ async function processCascade(protectedCell=null){
       setConfiteGame(CONFITE_LINES.stripeExplode[rnd(CONFITE_LINES.stripeExplode.length)]); setConfiteMood("excited"); bounceConfite();
     } else if(burstCells.length>0){ popCombo(pts, cur.cascade, "✨ ¡Cristal activado!"); playCrystal(); setConfiteGame(CONFITE_LINES.crystalBurst[rnd(CONFITE_LINES.crystalBurst.length)]); setConfiteMood("excited"); bounceConfite(); }
     else if(pts>=150 || cur.cascade>=2) popCombo(pts, cur.cascade);
-    if(sugarRushActive && cur.cascade>=1) popCombo(0, 1, "⚡ x2 SUGAR RUSH");
     playPop();
     // V2: particles + screen shake
     allCells.forEach(({r,c})=>{ const el=cellEl(r,c); if(el) el.classList.add("matched"); });
     spawnCandyParticles(allCells);
     if(cur.cascade >= 3) shakeGrid();
     await delay(getFreneticDelay(260));
+    if(run!==boardRun || cur.done) return;
     allCells.forEach(({r,c})=>{ board[r][c] = -1; });
     const falling=applyGravity(); renderGrid(falling);
     await delay(getFreneticDelay(220));
+    if(run!==boardRun || cur.done) return;
     const arriving=fillEmpty(); renderGrid(arriving);
     await delay(getFreneticDelay(200));
+    if(run!==boardRun || cur.done) return;
     matched = findMatches();
   }
   updateHud();
@@ -4622,6 +4741,7 @@ async function processCascade(protectedCell=null){
       setTimeout(()=>{ el.style.transform=""; el.style.opacity=""; }, i*8+350);
     });
     await delay(500);
+    if(run!==boardRun || cur.done) return;
     shuffleBoard();
     renderGrid();
     setConfiteGame("¡Listo! Ahora debería haber movimientos.");
@@ -4633,12 +4753,14 @@ async function processCascade(protectedCell=null){
 function hasPossibleMove(){
   for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols;c++){
     if(c<cur.cols-1){
+      if(canCombineSpecials(r,c,r,c+1)) return true;
       swapCells(r,c,r,c+1);
       const m = findMatches();
       swapCells(r,c,r,c+1);
       if(m.length>0) return true;
     }
     if(r<cur.rows-1){
+      if(canCombineSpecials(r,c,r+1,c)) return true;
       swapCells(r,c,r+1,c);
       const m = findMatches();
       swapCells(r,c,r+1,c);
@@ -4667,12 +4789,14 @@ let hintCells = [];
 function findHint(){
   for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols;c++){
     if(c<cur.cols-1){
+      if(canCombineSpecials(r,c,r,c+1)) return {r1:r,c1:c,r2:r,c2:c+1};
       swapCells(r,c,r,c+1);
       const m=findMatches();
       swapCells(r,c,r,c+1);
       if(m.length>0) return {r1:r,c1:c,r2:r,c2:c+1};
     }
     if(r<cur.rows-1){
+      if(canCombineSpecials(r,c,r+1,c)) return {r1:r,c1:c,r2:r+1,c2:c};
       swapCells(r,c,r+1,c);
       const m=findMatches();
       swapCells(r,c,r+1,c);
@@ -4761,10 +4885,13 @@ function updateHud(){
   document.getElementById("hud-score").textContent = cur.score.toLocaleString();
   const pct = cur.isCanvas
     ? Math.round((1 - canvasFogLeft()/(cur.rows*cur.cols))*100)
+    : cur.isSurvival ? Math.min(100,Math.round(cur.score/300*100))
     : (cur.type==="collect" || cur.type==="crystals")
     ? Math.min(100, Math.round(cur.progress/cur.target*100))
     : Math.min(100, Math.round(cur.score/cur.goal*100));
   document.getElementById("progress-fill").style.width = pct+"%";
+  document.getElementById("restoration-percent").textContent=pct+"%";
+  document.getElementById("restoration-window").style.setProperty("--scene-grey",(100-pct)+"%");
   updateDuelRaceUI();
   updateFreneticBadge();
 }
@@ -5493,6 +5620,7 @@ function useBombWithAd(){
   setTimeout(()=>document.querySelectorAll(".cell").forEach(el=>el.classList.remove("bomb-glow")), 1100);
 }
 async function useBombAt(row, col){
+  const run=boardRun;
   busy=true;
   const cellSet=[];
   for(let dr=-1;dr<=1;dr++) for(let dc=-1;dc<=1;dc++){
@@ -5510,12 +5638,16 @@ async function useBombAt(row, col){
   }
   popCombo(pts,1,"💥 Bombazo!");
   await delay(300);
+  if(run!==boardRun || cur.done) return;
   cellSet.forEach(({r,c})=>{ board[r][c]=-1; clearStripeAt(r,c); });
   applyGravity(); renderGrid();
   await delay(200);
+  if(run!==boardRun || cur.done) return;
   fillEmpty(); renderGrid();
   await delay(200);
+  if(run!==boardRun || cur.done) return;
   await processCascade();
+  if(run!==boardRun || cur.done) return;
   updateHud();
   if(checkWin()){ finishLevel(true); return; }
   if(cur.movesLeft<=0){ finishLevel(false); return; }
@@ -5555,6 +5687,7 @@ function useRainbowWithAd(){
   setTimeout(()=>document.querySelectorAll(".cell").forEach(el=>el.classList.remove("rainbow-glow")), 1100);
 }
 async function useRainbowOnColor(colorType){
+  const run=boardRun;
   busy=true;
   const cellSet=[];
   for(let row=0;row<cur.rows;row++) for(let col=0;col<cur.cols;col++){
@@ -5567,12 +5700,16 @@ async function useRainbowOnColor(colorType){
   if(cur.type==="collect" && colorType===cur.color) cur.progress+=cellSet.length;
   popCombo(pts,1,"🌈 ¡Arco Iris!");
   await delay(300);
+  if(run!==boardRun || cur.done) return;
   cellSet.forEach(({r,c})=>{ board[r][c]=-1; clearStripeAt(r,c); });
   applyGravity(); renderGrid();
   await delay(200);
+  if(run!==boardRun || cur.done) return;
   fillEmpty(); renderGrid();
   await delay(200);
+  if(run!==boardRun || cur.done) return;
   await processCascade();
+  if(run!==boardRun || cur.done) return;
   updateHud();
   if(checkWin()){ finishLevel(true); return; }
   if(cur.movesLeft<=0){ finishLevel(false); return; }
@@ -5964,6 +6101,7 @@ function updateSurvivalHud(){
 function finishSurvival(){
   if(!cur || cur.done) return;
   cur.done = true; endSurvivalTimer();
+  endSugarRush();
   const isNewBest = cur.score > (save.survivalBest||0);
   if(isNewBest) save.survivalBest = cur.score;
   const coins = Math.floor(cur.score/150);
@@ -6904,37 +7042,31 @@ function dgPlaySfx(kind){
    ================================================================ */
 
 /* ---- Sugar Rush ---- */
-const SUGAR_RUSH_MS = 10000;
 function triggerSugarRush(){
+  const threshold=hasBuilding("dojo")?2:3;
+  if(!cur||cur.done||busy||pauseOpen||sugarRushActive||moveStreak<threshold) return;
   sugarRushActive = true;
-  sugarRushEndTime = Date.now() + SUGAR_RUSH_MS;
+  cur.pulseMoves=2;
   const banner = document.getElementById("sugar-rush-banner");
   if(banner) banner.classList.add("active");
-  setConfiteGame("⚡ ¡SUGAR RUSH! ¡Todo vale el doble por 10 segundos!");
+  setConfiteGame("Siento el Cristal. Tus próximas dos jugadas valen el doble: elige bien.");
   setConfiteMood("celebrate"); bounceConfite();
   playCrystal();
-  if(sugarRushTimerId) clearInterval(sugarRushTimerId);
-  sugarRushTimerId = setInterval(()=>{
-    const remaining = Math.ceil(Math.max(0, sugarRushEndTime - Date.now()) / 1000);
-    const timerEl = document.getElementById("sugar-rush-timer");
-    if(timerEl) timerEl.textContent = remaining;
-    if(Date.now() >= sugarRushEndTime) endSugarRush();
-  }, 200);
+  updateStreakPips();
 }
 function endSugarRush(){
-  if(!sugarRushActive && !sugarRushTimerId) return;
   sugarRushActive = false;
-  if(sugarRushTimerId){ clearInterval(sugarRushTimerId); sugarRushTimerId = null; }
+  if(cur) cur.pulseMoves=0;
   const banner = document.getElementById("sugar-rush-banner");
   if(banner) banner.classList.remove("active");
   moveStreak = 0;
   updateStreakPips();
 }
 
-/* ---- Frenético Mode (speed increases 20% every 30s) ---- */
+/* Campaign pace follows the cascade. Survival keeps its time pressure. */
 function getFreneticLevel(){
   if(!freneticStartTime || !cur || cur.done) return 0;
-  return Math.min(4, Math.floor((Date.now() - freneticStartTime) / 30000));
+  return cur.isSurvival ? Math.min(4,Math.floor((Date.now()-freneticStartTime)/30000)) : Math.min(2,Math.max(0,cur.cascade-1));
 }
 function getFreneticDelay(ms){
   const level = getFreneticLevel();
@@ -6948,7 +7080,7 @@ function updateFreneticBadge(){
   if(level > 0){
     badge.classList.add("active");
     const speedPct = Math.round(level * 20);
-    badge.textContent = `⚡ FRENÉTICO +${speedPct}%`;
+    badge.textContent = cur.isSurvival ? `⚡ FRENÉTICO +${speedPct}%` : `Cadena · ${cur.cascade}`;
   } else {
     badge.classList.remove("active");
   }
@@ -6956,9 +7088,11 @@ function updateFreneticBadge(){
 
 /* ---- Streak Pips ---- */
 function updateStreakPips(){
+  const threshold=hasBuilding("dojo")?2:3;
   for(let i=0;i<3;i++){
     const pip = document.getElementById("pip-"+i);
     if(!pip) continue;
+    pip.style.display=i<threshold?"":"none";
     if(sugarRushActive){
       pip.className = "streak-pip rush lit";
     } else {
@@ -6967,10 +7101,20 @@ function updateStreakPips(){
   }
   const lbl = document.getElementById("streak-label");
   if(lbl){
-    if(sugarRushActive) lbl.textContent = "⚡ SUGAR RUSH";
-    else if(moveStreak >= 2) lbl.textContent = `¡${moveStreak} seguidos!`;
-    else lbl.textContent = "Racha";
+    if(sugarRushActive) lbl.textContent = `Pulso · ${cur.pulseMoves} turnos x2`;
+    else if(moveStreak>=threshold) lbl.textContent = "Confite está listo";
+    else lbl.textContent = "Carga el pulso con tus jugadas";
   }
+  const button=document.getElementById("pulse-button");
+  if(button){
+    const ready=moveStreak>=threshold&&!sugarRushActive;
+    button.disabled=!ready||!cur||cur.done||pauseOpen;
+    button.classList.toggle('ready',ready);
+    button.textContent=sugarRushActive?`${cur.pulseMoves} turnos x2`:ready?'Liberar pulso':`Pulso ${moveStreak}/${threshold}`;
+    button.title=`${threshold} jugadas cargan dos turnos con puntos dobles`;
+  }
+  const timer=document.getElementById("sugar-rush-timer");
+  if(timer) timer.textContent=cur?.pulseMoves||0;
 }
 
 /* ---- Combo Pill ---- */
@@ -6998,6 +7142,7 @@ function showBestScore(){
 
 /* ---- Screen Shake ---- */
 function shakeGrid(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const wrap = document.getElementById("grid-wrap");
   if(!wrap) return;
   wrap.classList.remove("grid-shake");
@@ -7009,6 +7154,7 @@ function shakeGrid(){
 /* ---- Candy Particles ---- */
 const CANDY_PARTICLE_COLORS = ["#FF5C5C","#4DA6FF","#3DD68C","#FFD93D","#C084E8","#FF7FB0","#FFE066","#FF8C42"];
 function spawnCandyParticles(cells){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   if(!cells || cells.length === 0) return;
   const canvas = document.getElementById("particle-canvas");
   if(!canvas) return;
@@ -7137,6 +7283,7 @@ function renderPauseTimeExtra(){
     }
   }
 })();
+initBoardGestures();
 renderMap();
 renderTitleHexButton();
 renderTitleLeague();
@@ -7149,8 +7296,22 @@ if(save.introDone) checkLoginBonus();
 if(save.introDone && !save.dgModeUnlocked && territoryProgress(1)>=1){
   setTimeout(()=>goTo("hexcurse"), 500);
 }
+function refreshAppUpdateNotice(){
+  document.getElementById("app-update").hidden=!appUpdateAvailable||!['screen-title','screen-world','screen-settings'].includes(document.querySelector('.screen.active')?.id);
+}
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
-  window.addEventListener("load", ()=>{ navigator.serviceWorker.register("service-worker.js").catch(()=>{}); });
+  let controlled=!!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    if(controlled){ appUpdateAvailable=true; refreshAppUpdateNotice(); }
+    controlled=true;
+  });
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("service-worker.js",{updateViaCache:'none'}).then(reg=>{
+      document.addEventListener('visibilitychange',()=>{
+        if(document.visibilityState==='visible') reg.update().catch(()=>{});
+      });
+    }).catch(()=>{});
+  });
 }
 </script>
 </body>
