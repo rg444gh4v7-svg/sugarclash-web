@@ -72,6 +72,16 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   .title-content{gap:6px;padding-top:10px;padding-bottom:12px}#confite-title{width:78px;height:68px}.logo{font-size:38px}.logo small{margin-top:7px}.logo-sub{font-size:10px;max-width:275px}.title-league-mini{padding:7px 10px}.btn-play{padding-top:10px;padding-bottom:10px;box-shadow:inset 0 2px 1px rgba(255,255,255,.7),0 5px 0 #9c3d1c,0 10px 20px rgba(255,93,40,.34)}
 }
 
+/* ===== CONFITE · MATERIAL Y EMOCIÓN ===== */
+.cf-portrait{transform-box:fill-box;transform-origin:50% 100%;animation:cfBreathe 4.8s ease-in-out infinite;animation-play-state:paused}
+.cf-emote-eyes{transform-box:fill-box;transform-origin:50% 50%;animation:cfBlink 6.8s linear infinite;animation-play-state:paused}
+.screen.active .cf-portrait,.screen.active .cf-emote-eyes{animation-play-state:running}
+.page-hidden .cf-portrait,.page-hidden .cf-emote-eyes{animation-play-state:paused!important}
+.screen.active .territory-card:not(.is-visible) .cf-portrait,.screen.active .territory-card:not(.is-visible) .cf-emote-eyes{animation-play-state:paused}
+@keyframes cfBreathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.012,.985)}}
+@keyframes cfBlink{0%,43%,46%,100%{transform:scaleY(1)}44%,45%{transform:scaleY(.08)}}
+@media(prefers-reduced-motion:reduce){.cf-portrait,.cf-emote-eyes{animation:none!important}}
+
 /* ===== WORLD (mapa mundial) ===== */
 #screen-world{padding:16px 14px 22px;gap:10px;isolation:isolate;background:#13031e;overflow-y:auto;overflow-x:hidden}
 #screen-world>*,#world-list>*{flex-shrink:0}
@@ -438,6 +448,36 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .atlas-biome{opacity:.52}.atlas-map-stream{stroke-dasharray:10 18;animation:atlasRouteFlow 4s linear infinite}
 .banner-landscape{position:absolute;right:-25px;bottom:-34px;width:175px;height:130px;opacity:.35;pointer-events:none;mask-image:linear-gradient(90deg,transparent,#000 45%)}
 .banner-landscape svg{width:100%;height:100%}
+.land-far{animation:landDrift 12s ease-in-out infinite alternate;animation-play-state:paused}
+.land-water{stroke-dasharray:4 9;animation:atlasRouteFlow 3s linear infinite;animation-play-state:paused}
+.land-life{opacity:var(--land-life,1);transition:opacity .8s}
+.land-fireflies{animation:landGlow 4s ease-in-out infinite alternate;animation-play-state:paused}
+.territory-card.is-visible .land-far,.territory-card.is-visible .land-water,.territory-card.is-visible .land-fireflies{animation-play-state:running}
+.land-veil{opacity:var(--land-veil,0);transition:opacity .8s}
+.territory-landscape::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 46% 70%,color-mix(in srgb,var(--territory-color) 12%,transparent),transparent 65%);z-index:-1}
+#world-list .territory-card.locked .land-life{opacity:0}
+#world-list .territory-card.locked .land-far{opacity:.22}
+.territory-card:focus-visible,.level-node:focus-visible{outline:2px solid #ffe1a1;outline-offset:5px;border-radius:20px}
+#territory-banner{min-height:234px;padding:154px 15px 14px;background:radial-gradient(ellipse at 50% 18%,color-mix(in srgb,var(--territory-hue) 22%,#101325),#10101f 82%)}
+#territory-banner .banner-landscape{inset:-9px 0 auto;bottom:auto;width:100%;height:182px;opacity:1;mask-image:linear-gradient(#000 78%,transparent);filter:grayscale(var(--land-grey,0%))}
+#territory-banner .territory-banner-art{left:auto;right:10px;top:12px;transform:none;width:39px;height:39px;border-radius:12px;z-index:1}
+#territory-banner .territory-banner-art .t-emblem{width:28px;height:28px}
+.map-scene-kicker{position:absolute;top:14px;left:14px;color:#fff1d6;font-size:8px;letter-spacing:.16em;text-transform:uppercase;text-shadow:0 2px 5px #000;z-index:1}
+.map-scene-quote{position:relative;color:#fff0d4;font-family:'Fraunces',serif;font-size:16px;line-height:1.3;max-width:30ch;text-shadow:0 2px 6px #000}
+#territory-banner .territory-banner-copy{font-size:10px;color:#c7c1d2;margin-top:6px;line-height:1.4}
+.map-rebirth{display:flex;gap:5px;align-items:center;margin-top:10px;color:#dacba9;font-size:8px;letter-spacing:.08em;text-transform:uppercase}
+.map-rebirth i{display:block;height:3px;flex:1;border-radius:4px;background:#ffffff16}
+.map-rebirth i.on{background:var(--territory-hue);box-shadow:0 0 7px color-mix(in srgb,var(--territory-hue) 50%,transparent)}
+.territory-banner.is-visible .land-far,.territory-banner.is-visible .land-water,.territory-banner.is-visible .land-fireflies{animation-play-state:running}
+.atlas-ground{opacity:.7}
+.restoration-landscape{position:absolute;inset:-34px -15px -38px 38%;z-index:-2;pointer-events:none;filter:grayscale(var(--scene-grey,100%));transition:filter .6s;opacity:.7}
+.restoration-landscape svg{width:100%;height:100%}
+.restoration-window::before{opacity:.24}
+@keyframes landDrift{to{transform:translateX(-5px)}}
+@keyframes landGlow{to{opacity:.3;transform:translateY(-4px)}}
+.screen:not(.active) .land-far,.screen:not(.active) .land-water,.screen:not(.active) .land-fireflies,.page-hidden .land-far,.page-hidden .land-water,.page-hidden .land-fireflies{animation-play-state:paused!important}
+.page-hidden .atlas-path-flow,.page-hidden .atlas-map-stream,.page-hidden .atlas-cloud,.page-hidden .atlas-mote,.page-hidden .atlas-guide{animation-play-state:paused!important}
+@media(prefers-reduced-motion:reduce){.land-far,.land-water,.land-fireflies{animation:none!important}}
 .screen:not(.active) .atlas-path-flow,.screen:not(.active) .atlas-map-stream,.screen:not(.active) .atlas-cloud,.screen:not(.active) .atlas-mote,.screen:not(.active) .atlas-guide{animation-play-state:paused}
 @media(prefers-reduced-motion:reduce){.atlas-path-flow,.atlas-map-stream,.atlas-cloud,.atlas-mote,.atlas-guide,.territory-card.is-visible .territory-landscape>svg,#level-grid .level-node.is-current .level-num{animation:none!important}}
 
@@ -620,6 +660,8 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .tutorial-title{font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--gold)}
 .tutorial-text{font-size:14px;color:rgba(255,255,255,.8);line-height:1.5;max-width:280px}
 .overlay-icon{font-size:48px}
+.overlay-icon svg{display:block;width:64px;height:58px;overflow:visible;filter:drop-shadow(0 5px 12px #ff9b8440)}
+@media(max-height:700px){.overlay-icon svg{width:46px;height:42px}}
 .overlay-title{font-family:'Fraunces',serif;font-weight:600;font-size:26px}
 .overlay-sub{font-size:14px;color:rgba(255,255,255,.7)}
 .overlay-stars{display:flex;gap:8px;font-size:30px}
@@ -1083,7 +1125,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
         <button class="btn-ghost" id="btn-hexclash" style="border-color:rgba(0,245,255,.35);color:var(--crystal)">🕯️ HEX CLASH · Modo Oscuro</button>
       </div>
       <div id="confite-title-bubble" style="font-size:11px;color:var(--crystal);font-style:italic;opacity:.85;display:none"></div>
-      <div class="build-badge">ATLAS VIVO · 15.10</div>
+      <div class="build-badge">UN MUNDO QUE SIENTE · 16.10</div>
     </div>
   </section>
 
@@ -2564,8 +2606,9 @@ const ATLAS_PALETTES={
   5:['#72ceaa','#45866c','#233e47','#a7f4c4','#6ca2c2'],6:['#f1ce9a','#bb8f76','#5d4258','#fff0d5','#daa775'],
   7:['#e7af7e','#b17a58','#4b3c50','#ffdb8b','#cc8f71'],8:['#a0def0','#5e91b5','#303b64','#e1faff','#8cbbef']
 };
-function territoryLandscapeSVG(id,key='world'){
+function territoryLandscapeSVG(id,key='world',restoration=1){
   const p=ATLAS_PALETTES[id]||ATLAS_PALETTES[1],uid=`atlas-${key}-${id}`;
+  const life=Number.isFinite(restoration)?Math.max(0,Math.min(1,restoration)):0;
   const tree=(x,y,s=1,color=p[0])=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 0V34M0 18L-11 8M0 22L12 8" stroke="#503e50" stroke-width="5" stroke-linecap="round"/><path d="M-25 3Q-32-17-13-23Q-8-40 8-28Q29-31 31-12Q39 4 20 10Q7 19-5 10Q-20 18-25 3" fill="${color}"/><path d="M-22-9Q-8-25 9-18" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="3"/></g>`;
   const tower=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M-15 0V-56L0-75L15-56V0Z" fill="#eee1d5"/><path d="M0-75L22-52H-22Z" fill="${p[1]}"/><path d="M0-52H15V0H0Z" fill="${p[2]}" opacity=".35"/><path d="M-4-38H4V-26H-4ZM-4-17H4V0H-4Z" fill="${p[3]}"/></g>`;
   const art={
@@ -2578,20 +2621,45 @@ function territoryLandscapeSVG(id,key='world'){
     7:`<path d="M122 142V127H135V113H149V97H215V113H229V127H242V142Z" fill="#bd9678"/><path d="M156 97V68Q181 40 208 68V97Z" fill="#d8b396"/><path d="M168 97V73Q181 58 194 73V97" fill="#564453"/><path d="M179 89Q171 80 181 68Q191 81 186 89Z" fill="#ffda8f"/><path d="M76 100Q166 39 278 96" fill="none" stroke="#cba78a" stroke-width="2"/><g fill="#f5c782"><path d="M104 86L113 91L117 77Z"/><path d="M225 77L234 90L239 81Z"/><circle cx="104" cy="141" r="6"/><circle cx="259" cy="137" r="7"/><circle cx="84" cy="133" r="5"/><circle cx="270" cy="146" r="5"/></g>`,
     8:`<path d="M138 132L127 80L144 46L165 93L181 16L203 99L226 57L241 132Z" fill="#88bad6" stroke="#d5f4f4" stroke-opacity=".65"/><path d="M181 16L166 128H196Z" fill="#dcfaff"/><path d="M181 16L203 99L196 128Z" fill="#8a8fc7"/><path d="M144 46L152 130L165 93ZM226 57L218 132L241 132Z" fill="#e0eff5" opacity=".6"/><path d="M75 141L83 106L99 124L106 144ZM253 144L264 104L283 140Z" fill="#9ccddc"/><ellipse cx="182" cy="142" rx="64" ry="14" fill="#b9dbe7" opacity=".38"/><path d="M145 148L173 142L200 151L218 145" fill="none" stroke="#e3f9ff" stroke-opacity=".6" stroke-width="2"/>`
   };
-  return `<svg viewBox="0 0 360 210" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+  return `<svg viewBox="0 0 360 210" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="--land-life:${.15+life*.85};--land-veil:${(1-life)*.64}"><defs>
     <linearGradient id="${uid}-land" x1="0" y1="0" x2="0" y2="1"><stop stop-color="${p[0]}"/><stop offset="1" stop-color="${p[1]}"/></linearGradient>
-    <linearGradient id="${uid}-rock" x1="0" y1="0" x2="0" y2="1"><stop stop-color="${p[2]}"/><stop offset="1" stop-color="#141728"/></linearGradient></defs>
+    <linearGradient id="${uid}-rock" x1="0" y1="0" x2="0" y2="1"><stop stop-color="${p[2]}"/><stop offset="1" stop-color="#141728"/></linearGradient>
+    <radialGradient id="${uid}-sun"><stop stop-color="${p[3]}" stop-opacity=".32"/><stop offset="1" stop-color="${p[3]}" stop-opacity="0"/></radialGradient>
+    <linearGradient id="${uid}-fall" x1="0" y1="0" x2="0" y2="1"><stop stop-color="${p[4]}" stop-opacity=".9"/><stop offset="1" stop-color="${p[4]}" stop-opacity="0"/></linearGradient>
+    <linearGradient id="${uid}-mist" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#aeb6d0" stop-opacity="0"/><stop offset=".5" stop-color="#b7b7d4" stop-opacity=".75"/><stop offset="1" stop-color="#aeb6d0" stop-opacity="0"/></linearGradient></defs>
+    <ellipse cx="240" cy="73" rx="114" ry="78" fill="url(#${uid}-sun)"/>
+    <g class="land-far"><path d="M4 109L41 74L64 88L105 44L149 103L198 64L234 96L291 40L352 108Z" fill="${p[1]}" opacity=".14"/><path d="M-7 125Q43 79 100 107Q139 85 188 113Q243 69 309 102L367 125Z" fill="${p[0]}" opacity=".14"/><path d="M9 131Q89 113 140 128M239 115Q293 105 356 122" stroke="${p[3]}" stroke-width="1" fill="none" opacity=".12"/></g>
     <ellipse cx="180" cy="190" rx="97" ry="11" fill="#000" opacity=".2"/>
     <g class="atlas-cloud" opacity=".15" fill="${p[0]}"><ellipse cx="76" cy="77" rx="49" ry="11"/><ellipse cx="96" cy="69" rx="21" ry="14"/><ellipse cx="280" cy="67" rx="42" ry="11"/></g>
     <circle cx="272" cy="35" r="20" fill="${p[3]}" opacity=".14"/>
     <path d="M42 123Q180 62 318 123L279 159L223 181L181 197L135 179L81 159Z" fill="url(#${uid}-rock)"/>
+    <path d="M42 123L135 179L120 139L164 164L181 197L193 142L223 181L242 139L279 159L318 123Z" fill="${p[1]}" opacity=".22"/>
+    <path d="M86 146L104 156M114 161L132 170M229 162L246 154M261 148L279 139M172 166L177 183" stroke="${p[3]}" stroke-opacity=".18" stroke-width="2" stroke-linecap="round"/>
+    <path d="M108 146Q121 156 116 188L124 205L134 202Q126 175 135 151Z" fill="url(#${uid}-fall)" opacity=".65"/>
+    <path class="land-water" d="M123 153Q118 177 128 193" stroke="${p[3]}" stroke-opacity=".4" stroke-width="1.5" fill="none"/>
     <path d="M79 140L135 179L149 145L181 197L204 146L223 181L281 142" fill="none" stroke="${p[0]}" stroke-opacity=".13" stroke-width="2"/>
     <path d="M42 123C43 101 79 87 111 87Q145 69 179 78Q217 70 250 91C285 89 319 104 318 125Q311 149 275 152Q242 174 207 166Q167 181 133 165Q92 167 76 149Q46 143 42 123Z" fill="url(#${uid}-land)" stroke="${p[3]}" stroke-opacity=".24" stroke-width="2"/>
     <path d="M62 127Q180 184 298 127" fill="none" stroke="${p[3]}" stroke-opacity=".24" stroke-width="2"/>
     <path d="M60 123Q91 109 119 119M244 117Q280 112 300 126" fill="none" stroke="${p[3]}" stroke-opacity=".24" stroke-width="2"/>
     <ellipse cx="180" cy="129" rx="63" ry="10" fill="${p[2]}" opacity=".15"/>
     ${art[id]||art[1]}<g fill="${p[3]}" opacity=".35"><path d="M62 139l7-3 7 5-8 3ZM251 153l8-5 9 5-7 4ZM104 155l4-4 6 3-3 3Z"/><path d="M87 131l-4-5m4 5 3-6M273 128l-3-6m3 6 4-5" stroke="${p[3]}" stroke-width="1.5" fill="none"/></g>
+    <g class="land-life" opacity="${.15+life*.85}"><path d="M80 143L76 131M85 145L88 133M260 151L264 138" stroke="${p[2]}" stroke-width="2"/><g fill="${p[3]}"><circle cx="76" cy="130" r="3"/><circle cx="88" cy="132" r="2.5"/><circle cx="264" cy="137" r="3"/></g><g class="land-fireflies" fill="${p[3]}" opacity=".8"><circle cx="104" cy="109" r="1.5"/><circle cx="245" cy="81" r="2"/><circle cx="276" cy="113" r="1"/><path d="m230 122 2-4 2 4-2 4Z"/></g><path d="M95 70q5-5 10 0q5-5 10 0" stroke="${p[3]}" stroke-width="1.2" fill="none" opacity=".5"/></g>
+    <g class="land-veil" opacity="${(1-life)*.64}"><path d="M6 96Q105 60 212 99T360 91L360 135Q233 113 122 135T6 127Z" fill="url(#${uid}-mist)"/><path d="M5 156Q114 132 221 156T357 151" stroke="url(#${uid}-mist)" stroke-width="15" fill="none"/></g>
     <g class="atlas-mote" fill="${p[3]}" opacity=".7"><circle cx="119" cy="52" r="2"/><circle cx="248" cy="43" r="1.5"/><circle cx="270" cy="121" r="2"/></g></svg>`;
+}
+const ATLAS_MOMENTS={
+  1:['Aquí había un camino a casa.','Una ventana encendida. Alguien nos espera.','Ya no tengo que recordar mi hogar a oscuras.'],
+  2:['Los cerezos han olvidado su canción.','¿La oyes? La melodía sigue entre las ramas.','Hay canciones que sobreviven a quinientos inviernos.'],
+  3:['Las torres callan desde aquella noche.','Las primeras linternas señalan el camino.','Ahora su luz guía. Ya no vigila.'],
+  4:['El frío guarda lo que nadie quiso mirar.','Debajo del hielo, todavía queda calor.','La montaña vuelve a dejar pasar la vida.'],
+  5:['Este bosque conoce mi nombre.','Las raíces responden a cada paso.','No era silencio. Estaba esperando que escucháramos.'],
+  6:['Aquí se apagó la última fogata.','Una chispa basta para volver a reunirnos.','Esta noche nadie tiene que quedarse a oscuras.'],
+  7:['No todas las ausencias se pueden reparar.','Cada luz devuelve un nombre al camino.','Recordar también es una forma de cuidar.'],
+  8:['Tengo miedo de lo que pueda recordar.','Si seguimos, quédate cerca de mí.','No todo lo que se rompe deja de estar vivo.']
+};
+function atlasFeeling(id,progress){
+  const stage=progress>=1?2:progress>=.34?1:0;
+  return {stage,label:['Bajo la niebla','El mundo despierta','De nuevo en casa'][stage],quote:(ATLAS_MOMENTS[id]||ATLAS_MOMENTS[1])[stage]};
 }
 function atlasDecoration(id){
   const p=ATLAS_PALETTES[id];
@@ -2607,6 +2675,10 @@ function drawAtlasRoute(container,nodes,height,territoryId=0){
   if(territoryId){
     const p=ATLAS_PALETTES[territoryId];
     scenery=`<path d="M120 0Q300 200 133 420T175 860T129 1300T205 ${height}" fill="none" stroke="${p[0]}" stroke-width="98" opacity=".04"/><path class="atlas-map-stream" d="M24 0Q-15 230 43 440T28 910T52 ${height}" fill="none" stroke="${p[4]}" stroke-width="3" opacity=".2"/>`;
+    points.forEach(point=>{
+      const x=point.x,y=point.y+14;
+      scenery+=`<g class="atlas-ground" opacity="${point.open?'.75':'.28'}"><path d="M${x-85} ${y-5}Q${x-56} ${y-38} ${x} ${y-27}Q${x+55} ${y-43} ${x+87} ${y-5}L${x+57} ${y+33}L${x+9} ${y+51}L${x-45} ${y+32}Z" fill="${p[2]}"/><path d="M${x-85} ${y-5}Q${x-56} ${y-38} ${x} ${y-27}Q${x+55} ${y-43} ${x+87} ${y-5}Q${x+55} ${y+23} ${x} ${y+18}Q${x-61} ${y+25} ${x-85} ${y-5}Z" fill="${p[1]}" fill-opacity=".48" stroke="${p[0]}" stroke-opacity=".18"/><path d="M${x-57} ${y+26}L${x-33} ${y+35}M${x+32} ${y+32}L${x+51} ${y+23}" fill="none" stroke="${p[3]}" stroke-opacity=".17"/></g>`;
+    });
     for(let i=0;i<6;i++) scenery+=`<g class="atlas-biome" transform="translate(${i%2?299:4} ${118+i*240}) scale(.8)">${atlasDecoration(territoryId)}</g>`;
   }
   for(let i=1;i<points.length;i++){
@@ -2621,9 +2693,11 @@ function drawAtlasRoute(container,nodes,height,territoryId=0){
 const atlasObservers=new Map();
 function observeAtlas(container){
   atlasObservers.get(container.id)?.disconnect();
-  if(!('IntersectionObserver' in window)){container.querySelectorAll('.territory-card,.level-node').forEach(el=>el.classList.add('is-visible'));return;}
+  const targets=Array.from(container.querySelectorAll('.territory-card,.level-node'));
+  if(container.id==='level-grid') targets.push(document.getElementById('territory-banner'));
+  if(!('IntersectionObserver' in window)){targets.forEach(el=>el.classList.add('is-visible'));return;}
   const observer=new IntersectionObserver(entries=>entries.forEach(entry=>entry.target.classList.toggle('is-visible',entry.isIntersecting)),{root:container.closest('.screen'),rootMargin:'60px'});
-  container.querySelectorAll('.territory-card,.level-node').forEach(el=>observer.observe(el));atlasObservers.set(container.id,observer);
+  targets.forEach(el=>observer.observe(el));atlasObservers.set(container.id,observer);
 }
 const CAMPAIGN_ARCS={
   1:{title:"Un hogar entre las cenizas",purpose:"El gris cortó la ruta hacia la aldea. Devuélvele el color para que Confite encuentre el camino a casa.",steps:["Abre el sendero hacia la aldea.","Reconstruye el camino hasta la torre.","Cruza las puertas y enfrenta al guardián."],resolution:"El camino a casa vuelve a existir. Pero Confite oye una melodía que llega desde los Jardines de Mochi."},
@@ -2696,9 +2770,10 @@ function renderWorld(){
     card.style.setProperty("--territory-color", t.hue);
     card.style.setProperty('--land-grey',(unlocked?Math.max(0,45-p*45):94)+'%');
     card.style.animationDelay = (i*70)+"ms";
-    const routeState = restored ? "Restaurado" : unlocked ? "Ruta abierta" : "Bajo la niebla";
+    const feeling=atlasFeeling(t.id,p);
+    const routeState = restored ? "Restaurado" : unlocked ? feeling.label : "Bajo la niebla";
     card.innerHTML = `
-      <div class="territory-landscape">${territoryLandscapeSVG(t.id,'world')}</div>
+      <div class="territory-landscape">${territoryLandscapeSVG(t.id,'world',p)}</div>
       ${current?`<div class="atlas-guide"><svg viewBox="0 0 100 90">${confiteSVG('happy')}</svg><span>Estás aquí</span></div>`:''}
       <div class="t-icon" style="--territory-color:${t.hue}">
         ${territoryEmblemSVG(t.id,!unlocked)}
@@ -2707,7 +2782,7 @@ function renderWorld(){
       <div class="t-info">
         <div class="t-step">Territorio ${String(i+1).padStart(2,"0")} · ${routeState}</div>
         <div class="t-name">${t.name}</div>
-        <div class="t-desc">${unlocked?t.desc:"Territorio corrompido. Restaura el anterior para abrir el camino."}</div>
+        <div class="t-desc">${unlocked?`«${feeling.quote}»`:"Territorio corrompido. Restaura el anterior para abrir el camino."}</div>
         <div class="t-bar"><div class="t-fill" style="width:${pct}%;background:${t.hue}"></div></div>
         <div class="t-pct">${pct}% restaurado</div>
       </div>`;
@@ -3927,7 +4002,9 @@ function renderMap(){
   titleEl.textContent = territory.name;
   titleEl.style.color = territory.hue;
   const bannerEl = document.getElementById("territory-banner");
-  bannerEl.innerHTML = `<div class="banner-landscape">${territoryLandscapeSVG(territory.id,'banner')}</div><div class="territory-banner-art" style="--territory-hue:${territory.hue}">${territoryEmblemSVG(territory.id)}</div><div class="territory-banner-copy">${territory.banner}</div>`;
+  const restored=territoryProgress(territory.id),feeling=atlasFeeling(territory.id,restored);
+  bannerEl.innerHTML = `<div class="map-scene-kicker">${feeling.label}</div><div class="banner-landscape">${territoryLandscapeSVG(territory.id,'banner',restored)}</div><div class="territory-banner-art" style="--territory-hue:${territory.hue}">${territoryEmblemSVG(territory.id)}</div><div class="map-scene-quote">«${feeling.quote}»</div><div class="territory-banner-copy">${territory.banner}</div><div class="map-rebirth" aria-label="${Math.round(restored*100)}% restaurado"><span>Niebla</span>${[0,.34,1].map(value=>`<i class="${restored>=value?'on':''}" aria-hidden="true"></i>`).join('')}<span>Vida</span></div>`;
+  bannerEl.style.setProperty('--land-grey',Math.max(0,70-restored*70)+'%');
   bannerEl.style.setProperty("--territory-hue", territory.hue);
   bannerEl.style.borderColor = `${territory.hue}4D`;
 
@@ -4734,6 +4811,9 @@ function renderRestorationScene(){
   const campaign=!cur.isCanvas&&!cur.isDaily&&!cur.isLeague&&!cur.isSurvival;
   document.getElementById("screen-game").style.setProperty('--territory-hue',t.hue);
   const panel=document.getElementById("restoration-window");
+  let landscape=panel.querySelector('.restoration-landscape');
+  if(!landscape){landscape=document.createElement('div');landscape.className='restoration-landscape';landscape.setAttribute('aria-hidden','true');panel.prepend(landscape);}
+  landscape.innerHTML=territoryLandscapeSVG(t.id,'game',1);
   panel.style.setProperty('--scene-position',`${22+t.id*6}% ${38+t.id*3}%`);
   document.getElementById("restoration-name").textContent=campaign?LEVEL_NAMES_ALL[t.id][cur.n]:cur.isCanvas?"El Amanecer Carmesí":cur.isSurvival?"Eco I · El Primer Latido":cur.isLeague?"El duelo de los clanes":"El latido de hoy";
   document.getElementById("restoration-detail").textContent=campaign?CAMPAIGN_ARCS[t.id].steps[cur.n<4?0:cur.n<8?1:2]:cur.isSurvival?"Mantén vivo el pulso que Confite reconoce.":cur.isLeague?"Una rivalidad nacida de la Fragmentación.":"Cada combinación le devuelve color a Dulcelandia.";
@@ -5191,7 +5271,7 @@ function finishLevel(won){
     addWeeklyChestProgress();
     const leagueGain=awardLeaguePoints(cur.isDaily?12:stars*5+(cur.n===TOTAL_LEVELS?10:0),cur.isDaily?"Desafío diario":cur.n===TOTAL_LEVELS?"Jefe vencido":"Nivel restaurado");
     document.getElementById("overlay-icon").textContent = cur.isDaily ? "⭐" : "🏆";
-    document.getElementById("overlay-title").textContent = cur.isDaily ? "¡Desafío Completado!" : "¡Nivel completado!";
+    document.getElementById("overlay-title").textContent = cur.isDaily ? "¡Desafío Completado!" : "El color vuelve a casa";
     let progressText = cur.type==="collect" ? `${cur.progress}/${cur.target} recolectados`
       : cur.type==="crystals" ? `${cur.progress}/${cur.target} Cristales activados`
       : `${cur.score.toLocaleString()} puntos`;
@@ -5238,10 +5318,14 @@ function finishLevel(won){
       document.getElementById("overlay-icon").textContent = "🌫️";
       document.getElementById("overlay-title").textContent = "El gris ganó esta vez";
       setConfiteGame("Estuvimos cerca. Esa parte del mundo sigue esperando.");
-    } else setConfiteGame("Casi... ¿lo intentamos de nuevo?");
+    } else {
+      setConfiteGame("No hace falta hacerlo perfecto. Lo intentamos juntos.");
+      if(!cur.isDaily) storyEl.textContent="La niebla sigue aquí. Yo también. — Confite";
+    }
     setConfiteMood("sad");
     document.getElementById("overlay-main-btn").textContent = "Reintentar";
   }
+  document.getElementById("overlay-icon").innerHTML=`<svg viewBox="0 0 100 90" role="img" aria-label="Confite ${won?'celebra contigo':'te acompaña'}">${confiteSVG(won?'celebrate':'worried')}</svg>`;
   document.getElementById("overlay-secondary-btn").textContent="Mapa";
   const starsEls = document.querySelectorAll("#overlay-stars .s");
   starsEls.forEach(el=>el.classList.remove("on"));
@@ -5417,44 +5501,50 @@ function refreshAllConfite(){
 function confiteSVG(mood, skinOverride){
   const sk = skinOverride || getActiveSkin();
   const e=sk.ears, ei=sk.earInner, b=sk.body, c=sk.cheeks, ey=sk.eye||"#2A1430";
+  const lifted=mood==="excited"||mood==="celebrate", quiet=mood==="sad"||mood==="worried";
+  const earTilt=mood==="sad"?29:mood==="worried"?23:lifted?8:15;
+  const eyes=(y,r)=>`<g class="cf-emote-eyes"><circle cx="36" cy="${y}" r="${r}" fill="${ey}"/><circle cx="60" cy="${y}" r="${r}" fill="${ey}"/><circle cx="38" cy="${y-2.4}" r="2.1" fill="#fff"/><circle cx="62" cy="${y-2.4}" r="2.1" fill="#fff"/><circle cx="34" cy="${y+2.5}" r=".8" fill="#fff" fill-opacity=".4"/><circle cx="58" cy="${y+2.5}" r=".8" fill="#fff" fill-opacity=".4"/></g>`;
   const faces = {
-    happy: `<circle cx="36" cy="50" r="6.5" fill="${ey}"/><circle cx="60" cy="50" r="6.5" fill="${ey}"/>
-      <circle cx="38" cy="47" r="2.2" fill="#fff"/><circle cx="62" cy="47" r="2.2" fill="#fff"/>
-      <path d="M36 64 Q48 72 60 64" stroke="${ey}" stroke-width="3" stroke-linecap="round" fill="none"/>`,
-    excited: `<circle cx="36" cy="49" r="7" fill="${ey}"/><circle cx="60" cy="49" r="7" fill="${ey}"/>
-      <circle cx="38.5" cy="46" r="2.6" fill="#fff"/><circle cx="62.5" cy="46" r="2.6" fill="#fff"/>
+    happy: `${eyes(50,6.2)}
+      <path d="M31 40 Q36 38 40 40 M56 40 Q60 38 65 40" stroke="${ey}" stroke-opacity=".48" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      <path d="M37 63 Q48 71 59 63" stroke="${ey}" stroke-width="2.6" stroke-linecap="round" fill="none"/>`,
+    excited: `${eyes(49,6.8)}
+      <path d="M30 39 Q36 35 42 38 M54 38 Q60 35 66 39" stroke="${ey}" stroke-opacity=".6" stroke-width="1.8" stroke-linecap="round" fill="none"/>
       <path d="M38 62 Q48 74 58 62 Z" fill="${ey}"/>
-      <path d="M42 66.5 Q48 70 54 66.5 L54 66 Q48 69 42 66 Z" fill="${c}"/>`,
+      <path d="M42 67 Q48 64 54 67 Q48 71 42 67" fill="${c}"/>`,
     celebrate: `<path d="M30 50 Q36 43 42 50" stroke="${ey}" stroke-width="3.5" stroke-linecap="round" fill="none"/>
       <path d="M54 50 Q60 43 66 50" stroke="${ey}" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-      <path d="M38 61 Q48 73 58 61 Z" fill="${ey}"/>`,
-    worried: `<circle cx="36" cy="51" r="5.5" fill="${ey}"/><circle cx="60" cy="51" r="5.5" fill="${ey}"/>
-      <circle cx="37.5" cy="49" r="1.8" fill="#fff"/><circle cx="61.5" cy="49" r="1.8" fill="#fff"/>
-      <path d="M30 42 L42 45" stroke="${ey}" stroke-width="3" stroke-linecap="round"/>
-      <path d="M66 42 L54 45" stroke="${ey}" stroke-width="3" stroke-linecap="round"/>
-      <path d="M40 66 Q48 62 56 66" stroke="${ey}" stroke-width="3" stroke-linecap="round" fill="none"/>`,
-    sad: `<circle cx="36" cy="51" r="6" fill="${ey}"/><circle cx="60" cy="51" r="6" fill="${ey}"/>
-      <circle cx="37.5" cy="49" r="2" fill="#fff"/><circle cx="61.5" cy="49" r="2" fill="#fff"/>
-      <path d="M38 68 Q48 61 58 68" stroke="${ey}" stroke-width="3" stroke-linecap="round" fill="none"/>
-      <ellipse cx="64" cy="60" rx="2.5" ry="4" fill="#7FD8E8" fill-opacity=".9"/>`
+      <path d="M38 61 Q48 75 58 61 Z" fill="${ey}"/><path d="M42 67 Q48 64 54 67 Q48 71 42 67" fill="${c}"/>`,
+    worried: `${eyes(51,5.6)}
+      <path d="M30 43 Q36 42 41 39 M55 39 Q60 42 66 43" stroke="${ey}" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <path d="M41 66 Q47 62 55 65" stroke="${ey}" stroke-width="2.6" stroke-linecap="round" fill="none"/>`,
+    sad: `${eyes(52,5.5)}
+      <path d="M30 43 Q36 43 41 40 M55 40 Q60 43 66 43" stroke="${ey}" stroke-opacity=".75" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M40 68 Q48 62 56 68" stroke="${ey}" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+      <path d="M65 56 Q60 63 65 64 Q70 63 65 56" fill="#A6EDF6" fill-opacity=".86"/><circle cx="64" cy="61" r="1" fill="#fff" fill-opacity=".7"/>`
   };
   return `
-    <ellipse cx="48" cy="86" rx="26" ry="3.8" fill="#000" fill-opacity=".26"/>
-    <ellipse cx="28" cy="14" rx="13" ry="22" fill="${e}" stroke="${ey}" stroke-opacity=".18" stroke-width="1.6" transform="rotate(-15 28 14)"/>
-    <ellipse cx="28" cy="16" rx="7" ry="13" fill="${ei}" transform="rotate(-15 28 16)"/>
-    <ellipse cx="68" cy="14" rx="13" ry="22" fill="${e}" stroke="${ey}" stroke-opacity=".18" stroke-width="1.6" transform="rotate(15 68 14)"/>
-    <ellipse cx="68" cy="16" rx="7" ry="13" fill="${ei}" transform="rotate(15 68 16)"/>
-    <ellipse cx="26" cy="80" rx="12" ry="7" fill="${e}" stroke="${ey}" stroke-opacity=".15" stroke-width="1.3" transform="rotate(-12 26 80)"/>
-    <ellipse cx="70" cy="80" rx="12" ry="7" fill="${e}" stroke="${ey}" stroke-opacity=".15" stroke-width="1.3" transform="rotate(12 70 80)"/>
+    <ellipse cx="48" cy="87" rx="25" ry="2.7" fill="#000" fill-opacity=".3"/>
+    <g class="cf-portrait">
+    <g transform="rotate(${-earTilt} 28 30)"><ellipse cx="28" cy="20" rx="10" ry="18" fill="${e}" stroke="${ey}" stroke-opacity=".2" stroke-width="1.3"/><ellipse cx="28" cy="20" rx="5" ry="12" fill="${ei}"/><path d="M24 8 Q20 17 22 26" stroke="#fff" stroke-opacity=".38" stroke-width="2.5" stroke-linecap="round" fill="none"/></g>
+    <g transform="rotate(${earTilt+(quiet?7:0)} 68 30)"><ellipse cx="68" cy="20" rx="10" ry="18" fill="${e}" stroke="${ey}" stroke-opacity=".2" stroke-width="1.3"/><ellipse cx="68" cy="20" rx="5" ry="12" fill="${ei}"/><path d="M64 8 Q60 17 62 24" stroke="#fff" stroke-opacity=".3" stroke-width="2" stroke-linecap="round" fill="none"/></g>
+    <ellipse cx="26" cy="80" rx="11" ry="6" fill="${e}" stroke="${ey}" stroke-opacity=".2" stroke-width="1.3" transform="rotate(-12 26 80)"/>
+    <ellipse cx="70" cy="80" rx="11" ry="6" fill="${e}" stroke="${ey}" stroke-opacity=".2" stroke-width="1.3" transform="rotate(12 70 80)"/>
     <ellipse cx="48" cy="55" rx="38" ry="33" fill="${b}" stroke="${ey}" stroke-opacity=".2" stroke-width="1.8"/>
-    <ellipse cx="48" cy="68" rx="24" ry="14" fill="#fff" fill-opacity=".055"/>
-    <ellipse cx="34" cy="39" rx="12" ry="6.5" fill="#fff" fill-opacity=".34" transform="rotate(-18 34 39)"/>
-    <circle cx="28" cy="34" r="2.1" fill="#fff" fill-opacity=".42"/>
-    <ellipse cx="27" cy="61" rx="5.5" ry="3.5" fill="${c}" fill-opacity=".85"/>
-    <ellipse cx="69" cy="61" rx="5.5" ry="3.5" fill="${c}" fill-opacity=".85"/>
+    <path d="M13 62 Q23 88 53 85 Q77 83 84 62 Q84 81 63 86 Q25 96 13 62" fill="#080918" fill-opacity=".18"/>
+    <path d="M15 49 Q18 26 43 25 Q64 22 78 38" stroke="#fff" stroke-opacity=".3" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <path d="M77 39 Q88 55 77 72" stroke="${ei}" stroke-opacity=".44" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <ellipse cx="46" cy="72" rx="19" ry="10" fill="#fff" fill-opacity=".07"/>
+    <ellipse cx="31" cy="35" rx="10" ry="4.5" fill="#fff" fill-opacity=".28" transform="rotate(-24 31 35)"/>
+    <circle cx="24" cy="39" r="1.6" fill="#fff" fill-opacity=".46"/>
+    <ellipse cx="12" cy="${lifted?48:quiet?67:62}" rx="5.5" ry="9" fill="${e}" stroke="${ey}" stroke-opacity=".16" stroke-width="1" transform="rotate(${lifted?-35:22} 12 ${lifted?48:quiet?67:62})"/>
+    <ellipse cx="84" cy="${lifted?46:quiet?67:62}" rx="5.5" ry="9" fill="${e}" stroke="${ey}" stroke-opacity=".16" stroke-width="1" transform="rotate(${lifted?35:-22} 84 ${lifted?46:quiet?67:62})"/>
+    <ellipse cx="26" cy="60" rx="6" ry="3.2" fill="${c}" fill-opacity=".68"/>
+    <ellipse cx="70" cy="60" rx="6" ry="3.2" fill="${c}" fill-opacity=".68"/>
     ${faces[mood] || faces.happy}
     <path d="m48 56 2 2-2 2-2-2Z" fill="${ey}" fill-opacity=".42"/>
-    <path d="m79 31 1.4 3.2 3.4 1.2-3.4 1.2-1.4 3.2-1.4-3.2-3.4-1.2 3.4-1.2Z" fill="#fff" fill-opacity=".72"/>`;
+    <path d="M44 77 48 73 52 77 48 82Z" fill="${ei}" fill-opacity=".76" stroke="#fff" stroke-opacity=".38" stroke-width=".8"/><path d="M44 77H52L48 82 48 73" stroke="#fff" stroke-opacity=".4" stroke-width=".6" fill="none"/>
+    </g>`;
 }
 function setConfiteMood(mood){
   const el = document.getElementById("confite-game-svg");
@@ -7540,6 +7630,11 @@ if(save.introDone && !save.dgModeUnlocked && territoryProgress(1)>=1){
 function refreshAppUpdateNotice(){
   document.getElementById("app-update").hidden=!appUpdateAvailable||!['screen-title','screen-world','screen-settings'].includes(document.querySelector('.screen.active')?.id);
 }
+function syncVisualVisibility(){
+  document.documentElement.classList.toggle('page-hidden',document.hidden);
+}
+document.addEventListener('visibilitychange',syncVisualVisibility);
+syncVisualVisibility();
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
   let controlled=!!navigator.serviceWorker.controller;
   navigator.serviceWorker.addEventListener('controllerchange',()=>{

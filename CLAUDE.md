@@ -79,6 +79,17 @@ Cada pantalla es una `<section class="screen" id="screen-NAME">`. `goTo(name)` a
 | `screen-daily` | (diario en world) | Desafío diario (integrado en world) |
 
 ### Dirección visual del mapa (septiembre 2026)
+- **Un mundo que siente · 16.10:** se amplía el atlas nativo, sin añadir raster
+  ni dependencias. `territoryLandscapeSVG(id,key,restoration)` tiene planos lejanos,
+  relieve facetado, cascada, luz y niebla graduadas. Mantener únicos los IDs por
+  contexto (`world`, `banner`, `game`) y territorio.
+- `ATLAS_MOMENTS` / `atlasFeeling()` conectan tres estados emocionales con el
+  progreso real (0%, 34%, 100%). Son frases ambientales, no nuevas revelaciones.
+  El banner del mapa ahora es un panorama y cada hito tiene una base de terreno.
+- Confite conserva sus cinco aspectos y emociones: volumen, manos/orejas expresivas,
+  respiración y parpadeo sin timers. `syncVisualVisibility()` pausa el ambiente
+  con `.page-hidden`; respetar movimiento reducido y observación fuera de pantalla.
+  El resultado principal muestra a Confite, no un trofeo genérico.
 - **Atlas Vivo · 15.10:** `territoryLandscapeSVG(id,key)` dibuja ocho paisajes
   propios (islas, arquitectura, vegetación) con gradientes cuyos IDs incluyen el
   contexto. Se conserva el único raster protagonista existente.
@@ -696,7 +707,7 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
   motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
   delay como pseudo-reverb).
-- **PWA v9:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
+- **PWA v11:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
   actualizan en segundo plano. Solo se eliminan cachés antiguas `sugarclash-*`.
   No borrar localStorage para actualizar. Una instalación con el worker anterior
   puede necesitar cerrar y abrir una vez más tras recibir la actualización.

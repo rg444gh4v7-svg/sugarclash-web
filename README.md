@@ -19,12 +19,16 @@ node --test tests/*.test.cjs
 
 Abrir `http://127.0.0.1:4177/`. Las pruebas cubren especiales persistentes, cadenas,
 gravedad, barajado, campaña, sintaxis y comportamiento de la caché online/offline.
-El worker v10 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
+El worker v11 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
 No borrar los datos del navegador: eso elimina el progreso.
 
 ## Iteración actual
 
-- Edición **Atlas Vivo · 15.10**, identificable en la portada.
+- Edición **Un mundo que siente · 16.10**, identificable en la portada.
+- Paisajes con varios planos, relieve, cascadas y niebla ligada a la restauración.
+- Panoramas de territorio y 24 frases ambientales que acompañan tres estados del mundo.
+- Confite más expresivo: manos, orejas, reflejos, parpadeo y respiración; también
+  acompaña el resultado de la partida. Sin nuevas dependencias ni raster.
 - Ocho paisajes vectoriales propios con islas, nubes y vegetación de cada región.
 - Caminos curvos, siguiente nivel señalado y progreso visible en el mundo.
 - Fichas y poderes se mueven juntos, con aterrizaje, reflejos, fragmentos y estelas.
@@ -41,9 +45,12 @@ No borrar los datos del navegador: eso elimina el progreso.
 
 ## Qué falta para una prueba comercial real
 
-En la revisión del 15.10 pasaron 23 pruebas del motor/caché y una comprobación de
-interfaz ejecutada con DOM: campaña, deslizamiento, pulso, intercambio inválido,
-ajuste de tamaño y guardado. Un bot codicioso recorrió los 80 niveles y ganó 73
+En la revisión del 16.10 pasaron 30 pruebas del motor/caché/gráficos y comprobaciones
+con DOM: campaña, deslizamiento, pulso, intercambio inválido, ajuste de tamaño,
+guardado, estados de restauración, pausa por visibilidad y resultados. También se
+renderizaron las ocho ilustraciones y las 25 variantes aspecto/emoción de Confite.
+No hubo navegador disponible para revisar el resultado completo: queda verificar
+composición y animaciones en un teléfono real. Un bot codicioso recorrió los 80 niveles y ganó 73
 en una sola partida por nivel; es una comprobación preliminar, no una medición
 estadística del equilibrio ni de retención. Queda revisión visual en teléfono.
 
