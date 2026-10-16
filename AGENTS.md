@@ -79,6 +79,19 @@ Cada pantalla es una `<section class="screen" id="screen-NAME">`. `goTo(name)` a
 | `screen-daily` | (diario en world) | Desafío diario (integrado en world) |
 
 ### Dirección visual del mapa (septiembre 2026)
+- **Atlas Vivo · 15.10:** `territoryLandscapeSVG(id,key)` dibuja ocho paisajes
+  propios (islas, arquitectura, vegetación) con gradientes cuyos IDs incluyen el
+  contexto. Se conserva el único raster protagonista existente.
+- `drawAtlasRoute()` conecta hitos mediante Bézier en un SVG decorativo. El
+  mundo usa islas de 248px cada 270px; los niveles usan `mapX` y pasos de 144px
+  en un lienzo de 1550px. Si cambian alturas/posiciones, actualizar también
+  `data-route-x/y` y alto del SVG para mantener el camino alineado.
+- `observeAtlas()` pausa nubes/motas fuera de pantalla; sus observadores se
+  desconectan al volver a renderizar. Respetar movimiento reducido.
+- Tablero: `.board-piece` transporta caramelo y poder; la celda/obstáculos
+  permanecen fijos. Partículas Retina con DPR máximo 2, RAF finito y cancelación
+  por `boardRun`; no agregar bucles perpetuos ni volver a renderizar por timers
+  de daño de chocolate, porque cortan las caídas.
 - `renderWorld()` dibuja los 8 territorios como una ruta alternada, no como una lista plana.
   `territoryEmblemSVG(id, locked)` genera un emblema vectorial propio para cada territorio;
   no volver a sustituirlos por emojis genéricos.

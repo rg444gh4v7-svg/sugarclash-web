@@ -19,12 +19,16 @@ node --test tests/*.test.cjs
 
 Abrir `http://127.0.0.1:4177/`. Las pruebas cubren especiales persistentes, cadenas,
 gravedad, barajado, campaña, sintaxis y comportamiento de la caché online/offline.
-El worker v9 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
+El worker v10 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
 No borrar los datos del navegador: eso elimina el progreso.
 
 ## Iteración actual
 
-- Edición **Pulso del Cristal · 15.10**, identificable en la portada.
+- Edición **Atlas Vivo · 15.10**, identificable en la portada.
+- Ocho paisajes vectoriales propios con islas, nubes y vegetación de cada región.
+- Caminos curvos, siguiente nivel señalado y progreso visible en el mundo.
+- Fichas y poderes se mueven juntos, con aterrizaje, reflejos, fragmentos y estelas.
+- Efectos limitados para móvil, pausados fuera de pantalla y con movimiento reducido.
 - Desliza para intercambiar; el tablero se ajusta a la altura de pantalla.
 - Cinco piezas crean un cristal; combina poderes entre sí o cristal con color.
 - Pulso manual de Confite: carga en tres jugadas y elige dos turnos de puntos dobles.

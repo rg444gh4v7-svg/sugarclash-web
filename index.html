@@ -382,6 +382,65 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .lock-icon{font-size:18px;opacity:.6}
 @media (prefers-reduced-motion:reduce){#screen-world::before,#screen-map::before,#world-list::before,.level-node{animation:none}.territory-card{animation:none}}
 
+/* ===== ATLAS VIVO: paisajes y rutas ===== */
+#world-list{gap:22px;isolation:isolate}
+#world-list::before,#level-grid::before{display:none}
+#world-list .world-journey{height:62px;padding:10px 13px;overflow:hidden}
+.world-journey-note{font-size:9px;margin-top:3px}
+#world-list .territory-card{width:84%;height:248px;min-height:248px;padding:0;display:block;border:0;background:none;box-shadow:none;backdrop-filter:none;filter:none!important;animation:none;isolation:isolate}
+#world-list .territory-card::after{display:none}
+#world-list .territory-card .route-pin{display:none}
+.territory-landscape{position:absolute;inset:0 0 auto;height:180px;pointer-events:none;filter:grayscale(var(--land-grey,0%));transition:filter .7s}
+.territory-landscape>svg{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 16px 10px #0005)}
+#world-list .t-info{position:absolute;left:2px;right:2px;bottom:0;padding:10px 12px 10px 48px;min-height:87px;background:linear-gradient(120deg,#17172bef,#0d1022ed);border:1px solid color-mix(in srgb,var(--territory-color) 40%,transparent);border-radius:16px;box-shadow:inset 0 1px #ffffff14,0 10px 23px #0005}
+#world-list .t-icon{position:absolute;left:9px;bottom:31px;width:34px;height:38px;border-radius:10px;z-index:3}
+#world-list .t-icon .t-emblem{width:29px;height:29px}
+#world-list .t-step{font-size:8px;letter-spacing:.08em}
+#world-list .t-name{font-size:15px;line-height:1.16}
+#world-list .t-desc{font-size:10px;line-height:1.25;margin-top:4px}
+#world-list .t-bar{height:4px;margin-top:6px}
+#world-list .t-pct{font-size:9px}
+#world-list .territory-card.locked{opacity:.76}
+#world-list .territory-card.is-current .t-info{border-color:var(--territory-color);box-shadow:inset 0 1px #ffffff22,0 0 22px color-mix(in srgb,var(--territory-color) 18%,transparent),0 10px 23px #0005}
+.atlas-guide{position:absolute;right:4px;top:38px;z-index:3;pointer-events:none;text-align:center;animation:atlasGuide 3s ease-in-out infinite;animation-play-state:paused}
+.atlas-guide svg{display:block;width:41px;height:39px;margin:auto;filter:drop-shadow(0 4px 4px #0008)}
+.atlas-guide span{font-size:8px;color:#fff0b7;background:#191425ed;padding:4px 7px;border:1px solid #f3d99877;border-radius:20px}
+.atlas-route{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;overflow:hidden}
+.atlas-path-flow{stroke-dasharray:3 11;animation:atlasRouteFlow 2s linear infinite}
+.atlas-cloud{animation:atlasCloud 8s ease-in-out infinite alternate;animation-play-state:paused}
+.atlas-mote{animation:atlasMote 3.6s ease-in-out infinite alternate;animation-play-state:paused}
+.territory-card.is-visible .atlas-cloud,.territory-card.is-visible .atlas-mote,.territory-card.is-visible .atlas-guide{animation-play-state:running}
+.territory-card.is-visible .territory-landscape>svg{animation:atlasArrive .6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes atlasCloud{to{transform:translateX(13px)}}
+@keyframes atlasMote{to{transform:translateY(-8px);opacity:.3}}
+@keyframes atlasGuide{50%{transform:translateY(-4px)}}
+@keyframes atlasRouteFlow{to{stroke-dashoffset:-28}}
+@keyframes atlasArrive{from{opacity:.4;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+#level-grid{display:block;isolation:isolate;padding:0;min-height:1550px}
+#level-grid .level-node{position:absolute;width:min(38%,152px);height:128px;min-height:128px;display:flex;align-items:center;justify-content:flex-start;gap:4px;padding:0;border:0;border-radius:0;box-shadow:none;background:none;backdrop-filter:none;animation:none}
+#level-grid .level-node::before,#level-grid .level-node::after{display:none}
+#level-grid .level-node .level-num{width:60px;height:60px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:24px;background:radial-gradient(circle at 32% 20%,#66516d,#29213c 55%,#121423);border:2px solid color-mix(in srgb,var(--territory-hue) 50%,#6a607c);box-shadow:inset 0 3px 2px #ffffff24,inset 0 -5px 6px #0007,0 6px 0 #080916,0 10px 15px #0006;color:#f5e6ce}
+#level-grid .level-node.cleared .level-num{border-color:#c9b66f;background:radial-gradient(circle at 32% 20%,#4d806b,#28493b 60%,#142b29)}
+#level-grid .level-node.locked{opacity:.66;filter:grayscale(.8)}
+#level-grid .level-node.locked .level-num{background:radial-gradient(circle at 32% 20%,#373447,#1b1a2b);color:#8d859e}
+#level-grid .level-node.is-current .level-num{border-color:#ffe1a1;color:#fff5d6;background:radial-gradient(circle at 32% 20%,color-mix(in srgb,var(--territory-hue) 70%,#fff),var(--territory-hue) 40%,#291b3e);animation:atlasNodeBeacon 2.6s ease-in-out infinite}
+@keyframes atlasNodeBeacon{50%{box-shadow:inset 0 3px 2px #ffffff33,inset 0 -5px 6px #0007,0 6px 0 #080916,0 0 0 7px #ffe1a112,0 0 26px color-mix(in srgb,var(--territory-hue) 42%,transparent)}}
+#level-grid .level-name{font-size:10px;line-height:1.2;max-width:145px;color:#e8dcee;text-shadow:0 2px 3px #000;padding:0 3px}
+#level-grid .level-stars{font-size:10px;gap:1px}
+#level-grid .level-best{font-size:9px;color:#98c8c6}
+#level-grid .level-node.boss-level{width:min(48%,180px);height:146px;min-height:146px}
+#level-grid .boss-level .level-num{width:74px;height:74px;border-radius:23px;border-color:#d9b86b;background:radial-gradient(circle at 35% 20%,#7c6338,#30223e 65%)}
+#level-grid .boss-level .level-num .t-emblem{width:49px;height:49px}
+#level-grid .lock-icon{position:absolute;right:calc(50% - 30px);top:37px;font-size:12px;opacity:1;z-index:2}
+#level-grid .hard-badge{bottom:auto;top:46px;left:50%;font-size:7px;padding:2px 5px}
+.current-step{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:.09em;color:#ffedb9;white-space:nowrap}
+.atlas-map-caption{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#d6c5a9;position:absolute;top:10px;width:100%;text-align:center}
+.atlas-biome{opacity:.52}.atlas-map-stream{stroke-dasharray:10 18;animation:atlasRouteFlow 4s linear infinite}
+.banner-landscape{position:absolute;right:-25px;bottom:-34px;width:175px;height:130px;opacity:.35;pointer-events:none;mask-image:linear-gradient(90deg,transparent,#000 45%)}
+.banner-landscape svg{width:100%;height:100%}
+.screen:not(.active) .atlas-path-flow,.screen:not(.active) .atlas-map-stream,.screen:not(.active) .atlas-cloud,.screen:not(.active) .atlas-mote,.screen:not(.active) .atlas-guide{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){.atlas-path-flow,.atlas-map-stream,.atlas-cloud,.atlas-mote,.atlas-guide,.territory-card.is-visible .territory-landscape>svg,#level-grid .level-node.is-current .level-num{animation:none!important}}
+
 /* ===== GAME ===== */
 #screen-game{padding:10px 10px 14px;gap:8px;background:radial-gradient(circle at 50% -10%,#482069 0%,#180421 48%,#0d0015 100%)}
 #screen-game>*:not(#grid-wrap){flex-shrink:0}
@@ -719,6 +778,32 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 /* ===== PARTICLE CANVAS ===== */
 #particle-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:4;border-radius:9px}
 
+/* ===== BOARD VISUAL FX · fixed sockets, moving candy, finite bursts ===== */
+#grid:not(.canvas-mode) .cell{border-top-color:color-mix(in srgb,var(--piece,#fff) 46%,transparent);box-shadow:inset 0 1px 0 #ffffff21,inset 1px 0 0 #ffffff08,inset 0 -3px 5px #0007,0 2px 3px #0005}
+#grid .cell.empty{background:rgba(5,8,22,.32);border-color:rgba(255,255,255,.035);box-shadow:inset 0 2px 5px #0005}
+.board-piece{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transform-origin:50% 66%;pointer-events:none}
+.board-piece .candy-icon{display:block;overflow:visible;pointer-events:none}
+#grid .cell:not(.veil):not(.obstacle-1):not(.obstacle-2).wrapped::before,#grid:not(.canvas-mode) .cell.stripe-h::after,#grid:not(.canvas-mode) .cell.stripe-v::after,#grid:not(.canvas-mode) .cell.wrapped::after{content:none}
+#grid.canvas-mode .cell.stripe-h::after,#grid.canvas-mode .cell.stripe-v::after,#grid.canvas-mode .cell.wrapped::after{content:"";left:50%;top:50%;right:auto;bottom:auto;width:74%;height:auto;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;animation:none;filter:none;font-size:0}
+#grid .cell.obstacle-1::before,#grid .cell.obstacle-2::before{z-index:1}
+#grid .cell.obstacle-1::after,#grid .cell.obstacle-2::after{z-index:2;pointer-events:none}
+.board-piece.power-h::after,.board-piece.power-v::after{content:"";position:absolute;z-index:2;border:1px solid #fff9;border-radius:3px;background:repeating-linear-gradient(135deg,#fffdf4 0 3px,#fff8 3px 6px);box-shadow:0 1px 2px #48234d99,0 0 5px #fff5;pointer-events:none}
+.board-piece.power-h::after{left:15%;right:15%;top:44%;height:13%;transform:rotate(-5deg)}
+.board-piece.power-v::after{top:15%;bottom:15%;left:44%;width:13%;transform:rotate(5deg)}
+.board-piece.power-w::before{content:"";position:absolute;inset:13%;border:1px solid #fff9;border-radius:30%;box-shadow:inset 0 0 0 2px #fff2,0 0 6px #ffd38155;transform:rotate(-8deg);pointer-events:none}
+.board-piece.power-w::after{content:"";position:absolute;inset:24%;border:3px solid #ffedb4;border-radius:5px;transform:rotate(45deg);box-shadow:0 1px 3px #8c2547aa,inset 0 0 3px #fff9;pointer-events:none}
+#screen-game #grid .cell.matched{animation:none}
+#screen-game #grid .cell.matched .board-piece{animation:candySugarBurst .24s cubic-bezier(.2,.75,.3,1) both}
+@keyframes candySugarBurst{0%{transform:scale(1);opacity:1}24%{transform:scale(1.18);opacity:1}55%{transform:scale(.94);opacity:.86}100%{transform:scale(.28);opacity:0}}
+@media(prefers-reduced-motion:reduce){
+  #screen-game #grid .cell,#screen-game #grid .board-piece{animation:none!important;transition:none!important}
+  #screen-game #grid .cell.matched .board-piece{opacity:.18}
+  #screen-game #grid .cell::before,#screen-game #grid .cell::after{animation:none!important}
+  #screen-game .grid-shake{animation:none!important}
+  #particle-canvas{visibility:hidden}
+}
+/* ===== END BOARD VISUAL FX ===== */
+
 /* ===== HÉROES ===== */
 #screen-heroes{padding:18px 16px 24px;gap:12px}
 #heroes-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 0 16px}
@@ -998,7 +1083,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
         <button class="btn-ghost" id="btn-hexclash" style="border-color:rgba(0,245,255,.35);color:var(--crystal)">🕯️ HEX CLASH · Modo Oscuro</button>
       </div>
       <div id="confite-title-bubble" style="font-size:11px;color:var(--crystal);font-style:italic;opacity:.85;display:none"></div>
-      <div class="build-badge">PULSO DEL CRISTAL · 15.10</div>
+      <div class="build-badge">ATLAS VIVO · 15.10</div>
     </div>
   </section>
 
@@ -2473,6 +2558,73 @@ function renderTitleLeague(){
   if(rankEl) rankEl.textContent = `#${leaguePlayerRank()}`;
 }
 // Territory goals and consequences share one source of truth; saves remain compatible.
+const ATLAS_PALETTES={
+  1:['#ef8ba6','#af4b71','#50324d','#ffdb9c','#d58b56'],2:['#ffc1d4','#7e9a8c','#39475d','#fff0d5','#78c3ca'],
+  3:['#e66d63','#ad634f','#49334a','#ffce77','#5ba6a6'],4:['#d0dfec','#8c7372','#393849','#fff3db','#88b5d0'],
+  5:['#72ceaa','#45866c','#233e47','#a7f4c4','#6ca2c2'],6:['#f1ce9a','#bb8f76','#5d4258','#fff0d5','#daa775'],
+  7:['#e7af7e','#b17a58','#4b3c50','#ffdb8b','#cc8f71'],8:['#a0def0','#5e91b5','#303b64','#e1faff','#8cbbef']
+};
+function territoryLandscapeSVG(id,key='world'){
+  const p=ATLAS_PALETTES[id]||ATLAS_PALETTES[1],uid=`atlas-${key}-${id}`;
+  const tree=(x,y,s=1,color=p[0])=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 0V34M0 18L-11 8M0 22L12 8" stroke="#503e50" stroke-width="5" stroke-linecap="round"/><path d="M-25 3Q-32-17-13-23Q-8-40 8-28Q29-31 31-12Q39 4 20 10Q7 19-5 10Q-20 18-25 3" fill="${color}"/><path d="M-22-9Q-8-25 9-18" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="3"/></g>`;
+  const tower=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M-15 0V-56L0-75L15-56V0Z" fill="#eee1d5"/><path d="M0-75L22-52H-22Z" fill="${p[1]}"/><path d="M0-52H15V0H0Z" fill="${p[2]}" opacity=".35"/><path d="M-4-38H4V-26H-4ZM-4-17H4V0H-4Z" fill="${p[3]}"/></g>`;
+  const art={
+    1:`${tower(138,125,1)}${tower(213,123,1.3)}<path d="M143 111Q174 78 208 111V122Q176 98 143 122Z" fill="#ddb0a5" stroke="#fff" stroke-opacity=".25"/><path d="M162 111V101M181 105V96M197 111V101" stroke="#6b3d54" stroke-width="5"/>${tree(74,103,.7,'#e875a0')}${tree(276,118,.68,'#de8da7')}<path d="M180 129Q151 143 174 153Q199 161 181 169" fill="none" stroke="${p[4]}" stroke-width="13" stroke-linecap="round"/>`,
+    2:`${tree(92,106,1.05,'#f3b7cd')}${tree(267,95,.9,'#eea9c7')}<path d="M151 124V78H208V124Z" fill="#937576"/><path d="M140 79Q181 51 219 79L208 84H151Z" fill="#483e59"/><path d="M148 66Q180 45 211 66L202 70H156Z" fill="#665371"/><path d="M162 87H172V104H162ZM187 87H197V104H187Z" fill="${p[3]}"/><ellipse cx="178" cy="142" rx="66" ry="14" fill="${p[4]}"/><path d="M134 145Q174 107 216 140" fill="none" stroke="#e2b0a4" stroke-width="8"/><path d="M134 137Q174 99 216 132" fill="none" stroke="#ac6c7b" stroke-width="3"/>`,
+    3:`${tower(151,131,1.35)}${tower(228,128,.93)}<path d="M120 69Q169 91 247 67" fill="none" stroke="#e9ba80" stroke-width="2"/><path d="M126 74V89M246 72V88M195 80V98" stroke="#d9a66a" stroke-width="2"/><g fill="#ec8a68" stroke="#ffc886" stroke-width="2"><rect x="120" y="85" width="13" height="17" rx="5"/><rect x="239" y="84" width="13" height="17" rx="5"/><rect x="189" y="94" width="13" height="17" rx="5"/></g>${tree(72,122,.6,'#ad6c72')}<path d="M120 144Q181 166 245 139" fill="none" stroke="#e5b994" stroke-width="6"/>`,
+    4:`<path d="M54 119L115 29L174 123ZM140 123L205 14L286 126Z" fill="#90848a"/><path d="M83 76L115 29L145 78L124 66L113 83L103 68ZM176 64L205 14L241 66L222 54L208 74L195 53Z" fill="#eef2ee"/><path d="M205 14L221 122H286Z" fill="#6c6e85" opacity=".55"/><path d="M133 147V115L159 94L187 115V147Z" fill="#86615b"/><path d="M124 116L159 86L196 116Z" fill="#e4dcdb"/><path d="M150 126H164V145H150Z" fill="#ffdb99"/><path d="M63 137L82 112L102 141M237 145L254 118L272 141" fill="#d7e3e7"/>`,
+    5:`${tree(102,98,1.12,'#6bba9b')}${tree(241,104,1.28,'#498c7b')}${tree(177,80,.83,'#9ac99c')}<path d="M154 130Q181 94 205 130L198 144H162Z" fill="#40594d"/><path d="M166 136Q181 109 193 136" fill="none" stroke="#b4dbb3" stroke-width="3"/><path d="M208 130Q157 141 179 154Q203 163 143 170" fill="none" stroke="#69a9b1" stroke-width="10"/><g fill="#bbcc93"><ellipse cx="80" cy="144" rx="15" ry="5"/><ellipse cx="256" cy="147" rx="20" ry="6"/></g>`,
+    6:`<path d="M70 126Q99 67 143 122Q179 72 220 126Q258 92 290 131Z" fill="#dbc0aa"/>${tree(76,109,.6,'#e7b4a8')}<path d="M125 134V106Q125 85 149 85Q175 85 175 106V134Z" fill="#f5e4d4"/><path d="M140 134V117Q149 105 158 117V134" fill="#a98682"/><path d="M214 132V114Q214 99 232 99Q251 99 251 114V132Z" fill="#e9d8d3"/><path d="M179 148L192 136M177 137L196 149" stroke="#80655b" stroke-width="5" stroke-linecap="round"/><path class="atlas-mote" d="M181 143Q174 133 184 123Q184 132 191 128Q199 141 187 145Z" fill="#ffd185"/>`,
+    7:`<path d="M122 142V127H135V113H149V97H215V113H229V127H242V142Z" fill="#bd9678"/><path d="M156 97V68Q181 40 208 68V97Z" fill="#d8b396"/><path d="M168 97V73Q181 58 194 73V97" fill="#564453"/><path d="M179 89Q171 80 181 68Q191 81 186 89Z" fill="#ffda8f"/><path d="M76 100Q166 39 278 96" fill="none" stroke="#cba78a" stroke-width="2"/><g fill="#f5c782"><path d="M104 86L113 91L117 77Z"/><path d="M225 77L234 90L239 81Z"/><circle cx="104" cy="141" r="6"/><circle cx="259" cy="137" r="7"/><circle cx="84" cy="133" r="5"/><circle cx="270" cy="146" r="5"/></g>`,
+    8:`<path d="M138 132L127 80L144 46L165 93L181 16L203 99L226 57L241 132Z" fill="#88bad6" stroke="#d5f4f4" stroke-opacity=".65"/><path d="M181 16L166 128H196Z" fill="#dcfaff"/><path d="M181 16L203 99L196 128Z" fill="#8a8fc7"/><path d="M144 46L152 130L165 93ZM226 57L218 132L241 132Z" fill="#e0eff5" opacity=".6"/><path d="M75 141L83 106L99 124L106 144ZM253 144L264 104L283 140Z" fill="#9ccddc"/><ellipse cx="182" cy="142" rx="64" ry="14" fill="#b9dbe7" opacity=".38"/><path d="M145 148L173 142L200 151L218 145" fill="none" stroke="#e3f9ff" stroke-opacity=".6" stroke-width="2"/>`
+  };
+  return `<svg viewBox="0 0 360 210" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <linearGradient id="${uid}-land" x1="0" y1="0" x2="0" y2="1"><stop stop-color="${p[0]}"/><stop offset="1" stop-color="${p[1]}"/></linearGradient>
+    <linearGradient id="${uid}-rock" x1="0" y1="0" x2="0" y2="1"><stop stop-color="${p[2]}"/><stop offset="1" stop-color="#141728"/></linearGradient></defs>
+    <ellipse cx="180" cy="190" rx="97" ry="11" fill="#000" opacity=".2"/>
+    <g class="atlas-cloud" opacity=".15" fill="${p[0]}"><ellipse cx="76" cy="77" rx="49" ry="11"/><ellipse cx="96" cy="69" rx="21" ry="14"/><ellipse cx="280" cy="67" rx="42" ry="11"/></g>
+    <circle cx="272" cy="35" r="20" fill="${p[3]}" opacity=".14"/>
+    <path d="M42 123Q180 62 318 123L279 159L223 181L181 197L135 179L81 159Z" fill="url(#${uid}-rock)"/>
+    <path d="M79 140L135 179L149 145L181 197L204 146L223 181L281 142" fill="none" stroke="${p[0]}" stroke-opacity=".13" stroke-width="2"/>
+    <path d="M42 123C43 101 79 87 111 87Q145 69 179 78Q217 70 250 91C285 89 319 104 318 125Q311 149 275 152Q242 174 207 166Q167 181 133 165Q92 167 76 149Q46 143 42 123Z" fill="url(#${uid}-land)" stroke="${p[3]}" stroke-opacity=".24" stroke-width="2"/>
+    <path d="M62 127Q180 184 298 127" fill="none" stroke="${p[3]}" stroke-opacity=".24" stroke-width="2"/>
+    <path d="M60 123Q91 109 119 119M244 117Q280 112 300 126" fill="none" stroke="${p[3]}" stroke-opacity=".24" stroke-width="2"/>
+    <ellipse cx="180" cy="129" rx="63" ry="10" fill="${p[2]}" opacity=".15"/>
+    ${art[id]||art[1]}<g fill="${p[3]}" opacity=".35"><path d="M62 139l7-3 7 5-8 3ZM251 153l8-5 9 5-7 4ZM104 155l4-4 6 3-3 3Z"/><path d="M87 131l-4-5m4 5 3-6M273 128l-3-6m3 6 4-5" stroke="${p[3]}" stroke-width="1.5" fill="none"/></g>
+    <g class="atlas-mote" fill="${p[3]}" opacity=".7"><circle cx="119" cy="52" r="2"/><circle cx="248" cy="43" r="1.5"/><circle cx="270" cy="121" r="2"/></g></svg>`;
+}
+function atlasDecoration(id){
+  const p=ATLAS_PALETTES[id];
+  if(id===4) return `<path d="M0 72L25 12L55 72Z" fill="${p[1]}"/><path d="M15 37L25 12L37 39L29 32L24 41Z" fill="#dce7ee"/>`;
+  if(id===8) return `<path d="M5 74L0 39L16 18L28 66L36 0L53 45L45 74Z" fill="${p[0]}"/><path d="M36 0L28 66L37 73Z" fill="${p[3]}"/>`;
+  if(id===3||id===7) return `<path d="M17 75V42H9L27 28L45 42H37V75Z" fill="${p[1]}"/><path d="M22 47H32V60H22Z" fill="${p[3]}"/><path d="M8 75H45" stroke="${p[0]}" stroke-width="5"/>`;
+  return `<path d="M27 76V33M27 49L12 34M27 53L44 36" stroke="${p[2]}" stroke-width="7"/><path d="M2 31Q-2 9 17 12Q22-4 38 9Q60 10 52 32Q40 49 28 37Q12 47 2 31" fill="${p[0]}"/><path d="M12 24Q22 9 36 18" fill="none" stroke="${p[3]}" stroke-opacity=".3" stroke-width="3"/>`;
+}
+function drawAtlasRoute(container,nodes,height,territoryId=0){
+  container.querySelector('.atlas-route')?.remove();
+  const points=nodes.map(el=>({x:Number(el.dataset.routeX)*3.6,y:Number(el.dataset.routeY),open:!el.classList.contains('locked')}));
+  let routes='',scenery='';
+  if(territoryId){
+    const p=ATLAS_PALETTES[territoryId];
+    scenery=`<path d="M120 0Q300 200 133 420T175 860T129 1300T205 ${height}" fill="none" stroke="${p[0]}" stroke-width="98" opacity=".04"/><path class="atlas-map-stream" d="M24 0Q-15 230 43 440T28 910T52 ${height}" fill="none" stroke="${p[4]}" stroke-width="3" opacity=".2"/>`;
+    for(let i=0;i<6;i++) scenery+=`<g class="atlas-biome" transform="translate(${i%2?299:4} ${118+i*240}) scale(.8)">${atlasDecoration(territoryId)}</g>`;
+  }
+  for(let i=1;i<points.length;i++){
+    const a=points[i-1],b=points[i],bend=(b.y-a.y)*.52;
+    const leading=nodes[i-1].classList.contains('is-current');
+    const d=`M${a.x} ${a.y}C${a.x} ${a.y+bend} ${b.x} ${b.y-bend} ${b.x} ${b.y}`;
+    routes+=`<path d="${d}" fill="none" stroke="#080c1b" stroke-width="14" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${b.open?'#b8a885':'#39364d'}" stroke-opacity="${b.open?'.68':'.8'}" stroke-width="6" stroke-linecap="round"/>${b.open||leading?`<path class="atlas-path-flow" d="${d}" fill="none" stroke="#fff1c1" stroke-opacity="${b.open?'.8':'.32'}" stroke-width="2" stroke-linecap="round"/>`:''}`;
+  }
+  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('class','atlas-route');svg.setAttribute('viewBox',`0 0 360 ${height}`);svg.setAttribute('preserveAspectRatio','none');svg.setAttribute('aria-hidden','true');svg.innerHTML=scenery+routes;container.prepend(svg);
+}
+const atlasObservers=new Map();
+function observeAtlas(container){
+  atlasObservers.get(container.id)?.disconnect();
+  if(!('IntersectionObserver' in window)){container.querySelectorAll('.territory-card,.level-node').forEach(el=>el.classList.add('is-visible'));return;}
+  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>entry.target.classList.toggle('is-visible',entry.isIntersecting)),{root:container.closest('.screen'),rootMargin:'60px'});
+  container.querySelectorAll('.territory-card,.level-node').forEach(el=>observer.observe(el));atlasObservers.set(container.id,observer);
+}
 const CAMPAIGN_ARCS={
   1:{title:"Un hogar entre las cenizas",purpose:"El gris cortó la ruta hacia la aldea. Devuélvele el color para que Confite encuentre el camino a casa.",steps:["Abre el sendero hacia la aldea.","Reconstruye el camino hasta la torre.","Cruza las puertas y enfrenta al guardián."],resolution:"El camino a casa vuelve a existir. Pero Confite oye una melodía que llega desde los Jardines de Mochi."},
   2:{title:"La melodía bajo la niebla",purpose:"Confite reconoce una canción entre los cerezos dormidos. Despierta los jardines para seguir su origen.",steps:["Devuelve el color a los cerezos.","Sigue la melodía a través del jardín.","Libera el último sendero de la niebla."],resolution:"Los cerezos vuelven a florecer. La canción no termina aquí: su eco alcanza las Torres de Tanghulu."},
@@ -2534,14 +2686,21 @@ function renderWorld(){
     const card = document.createElement("div");
     const restored = p>=1;
     if(restored) restoredCount++;
-    card.className = `territory-card ${i%2===0?"map-left":"map-right"}${unlocked?"":" locked"}${restored?" restored":""}`;
+    const current=unlocked&&!restored&&t.id===campaignNext().territory.id;
+    card.className = `territory-card ${i%2===0?"map-left":"map-right"}${unlocked?"":" locked"}${restored?" restored":""}${current?" is-current":""}`;
+    card.dataset.routeX=i%2===0?42:58;
+    card.dataset.routeY=207+i*270;
+    card.setAttribute('role','button');card.tabIndex=0;
+    card.setAttribute('aria-label',`${t.name} · ${pct}% restaurado${current?' · Continuar aquí':''}`);
+    card.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();card.click();}};
     card.style.setProperty("--territory-color", t.hue);
-    card.style.filter = `grayscale(${unlocked?Math.max(0,.6-p):1})`;
+    card.style.setProperty('--land-grey',(unlocked?Math.max(0,45-p*45):94)+'%');
     card.style.animationDelay = (i*70)+"ms";
     const routeState = restored ? "Restaurado" : unlocked ? "Ruta abierta" : "Bajo la niebla";
     card.innerHTML = `
-      <span class="route-pin" aria-hidden="true"></span>
-      <div class="t-icon" style="--territory-color:${t.hue};position:relative">
+      <div class="territory-landscape">${territoryLandscapeSVG(t.id,'world')}</div>
+      ${current?`<div class="atlas-guide"><svg viewBox="0 0 100 90">${confiteSVG('happy')}</svg><span>Estás aquí</span></div>`:''}
+      <div class="t-icon" style="--territory-color:${t.hue}">
         ${territoryEmblemSVG(t.id,!unlocked)}
         ${restored?`<span style="position:absolute;bottom:-5px;right:-5px;font-size:13px;filter:drop-shadow(0 0 6px #f5b800)">✦</span>`:""}
       </div>
@@ -2566,6 +2725,8 @@ function renderWorld(){
     }
     list.appendChild(card);
   });
+  drawAtlasRoute(list,Array.from(list.querySelectorAll('.territory-card')),2260);
+  observeAtlas(list);
   document.getElementById("world-journey-count").textContent = `${restoredCount} / ${TERRITORIES.length}`;
   document.getElementById("world-journey-note").textContent = restoredCount===0
     ? "Cada territorio recuperado reconstruye un fragmento de la memoria de Confite."
@@ -3766,7 +3927,7 @@ function renderMap(){
   titleEl.textContent = territory.name;
   titleEl.style.color = territory.hue;
   const bannerEl = document.getElementById("territory-banner");
-  bannerEl.innerHTML = `<div class="territory-banner-art" style="--territory-hue:${territory.hue}">${territoryEmblemSVG(territory.id)}</div><div class="territory-banner-copy">${territory.banner}</div>`;
+  bannerEl.innerHTML = `<div class="banner-landscape">${territoryLandscapeSVG(territory.id,'banner')}</div><div class="territory-banner-art" style="--territory-hue:${territory.hue}">${territoryEmblemSVG(territory.id)}</div><div class="territory-banner-copy">${territory.banner}</div>`;
   bannerEl.style.setProperty("--territory-hue", territory.hue);
   bannerEl.style.borderColor = `${territory.hue}4D`;
 
@@ -3776,6 +3937,8 @@ function renderMap(){
   grid.innerHTML = "";
   let totalStars = 0;
   let clearedCount = 0;
+  const mapX=[26,57,76,49,24,38,70,76,47,50];
+  const nextLevel=Math.min(unlockedLevel,TOTAL_LEVELS);
   levels.forEach((lv,index)=>{
     const stars = territoryStars[lv.n] || 0;
     totalStars += stars;
@@ -3783,7 +3946,12 @@ function renderMap(){
     const unlocked = lv.n <= unlockedLevel;
     const div = document.createElement("div");
     const isBoss = lv.n === TOTAL_LEVELS;
-    div.className = "level-node" + (unlocked? (stars>0?" cleared":"") : " locked") + (isBoss?" boss-level":"");
+    const current=unlocked&&stars===0&&lv.n===nextLevel;
+    div.className = "level-node" + (unlocked? (stars>0?" cleared":"") : " locked") + (isBoss?" boss-level":"") + (current?" is-current":"");
+    div.style.top=(72+index*144)+'px';
+    div.style.left=`calc(${mapX[index]}% - min(${isBoss?'24%':'19%'},${isBoss?'90px':'76px'}))`;
+    div.dataset.routeX=mapX[index];div.dataset.routeY=102+index*144;
+    div.setAttribute('role','button');div.tabIndex=unlocked?0:-1;div.setAttribute('aria-disabled',String(!unlocked));
     div.style.animationDelay = (index*55)+"ms";
     const lname = LEVEL_NAMES_ALL[currentTerritory] && LEVEL_NAMES_ALL[currentTerritory][lv.n];
     if(lname) div.title = lname;
@@ -3795,7 +3963,7 @@ function renderMap(){
       if(lv.n===5 && !isBoss) div.classList.add("lv-hard");
       const hardHtml = lv.n===5 && !isBoss ? `<span class="hard-badge">Difícil</span>` : "";
       div.innerHTML = isBoss
-        ? `<div class="level-num">👑</div>
+        ? `<div class="level-num">${territoryEmblemSVG(currentTerritory,false)}</div>
            <div class="level-name">${lname||"Guardián del territorio"}</div>
            <div class="level-stars">
              <span class="s ${stars>=1?'on':''}">⭐</span>
@@ -3812,11 +3980,18 @@ function renderMap(){
       div.onclick = isBoss ? ()=>showBossIntro(lv.n) : ()=>tryStartLevel(lv.n);
     } else {
       div.innerHTML = isBoss
-        ? `<div class="lock-icon">👑</div><div class="level-num" style="font-size:12px;color:var(--gold)">Jefe</div><div class="level-name">${lname||"Guardián oculto"}</div>`
-        : `<div class="lock-icon">🔒</div><div class="level-num" style="font-size:15px">${lv.n}</div><div class="level-name">${lname||"Ruta en la niebla"}</div>`;
+        ? `<div class="lock-icon">🔒</div><div class="level-num">${territoryEmblemSVG(currentTerritory,true)}</div><div class="level-name">${lname||"Guardián oculto"}</div>`
+        : `<div class="lock-icon">🔒</div><div class="level-num">${lv.n}</div><div class="level-name">${lname||"Ruta en la niebla"}</div>`;
     }
+    if(current) div.insertAdjacentHTML('afterbegin','<span class="current-step">SIGUE AQUÍ</span>');
+    div.setAttribute('aria-label',`${lname||`Nivel ${lv.n}`} · ${unlocked?`${stars} estrellas`:'Bloqueado'}${current?' · Siguiente nivel':''}`);
+    div.onkeydown=e=>{if(unlocked&&(e.key==='Enter'||e.key===' ')){e.preventDefault();div.click();}};
     grid.appendChild(div);
   });
+  grid.style.height='1550px';
+  drawAtlasRoute(grid,Array.from(grid.querySelectorAll('.level-node')),1550,currentTerritory);
+  grid.insertAdjacentHTML('afterbegin','<div class="atlas-map-caption">Sigue el sendero del color</div>');
+  observeAtlas(grid);
   document.getElementById("map-route-label").textContent = `Ruta ${clearedCount}/${levels.length}`;
   document.getElementById("map-route-fill").style.width = `${Math.round(clearedCount/levels.length*100)}%`;
   document.getElementById("total-stars").textContent = totalStars;
@@ -4377,7 +4552,7 @@ function processObstacleDamage(clearedCells){
       obstacles[nr][nc] -= dmg;
       if(obstacles[nr][nc]<0) obstacles[nr][nc]=0;
       const el=cellEl(nr,nc);
-      if(el){ el.classList.add("obstacle-hit"); setTimeout(()=>{ const e2=cellEl(nr,nc); if(e2) e2.classList.remove("obstacle-hit"); renderGrid(); }, 380); }
+      if(el){ el.classList.add("obstacle-hit"); setTimeout(()=>el.classList.remove("obstacle-hit"),380); }
       if(obstacles[nr][nc]===0){ cleared++; cur.score+=200; }
     });
   });
@@ -4487,14 +4662,24 @@ function buildGrid(){
 
 function renderGrid(motion=[]){
   const gridEl = document.getElementById("grid");
+  const sameRun=gridEl._boardFxRun===boardRun;
+  const previousEmpty=sameRun?Array.from(gridEl.children,el=>el.classList.contains("empty")):[];
+  if(!sameRun){
+    const canvas=document.getElementById("particle-canvas");
+    if(canvas?._boardFxRAF) cancelAnimationFrame(canvas._boardFxRAF);
+    if(canvas){ canvas._boardFxRAF=0; canvas.getContext("2d")?.clearRect(0,0,canvas.width,canvas.height); }
+  }
+  gridEl._boardFxRun=boardRun;
   gridEl.classList.toggle("canvas-mode", !!(cur && cur.isCanvas));
   gridEl.innerHTML = "";
+  const fragment=document.createDocumentFragment();
   for(let r=0;r<cur.rows;r++) for(let c=0;c<cur.cols;c++){
     const t = board[r][c];
+    const power=stripes[r]?.[c];
     const div = document.createElement("div");
-    div.className = "cell " + COLORCLASS[t];
+    div.className = "cell " + (t<0?"empty":COLORCLASS[t]);
     if(cur.cols>=8) div.style.borderRadius="7px";
-    div.innerHTML = t<0 ? "" : `<svg class="candy-icon" viewBox="0 0 64 64"><use href="#${CANDY_IDS[t]}"></use></svg>`;
+    div.innerHTML = t<0 ? "" : `<span class="board-piece${power?' power-'+power.toLowerCase():''}" aria-hidden="true"><svg class="candy-icon" viewBox="0 0 64 64"><use href="#${CANDY_IDS[t]}"></use></svg></span>`;
     div.dataset.r=r; div.dataset.c=c;
     div.onclick = ()=>onCellClick(r,c);
     if(sel && sel[0]===r && sel[1]===c) div.classList.add("selected");
@@ -4506,15 +4691,31 @@ function renderGrid(motion=[]){
       div.classList.add("veil");
       if(canvasFog[r][c]>=2) div.classList.add("veil-2");
     }
-    gridEl.appendChild(div);
+    fragment.appendChild(div);
   }
+  gridEl.appendChild(fragment);
   fitGameBoard();
   if(motion.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
     const first=gridEl.firstElementChild;
-    const step=first.getBoundingClientRect().width+parseFloat(getComputedStyle(gridEl).gap);
+    if(!first) return;
+    const step=first.getBoundingClientRect().width+(parseFloat(getComputedStyle(gridEl).gap)||0);
+    const swapping=motion.length===2&&motion.every(m=>Math.abs(m.dr||0)+Math.abs(m.dc||0)===1)&&motion.some(m=>(m.dr||0)>0||(m.dc||0)!==0);
     motion.forEach(({r,c,dr=0,dc=0})=>{
-      const el=cellEl(r,c);
-      if(el?.animate) el.animate([{transform:`translate(${dc*step}px,${dr*step}px)`,opacity:.65},{transform:'translate(0,0)',opacity:1}],{duration:200,easing:'cubic-bezier(.2,.75,.3,1)'});
+      const piece=cellEl(r,c)?.querySelector(".board-piece");
+      if(!piece?.animate) return;
+      const incoming=previousEmpty[r*cur.cols+c]===true;
+      const frames=swapping?[
+        {transform:`translate(${dc*step}px,${dr*step}px) scale(.96)`,offset:0,easing:'cubic-bezier(.35,0,.2,1)'},
+        {transform:'translate(0,0) scale(1.035)',offset:.84,easing:'ease-out'},
+        {transform:'translate(0,0) scale(1)',offset:1}
+      ]:[
+        {transform:`translate(${dc*step}px,${dr*step}px) scale(.97,1.035)`,opacity:incoming?.25:1,offset:0,easing:'cubic-bezier(.32,.04,.64,1)'},
+        {transform:'translate(0,2px) scale(1.045,.94)',opacity:1,offset:.8,easing:'ease-out'},
+        {transform:'translate(0,0) scale(1)',opacity:1,offset:1}
+      ];
+      piece.style.willChange='transform,opacity';
+      const animation=piece.animate(frames,{duration:200,fill:'none'});
+      animation.onfinish=animation.oncancel=()=>{piece.style.willChange='';};
     });
   }
 }
@@ -7153,54 +7354,94 @@ function shakeGrid(){
 
 /* ---- Candy Particles ---- */
 const CANDY_PARTICLE_COLORS = ["#FF5C5C","#4DA6FF","#3DD68C","#FFD93D","#C084E8","#FF7FB0","#FFE066","#FF8C42"];
+function drawCandyPowerTrails(ctx,trails,elapsed){
+  const reach=1-Math.pow(1-Math.min(1,elapsed/160),3);
+  const alpha=Math.max(0,1-elapsed/350);
+  if(!alpha) return;
+  ctx.save();
+  ctx.lineCap="round";
+  for(const trail of trails){
+    ctx.strokeStyle=trail.color;
+    ctx.globalAlpha=alpha*.3;
+    ctx.lineWidth=trail.size*.3;
+    if(trail.kind==='W'){
+      ctx.beginPath(); ctx.arc(trail.x,trail.y,trail.size*(.25+reach*1.3),0,Math.PI*2); ctx.stroke();
+    }else{
+      const horizontal=trail.kind==='H';
+      const start=horizontal?trail.left:trail.top,end=horizontal?trail.right:trail.bottom;
+      const center=horizontal?trail.x:trail.y;
+      const a=center+(start-center)*reach,b=center+(end-center)*reach;
+      ctx.beginPath(); ctx.moveTo(horizontal?a:trail.x,horizontal?trail.y:a); ctx.lineTo(horizontal?b:trail.x,horizontal?trail.y:b); ctx.stroke();
+      ctx.globalAlpha=alpha*.9; ctx.strokeStyle="#fff7dd"; ctx.lineWidth=Math.max(1.5,trail.size*.055); ctx.stroke();
+    }
+  }
+  ctx.restore();
+}
 function spawnCandyParticles(cells){
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if(!cells || cells.length === 0) return;
   const canvas = document.getElementById("particle-canvas");
   if(!canvas) return;
   const ctx = canvas.getContext("2d");
   if(!ctx) return;
-  // Size canvas to match its CSS size
+  if(canvas._boardFxRAF) cancelAnimationFrame(canvas._boardFxRAF);
+  canvas._boardFxRAF=0;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches || !cells?.length) return;
   const rect = canvas.getBoundingClientRect();
   if(!rect.width || !rect.height) return;
-  canvas.width = rect.width;
-  canvas.height = rect.height;
-  const canvasLeft = rect.left;
-  const canvasTop = rect.top;
-  const particles = [];
-  const MAX_CELLS = 18; // cap to avoid performance issues
-  const sampled = cells.length > MAX_CELLS ? cells.filter((_,i)=>i % Math.ceil(cells.length/MAX_CELLS) === 0) : cells;
-  sampled.forEach(({r,c})=>{
+  // A capped Retina backing store keeps tiny sugar facets crisp on phones.
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  canvas.width=Math.round(rect.width*dpr); canvas.height=Math.round(rect.height*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  const gridRect=document.getElementById("grid").getBoundingClientRect();
+  const run=boardRun,screen=document.getElementById("screen-game");
+  const particles=[],bursts=[],trails=[];
+  const maxCells=rect.width<450?12:16,perCell=rect.width<450?4:5;
+  const sampleStep=Math.max(1,Math.ceil(cells.length/maxCells));
+  cells.forEach(({r,c},i)=>{
     const el = cellEl(r,c);
     if(!el) return;
+    const kind=el.classList.contains("wrapped")?'W':el.classList.contains("stripe-v")?'V':el.classList.contains("stripe-h")||board[r][c]===SPECIAL?'H':null;
+    if(i%sampleStep!==0 && !kind) return;
     const cr = el.getBoundingClientRect();
-    const cx = cr.left + cr.width/2 - canvasLeft;
-    const cy = cr.top + cr.height/2 - canvasTop;
+    const cx = cr.left + cr.width/2 - rect.left;
+    const cy = cr.top + cr.height/2 - rect.top;
     const color = CANDY_PARTICLE_COLORS[(board[r][c] >= 0 ? board[r][c] : 0) % CANDY_PARTICLE_COLORS.length];
-    for(let p=0;p<6;p++){
-      const angle = (p/6)*Math.PI*2 + Math.random()*1;
-      const speed = 2 + Math.random()*2.8;
-      particles.push({x:cx, y:cy, vx:Math.cos(angle)*speed, vy:Math.sin(angle)*speed - 0.8,
-        r: 2.2 + Math.random()*2.8, color, alpha:1});
+    if(kind && trails.length<6) trails.push({x:cx,y:cy,size:cr.width,color,kind,left:gridRect.left-rect.left,right:gridRect.right-rect.left,top:gridRect.top-rect.top,bottom:gridRect.bottom-rect.top});
+    if(bursts.length>=maxCells) return;
+    bursts.push({x:cx,y:cy,size:cr.width,color});
+    for(let p=0;p<perCell;p++){
+      const angle=(p/perCell)*Math.PI*2+Math.random()*.6;
+      const speed=cr.width*(1.1+Math.random()*1.2);
+      particles.push({x:cx,y:cy,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed-cr.width*.4,size:1.4+Math.random()*2.2,color,angle,life:340+rnd(150)});
     }
   });
-  const TOTAL_FRAMES = 22;
-  let frame = 0;
-  function drawParticles(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    frame++;
-    let alive = false;
+  let started;
+  function drawParticles(now){
+    ctx.clearRect(0,0,rect.width,rect.height);
+    if(run!==boardRun || !screen.classList.contains("active") || window.matchMedia('(prefers-reduced-motion: reduce)').matches){canvas._boardFxRAF=0;return;}
+    if(started===undefined) started=now;
+    const elapsed=now-started,t=elapsed/1000;
+    drawCandyPowerTrails(ctx,trails,elapsed);
+    if(elapsed<210) bursts.forEach(b=>{
+      const phase=elapsed/210;
+      ctx.globalAlpha=(1-phase)*.48; ctx.strokeStyle=b.color; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.arc(b.x,b.y,b.size*(.12+phase*.45),0,Math.PI*2); ctx.stroke();
+    });
     particles.forEach(p=>{
-      p.x += p.vx; p.y += p.vy; p.vy += 0.14; p.alpha = Math.max(0, 1 - frame/TOTAL_FRAMES);
-      if(p.alpha > 0){ alive = true; }
-      ctx.save(); ctx.globalAlpha = p.alpha; ctx.fillStyle = p.color;
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+      const remaining=Math.max(0,1-elapsed/p.life);
+      if(!remaining) return;
+      ctx.save(); ctx.globalAlpha=remaining*remaining; ctx.fillStyle=p.color;
+      ctx.translate(p.x+p.vx*t,p.y+p.vy*t+150*t*t); ctx.rotate(p.angle+t*3);
+      const size=p.size*(.5+remaining*.5);
+      ctx.fillRect(-size,-size,size*2,size*2);
+      ctx.fillStyle="#fff8e8"; ctx.fillRect(-size,-size,size,Math.max(.7,size*.45));
       ctx.restore();
     });
-    if(alive && frame < TOTAL_FRAMES) requestAnimationFrame(drawParticles);
-    else ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.globalAlpha=1;
+    if(elapsed<500) canvas._boardFxRAF=requestAnimationFrame(drawParticles);
+    else {ctx.clearRect(0,0,rect.width,rect.height);canvas._boardFxRAF=0;}
   }
-  requestAnimationFrame(drawParticles);
+  canvas._boardFxRAF=requestAnimationFrame(drawParticles);
 }
 
 /* ---- Time Extra Power-up (Survival) ---- */
