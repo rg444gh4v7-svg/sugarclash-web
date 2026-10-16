@@ -63,5 +63,8 @@ reglas de arquitectura, economía y continuidad narrativa.
 ## Publicación
 
 El proyecto está vinculado a Vercel en `.vercel/` (configuración local, no se sube).
-Guardar commit, hacer push y ejecutar `vercel --prod` con la cuenta autorizada.
+Guardar commit, hacer push y ejecutar
+`vercel deploy --prod --yes --scope pulsarproyects --project sugarclash-web`
+con la cuenta autorizada. Seleccionar equipo/proyecto explícitamente evitó un
+rechazo de autorización en la publicación del 15.10.
 El push de Git por sí solo no garantiza el despliegue: verificar la URL pública.
