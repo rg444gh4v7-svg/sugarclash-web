@@ -1,4 +1,4 @@
-const CACHE_NAME = "sugarclash-v11";
+const CACHE_NAME = "sugarclash-v12";
 const ASSETS = ["./", "./index.html", "./manifest.json", "./icon.svg", "./icon-192.png", "./icon-512.png", "./icon-ios-180.png", "./title-world-v3-hd.jpg"];
 
 self.addEventListener("install", (event) => {

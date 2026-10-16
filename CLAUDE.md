@@ -329,6 +329,20 @@ Intercambios y caídas se animan respetando movimiento reducido.
 
 ## Aldea de Confite — escena ilustrada
 
+**Un hogar que despierta · 16.10:** terreno con terrazas, cauce y vegetación
+vectorial; los diez edificios conservan un SVG por ID con caras facetadas y
+ventanas cálidas. `v-art-window`, `v-art-smoke` y `v-art-water` solo se animan en
+edificios construidos y visibles. Se reutiliza `atlasObservers` con clave
+`village-grid`; desconectar al rerenderizar, pausar con `.page-hidden` y movimiento reducido.
+
+`villageBuildingState(id)` comprueba todos los requisitos anteriores, no el número
+de edificios: conserva guardados importados con huecos sin saltarse el camino.
+Se usa también para proteger `buildStructure()` y su anuncio simulado opt-in.
+`villageSelectedId` es transitorio (no va al save). Tocar un edificio **solo lo
+inspecciona**; beneficio, precio y botones explícitos viven en `#village-detail`.
+`renderVillage(revealedId)` conserva scroll y señala la construcción recién hecha.
+El panel devuelve al jugador a la campaña mediante `continueCampaign()`.
+
 `screen-village` NO es una lista/grid — es una escena: un camino serpenteante (SVG con
 `<path>` de segmentos rectos, `stroke-linejoin="round"`) que conecta las 10 construcciones
 de `BUILDINGS`, cada una posicionada de forma absoluta (`.v-node`) sobre el camino.
@@ -348,9 +362,9 @@ de `BUILDINGS`, cada una posicionada de forma absoluta (`.v-node`) sobre el cami
   mismo SVG. `unlocked-next` además pulsa (`@keyframes nodeInvite`) para invitar a
   construir. Si se necesita un edificio nuevo, solo hace falta agregar su entrada a
   `ART` dentro de `villageBuildingSVG()` — el resto (posición, estado, clic) es genérico.
-- **Decoración ambiental:** hojas/flores/chispas (`DECO_ICONS`, emoji) se insertan como
-  `<div class="v-deco">` en los puntos medios entre construcciones — puramente visual,
-  `pointer-events:none`.
+- **Decoración ambiental:** terreno y árboles SVG nativos en `.village-path-svg`,
+  viewBox horizontal 360. El paso vertical es 164px, con margen superior 88px.
+  No volver a poner botones/habilidades sobre cada hito: se solapan en móviles.
 
 ---
 
@@ -707,7 +721,7 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
   motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
   delay como pseudo-reverb).
-- **PWA v11:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
+- **PWA v12:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
   actualizan en segundo plano. Solo se eliminan cachés antiguas `sugarclash-*`.
   No borrar localStorage para actualizar. Una instalación con el worker anterior
   puede necesitar cerrar y abrir una vez más tras recibir la actualización.
