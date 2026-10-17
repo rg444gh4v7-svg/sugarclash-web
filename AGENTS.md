@@ -537,6 +537,23 @@ publicar de verdad en un portal:
 
 ## Minijuegos
 
+**Atlas y Ecos · 16.10:** `echoSceneSVG(id,key)` dibuja tres panoramas nativos
+independientes (`survival`, `moba`, `br`), sin dependencias ni nuevos raster. IDs
+prefijados por contexto (`archive`, `live`, `result`, `reveal`, `league`). El Archivo
+tiene un único scroll vertical y botones nativos: los bloqueados siguen siendo
+enfocables para explicar su requisito, con `aria-disabled` y la misma validación
+`startMinigameChapter()`. Confite es visible fuera del canvas durante el combate.
+
+`minigameArenaArt()` conserva un canvas estático por modo/tamaño/DPR; solo unidades
+y efectos se pintan en el RAF existente. `minigameCanvasContext()` limita DPR a 2;
+los punteros usan MOBA_W/H o BR_W/H, nunca el backing-store. Mantener el tamaño
+lógico al llamar `drawImage()`. No introducir colisiones para ruinas decorativas.
+`minigameMotionAllowed()` consulta movimiento reducido y visibilidad en vivo.
+
+Supervivencia comparte `screen-game`: `goTo('survival')` debe despachar directamente
+a `startSurvival()` antes de buscar un elemento de pantalla. La clase `survival-mode`
+y `data-mode` se reinician en `renderRestorationScene()`, no en el save.
+
 `screen-minigames` es el **Archivo de Confite**: los tres modos no son extras sueltos,
 sino los `Ecos de la Fragmentación`. `MINIGAMES` es su fuente de verdad narrativa y los
 desbloquea en orden, guardando cada revelación en `save.minigameLore`.
@@ -736,7 +753,7 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
   motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
   delay como pseudo-reverb).
-- **PWA v13:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
+- **PWA v14:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
   actualizan en segundo plano. Solo se eliminan cachés antiguas `sugarclash-*`.
   No borrar localStorage para actualizar. Una instalación con el worker anterior
   puede necesitar cerrar y abrir una vez más tras recibir la actualización.
@@ -744,6 +761,13 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 ---
 
 ## Lo que falta (roadmap priorizado)
+
+- **HEX visual · 16.10:** `dgLandscapeSVG(key,restored)`, `dgSymbolSVG(kind)` y
+  `dgSceneMarkup()` reúnen el arte mineral de menú, ruta, tienda y tablero; IDs
+  únicos por contexto. Los 20 hitos usan botones nativos, requisitos intactos y
+  nombres de niveles bloqueados ocultos. Las cuatro pantallas HEX deben mantener
+  `position:absolute;inset:0`: usar `relative` rompe su altura y deja hitos fuera
+  del viewport. Sin nuevos timers, cambios de economía ni campos de guardado.
 
 ### Iteración de jugabilidad, narrativa y móvil
 - **Pulso del Cristal · 15.10:** deslizamiento con Pointer Events y toque doble.

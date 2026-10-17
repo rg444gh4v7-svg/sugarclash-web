@@ -19,12 +19,21 @@ node --test tests/*.test.cjs
 
 Abrir `http://127.0.0.1:4177/`. Las pruebas cubren especiales persistentes, cadenas,
 gravedad, barajado, campaña, sintaxis y comportamiento de la caché online/offline.
-El worker v13 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
+El worker v14 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
 No borrar los datos del navegador: eso elimina el progreso.
 
 ## Iteración actual
 
-- Edición **Atlas cinematográfico · 16.10**, identificable en la portada.
+- Edición **Atlas y Ecos · 16.10**, identificable en la portada.
+- Archivo con tres panoramas vectoriales originales, estados reales de memoria y
+  botones accesibles; los desbloqueos siguen el orden del lore.
+- MOBA y Battle Royale: escenarios propios con ruinas, puentes, relieve y cristales,
+  unidades facetadas, HUD y resultados coherentes. Canvas Retina (DPR máximo 2),
+  fondos reutilizados y controles en coordenadas lógicas.
+- Supervivencia: cámara del Primer Latido, pulso visual sensible al tiempo y
+  resultado acompañado por Confite. Corregida su entrada al tablero compartido.
+- HEX CLASH: paisaje mineral, ruta de 20 hitos, relicario, piezas y transiciones
+  vectoriales. Pantallas fijadas al viewport para no dejar niveles fuera de alcance.
 - Dirección Figma aplicada al juego: cabecera compacta, recursos reales, territorio
   protagonista, nivel activo dentro del paisaje, Confite y navegación clara.
 - Mochi incorpora el SVG exacto del diseño: pabellón, puente, cerezos, roca y
@@ -55,14 +64,16 @@ No borrar los datos del navegador: eso elimina el progreso.
 
 ## Qué falta para una prueba comercial real
 
-En la revisión del 16.10 pasaron 45 pruebas del motor/caché/gráficos/aldea/campaña y comprobaciones
+En la revisión del 16.10 pasaron 61 pruebas del motor/caché/gráficos/aldea/campaña/modos y comprobaciones
 con DOM: campaña, deslizamiento, pulso, intercambio inválido, ajuste de tamaño,
 guardado, estados de restauración, pausa por visibilidad, resultados, selección sin
 gasto, compra explícita, requisitos, scroll de aldea y guardados con huecos. También se
 renderizaron las ocho ilustraciones, los diez edificios y las 25 variantes de Confite.
 Se comprobó en navegador la pantalla de mundo a 390px, la entrada real a partida,
 el cobro de vida, regreso al mapa y acceso a los ocho territorios sin desbordamiento
-horizontal. Queda verificar composición y animaciones en un iPhone real.
+horizontal. Archivo, combates, Supervivencia y HEX se revisaron también en una
+sesión local aislada a 320×640 y 390×844, sin cambiar el progreso de producción.
+Queda verificar composición y animaciones en un iPhone real.
 Un bot codicioso recorrió los 80 niveles y ganó 73
 en una sola partida por nivel; es una comprobación preliminar, no una medición
 estadística del equilibrio ni de retención. Queda revisión visual en teléfono.

@@ -312,37 +312,41 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .icon-btn{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 
 /* ===== MINIGAMES (hub de modos) ===== */
-#screen-minigames{padding:18px 16px 24px;gap:12px;isolation:isolate;background:#0d0015;overflow:hidden}
-#screen-minigames::before{content:"";position:absolute;z-index:-2;inset:-8%;background:url('title-world-v3-hd.jpg') center 68%/cover;filter:blur(7px) saturate(.82);opacity:.35;transform:scale(1.08)}
-#screen-minigames::after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,rgba(13,0,21,.73),rgba(13,0,21,.95) 65%)}
+#screen-minigames{padding:24px 20px;gap:18px;isolation:isolate;background:radial-gradient(ellipse at 80% 5%,#30243d55,transparent 40%),#0d0015;overflow-y:auto}
+#screen-minigames>*{flex-shrink:0}
+#screen-minigames::before,#screen-minigames::after{content:none}
 .mg-header{display:flex;align-items:center;gap:10px}
-.mg-title{font-family:'Fraunces',serif;font-weight:600;font-size:18px;line-height:1.05;color:var(--gold);flex:1}
-.mg-title small{display:block;font-family:'Karla',sans-serif;font-size:8px;letter-spacing:.18em;color:var(--crystal);text-transform:uppercase;margin-bottom:4px}
-.mg-progress-badge{font-family:'Fraunces',serif;font-size:14px;color:var(--gold);padding:7px 10px;border-radius:99px;background:rgba(245,184,0,.1);border:1px solid rgba(245,184,0,.35)}
-#confite-mg-bubble{font-size:11.5px;line-height:1.4;color:#d4fdff;background:linear-gradient(105deg,rgba(0,245,255,.1),rgba(155,89,182,.13));border:1px solid rgba(0,245,255,.28);border-radius:14px;padding:9px 12px;backdrop-filter:blur(10px)}
-.mg-archive{border-radius:16px;padding:11px 13px;background:linear-gradient(110deg,rgba(50,12,78,.83),rgba(4,44,61,.72));border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 20px rgba(0,0,0,.23)}
-.mg-archive-top{display:flex;justify-content:space-between;gap:8px;align-items:center}.mg-archive-top span{font-size:8px;letter-spacing:.13em;color:var(--crystal)}.mg-archive-top b{font-size:10px;color:var(--gold)}
-.mg-archive-track{height:7px;border-radius:99px;background:rgba(0,0,0,.32);overflow:hidden;margin-top:7px}.mg-archive-track div{height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--candy),var(--gold),var(--crystal));box-shadow:0 0 9px var(--crystal);transition:width .5s}
-.mg-archive p{font-size:9.5px;line-height:1.35;color:rgba(255,255,255,.48);margin-top:7px}
-#mg-list{position:relative;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:11px;padding:6px 2px 16px 18px}
+.mg-title{font-family:'Fraunces',serif;font-weight:500;font-size:23px;line-height:1.1;color:var(--cream);flex:1}
+.mg-title small{display:block;font-family:'Karla',sans-serif;font-size:8px;letter-spacing:.18em;color:var(--atlas-gold);text-transform:uppercase;margin-bottom:6px}
+.mg-progress-badge{font-family:'Fraunces',serif;font-size:16px;color:var(--atlas-gold);padding:8px;border-bottom:1px solid var(--atlas-line)}
+.archive-guide{display:flex;align-items:center;gap:12px}.archive-guide svg{width:52px;height:49px;flex-shrink:0}
+#confite-mg-bubble{font-family:'Fraunces',serif;font-size:13px;line-height:1.5;color:#d2c8da}
+.mg-archive{padding:0 0 15px;border-bottom:1px solid var(--atlas-line)}
+.mg-archive-top{display:flex;justify-content:space-between;gap:8px;align-items:center}.mg-archive-top span{font-size:8px;letter-spacing:.14em;color:var(--atlas-muted)}.mg-archive-top b{font-size:11px;color:var(--atlas-gold);font-weight:500}
+.mg-archive-track{height:3px;border-radius:99px;background:#ffffff12;overflow:hidden;margin-top:10px}.mg-archive-track div{height:100%;width:0;border-radius:inherit;background:var(--atlas-gold);transition:width .5s}
+.mg-archive p{font-size:11px;line-height:1.5;color:var(--atlas-muted);margin-top:9px}
+#mg-list{position:relative;display:flex;flex-direction:column;gap:24px;padding:0 0 16px}
 #mg-list>*{flex-shrink:0}
-#mg-list::before{content:"";position:absolute;left:7px;top:18px;bottom:26px;width:2px;background:linear-gradient(var(--candy),var(--gold),var(--crystal));box-shadow:0 0 7px rgba(0,245,255,.45);opacity:.65}
-.mg-card{position:relative;display:flex;align-items:center;gap:12px;background:linear-gradient(120deg,rgba(48,15,72,.92),rgba(12,28,48,.88));border:1px solid rgba(255,255,255,.16);border-radius:17px;padding:13px;cursor:pointer;transition:transform .15s,filter .2s;box-shadow:inset 0 1px rgba(255,255,255,.08),0 8px 22px rgba(0,0,0,.28);backdrop-filter:blur(12px)}
-.mg-card::before{content:"";position:absolute;left:-16px;top:24px;width:9px;height:9px;border-radius:50%;background:var(--crystal);border:2px solid #170027;box-shadow:0 0 9px var(--crystal)}
-.mg-card:active{transform:scale(.97)}
-.mg-card.locked{cursor:default;filter:grayscale(.7) brightness(.55)}
-.mg-card.locked::before{background:#62566b;box-shadow:none}.mg-card.completed{border-color:rgba(245,184,0,.48);background:linear-gradient(120deg,rgba(87,47,8,.42),rgba(26,25,54,.9))}.mg-card.completed::before{background:var(--gold);box-shadow:0 0 9px var(--gold)}
+#mg-list::before{content:none}
+.mg-card{position:relative;display:block;width:100%;text-align:left;background:linear-gradient(145deg,#221b2f,#181121);border:1px solid var(--atlas-line);border-radius:20px;padding:0;overflow:hidden;cursor:pointer;color:var(--cream);font:inherit;transition:transform .15s,border-color .2s;box-shadow:0 14px 30px #0003}
+.mg-card:active{transform:scale(.99)}.mg-card:focus-visible{outline:2px solid var(--atlas-gold);outline-offset:4px}
+.mg-card .echo-scene{height:177px;border-bottom:1px solid #e8c79518;background:#14101f;overflow:hidden}
+.echo-art{display:block;width:100%;height:100%}
+.mg-card.locked .echo-scene{filter:grayscale(.8);opacity:.55}.mg-card.locked .mg-desc{color:#b0a7bc}
+.mg-card.completed{border-color:#a58a665c}
 .mg-icon{font-size:29px;width:54px;height:58px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.13);box-shadow:inset 0 1px rgba(255,255,255,.12),0 5px 12px rgba(0,0,0,.25);flex-shrink:0}
-.mg-info{flex:1;min-width:0}
-.mg-chapter{font-size:8px;letter-spacing:.15em;color:var(--crystal);text-transform:uppercase;font-weight:700}
-.mg-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream);margin-top:2px}
-.mg-desc{font-size:10.5px;color:rgba(255,255,255,.58);margin-top:3px;line-height:1.35}
-.mg-objective{font-size:9.5px;color:var(--gold);margin-top:5px}
+.mg-info{display:block;min-width:0;padding:17px 18px 18px}
+.mg-chapter{display:block;font-size:8px;letter-spacing:.15em;color:var(--atlas-gold);text-transform:uppercase;font-weight:700}
+.mg-name{display:block;font-family:'Fraunces',serif;font-weight:500;font-size:21px;color:var(--cream);margin-top:7px;line-height:1.2}
+.mg-desc{display:block;font-size:12px;color:#bdb3ca;margin-top:8px;line-height:1.5}
+.mg-objective{display:block;font-size:11px;color:var(--atlas-gold);margin-top:11px;line-height:1.45}
+.mg-mode-label{display:block;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--atlas-muted);margin-top:8px}
 .mg-reveal{font-size:9.5px;line-height:1.35;color:#d6fdff;margin-top:6px;padding-top:6px;border-top:1px solid rgba(0,245,255,.16);font-style:italic}
 .mg-tag{font-size:9px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;padding:3px 8px;border-radius:99px;margin-top:6px;display:inline-block}
-.mg-tag.ready{background:rgba(46,213,115,.15);color:var(--green)}
+.mg-tag.ready{background:var(--atlas-gold);color:#251b2a;padding:9px 13px;margin-top:14px}
 .mg-tag.soon{background:rgba(255,255,255,.08);color:rgba(255,255,255,.5)}
 .mg-tag.done{background:rgba(245,184,0,.15);color:var(--gold)}
+.mg-lore-modal{background:linear-gradient(150deg,#30243d,#15101e);border-color:var(--atlas-line);box-shadow:0 22px 60px #0009}.mg-lore-chapter,.mg-lore-modal h3{color:var(--atlas-gold)}.mg-lore-icon{width:100%;height:125px;filter:none}.mg-lore-modal blockquote{color:#eee2d1}.mg-lore-reward{color:var(--atlas-gold);border-color:var(--atlas-line)}
 
 #minigame-lore-overlay{position:fixed;inset:0;z-index:140;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(6,0,14,.9);backdrop-filter:blur(9px)}
 #minigame-lore-overlay.on{display:flex;animation:screenIn .35s ease}
@@ -378,6 +382,29 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .mg-confite-pop.on{opacity:1;transform:translateX(-50%) translateY(0)}
 .mg-confite-pop-svg{width:26px;height:24px;flex-shrink:0}
 .mg-confite-pop-text{font-size:11.5px;color:var(--cream);line-height:1.25;text-align:left}
+/* Los Ecos comparten el lenguaje del atlas, sin cubrir el área táctil. */
+#screen-moba,#screen-br{padding:18px 12px 12px;gap:10px;background:radial-gradient(ellipse at 50% 20%,#34283c66,transparent 60%),#0d0015}
+.combat-heading{padding:0 4px}.combat-heading small{display:block;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--atlas-gold)}.combat-heading h1{font-family:'Fraunces',serif;font-size:21px;font-weight:500;color:var(--cream);margin:5px 0 0}
+.mb-stat{background:#231d32;border-color:#443b55;border-radius:14px;padding:8px}.mb-val{color:var(--atlas-gold)}.mb-lbl{color:var(--atlas-muted)}
+.mb-ability-btn{border-radius:14px;background:linear-gradient(135deg,#f4ddb6,#bf9966);border-color:#e8c79577;color:#231b2c;font-size:11px}.mb-hint{font-size:10px;line-height:1.4;color:var(--atlas-muted);padding:0 5px}
+#mb-canvas,#br-canvas{border:1px solid #76634c80;border-radius:20px;box-shadow:0 15px 35px #0007,inset 0 1px #ffe9b522;object-fit:contain}
+.combat-guide{position:relative;top:auto;left:auto;transform:none!important;opacity:1;max-width:none;min-height:42px;width:100%;border:0;border-bottom:1px solid #e8c79522;background:none;border-radius:0;padding:0 5px 9px;box-shadow:none;flex-shrink:0;gap:10px}
+.combat-guide .mg-confite-pop-svg{width:39px;height:36px}.combat-guide .mg-confite-pop-text{font-family:'Fraunces',serif;color:#d4c5d9;font-size:12px;line-height:1.35}
+#mb-overlay,#br-overlay{background:linear-gradient(160deg,#251c34f5,#110c1af5);border:1px solid var(--atlas-line);border-radius:20px;gap:13px;padding:20px;overflow-y:auto}
+#mb-overlay .overlay-icon,#br-overlay .overlay-icon{width:100%;height:125px;font-size:0;flex-shrink:0}#mb-overlay .overlay-icon svg,#br-overlay .overlay-icon svg{width:100%;height:100%;filter:none}#mb-overlay .overlay-title,#br-overlay .overlay-title{font-size:26px;color:var(--atlas-gold)}
+#mb-overlay .overlay-sub,#br-overlay .overlay-sub{font-size:12px;color:#c4b9ce;line-height:1.5}#mb-overlay .btn-primary,#br-overlay .btn-primary{background:var(--atlas-gold);color:#231a2c;box-shadow:none}
+.survival-mode{--territory-hue:#c6a5d9!important}.survival-mode .restoration-window{background:#1e162b;border-color:#8c739d66}.survival-mode .restoration-landscape{inset:-22px -8px -27px 34%;opacity:.85;filter:none}
+.survival-mode #grid{background:linear-gradient(145deg,#3e3049,#201a30);border-color:#a68b6c66;box-shadow:0 18px 30px #0006,inset 0 1px #e8c79533}.survival-mode #survival-timer-bar{height:9px;margin:0 6px 4px;border:1px solid #e8c79530;background:#2c2238}.survival-mode #survival-timer-fill{background:linear-gradient(90deg,#a68bbf,#ead2ac)}
+.survival-mode #survival-timer-fill.warn{background:linear-gradient(90deg,#b99460,#f0d2a2)}.survival-mode #survival-timer-fill.danger{background:linear-gradient(90deg,#9e4667,#e287a8)}
+.survival-mode .hud-stat{background:#231d32;border-color:#62506b}.survival-mode .hud-val{color:var(--atlas-gold);text-shadow:none}.survival-mode #objective-bar{background:#2b2135;border-color:#786147;color:#e8d1ad;box-shadow:none}.survival-mode #confite-game-wrap{background:#231d32;border-color:#62506b}.survival-mode #confite-game-text{color:#d4c4da}.survival-mode #overlay .overlay-title{color:var(--atlas-gold)}
+.survival-mode .echo-core{transform-box:fill-box;transform-origin:center;animation:echoHeartbeat 2.4s ease-in-out infinite}.survival-mode.pulse-low .echo-core{animation-duration:.9s}
+@keyframes echoHeartbeat{50%{opacity:.65;transform:scale(.95)}}
+.page-hidden .echo-core,.screen:not(.active) .echo-core{animation-play-state:paused!important}
+@media(prefers-reduced-motion:reduce){.echo-core{animation:none!important}.mg-card,.mg-archive-track div{transition:none}}
+@media(max-height:700px){.combat-heading h1{font-size:18px}.combat-heading small{font-size:7px}#screen-moba,#screen-br{gap:6px;padding-top:10px}.combat-guide{min-height:33px;padding-bottom:5px}.combat-guide .mg-confite-pop-svg{width:30px;height:29px}.combat-guide .mg-confite-pop-text{font-size:10px}.mb-hint{font-size:9px}}
+#minigame-lore-overlay .mg-lore-modal{background:linear-gradient(150deg,#30243d,#15101e);border-color:var(--atlas-line);box-shadow:0 22px 60px #0009}#minigame-lore-overlay .mg-lore-icon{width:100%;height:125px;filter:none}#minigame-lore-overlay .mg-lore-chapter,#minigame-lore-overlay h3{color:var(--atlas-gold)}
+#screen-league{background:radial-gradient(ellipse at 50% 0,#352d4166,transparent 60%),#0d0015}#screen-league::before,#screen-league::after{content:none}.league-title,.league-kicker,.league-board-title{color:var(--atlas-gold)}.league-hero{border-color:var(--atlas-line);background:#21192d}.league-hero::before{content:none}#league-scene{height:180px;margin:-16px -16px 15px}.league-duel{background:#231d32;border-color:var(--atlas-line)}.league-duel-btn{background:var(--atlas-gold);box-shadow:none;color:#231a2c}.league-row.player{background:#e8c79516;border-color:#e8c79566}.league-stat b,.league-score{color:var(--atlas-gold)}
+#screen-game[data-mode="league"] #grid,#screen-game[data-mode="daily"] #grid,#screen-game[data-mode="canvas"] #grid{border-color:#b29a7866;box-shadow:0 16px 30px #0005,inset 0 1px #e8c79533}
 
 /* ===== MAP ===== */
 #screen-map{padding:18px 16px 24px;gap:11px;isolation:isolate;overflow:hidden;background:#0d0015;--territory-hue:#ff5c8a}
@@ -979,71 +1006,118 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 /* ================================================================
    DARK GOTHIC MATCH — "HEX CLASH" (nuevo modo, motor independiente)
    ================================================================ */
-#screen-dgmenu, #screen-dglevels, #screen-dgshop, #screen-dggame{background:radial-gradient(ellipse at 50% -10%, #2A0845 0%, var(--dark) 65%);position:relative;overflow:hidden}
-.dg-fog{position:absolute;width:160%;height:46%;left:-30%;top:-6%;border-radius:50%;filter:blur(50px);pointer-events:none;background:radial-gradient(ellipse,rgba(155,89,182,.22),transparent 70%);animation:fogdrift 18s ease-in-out infinite alternate;z-index:0}
-.dg-fog.b{top:auto;bottom:-10%;background:radial-gradient(ellipse,rgba(0,245,255,.10),transparent 70%);animation-duration:22s}
-#screen-dgmenu{padding:18px 16px 24px;gap:14px}
-#screen-dglevels{padding:18px 16px 24px;gap:14px}
-#screen-dgshop{padding:18px 16px 24px;gap:14px}
+#screen-dgmenu, #screen-dglevels, #screen-dgshop, #screen-dggame{--hex-gold:#e8c795;--hex-muted:#aaa4b8;background:radial-gradient(ellipse at 72% 12%,#393044 0%,#211b30 36%,#14111f 78%);position:absolute;inset:0;overflow:hidden;isolation:isolate}
+.dg-fog{position:absolute;width:100%;height:46%;left:0;top:0;border-radius:50%;filter:blur(50px);pointer-events:none;background:radial-gradient(ellipse,rgba(170,149,190,.12),transparent 70%);z-index:0}
+.dg-fog.b{top:auto;bottom:0;background:radial-gradient(ellipse,rgba(192,153,99,.06),transparent 70%)}
+#screen-dgmenu{padding:18px 16px 24px;gap:12px;overflow-y:auto}
+#screen-dglevels{padding:18px 16px 24px;gap:12px}
+#screen-dgshop{padding:18px 16px 24px;gap:12px}
+#screen-dgmenu>*,#screen-dglevels>*,#screen-dgshop>*{flex-shrink:0}
+.dg-header .back-btn,#screen-dglevels .back-btn,#dg-hud .back-btn{background:#292334;border:1px solid #514657;color:#e8c795;box-shadow:0 3px 9px #0003}
 .dg-header{display:flex;align-items:center;gap:10px;z-index:1}
-.dg-logo-mini{flex:1;font-family:'Fraunces',serif;font-weight:600;font-size:19px;letter-spacing:.02em;background:linear-gradient(110deg,var(--candy),var(--crystal) 60%,var(--neon-orange));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px rgba(255,45,122,.25)}
-.shard-badge{font-size:13px;font-weight:600;color:var(--crystal);background:rgba(0,245,255,.10);border:1px solid rgba(0,245,255,.35);border-radius:99px;padding:6px 12px}
-.dg-level-badge{font-size:12px;color:rgba(255,255,255,.7);z-index:1}
+.dg-logo-mini{flex:1;font-family:'Fraunces',serif;font-weight:500;font-size:20px;letter-spacing:.02em;color:#f2e6d3}
+.shard-badge{font-size:12px;font-weight:600;color:#e3cda8;background:#2b2535;border:1px solid #564956;border-radius:99px;padding:6px 10px;display:flex;align-items:center;gap:5px}
+.shard-badge svg{width:16px;height:19px;color:#c8b3da}
+.dg-level-badge{font-size:10px;letter-spacing:.04em;color:#bab1c7;z-index:1;padding:0 3px}
 .dg-xp-track{margin-top:5px;background:rgba(255,255,255,.08);border-radius:99px;height:7px;overflow:hidden}
-.dg-xp-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--candy),var(--crystal));border-radius:99px;transition:width .5s}
-.dg-mode-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:4px 2px 8px;z-index:1}
-.dg-mode-card{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.05);border:1px solid rgba(155,89,182,.28);border-radius:16px;padding:14px;cursor:pointer;transition:transform .15s,box-shadow .3s}
-.dg-mode-card:active{transform:scale(.97)}
-.dg-mode-card:hover{box-shadow:0 0 18px rgba(0,245,255,.15)}
-.dg-mode-icon{font-size:28px;width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);flex-shrink:0;filter:drop-shadow(0 0 6px rgba(255,45,122,.4))}
+.dg-xp-fill{height:100%;width:0%;background:linear-gradient(90deg,#8d789c,#d7ba93);border-radius:99px;transition:width .5s}
+.dg-mode-list{display:flex;flex-direction:column;gap:1px;padding:0 2px 4px;z-index:1}
+.dg-mode-card{display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,#322b3c99,transparent);border:0;border-bottom:1px solid #5a4e594d;border-radius:0;padding:13px 5px;cursor:pointer;transition:background .2s}
+.dg-mode-card:active{background:#45394f}
+.dg-mode-card:hover{background:#3b3247}
+.dg-mode-icon{width:42px;height:46px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#dbc29c}
+.dg-mode-icon svg{width:42px;height:42px;filter:drop-shadow(0 4px 2px #09070e80)}
 .dg-mode-info{flex:1;min-width:0}
-.dg-mode-name{font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--cream)}
-.dg-mode-desc{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px}
-.dg-mode-tag{font-size:11px;font-weight:700;color:var(--gold);white-space:nowrap}
+.dg-mode-name{font-family:'Fraunces',serif;font-weight:500;font-size:17px;color:#eee2d2}
+.dg-mode-desc{font-size:11px;color:#b6adbf;margin-top:4px;line-height:1.35}
+.dg-mode-tag{font-size:11px;font-weight:600;color:#d8bc96;white-space:nowrap;text-align:right}
+.dg-mode-tag small{display:block;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:#94899f;margin-bottom:4px}
 .dg-menu-row{display:flex;gap:10px;z-index:1}
-.dg-btn-secondary{flex:1;font-size:13px;font-weight:600;padding:12px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:var(--cream)}
+.dg-btn-secondary{flex:1;font-size:11px;font-weight:600;padding:12px 8px;border-radius:11px;background:#2b2535;border:1px solid #514556;color:#d8cbbf}
+.dg-eyebrow{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#c7b18f;position:relative;z-index:1}
+.dg-scene{position:relative;height:192px;flex:none;border-radius:5px 5px 38% 7%;overflow:hidden;z-index:1;background:#292333;box-shadow:0 13px 30px #09070d66;border-bottom:1px solid #7b677755}
+.dg-scene>svg{width:100%;height:100%;display:block}
+.dg-scene-caption{position:absolute;left:17px;right:76px;bottom:15px;color:#ead8be;font-family:'Fraunces',serif;font-size:22px;line-height:1.1;text-shadow:0 2px 8px #090610}
+.dg-scene-caption span{font-family:'Karla',sans-serif;display:block;font-size:9px;letter-spacing:.14em;color:#c9b8cc;text-transform:uppercase;margin-bottom:6px}
+.dg-scene-confite{position:absolute;width:62px;height:66px;right:17px;bottom:9px;filter:drop-shadow(0 7px 4px #0006)}
+.dg-scene-confite svg{width:100%;height:100%}
+.dg-guide{display:flex;align-items:center;gap:8px;z-index:1;color:#c5b8c9;font-size:11px;line-height:1.4}
+.dg-guide-art{flex:none;width:42px;height:42px}.dg-guide-art svg{width:100%;height:100%}
+.dg-guide b{color:#e3ccb1;font-weight:600}
+.dg-scene.compact{height:135px;border-radius:14px 14px 38% 7%}
+.dg-scene.compact .dg-scene-caption{font-size:19px;bottom:13px}
+#screen-dglevels .map-title{color:#e3c79e;font-size:18px;line-height:1.15}#screen-dglevels .stars-total{color:#d5bf9d;white-space:nowrap}
+#dg-level-grid{position:relative;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:8px 0 24px;z-index:1;display:flex;flex-direction:column;gap:0}
+.dg-route-step{position:relative;flex:none;min-height:106px;display:flex;align-items:center;gap:13px;padding:8px 16px 8px 11%;isolation:isolate}
+.dg-route-step:nth-child(even){padding-left:32%}
+.dg-route-step::before{content:"";position:absolute;z-index:-1;top:55px;left:calc(11% + 27px);height:106px;width:21%;border-left:2px solid #65536c;border-bottom:2px solid #65536c;border-radius:0 0 0 28px;transform:skewX(22deg);opacity:.6}
+.dg-route-step:nth-child(even)::before{left:calc(11% + 27px);border-left:0;border-right:2px solid #65536c;border-radius:0 0 28px 0;transform:skewX(-22deg)}
+.dg-route-step:last-child::before{display:none}
+.dg-route-node{position:relative;flex:none;width:57px;height:64px;clip-path:polygon(50% 0,96% 23%,96% 76%,50% 100%,4% 76%,4% 23%);background:linear-gradient(145deg,#6c596c,#332b3d 55%,#18151f);box-shadow:inset 0 0 0 2px #a187a5;color:#e8d9c0;font-family:'Fraunces',serif;font-size:23px;display:flex;align-items:center;justify-content:center}
+.dg-route-node::after{content:"";position:absolute;inset:5px;clip-path:inherit;background:linear-gradient(125deg,#bda98c25,transparent 65%);pointer-events:none}
+.dg-route-node.cleared{background:linear-gradient(145deg,#bca484,#645046 55%,#2c2530)}
+.dg-route-node.is-current{background:linear-gradient(145deg,#f0d5a1,#ba8f68 55%,#6a4e58);color:#21172a;filter:drop-shadow(0 0 9px #d7b78366)}
+.dg-route-node.locked{background:#27212f;color:#796d82}.dg-route-node svg{width:27px;height:27px}
+.dg-route-copy{min-width:0;flex:1}.dg-route-copy small{display:block;color:#998aa5;font-size:8px;letter-spacing:.13em;text-transform:uppercase;margin-bottom:5px}
+.dg-route-copy b{font-family:'Fraunces',serif;font-size:13px;font-weight:500;color:#d6c6c2;display:block;line-height:1.25}
+.dg-route-stars{display:flex;gap:3px;margin-top:6px;color:#5b4f63}.dg-route-stars svg{height:10px;width:10px}.dg-route-stars .on{color:#d8b98d}
+.dg-route-step.is-locked .dg-route-copy b{color:#82768e}
 
 /* ---- Shop ---- */
-.dg-shop-section-title{font-family:'Fraunces',serif;font-size:14px;color:var(--crystal);opacity:.8;margin-top:4px;z-index:1}
+.dg-shop-section-title{font-family:'Fraunces',serif;font-size:17px;color:#dfc5a2;margin:14px 0 9px;z-index:1}
 .dg-shop-scroll{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:16px;padding:2px 2px 16px;z-index:1}
 .dg-shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.dg-shop-item{border-radius:16px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:transform .15s}
+.dg-shop-item{border-radius:13px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:linear-gradient(145deg,#38304088,#211b2b);border:1px solid #504251;cursor:pointer;transition:transform .15s}
 .dg-shop-item:active{transform:scale(.96)}
-.dg-shop-item-icon{font-size:28px}
+.dg-shop-item-icon{width:45px;height:49px;color:#d1badb;filter:drop-shadow(0 5px 4px #0007)}.dg-shop-item-icon svg{width:100%;height:100%}
 .dg-shop-item-name{font-family:'Fraunces',serif;font-weight:600;font-size:12.5px;color:var(--cream)}
 .dg-shop-item-sub{font-size:10.5px;color:rgba(255,255,255,.5)}
-.dg-shop-item-cost{font-size:11px;font-weight:600;color:var(--crystal)}
+.dg-shop-item-cost{font-size:11px;font-weight:600;color:#dac39f}
 .dg-skin-card{border-radius:18px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.10);cursor:pointer;transition:border-color .2s,transform .15s}
 .dg-skin-card:active{transform:scale(.96)}
-.dg-skin-card.active-skin{border-color:var(--crystal);background:rgba(0,245,255,.08)}
+.dg-skin-card.active-skin{border-color:#c8a87c;background:#4c3c4544}
 .dg-skin-preview{width:46px;height:46px;display:flex;align-items:center;justify-content:center}
 .dg-skin-name{font-family:'Fraunces',serif;font-weight:600;font-size:12.5px;color:var(--cream)}
+.dg-skin-preview svg{width:42px;height:42px}.dg-skin-preview{color:#c7b2d7}.dg-skin-preview.bloodmoon{color:#cf8a91}.dg-skin-preview.void{color:#9cc8c9}
+#screen-dgshop .pause-ad-btn{background:#325049;border:1px solid #6b8b71;color:#dfebd8;font-size:10px;padding:7px 12px;border-radius:7px}
 
 /* ---- Game screen ---- */
 #screen-dggame{padding:10px 10px 14px;gap:8px}
+#screen-dggame> .dg-scene{height:88px;border-radius:12px;box-shadow:none}
+#screen-dggame .dg-scene-caption{font-size:16px;bottom:14px;right:72px}#screen-dggame .dg-scene-caption span{font-size:8px;margin-bottom:4px}
+#screen-dggame .dg-scene-confite{height:59px;width:55px;bottom:4px}
 #dg-grid-wrap{position:relative;flex:1;display:flex;align-items:center;justify-content:center;z-index:1}
-#dg-grid{display:grid;gap:6px;width:100%;max-width:380px}
-.dg-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s;position:relative}
-.dg-piece{width:82%;height:82%;clip-path:polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 62%);display:flex;align-items:center;justify-content:center;font-size:18px;transition:filter .15s;position:relative}
+#dg-grid{display:grid;gap:4px;width:100%;max-width:380px;padding:9px;border-radius:16px;background:linear-gradient(145deg,#100e18,#21192c);border:1px solid #69566b;box-shadow:inset 0 2px 13px #0009,0 12px 28px #0005,0 1px #b39b7770}
+.dg-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s;position:relative;background:#32293b70;border-radius:6px}
+.dg-piece{width:82%;height:82%;clip-path:polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 62%);display:flex;align-items:center;justify-content:center;font-size:18px;transition:filter .15s;position:relative;isolation:isolate}
+.dg-piece::before{content:"";position:absolute;inset:0;clip-path:polygon(50% 0,100% 38%,70% 47%,50% 88%,30% 47%,0 62%);background:linear-gradient(115deg,#fff8,transparent 45%,#0004);z-index:-1}
+.dg-piece svg{width:62%;height:62%;color:#211529;filter:drop-shadow(0 1px 0 #ffffff80)}
+.dg-piece.dg-p1{clip-path:polygon(50% 0,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%)}
+.dg-piece.dg-p2{clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.dg-piece.dg-p3{clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%)}
+.dg-piece.dg-p4{clip-path:polygon(50% 0,100% 24%,83% 100%,17% 100%,0 24%)}
+.dg-piece.dg-p5{clip-path:polygon(28% 0,72% 0,100% 28%,100% 72%,72% 100%,28% 100%,0 72%,0 28%)}
 .dg-cell.selected .dg-piece{transform:scale(1.12);filter:brightness(1.35)}
 .dg-cell.dg-matched .dg-piece{animation:pop .32s ease forwards}
 .dg-cell.dg-new .dg-piece{animation:dropin .3s ease}
-.dg-p0{background:radial-gradient(circle at 35% 30%,#FF6FA8,#FF2D7A 70%);box-shadow:0 0 10px 1px rgba(255,45,122,.65),inset 0 0 8px rgba(255,255,255,.25)}
-.dg-p1{background:radial-gradient(circle at 35% 30%,#5CFAFF,#00F5FF 70%);box-shadow:0 0 10px 1px rgba(0,245,255,.65),inset 0 0 8px rgba(255,255,255,.25)}
-.dg-p2{background:radial-gradient(circle at 35% 30%,#5CFFB0,#00FF88 70%);box-shadow:0 0 10px 1px rgba(0,255,136,.65),inset 0 0 8px rgba(255,255,255,.25)}
-.dg-p3{background:radial-gradient(circle at 35% 30%,#FFA35C,#FF6B00 70%);box-shadow:0 0 10px 1px rgba(255,107,0,.65),inset 0 0 8px rgba(255,255,255,.25)}
-.dg-p4{background:radial-gradient(circle at 35% 30%,#C583DD,#9B59B6 70%);box-shadow:0 0 10px 1px rgba(155,89,182,.65),inset 0 0 8px rgba(255,255,255,.25)}
-.dg-p5{background:radial-gradient(circle at 35% 30%,#FFEB7A,#FFD700 70%);box-shadow:0 0 10px 1px rgba(255,215,0,.65),inset 0 0 8px rgba(255,255,255,.25)}
+.dg-p0{background:linear-gradient(135deg,#f5a1b4,#c7587b 68%,#7c3559)}
+.dg-p1{background:linear-gradient(135deg,#c1eceb,#67bac7 68%,#366979)}
+.dg-p2{background:linear-gradient(135deg,#b4e2a9,#72ad84 68%,#395f58)}
+.dg-p3{background:linear-gradient(135deg,#f4c694,#d88e60 68%,#8c5144)}
+.dg-p4{background:linear-gradient(135deg,#dfb9ed,#a381bf 68%,#66517e)}
+.dg-p5{background:linear-gradient(135deg,#fff0bb,#d6b46c 68%,#8e7141)}
 .dg-pBOMB{background:radial-gradient(circle at 35% 30%,#fff,#FF2D7A 55%,#170027);box-shadow:0 0 16px 4px rgba(255,45,122,.85);animation:dgBombPulse .5s ease-in-out infinite}
 .dg-pCURSE{background:radial-gradient(circle at 35% 30%,#fff,#9B59B6 50%,#170027);box-shadow:0 0 16px 4px rgba(155,89,182,.85);animation:dgBombPulse .6s ease-in-out infinite}
 @keyframes dgBombPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.5)}}
-.dg-shadow{position:absolute;inset:6%;border-radius:8px;background:rgba(5,0,12,.82);display:flex;align-items:center;justify-content:center;font-size:20px;pointer-events:none;box-shadow:inset 0 0 10px rgba(0,0,0,.7);z-index:3}
+.dg-shadow{position:absolute;inset:6%;border-radius:8px;background:linear-gradient(130deg,#4c3b56,#19141f);border:1px solid #74607c;display:flex;align-items:center;justify-content:center;pointer-events:none;box-shadow:inset 0 0 10px rgba(0,0,0,.7);z-index:3;color:#a38aaf}.dg-shadow svg{width:64%;height:64%}
 .dg-shadow.hp1{opacity:.6}
 .dg-cell.dg-shadow-hit .dg-shadow{animation:obstacleShake .35s ease}
 #dg-hud{display:flex;align-items:center;gap:8px;flex-wrap:wrap;z-index:1}
-#dg-objective-bar{font-size:11px;color:var(--crystal);background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.25);border-radius:10px;padding:6px 10px;text-align:center;z-index:1}
+#dg-hud{padding:6px 7px;background:#272130bb;border:1px solid #4b4053;border-radius:12px;flex-wrap:nowrap;gap:4px;flex:none}
+#dg-hud .hud-stat{flex:1;min-width:0;padding:7px 5px;background:#31273a;border-color:#55465f;box-shadow:inset 0 1px #c8adc211}#dg-hud .hud-val{color:#e5c798;font-family:'Fraunces',serif;font-size:18px}#dg-hud .hud-lbl{color:#aaa0b6;font-size:8px}
+#dg-objective-bar{font-size:11px;color:#d0c0d6;background:#30263a;border:1px solid #59455f;border-radius:9px;padding:7px 10px;text-align:center;z-index:1;flex:none}
 #dg-progress-track{background:rgba(255,255,255,.08);border-radius:99px;height:9px;overflow:hidden;z-index:1}
-#dg-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--candy),var(--crystal));border-radius:99px;transition:width .4s}
+#dg-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#8f749c,#dec18e);border-radius:99px;transition:width .4s}
 .dg-combo-mult{position:absolute;top:38%;left:50%;transform:translate(-50%,-50%) scale(.6);font-family:'Fraunces',serif;font-weight:700;font-size:0;pointer-events:none;z-index:6;text-align:center;white-space:nowrap}
 .dg-combo-mult .n{font-size:44px;background:linear-gradient(110deg,var(--candy),var(--gold),var(--crystal));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 24px rgba(255,45,122,.6);display:block}
 .dg-combo-mult .p{font-size:16px;color:var(--cream);opacity:.9;display:block}
@@ -1054,10 +1128,24 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 #dg-flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:998}
 #dg-flash.on{animation:dgFlash .35s ease}
 @keyframes dgFlash{0%{opacity:0}15%{opacity:.55}100%{opacity:0}}
-#dg-overlay,#dg-tutorial-overlay,#dg-pause-overlay,#dg-start-overlay{position:absolute;inset:0;background:rgba(5,0,12,.94);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;text-align:center;padding:24px;z-index:10}
+#dg-overlay,#dg-tutorial-overlay,#dg-pause-overlay,#dg-start-overlay{position:absolute;inset:0;background:linear-gradient(150deg,#282030f7,#15111ff7);border:1px solid #776078;border-radius:17px;display:none;align-items:center;justify-content:center;flex-direction:column;gap:13px;text-align:center;padding:23px 18px;z-index:10;overflow-y:auto;box-shadow:0 12px 40px #0009}
 #dg-overlay.on,#dg-tutorial-overlay.on,#dg-pause-overlay.on,#dg-start-overlay.on{display:flex}
-.dg-title-big{font-family:'Fraunces',serif;font-weight:600;font-size:28px;background:linear-gradient(110deg,var(--candy),var(--gold) 55%,var(--crystal));-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 30px rgba(255,45,122,.4)}
-.dg-xp-gain{font-size:13px;color:var(--crystal)}
+.dg-title-big{font-family:'Fraunces',serif;font-weight:500;font-size:25px;color:#ead1ad;line-height:1.2}
+.dg-xp-gain{font-size:13px;color:#c7b2d9}
+.dg-overlay-emblem{width:52px;height:58px;color:#d4b894}.dg-overlay-emblem svg{width:100%;height:100%}
+#dg-start-lore{color:#bca9c6!important;line-height:1.5}#dg-overlay-icon{width:88px;height:88px;font-size:0}#dg-overlay-icon svg{width:100%;height:100%}
+#screen-dggame .tutorial-title,#screen-dggame .overlay-title{color:#e6c79f;font-family:'Fraunces',serif;font-weight:500}
+#screen-dggame .tutorial-text,#screen-dggame .overlay-sub{color:#bcb0c8;line-height:1.5;font-size:12px}
+#screen-dggame .btn-primary{background:linear-gradient(#ead0a4,#ba946f);color:#2c2030;border:1px solid #f5dfb8;box-shadow:0 3px 0 #755657;font-weight:700}
+#screen-dggame .btn-secondary{background:#33293d;border:1px solid #67536e;color:#d9c9d5}
+#screen-hexcurse,#screen-hexvictory{background:radial-gradient(ellipse at 60% 15%,#49394f,#191320 70%)!important;overflow-y:auto!important;padding:24px 16px;gap:20px}
+.dg-transition-art{position:relative;height:220px;flex:none;overflow:hidden;border-radius:20px 20px 42% 8%}.dg-transition-art>svg{width:100%;height:100%;display:block}
+#screen-hexcurse .ep-slide,#screen-hexvictory .ep-slide{position:relative;inset:auto;flex:none;padding:0 8px 26px;gap:15px;max-width:390px;margin:auto}
+#screen-hexcurse .intro-tag,#screen-hexvictory .intro-tag{color:#c6b18f;font-size:9px;letter-spacing:.12em}
+#screen-hexcurse .ep-heading,#screen-hexvictory .ep-heading{color:#ead0ab;text-shadow:none;font-weight:500;font-size:27px}
+#screen-hexcurse .ep-body,#screen-hexvictory .ep-body{color:#bab0c6;font-size:13px;line-height:1.6}
+.dg-transition-quote{display:flex;gap:10px;align-items:center;text-align:left;padding:14px 0;border-top:1px solid #63506a88;border-bottom:1px solid #63506a88;color:#dec7af!important}.dg-transition-quote .dg-guide-art{width:63px;height:63px}
+.dg-screen-art{position:absolute;inset:0;pointer-events:none;opacity:.2;z-index:0}.dg-screen-art svg{width:100%;height:100%;object-fit:cover}
 #dg-timer-bar{height:8px;margin:0 2px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;z-index:1}
 #dg-timer-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--crystal),var(--green));transition:width .1s linear,background .3s}
 #dg-timer-fill.warn{background:linear-gradient(90deg,var(--gold),var(--neon-orange))}
@@ -1067,6 +1155,9 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .dg-cell.hint-pulse .dg-piece{animation:hintpulse 1s ease-in-out infinite}
 .dg-pCRYSTAL{background:radial-gradient(circle at 35% 30%,#fff,#00F5FF 45%,#FF2D7A 90%);box-shadow:0 0 18px 4px rgba(255,255,255,.55);animation:dgBombPulse .7s ease-in-out infinite}
 .dg-tuto-highlight{position:absolute;border:2px solid var(--gold);border-radius:12px;box-shadow:0 0 0 4px rgba(255,215,0,.3);pointer-events:none;z-index:12;animation:hintpulse 1s ease-in-out infinite}
+.screen:not(.active) .dg-piece,.page-hidden .dg-piece{animation-play-state:paused!important}
+@media(max-height:700px){#screen-dggame> .dg-scene{height:61px}#screen-dggame .dg-scene-confite{height:45px;width:44px}#screen-dggame .dg-scene-caption{font-size:14px;bottom:10px}.dg-scene{height:160px}#screen-dggame{gap:5px;padding-bottom:7px}#dg-grid{max-width:min(380px,calc(100dvh - 232px));padding:6px;gap:3px}}
+@media(prefers-reduced-motion:reduce){.dg-piece,.dg-cell.hint-pulse .dg-piece,.dg-cell.dg-shadow-hit .dg-shadow,.dg-shake,.dg-combo-mult,.dg-tuto-highlight,#dg-flash.on{animation:none!important}.dg-xp-fill,#dg-progress-fill,#dg-timer-fill{transition:none}}
 </style>
 </head>
 <body>
@@ -1216,7 +1307,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
         <button class="btn-ghost" id="btn-hexclash" style="border-color:rgba(0,245,255,.35);color:var(--crystal)">🕯️ HEX CLASH · Modo Oscuro</button>
       </div>
       <div id="confite-title-bubble" style="font-size:11px;color:var(--crystal);font-style:italic;opacity:.85;display:none"></div>
-      <div class="build-badge">ATLAS CINEMATOGRÁFICO · 16.10</div>
+      <div class="build-badge">ATLAS Y ECOS · 16.10</div>
     </div>
   </section>
 
@@ -1392,6 +1483,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     </div>
     <div class="league-scroll">
       <div class="league-hero">
+        <div id="league-scene" aria-hidden="true"></div>
         <div class="league-kicker">Restauradores en combate</div>
         <div class="league-division" id="league-division">Liga Semilla</div>
         <div class="league-rule" id="league-rule">Restaura niveles y vence duelos para ascender. Los dos primeros suben de división.</div>
@@ -1490,7 +1582,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div class="mg-title"><small>Archivo de Confite</small>Ecos de la Fragmentación</div>
       <div class="mg-progress-badge" id="mg-progress-badge">0/3</div>
     </div>
-    <div id="confite-mg-bubble">El Cristal no cuenta recuerdos con palabras. Los convierte en pruebas que podemos vivir.</div>
+    <div class="archive-guide"><svg id="confite-archive-svg" viewBox="0 0 100 90" fill="none" aria-hidden="true"></svg><div id="confite-mg-bubble">El Cristal no cuenta recuerdos con palabras. Los convierte en pruebas que podemos vivir.</div></div>
     <div class="mg-archive">
       <div class="mg-archive-top"><span>MEMORIA RECONSTRUIDA</span><b id="mg-archive-count">0 de 3 ecos</b></div>
       <div class="mg-archive-track"><div id="mg-archive-fill"></div></div>
@@ -1501,26 +1593,27 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 
   <!-- ============ MOBA 5v5 (prototipo un jugador vs bots) ============ -->
   <section id="screen-moba" class="screen">
+    <header class="combat-heading"><small>Eco II · Combate 5v5 contra IA</small><h1>La Última Guerra del Azúcar</h1></header>
     <div class="mb-hud">
-      <div class="back-btn" onclick="exitMoba()">←</div>
+      <button class="back-btn" aria-label="Volver al Archivo" onclick="exitMoba()">←</button>
       <div class="mb-stat"><div class="mb-val" id="mb-ally-hp">500</div><div class="mb-lbl">Aliados</div></div>
       <div class="mb-stat"><div class="mb-val" id="mb-enemy-hp">500</div><div class="mb-lbl">Enemigos</div></div>
-      <button class="mb-ability-btn" id="mb-ability-btn" onclick="mobaUseAbility()">✨</button>
+      <button class="mb-ability-btn" id="mb-ability-btn" aria-label="Activar pulso de Dulce Roja" onclick="mobaUseAbility()">Pulso</button>
     </div>
-    <div class="mb-hint">Arrastra en el tablero para mover a Dulce Roja · toca ✨ para tu habilidad</div>
+    <div class="mb-hint">Arrastra para guiar a Dulce Roja · Pulso daña a los enemigos cercanos</div>
+    <div class="mg-confite-pop combat-guide" id="mb-confite-pop">
+      <svg class="mg-confite-pop-svg" viewBox="0 0 100 90" fill="none" id="mb-confite-pop-svg" aria-hidden="true"></svg>
+      <div class="mg-confite-pop-text" id="mb-confite-pop-text"></div>
+    </div>
     <div id="mb-wrap">
       <canvas id="mb-canvas" width="340" height="460"></canvas>
-      <div class="mg-confite-pop" id="mb-confite-pop">
-        <svg class="mg-confite-pop-svg" viewBox="0 0 100 90" fill="none" id="mb-confite-pop-svg"></svg>
-        <div class="mg-confite-pop-text" id="mb-confite-pop-text"></div>
-      </div>
       <div id="mb-overlay">
         <div class="overlay-icon" id="mb-overlay-icon">🏆</div>
         <div class="overlay-title" id="mb-overlay-title"></div>
         <div class="overlay-sub" id="mb-overlay-sub"></div>
         <button id="mb-revive-btn" class="btn-continue" style="background:linear-gradient(135deg,#00D68A,#00A870);display:none" onclick="mobaReviveWithAd()">🎬 Revivir con anuncio</button>
         <div class="overlay-btns">
-          <button class="btn-sm btn-secondary" onclick="exitMoba()">Minijuegos</button>
+          <button class="btn-sm btn-secondary" onclick="exitMoba()">Archivo</button>
           <button class="btn-sm btn-primary" onclick="startMoba()">Jugar de nuevo</button>
         </div>
       </div>
@@ -1529,26 +1622,27 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 
   <!-- ============ BATTLE ROYALE (prototipo: jugador vs 9 bots, zona) ============ -->
   <section id="screen-br" class="screen">
+    <header class="combat-heading"><small>Eco III · Huida contra 9 bots</small><h1>La Huida de la Grieta</h1></header>
     <div class="mb-hud">
-      <div class="back-btn" onclick="exitBR()">←</div>
+      <button class="back-btn" aria-label="Volver al Archivo" onclick="exitBR()">←</button>
       <div class="mb-stat"><div class="mb-val" id="br-alive">10/10</div><div class="mb-lbl">Vivos</div></div>
       <div class="mb-stat"><div class="mb-val" id="br-zone-status">Dentro</div><div class="mb-lbl">Zona</div></div>
-      <button class="mb-ability-btn" id="br-ability-btn" onclick="brUseDash()">💨</button>
+      <button class="mb-ability-btn" id="br-ability-btn" aria-label="Activar impulso de velocidad" onclick="brUseDash()">Impulso</button>
     </div>
-    <div class="mb-hint">Arrastra para moverte · mantente dentro del círculo · toca 💨 para un impulso de velocidad</div>
+    <div class="mb-hint">Arrastra para moverte · el anillo marca el refugio · Impulso acelera tu huida</div>
+    <div class="mg-confite-pop combat-guide" id="br-confite-pop">
+      <svg class="mg-confite-pop-svg" viewBox="0 0 100 90" fill="none" id="br-confite-pop-svg" aria-hidden="true"></svg>
+      <div class="mg-confite-pop-text" id="br-confite-pop-text"></div>
+    </div>
     <div id="br-wrap">
       <canvas id="br-canvas" width="340" height="460"></canvas>
-      <div class="mg-confite-pop" id="br-confite-pop">
-        <svg class="mg-confite-pop-svg" viewBox="0 0 100 90" fill="none" id="br-confite-pop-svg"></svg>
-        <div class="mg-confite-pop-text" id="br-confite-pop-text"></div>
-      </div>
       <div id="br-overlay">
         <div class="overlay-icon" id="br-overlay-icon">🏆</div>
         <div class="overlay-title" id="br-overlay-title"></div>
         <div class="overlay-sub" id="br-overlay-sub"></div>
         <button id="br-revive-btn" class="btn-continue" style="background:linear-gradient(135deg,#00D68A,#00A870);display:none" onclick="brReviveWithAd()">🎬 Revivir con anuncio</button>
         <div class="overlay-btns">
-          <button class="btn-sm btn-secondary" onclick="exitBR()">Minijuegos</button>
+          <button class="btn-sm btn-secondary" onclick="exitBR()">Archivo</button>
           <button class="btn-sm btn-primary" onclick="startBR()">Jugar de nuevo</button>
         </div>
       </div>
@@ -1623,7 +1717,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <section id="screen-game" class="screen">
     <div class="hud">
       <div class="back-btn" onclick="exitToMap()">←</div>
-      <div class="hud-stat"><div class="hud-val" id="hud-moves">20</div><div class="hud-lbl">Movs</div></div>
+      <div class="hud-stat"><div class="hud-val" id="hud-moves">20</div><div class="hud-lbl" id="hud-moves-label">Movs</div></div>
       <div class="hud-stat"><div class="hud-val" id="hud-score">0</div><div class="hud-lbl">Puntos</div></div>
       <div class="hud-stat"><div class="hud-val" id="hud-level">1</div><div class="hud-lbl">Nivel</div></div>
       <div class="hud-stat" id="hud-combo-stat"><div class="hud-val" id="hud-combo-mult">—</div><div class="hud-lbl">Cascada</div></div>
@@ -1774,31 +1868,32 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     <div class="dg-header">
       <div class="back-btn" onclick="goTo('title')">←</div>
       <div class="dg-logo-mini">HEX CLASH</div>
-      <div class="shard-badge">💠 <span id="dg-shards">0</span></div>
+      <div class="shard-badge"><span class="dg-shard-symbol" aria-hidden="true"></span><span id="dg-shards">0</span></div>
     </div>
-    <div style="font-size:11px;color:rgba(255,255,255,.5);font-style:italic;z-index:1">Acto II · La Bruja Hexadecimal despertó</div>
+    <div class="dg-eyebrow">Acto II · La Bruja Hexadecimal</div>
+    <div class="dg-scene" id="dg-menu-scene"></div>
     <div class="dg-level-badge">Nivel de jugador <b id="dg-player-level">1</b> · <span id="dg-xp-text">0 / 100 XP</span>
       <div class="dg-xp-track"><div class="dg-xp-fill" id="dg-xp-fill"></div></div>
     </div>
     <div class="dg-mode-list">
       <div class="dg-mode-card" onclick="goTo('dglevels')">
-        <div class="dg-mode-icon">📖</div>
+        <div class="dg-mode-icon" data-dg-symbol="story" aria-hidden="true"></div>
         <div class="dg-mode-info"><div class="dg-mode-name">Historia</div><div class="dg-mode-desc">20 niveles con dificultad creciente</div></div>
-        <div class="dg-mode-tag" id="dg-historia-tag">1/20</div>
+        <div class="dg-mode-tag"><small>Ruta</small><span id="dg-historia-tag">1/20</span></div>
       </div>
       <div class="dg-mode-card" onclick="dgStartTimed()">
-        <div class="dg-mode-icon">⏱️</div>
+        <div class="dg-mode-icon" data-dg-symbol="timed" aria-hidden="true"></div>
         <div class="dg-mode-info"><div class="dg-mode-name">Tiempo Límite</div><div class="dg-mode-desc">60 segundos · el mayor puntaje posible</div></div>
-        <div class="dg-mode-tag">🏆 <span id="dg-timed-best">0</span></div>
+        <div class="dg-mode-tag"><small>Récord</small><span id="dg-timed-best">0</span></div>
       </div>
       <div class="dg-mode-card" onclick="dgStartZen()">
-        <div class="dg-mode-icon">☯️</div>
+        <div class="dg-mode-icon" data-dg-symbol="zen" aria-hidden="true"></div>
         <div class="dg-mode-info"><div class="dg-mode-name">Zen</div><div class="dg-mode-desc">Sin límite de movimientos ni tiempo</div></div>
-        <div class="dg-mode-tag">🏆 <span id="dg-zen-best">0</span></div>
+        <div class="dg-mode-tag"><small>Récord</small><span id="dg-zen-best">0</span></div>
       </div>
     </div>
     <div class="dg-menu-row">
-      <button class="dg-btn-secondary" onclick="goTo('dgshop')">🛒 Tienda</button>
+      <button class="dg-btn-secondary" onclick="goTo('dgshop')">El relicario · Tienda</button>
       <button class="dg-btn-secondary" onclick="dgToggleAmbientPref()" id="dg-sound-btn">🔊 Música ambiental</button>
     </div>
   </section>
@@ -1808,10 +1903,11 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     <div class="dg-fog"></div>
     <div class="map-header" style="z-index:1">
       <div class="back-btn" onclick="goTo('dgmenu')">←</div>
-      <div class="map-title">Modo Historia</div>
+      <div class="map-title">La senda de la sombra</div>
       <div class="stars-total">⭐ <span id="dg-total-stars">0</span>/60</div>
     </div>
-    <div id="dg-level-grid" style="z-index:1;flex:1;overflow-y:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:6px 2px 12px;align-content:start"></div>
+    <div class="dg-scene compact" id="dg-levels-scene"></div>
+    <div id="dg-level-grid"></div>
   </section>
 
   <!-- ============ DG: TIENDA ============ -->
@@ -1819,9 +1915,10 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     <div class="dg-fog"></div>
     <div class="dg-header">
       <div class="back-btn" onclick="goTo('dgmenu')">←</div>
-      <div class="dg-logo-mini">Tienda</div>
-      <div class="shard-badge">💠 <span id="dg-shop-shards">0</span></div>
+      <div class="dg-logo-mini">El relicario</div>
+      <div class="shard-badge"><span class="dg-shard-symbol" aria-hidden="true"></span><span id="dg-shop-shards">0</span></div>
     </div>
+    <div class="dg-scene compact" id="dg-shop-scene"></div>
     <div class="dg-shop-scroll">
       <div>
         <div class="dg-shop-section-title">Cargas de poder</div>
@@ -1837,13 +1934,14 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <!-- ============ DG: JUEGO ============ -->
   <section id="screen-dggame" class="screen">
     <div class="dg-fog"></div>
+    <div class="dg-scene" id="dg-game-scene"></div>
     <div id="dg-hud">
       <div class="back-btn" onclick="dgExitToMenu()">←</div>
       <div class="hud-stat" id="dg-hud-moves-wrap"><div class="hud-val" id="dg-hud-moves">20</div><div class="hud-lbl">Movs</div></div>
       <div class="hud-stat" id="dg-hud-time-wrap" style="display:none"><div class="hud-val" id="dg-hud-time">60</div><div class="hud-lbl">Seg</div></div>
       <div class="hud-stat"><div class="hud-val" id="dg-hud-score">0</div><div class="hud-lbl">Puntos</div></div>
       <div class="hud-stat"><div class="hud-val" id="dg-hud-combo">x1</div><div class="hud-lbl">Combo</div></div>
-      <div class="back-btn" onclick="dgOpenPause()">⏸️</div>
+      <div class="back-btn" onclick="dgOpenPause()" aria-label="Pausar">Ⅱ</div>
     </div>
     <div id="dg-objective-bar">Meta: 1,000 pts</div>
     <div id="dg-progress-track"><div id="dg-progress-fill"></div></div>
@@ -1851,20 +1949,20 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     <div id="dg-grid-wrap">
       <div id="dg-grid"></div>
       <div id="dg-start-overlay">
-        <div class="tutorial-icon">🕯️</div>
+        <div class="dg-overlay-emblem" data-dg-symbol="story" aria-hidden="true"></div>
         <div class="dg-title-big" id="dg-start-title">Historia · Nivel 1</div>
         <div id="dg-start-lore" style="font-size:11.5px;color:var(--crystal);font-style:italic;opacity:.9;max-width:270px"></div>
         <div class="tutorial-text" id="dg-start-sub">Alinea 3 o más piezas del mismo color.</div>
         <button class="btn-sm btn-primary" onclick="dgBeginRun()">Comenzar</button>
       </div>
       <div id="dg-tutorial-overlay">
-        <div class="tutorial-icon">👆</div>
+        <div class="dg-overlay-emblem" data-dg-symbol="crystal" aria-hidden="true"></div>
         <div class="tutorial-title">Cómo se juega HEX CLASH</div>
         <div class="tutorial-text">Toca dos piezas adyacentes para intercambiarlas. 3 en línea las elimina. 5 en línea crea una <b>HEX BOMB</b> 💣. Un match en L/T crea una <b>CHAIN CURSE</b> 🌀. Un match de 4 en línea crea un <b>DARK CRYSTAL</b> 🔮 comodín. Las piezas oscuras (Shadow) necesitan 2 golpes.</div>
         <button class="btn-sm btn-primary" onclick="dgDismissTutorial()">¡Entendido!</button>
       </div>
       <div id="dg-pause-overlay">
-        <div class="tutorial-icon">⏸️</div>
+        <div class="dg-overlay-emblem" data-dg-symbol="zen" aria-hidden="true"></div>
         <div class="tutorial-title">Pausa</div>
         <div class="settings-row" onclick="dgTogglePauseMute()" style="width:85%;max-width:280px">
           <div class="settings-row-label"><div class="settings-row-title" id="dg-pause-mute-label">🔊 Sonido activado</div></div>
@@ -1900,13 +1998,13 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <!-- ============ TRANSICIÓN: LA MALDICIÓN HEXADECIMAL (Acto I → Acto II) ============ -->
   <section id="screen-hexcurse" class="screen" style="background:radial-gradient(ellipse at 50% -10%, #2A0845 0%, var(--dark) 65%);overflow:hidden">
     <div class="dg-fog"></div><div class="dg-fog b"></div>
+    <div class="dg-transition-art" id="dg-curse-art"></div>
     <div class="ep-slide active">
       <div class="intro-tag">Mientras tanto, en algún lugar de Dulcelandia...</div>
-      <div style="font-size:48px">🕸️</div>
       <div class="ep-heading">La Bruja Hexadecimal despierta</div>
       <div class="ep-body">Desde las profundidades donde el Cristal se rompió a sí mismo, algo respondió a la luz que devolviste a Las Tierras Carmesí. La Bruja Hexadecimal —una sombra hecha de código y maldición, tan vieja como el propio Cristal— lanza su corrupción sobre el resto del reino.</div>
       <div class="ep-body">Los territorios que aún no restauraste no volverán a la niebla gris de siempre. Se están convirtiendo en algo distinto. Algo oscuro.</div>
-      <div class="ep-body" style="color:var(--crystal)">Confite: "Esto no es lo que sentí antes. Esto es nuevo... y me da miedo. Tenemos que llegar hasta ella."</div>
+      <div class="ep-body dg-transition-quote"><div class="dg-guide-art" id="dg-curse-confite"></div><span>Confite: "Esto no es lo que sentí antes. Esto es nuevo... y me da miedo. Tenemos que llegar hasta ella."</span></div>
       <button class="btn-sm btn-primary" onclick="closeHexCurseIntro()" style="margin-top:4px">Continuar</button>
     </div>
   </section>
@@ -1914,12 +2012,12 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <!-- ============ VICTORIA FINAL: EL CORAZÓN HEXADECIMAL (fin del Acto II) ============ -->
   <section id="screen-hexvictory" class="screen" style="background:radial-gradient(ellipse at 50% -10%, #2A0845 0%, var(--dark) 65%);overflow:hidden">
     <div class="dg-fog"></div><div class="dg-fog b"></div>
+    <div class="dg-transition-art" id="dg-victory-art"></div>
     <div class="ep-slide active">
       <div class="intro-tag">El Corazón Hexadecimal</div>
-      <div style="font-size:48px">✨</div>
       <div class="ep-heading">La corrupción se rompe</div>
       <div class="ep-body">La Bruja Hexadecimal se deshace en fragmentos de código y ceniza. El patrón que sostenía su maldición se rompe, y el color verdadero —el de antes de los 500 años, el del Cristal completo— vuelve a correr por Dulcelandia.</div>
-      <div class="ep-body" style="color:var(--crystal)">Confite: "Lo logramos. Se acabó. Puedo... puedo sentir el reino respirar de nuevo. Gracias por no rendirte, Guardián."</div>
+      <div class="ep-body dg-transition-quote"><div class="dg-guide-art" id="dg-victory-confite"></div><span>Confite: "Lo logramos. Se acabó. Puedo... puedo sentir el reino respirar de nuevo. Gracias por no rendirte, Guardián."</span></div>
       <button class="btn-sm btn-primary" onclick="goTo('world')" style="margin-top:4px">Volver a Dulcelandia</button>
     </div>
   </section>
@@ -2532,6 +2630,8 @@ function importSave(){
 
 /* ---------------- NAVEGACIÓN ---------------- */
 function goTo(name, territoryId){
+  // Supervivencia comparte screen-game: no existe una screen-survival intermedia.
+  if(name==="survival"){ startSurvival(); return; }
   if(name!=="game" && document.getElementById("screen-game").classList.contains("active")){ boardRun++; clearTimeout(hintTimerId); }
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("screen-"+name).classList.add("active");
@@ -2549,7 +2649,6 @@ function goTo(name, territoryId){
   if(name==="minigames") renderMinigames();
   if(name==="moba") startMoba();
   if(name==="br") startBR();
-  if(name==="survival") startSurvival();
   if(name==="skins") renderSkins();
   if(name==="heroes") renderHeroes();
   if(name==="memories") renderMemories();
@@ -2557,6 +2656,7 @@ function goTo(name, territoryId){
   if(name==="dgmenu") renderDgMenu();
   if(name==="dglevels") renderDgLevels();
   if(name==="dgshop") renderDgShop();
+  if(name==="hexcurse" || name==="hexvictory") renderDgTransition(name);
   if(name==="title"){ renderTitleHexButton(); renderTitleLeague(); }
   if(name!=="moba" && mobaRunning){ mobaRunning=false; if(mobaRAF) cancelAnimationFrame(mobaRAF); }
   if(name!=="br" && brRunning){ brRunning=false; if(brRAF) cancelAnimationFrame(brRAF); }
@@ -3065,6 +3165,7 @@ function updateLeagueWorldCard(){
 }
 function renderLeague(){
   syncLeague();
+  document.getElementById("league-scene").innerHTML=echoSceneSVG('moba','league');
   const lg=save.league;
   const div=LEAGUE_DIVISIONS[Math.max(0,Math.min(LEAGUE_DIVISIONS.length-1,lg.division||0))];
   const rows=leagueStandings(lg.weekKey,leagueDayIndex());
@@ -3463,6 +3564,64 @@ function exitToMap(){
 }
 
 /* ---------------- MINIJUEGOS (hub) ---------------- */
+// Panoramas originales del Archivo: cada Eco tiene un lugar, no un icono genérico.
+// SVG puro, sin guardar estado ni crear timers; los IDs son únicos por contexto.
+function echoSceneSVG(id,key='archive'){
+  const kind=['survival','moba','br'].includes(id)?id:'survival';
+  const p=`echo-${String(key).replace(/[^a-z0-9-]/gi,'-')}-${kind}`;
+  const crystal=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M0-32L17-12L10 19L0 31L-15 13L-19-9Z" fill="url(#${p}-glow)"/><path d="M0-32L0 31L10 19L17-12Z" fill="#b5c9df" opacity=".4"/><path d="M0-32L-4-7L-19-9M-4-7L0 31M-4-7L17-12" fill="none" stroke="#fae7c8" stroke-opacity=".65" stroke-width="1"/></g>`;
+  const column=(x,y,h)=>`<g transform="translate(${x} ${y})"><ellipse cy="6" rx="16" ry="5" fill="#050611" opacity=".6"/><path d="M-10 0V-${h}L2-${h+5}L12-${h}V-2L2 3Z" fill="url(#${p}-stone)"/><path d="M2-${h+5}V3L12-2V-${h}Z" fill="#271f36"/><path d="M-10-${h}L2-${h+5}L12-${h}L0-${h-4}Z" fill="#b1a0af"/><path d="M-5-${h-9}V-9M-3-${h*.55}L5-${h*.5}L0-${h*.3}" fill="none" stroke="#e8c795" stroke-opacity=".2"/></g>`;
+  let scene='';
+  if(kind==='survival') scene=`
+    <path d="M0 109L46 39L81 97L117 31L143 108L197 59L238 111L281 48L327 113L360 73V210H0Z" fill="#3a2b48" opacity=".6"/>
+    <ellipse cx="180" cy="181" rx="143" ry="19" fill="#060714"/>
+    <path d="M33 142L94 111L243 110L328 143L283 177L178 202L75 176Z" fill="url(#${p}-face)"/>
+    <path d="M33 142L77 159L75 176M178 169V202L220 178L242 160M283 156V177" fill="none" stroke="#dac8b2" stroke-opacity=".16"/>
+    <path d="M33 142L94 111L243 110L328 143L276 165L99 163Z" fill="url(#${p}-stone)" stroke="#b7a0b1" stroke-opacity=".3"/>
+    <ellipse cx="180" cy="138" rx="66" ry="22" fill="#171323" stroke="#d7bc91" stroke-width="1.5"/>
+    <ellipse cx="180" cy="138" rx="52" ry="16" fill="none" stroke="#c4a7d1" stroke-opacity=".45"/>
+    <path d="M180 117V160M116 139H245M140 123L220 153M141 153L220 124" stroke="#f5d5aa" stroke-opacity=".18"/>
+    ${column(76,141,71)}${column(282,141,71)}${column(113,119,91)}${column(248,119,91)}
+    <path d="M104 29Q177-8 257 29L252 40Q182 10 109 41Z" fill="url(#${p}-stone)"/><path d="M111 41Q182 12 252 40" stroke="#e8c795" stroke-opacity=".4" fill="none"/>
+    <g class="echo-core"><ellipse cx="180" cy="129" rx="43" ry="13" fill="#d6bded" opacity=".12"/>${crystal(180,95,1.25)}<path d="M149 95Q180 47 211 95Q180 137 149 95Z" fill="none" stroke="#f3d6a9" stroke-opacity=".3"/></g>
+    <path d="M38 159L65 145M296 154L317 161M124 171L136 185M230 177L253 184" stroke="#d3bb9e" stroke-opacity=".3"/>
+    <path d="M13 197L34 176L29 206M331 209L324 181L348 199" fill="#51405d"/>
+    ${crystal(48,170,.3)}${crystal(303,175,.24)}`;
+  if(kind==='moba') scene=`
+    <path d="M0 114L44 61L89 102L143 48L197 98L249 56L311 110L360 64V210H0Z" fill="#3e334d" opacity=".6"/>
+    <path d="M0 152L88 125L162 143L145 210H0ZM202 142L280 119L360 147V210H222Z" fill="url(#${p}-face)"/>
+    <path d="M0 145L86 112L162 133L143 159L69 177L0 168ZM202 132L283 107L360 140V164L272 176L220 157Z" fill="url(#${p}-stone)" stroke="#e8c795" stroke-opacity=".25"/>
+    <path d="M167 135L191 132L219 210H148Z" fill="url(#${p}-river)"/>
+    <path d="M112 144L224 132L244 144L132 158Z" fill="#a78d83"/><path d="M132 158L244 144V152L131 165Z" fill="#59405a"/>
+    <path d="M118 142L225 131M127 150L237 138" stroke="#e5c99f" stroke-width="2"/>
+    ${column(57,127,49)}${column(88,118,61)}${column(286,120,60)}${column(318,132,47)}
+    <path d="M40 73L73 51L104 66L90 77L56 86Z" fill="#b39a8e"/><path d="M270 65L300 48L335 76L319 85L287 76Z" fill="#9489a9"/>
+    ${crystal(77,89,.44)}${crystal(301,90,.44)}
+    <ellipse cx="111" cy="165" rx="22" ry="6" fill="#e8c795" opacity=".15"/><ellipse cx="252" cy="155" rx="22" ry="6" fill="#bbaaee" opacity=".14"/>
+    <path d="M106 165V146L114 140L122 149V165Z" fill="#ce94aa"/><path d="M247 154V137L255 131L263 140V155Z" fill="#a391c9"/>
+    <path d="M6 183L25 169L20 190M334 190L329 170L350 180" fill="#555060"/><path d="M38 167L39 155M42 163L48 158M306 173V160M309 167L315 162" stroke="#9b9489" stroke-width="2" stroke-linecap="round"/>
+    <path d="M148 109L182 88L213 107" fill="none" stroke="#e8c795" stroke-opacity=".2"/>`;
+  if(kind==='br') scene=`
+    <path d="M0 111L36 69L80 104L125 62L163 111L213 72L254 109L303 52L360 103V210H0Z" fill="#49334e" opacity=".65"/>
+    <ellipse cx="186" cy="133" rx="70" ry="43" fill="none" stroke="#bba3d6" stroke-opacity=".12" stroke-width="25"/>
+    <path d="M122 118Q131 38 188 29Q252 43 256 118" fill="none" stroke="#aa8ebd" stroke-width="9"/><path d="M126 117Q138 45 188 35Q244 48 251 117" fill="none" stroke="#efcfaa" stroke-opacity=".6" stroke-width="2"/>
+    <path d="M0 150L70 119L129 142L104 180L34 200L0 183ZM227 145L287 119L360 149V190L291 199L245 181Z" fill="url(#${p}-face)"/>
+    <path d="M0 143L70 112L129 135L101 157L32 173L0 165ZM227 138L287 112L360 142V163L289 173L249 157Z" fill="url(#${p}-stone)" stroke="#e8c795" stroke-opacity=".25"/>
+    <path d="M134 152L184 132L222 154L190 180L150 178Z" fill="#443149"/><path d="M134 144L184 125L222 146L190 162L150 161Z" fill="#887287" stroke="#c8a5ba" stroke-opacity=".4"/>
+    <path d="M117 194L162 186L173 203L144 209ZM216 186L236 179L257 196L228 205Z" fill="#67516e"/>
+    <path d="M174 117L192 101L186 142L208 168L192 210H172L182 173L166 146Z" fill="url(#${p}-river)"/>
+    ${column(66,137,44)}${column(294,144,54)}${crystal(183,96,.55)}
+    <path d="M32 183L50 171M314 179L340 186M148 160L156 168M200 148L211 155" stroke="#d9b8bd" stroke-opacity=".3"/>
+    <path d="M8 121Q41 94 76 116M274 118Q321 89 358 119" stroke="#877095" stroke-width="12" opacity=".18" fill="none"/>`;
+  return `<svg class="echo-art" viewBox="0 0 360 210" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <linearGradient id="${p}-sky" x2="0" y2="1"><stop stop-color="#30253d"/><stop offset="1" stop-color="#100e1b"/></linearGradient>
+    <linearGradient id="${p}-stone" x2="1" y2="1"><stop stop-color="#9d8794"/><stop offset=".5" stop-color="#6d5c78"/><stop offset="1" stop-color="#443b56"/></linearGradient>
+    <linearGradient id="${p}-face" x2="0" y2="1"><stop stop-color="#63506c"/><stop offset="1" stop-color="#231b32"/></linearGradient>
+    <linearGradient id="${p}-glow" x2=".8" y2="1"><stop stop-color="#f7e5bc"/><stop offset=".45" stop-color="#c4a7da"/><stop offset="1" stop-color="#7665a5"/></linearGradient>
+    <linearGradient id="${p}-river" x2="0" y2="1"><stop stop-color="#cfb7db" stop-opacity=".7"/><stop offset="1" stop-color="#6a6399" stop-opacity="0"/></linearGradient>
+    </defs><path d="M0 0H360V210H0Z" fill="url(#${p}-sky)"/><circle cx="272" cy="38" r="19" fill="#e8c795" opacity=".12"/><path d="M0 86Q65 57 128 79T260 76T360 70" stroke="#b9a3c6" stroke-width="15" opacity=".05"/>
+    ${scene}<g fill="#ead5b1" opacity=".55"><circle cx="38" cy="58" r="1"/><circle cx="95" cy="28" r=".8"/><circle cx="228" cy="20" r="1"/><circle cx="326" cy="65" r=".8"/><circle cx="151" cy="65" r=".7"/></g></svg>`;
+}
 const MINIGAMES = [
   {id:"survival", chapter:"Eco I", name:"El Primer Latido", icon:"💓", gate:null,
    desc:"Confite oye un pulso debajo del tablero. No es música: es una memoria física del Gran Cristal intentando reconocerte.",
@@ -3498,6 +3657,7 @@ function renderMinigames(){
   const list = document.getElementById("mg-list");
   list.innerHTML = "";
   const recovered=minigameLoreCount();
+  document.getElementById("confite-archive-svg").innerHTML=confiteSVG(recovered===3?'happy':'worried');
   document.getElementById("mg-progress-badge").textContent=`${recovered}/3`;
   document.getElementById("mg-archive-count").textContent=`${recovered} de 3 ecos`;
   document.getElementById("mg-archive-fill").style.width=`${Math.round(recovered/3*100)}%`;
@@ -3509,18 +3669,21 @@ function renderMinigames(){
   MINIGAMES.forEach(m=>{
     const unlocked=minigameUnlocked(m.id), done=minigameLoreDone(m.id);
     const gate=MINIGAMES.find(g=>g.id===m.gate);
-    const div = document.createElement("div");
+    const div = document.createElement("button");
+    div.type='button'; div.dataset.echo=m.id;
+    div.setAttribute('aria-disabled',String(!unlocked));
     div.className = `mg-card${unlocked?"":" locked"}${done?" completed":""}`;
     div.innerHTML = `
-      <div class="mg-icon">${unlocked?m.icon:"🔒"}</div>
-      <div class="mg-info">
-        <div class="mg-chapter">${m.chapter} · ${done?"Memoria recuperada":unlocked?"Señal detectada":"Eco bloqueado"}</div>
-        <div class="mg-name">${m.name}</div>
-        <div class="mg-desc">${m.desc}</div>
-        <div class="mg-objective">${unlocked?m.objective:`Se abre al completar ${gate?.chapter}: ${gate?.name}`}</div>
-        ${done?`<div class="mg-reveal">“${m.quote}”</div>`:""}
+      <span class="echo-scene" style="display:block" aria-hidden="true">${echoSceneSVG(m.id,'archive')}</span>
+      <span class="mg-info">
+        <span class="mg-chapter">${m.chapter} · ${done?"Memoria recuperada":unlocked?"Señal detectada":"Eco bloqueado"}</span>
+        <span class="mg-name">${m.name}</span>
+        <span class="mg-mode-label">${m.id==='survival'?'Supervivencia · Match-3':m.id==='moba'?'Combate 5v5 · contra IA':'Huida Royale · contra 9 bots'}</span>
+        <span class="mg-desc">${m.desc}</span>
+        <span class="mg-objective">${unlocked?m.objective:`Se abre al completar ${gate?.chapter}: ${gate?.name}`}</span>
+        ${done?`<span class="mg-reveal" style="display:block">“${m.quote}”</span>`:""}
         <span class="mg-tag ${done?'done':unlocked?'ready':'soon'}">${done?'Revivir Eco':unlocked?'Entrar al recuerdo':'Continúa la historia'}</span>
-      </div>`;
+      </span>`;
     div.onclick = ()=>startMinigameChapter(m.id);
     list.appendChild(div);
   });
@@ -3541,7 +3704,7 @@ function showMinigameLoreReveal(id){
   const def=MINIGAMES.find(m=>m.id===id);
   if(!def) return;
   document.getElementById("mg-lore-chapter").textContent=`${def.chapter.toUpperCase()} RECUPERADO`;
-  document.getElementById("mg-lore-icon").textContent=def.icon;
+  document.getElementById("mg-lore-icon").innerHTML=echoSceneSVG(id,'reveal');
   document.getElementById("mg-lore-title").textContent=def.name;
   document.getElementById("mg-lore-quote").textContent=`“${def.quote}”`;
   document.getElementById("mg-lore-truth").textContent=def.truth;
@@ -3631,7 +3794,7 @@ function updateMobaAbilityBtn(){
   const btn = document.getElementById("mb-ability-btn");
   if(!btn) return;
   if(mobaAbilityCd>0){ btn.disabled = true; btn.textContent = Math.ceil(mobaAbilityCd/60); }
-  else { btn.disabled = false; btn.textContent = "✨"; }
+  else { btn.disabled = false; btn.textContent = "Pulso"; }
 }
 function updateMobaHud(){
   const allyHp = mobaHeroes.filter(h=>h.team==="ally").reduce((s,h)=>s+Math.max(0,h.hp),0);
@@ -3656,7 +3819,7 @@ function mobaEndGame(won){
   const enemiesDefeated = mobaHeroes.filter(h=>h.team==="enemy" && !h.alive).length;
   // Sin ganar, primero se ofrece revivir gratis por anuncio (una vez por partida)
   if(!won && !mobaRevived){
-    document.getElementById("mb-overlay-icon").textContent = "💔";
+    document.getElementById("mb-overlay-icon").innerHTML = echoSceneSVG('moba','result');
     document.getElementById("mb-overlay-title").textContent = "Tu equipo cayó";
     document.getElementById("mb-overlay-sub").textContent = `${enemiesDefeated}/5 enemigos derrotados`;
     document.getElementById("mb-revive-btn").style.display = "";
@@ -3671,8 +3834,8 @@ function mobaEndGame(won){
   persistSave();
   checkAchievements();
   document.getElementById("mb-revive-btn").style.display = "none";
-  document.getElementById("mb-overlay-icon").textContent = won ? "🏆" : "💔";
-  document.getElementById("mb-overlay-title").textContent = won ? "¡Victoria!" : "Derrota";
+  document.getElementById("mb-overlay-icon").innerHTML = echoSceneSVG('moba','result');
+  document.getElementById("mb-overlay-title").textContent = won ? "El recuerdo resiste" : "La memoria se desvanece";
   document.getElementById("mb-overlay-sub").textContent =
     `${enemiesDefeated}/5 enemigos derrotados · +${coinsEarned} 🍯${leagueGain?` · +${leagueGain} 👑`:""}${loreUnlocked?" · ECO II RECUPERADO":""}${won?` · Victorias totales: ${save.mobaWins}`:""}`;
   document.getElementById("mb-overlay").classList.add("on");
@@ -3697,52 +3860,158 @@ function exitMoba(){
   document.getElementById("mb-revive-btn").style.display = "none";
   goTo("minigames");
 }
+// Los escenarios se dibujan una vez por modo. Solo unidades, vida y efectos
+// vuelven a pintarse en el RAF existente; la decoración no altera las colisiones.
+function minigameCanvasContext(canvas,width,height){
+  const dpr=Math.min(2,Math.max(1,Number(window.devicePixelRatio)||1));
+  canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);
+  canvas.style.width='auto';canvas.style.height='auto';
+  canvas.style.maxWidth=`min(100%, ${width}px)`;canvas.style.maxHeight=`min(100%, ${height}px)`;
+  const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);
+  return ctx;
+}
+function minigameArenaArt(mode,width,height){
+  const cache=minigameArenaArt.cache||(minigameArenaArt.cache={});
+  const dpr=Math.min(2,Math.max(1,Number(window.devicePixelRatio)||1));
+  const key=`${mode}-${width}-${height}-${dpr}`;
+  if(cache[key]) return cache[key];
+  const art=document.createElement('canvas');art.width=Math.round(width*dpr);art.height=Math.round(height*dpr);
+  const c=art.getContext('2d'),isWar=mode==='moba';
+  c.scale(art.width/340,art.height/460);
+  const shape=(points,fill,stroke)=>{
+    c.beginPath();points.forEach((p,i)=>i?c.lineTo(p[0],p[1]):c.moveTo(p[0],p[1]));c.closePath();
+    c.fillStyle=fill;c.fill();
+    if(stroke){c.strokeStyle=stroke;c.lineWidth=1;c.stroke();}
+  };
+  const oval=(x,y,rx,ry,fill)=>{c.beginPath();c.ellipse(x,y,rx,ry,0,0,Math.PI*2);c.fillStyle=fill;c.fill();};
+  const field=c.createLinearGradient(0,0,230,460);
+  field.addColorStop(0,isWar?'#3b3449':'#343446');field.addColorStop(.48,'#39433b');field.addColorStop(1,'#65533a');
+  c.fillStyle=field;c.fillRect(0,0,340,460);
+  // Taludes, terrazas y senderos erosionados, vistos desde arriba.
+  shape([[0,0],[340,0],[340,45],[298,55],[274,40],[230,51],[190,33],[145,48],[89,32],[42,53],[0,43]],'#252a35');
+  shape([[0,460],[340,460],[340,420],[293,408],[250,422],[199,407],[158,424],[103,406],[47,423],[0,410]],'#3d342d');
+  shape([[0,38],[32,51],[21,112],[40,161],[25,211],[34,265],[17,316],[32,363],[22,419],[0,425]],'#28342f');
+  shape([[340,37],[308,56],[321,112],[301,164],[316,217],[308,270],[326,321],[309,367],[321,422],[340,425]],'#303335');
+  shape([[43,75],[106,94],[130,174],[112,248],[130,332],[97,390],[47,403],[75,324],[64,247],[82,171]],'rgba(133,133,92,.13)');
+  shape([[299,75],[237,94],[211,174],[229,248],[211,332],[244,390],[293,403],[266,324],[277,247],[259,171]],'rgba(154,126,105,.11)');
+  c.beginPath();c.moveTo(isWar?166:266,39);
+  if(isWar){c.bezierCurveTo(128,118,203,165,168,230);c.bezierCurveTo(133,295,204,347,173,426);}
+  else{c.bezierCurveTo(277,109,174,155,168,230);c.bezierCurveTo(156,311,73,348,66,426);}
+  c.lineWidth=64;c.strokeStyle='rgba(22,29,30,.34)';c.stroke();
+  c.lineWidth=58;c.strokeStyle=isWar?'#77715b':'#777462';c.stroke();
+  c.lineWidth=43;c.strokeStyle='rgba(175,157,113,.12)';c.stroke();
+  for(let i=0;i<14;i++){
+    const y=46+i*28,x=isWar?165+Math.sin(i*.88)*15:270-i*15+Math.sin(i*.85)*10;
+    shape([[x-21,y],[x+22,y-2],[x+25,y+17],[x-19,y+20]],i%3===0?'#837b63':'#716e5b','rgba(218,198,149,.13)');
+    c.beginPath();c.moveTo(x-13,y+3);c.lineTo(x-2,y+9);c.lineTo(x-6,y+17);c.strokeStyle='rgba(34,39,34,.23)';c.lineWidth=1;c.stroke();
+  }
+  // Una grieta poco profunda pasa bajo los puentes; no es un obstáculo físico.
+  c.beginPath();
+  if(isWar){c.moveTo(-15,239);c.bezierCurveTo(80,190,97,270,173,234);c.bezierCurveTo(246,196,281,247,356,216);}
+  else{c.moveTo(66,-16);c.bezierCurveTo(74,101,142,153,171,234);c.bezierCurveTo(217,321,287,339,295,478);}
+  c.lineWidth=32;c.strokeStyle='#252e36';c.stroke();
+  c.lineWidth=23;c.strokeStyle=isWar?'#435568':'#43575a';c.stroke();
+  c.lineWidth=12;c.strokeStyle='rgba(166,177,170,.13)';c.stroke();
+  for(const [x,y] of isWar?[[49,229],[283,228]]:[[99,113],[255,354]]){
+    c.save();c.translate(x,y);c.rotate(isWar?-.12:-.75);
+    c.fillStyle='#3c403a';c.fillRect(-17,-23,34,49);
+    for(let i=0;i<5;i++){
+      c.fillStyle=i%2?'#827f67':'#919078';c.fillRect(-15,-22+i*9,30,7);
+    }
+    c.strokeStyle='#b1a386';c.lineWidth=2;c.strokeRect(-17,-24,34,48);c.restore();
+  }
+  oval(171,233,61,39,'rgba(29,34,31,.4)');
+  oval(171,229,58,38,isWar?'#88816a':'#81816d');
+  c.beginPath();c.ellipse(171,229,50,31,0,0,Math.PI*2);c.strokeStyle='rgba(221,199,144,.38)';c.lineWidth=1;c.stroke();
+  c.beginPath();c.ellipse(171,229,39,24,0,0,Math.PI*2);c.strokeStyle='rgba(48,48,40,.32)';c.stroke();
+  shape([[171,210],[184,229],[171,248],[158,229]],'rgba(215,188,120,.16)','rgba(232,210,156,.32)');
+  // Fragmentos del antiguo santuario en los márgenes, con luz contenida.
+  const crystal=(x,y,s,violet)=>{
+    oval(x+2,y+6,19*s,7*s,'rgba(9,17,22,.33)');
+    shape([[x-16*s,y+2],[x,y-6*s],[x+18*s,y],[x+3*s,y+9*s]],'#55584c');
+    shape([[x,y-30*s],[x+10*s,y-11*s],[x+7*s,y],[x-7*s,y],[x-10*s,y-13*s]],violet?'#a99dc0':'#d3b671');
+    shape([[x,y-30*s],[x+1*s,y-6*s],[x+7*s,y],[x+10*s,y-11*s]],violet?'#746781':'#8e784a');
+    shape([[x,y-30*s],[x-10*s,y-13*s],[x-7*s,y],[x-2*s,y-7*s]],violet?'#c3b8ce':'#ecdaa2');
+    c.beginPath();c.moveTo(x,y-26*s);c.lineTo(x-4*s,y-11*s);c.strokeStyle=violet?'#e0d8e7':'#fff0bf';c.lineWidth=1;c.stroke();
+  };
+  crystal(isWar?171:275,isWar?30:46,.85,true);crystal(isWar?171:67,isWar?451:445,.9,false);
+  crystal(27,147,.6,true);crystal(314,331,.65,false);
+  const pillar=(x,y,h)=>{
+    oval(x+3,y+5,12,5,'rgba(10,17,22,.3)');
+    shape([[x-8,y-h],[x+5,y-h-3],[x+10,y-h+2],[x+10,y],[x-5,y+4],[x-8,y]],'#777767');
+    shape([[x+5,y-h-3],[x+10,y-h+2],[x+10,y],[x+4,y+2]],'#50584e');
+    c.fillStyle='#a59c80';c.fillRect(x-10,y-h-3,18,5);
+    c.strokeStyle='rgba(35,43,38,.45)';c.lineWidth=1;c.beginPath();c.moveTo(x-5,y-h+12);c.lineTo(x+5,y-h+9);c.stroke();
+  };
+  for(const p of [[40,83,22],[295,89,31],[26,365,25],[303,397,17],[76,33,15],[266,444,15]]) pillar(...p);
+  // Vegetación facetada y piedritas deterministas: sin Math.random ni timers.
+  for(let i=0;i<34;i++){
+    const left=i%2===0,x=left?9+(i*17%39):300+(i*23%33),y=39+(i*47%378),s=5+i%5;
+    oval(x+2,y+4,s+3,s*.5,'rgba(13,24,27,.2)');
+    shape([[x-s,y],[x-s*.5,y-s],[x+2,y-s*1.3],[x+s,y-3],[x+s*.5,y+4]],i%3?'#4b6050':'#606b53');
+    shape([[x-s*.5,y-s],[x+2,y-s*1.3],[x+s,y-3],[x,y]],i%3?'#637760':'#7b8060');
+    if(i%4===0){oval(x+2,y-3,1.5,1.5,'#c2ac76');oval(x-3,y,1,1,'#b7a5ba');}
+  }
+  for(let i=0;i<38;i++){
+    const x=48+(i*71%246),y=38+(i*43%387);
+    oval(x,y,1+i%3,.7+i%2,'rgba(204,191,147,.18)');
+  }
+  const light=c.createRadialGradient(151,179,24,168,230,275);
+  light.addColorStop(0,'rgba(241,218,157,.1)');light.addColorStop(.65,'rgba(22,28,35,0)');light.addColorStop(1,'rgba(13,17,29,.48)');
+  c.fillStyle=light;c.fillRect(0,0,340,460);
+  if(!isWar){
+    c.beginPath();c.ellipse(171,229,96,77,-.32,.16,Math.PI*.93);c.strokeStyle='rgba(38,40,41,.5)';c.lineWidth=9;c.stroke();
+    c.beginPath();c.ellipse(171,226,96,77,-.32,.16,Math.PI*.93);c.strokeStyle='rgba(167,157,133,.29)';c.lineWidth=6;c.stroke();
+    c.strokeStyle='rgba(191,178,204,.2)';c.lineWidth=1;
+    for(const [x,y] of [[94,118],[257,314],[76,353],[269,126]]){
+      c.beginPath();c.moveTo(x-13,y-14);c.lineTo(x,y-4);c.lineTo(x-5,y+13);c.moveTo(x,y-4);c.lineTo(x+10,y+2);c.stroke();
+    }
+  }
+  cache[key]=art;return art;
+}
+function minigameMotionAllowed(){
+  const media=minigameMotionAllowed.media||(minigameMotionAllowed.media=window.matchMedia?.('(prefers-reduced-motion: reduce)'));
+  return !media?.matches&&!document.hidden;
+}
+function minigameDrawUnit(ctx,u,r,color,enemy){
+  ctx.save();
+  ctx.beginPath();ctx.ellipse(u.x,u.y+r*.8,r+2,r*.4,0,0,Math.PI*2);ctx.fillStyle='rgba(10,17,24,.45)';ctx.fill();
+  if(u.isPlayer){
+    ctx.beginPath();ctx.arc(u.x,u.y,r+4,0,Math.PI*2);ctx.strokeStyle='rgba(255,233,183,.72)';ctx.lineWidth=1;ctx.stroke();
+    ctx.beginPath();ctx.moveTo(u.x-3,u.y+r+7);ctx.lineTo(u.x,u.y+r+3);ctx.lineTo(u.x+3,u.y+r+7);ctx.fillStyle='#ffe8ae';ctx.fill();
+  }
+  const body=ctx.createLinearGradient(u.x-r,u.y-r,u.x+r,u.y+r);
+  body.addColorStop(0,'#e4d4b2');body.addColorStop(.24,color);body.addColorStop(1,enemy?'#59465f':'#61594c');
+  ctx.beginPath();ctx.arc(u.x,u.y,r,0,Math.PI*2);ctx.fillStyle=body;ctx.fill();
+  ctx.strokeStyle=u.isPlayer?'#ffefcd':enemy?'#baa6c4':'#b7c6b4';ctx.lineWidth=u.isPlayer?2:1.2;ctx.stroke();
+  ctx.beginPath();ctx.arc(u.x,u.y,r-3,Math.PI*1.1,Math.PI*1.85);ctx.strokeStyle='rgba(255,248,221,.35)';ctx.lineWidth=1;ctx.stroke();
+  if(enemy){
+    ctx.beginPath();ctx.moveTo(u.x,u.y-7);ctx.lineTo(u.x+5,u.y);ctx.lineTo(u.x,u.y+7);ctx.lineTo(u.x-5,u.y);ctx.closePath();ctx.fillStyle='#dfd5e9';ctx.fill();
+    ctx.beginPath();ctx.moveTo(u.x,u.y-7);ctx.lineTo(u.x,u.y+7);ctx.lineTo(u.x+5,u.y);ctx.closePath();ctx.fillStyle='#96829f';ctx.fill();
+  }else{
+    ctx.font=`${r+2}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(u.icon,u.x,u.y+1);
+  }
+  if(u.isHero&&!u.isPlayer){
+    const y=u.y-r-11;
+    ctx.beginPath();ctx.moveTo(u.x-5,y);ctx.lineTo(u.x-6,y-5);ctx.lineTo(u.x-2,y-3);ctx.lineTo(u.x,y-7);ctx.lineTo(u.x+2,y-3);ctx.lineTo(u.x+6,y-5);ctx.lineTo(u.x+5,y);ctx.closePath();ctx.fillStyle='#e6c778';ctx.fill();
+  }
+  const w=r*2+3,barY=u.y-r-7,health=Math.max(0,Math.min(1,u.hp/u.maxHp));
+  ctx.fillStyle='#1c2529';ctx.fillRect(u.x-w/2-1,barY-1,w+2,5);
+  ctx.fillStyle=health>.4?(enemy?'#baa1bf':'#c4d2a1'):'#e09b88';ctx.fillRect(u.x-w/2,barY,w*health,3);
+  ctx.restore();
+}
 function mobaRender(){
-  const ctx = mbCtx;
+  const ctx = mbCtx,motion=minigameMotionAllowed();
   ctx.clearRect(0,0,MOBA_W,MOBA_H);
-  // Arena de caramelo dorado — "Las Guerras del Azúcar", arenas de antes de la Fragmentación
-  const bg = ctx.createRadialGradient(MOBA_W/2,MOBA_H*0.4,20,MOBA_W/2,MOBA_H*0.4,MOBA_W*0.85);
-  bg.addColorStop(0,"#3A2410"); bg.addColorStop(1,"#170027");
-  ctx.fillStyle = bg; ctx.fillRect(0,0,MOBA_W,MOBA_H);
-  const allyTint = ctx.createLinearGradient(0,MOBA_H,0,MOBA_H*0.5);
-  allyTint.addColorStop(0,"rgba(255,92,138,.16)"); allyTint.addColorStop(1,"rgba(255,92,138,0)");
-  ctx.fillStyle = allyTint; ctx.fillRect(0,MOBA_H*0.5,MOBA_W,MOBA_H*0.5);
-  const enemyTint = ctx.createLinearGradient(0,0,0,MOBA_H*0.5);
-  enemyTint.addColorStop(0,"rgba(255,92,92,.16)"); enemyTint.addColorStop(1,"rgba(255,92,92,0)");
-  ctx.fillStyle = enemyTint; ctx.fillRect(0,0,MOBA_W,MOBA_H*0.5);
-  ctx.strokeStyle = "rgba(245,184,0,.4)";
-  ctx.setLineDash([7,7]); ctx.lineWidth=1.5;
-  ctx.beginPath(); ctx.moveTo(0,MOBA_H/2); ctx.lineTo(MOBA_W,MOBA_H/2); ctx.stroke();
-  ctx.setLineDash([]);
-  ctx.strokeStyle = "rgba(245,184,0,.16)"; ctx.lineWidth=3;
-  ctx.strokeRect(5,5,MOBA_W-10,MOBA_H-10);
+  ctx.drawImage(minigameArenaArt('moba',MOBA_W,MOBA_H),0,0,MOBA_W,MOBA_H);
   mobaFlashes.forEach(f=>{
-    ctx.beginPath();
-    ctx.arc(f.x, f.y, f.ring ? f.r*(1-f.life)+10 : f.r+(1-f.life)*10, 0, Math.PI*2);
-    ctx.globalAlpha = f.life; ctx.strokeStyle = f.hue; ctx.lineWidth = 3; ctx.stroke(); ctx.globalAlpha = 1;
+    ctx.save();ctx.beginPath();
+    ctx.arc(f.x,f.y,motion?(f.ring?f.r*(1-f.life)+10:f.r+(1-f.life)*10):f.r,0,Math.PI*2);
+    ctx.globalAlpha=f.life*.8;ctx.strokeStyle=f.ring?'#f1d894':f.hue==='#FF5C5C'?'#c5a6cb':'#d3dbc0';ctx.lineWidth=f.ring?2:1.5;ctx.stroke();ctx.restore();
   });
+  const playerColor=getActiveSkin().cheeks||'#d6a5ae';
   mobaHeroes.forEach(h=>{
-    if(!h.alive) return;
-    const playerColor = (getActiveSkin&&getActiveSkin().cheeks)||"#FF9FBB";
-    const baseColor = h.team==="enemy" ? "#FF5C5C" : (h.isPlayer ? playerColor : "#7FD8E8");
-    // sombra de piso, para dar profundidad
-    ctx.beginPath(); ctx.ellipse(h.x, h.y+MOBA_HERO_R*0.75, MOBA_HERO_R*0.9, MOBA_HERO_R*0.32, 0, 0, Math.PI*2);
-    ctx.fillStyle = "rgba(0,0,0,.35)"; ctx.fill();
-    ctx.save();
-    ctx.shadowColor = baseColor; ctx.shadowBlur = h.isPlayer ? 16 : (h.isHero ? 10 : 7);
-    ctx.beginPath(); ctx.arc(h.x, h.y, MOBA_HERO_R, 0, Math.PI*2);
-    ctx.fillStyle = baseColor; ctx.fill();
-    ctx.restore();
-    if(h.isPlayer || h.isHero){ ctx.lineWidth=2.5; ctx.strokeStyle=h.isPlayer?"#fff":"rgba(245,184,0,.85)"; ctx.stroke(); }
-    ctx.beginPath(); ctx.ellipse(h.x-4, h.y-5, 4, 2.4, -0.5, 0, Math.PI*2);
-    ctx.fillStyle = "rgba(255,255,255,.55)"; ctx.fill();
-    ctx.font = "14px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
-    ctx.fillText(h.icon, h.x, h.y+1);
-    if(h.isHero && !h.isPlayer){ ctx.font="11px sans-serif"; ctx.fillText("👑", h.x, h.y-MOBA_HERO_R-11); }
-    const w=26, barY=h.y-MOBA_HERO_R-8;
-    ctx.fillStyle = "rgba(0,0,0,.4)"; ctx.fillRect(h.x-w/2, barY, w, 4);
-    ctx.fillStyle = h.hp/h.maxHp>0.4 ? "#2ED573" : "#FF5C5C";
-    ctx.fillRect(h.x-w/2, barY, w*Math.max(0,h.hp/h.maxHp), 4);
+    if(h.alive) minigameDrawUnit(ctx,h,MOBA_HERO_R,h.team==='enemy'?'#9885ab':h.isPlayer?playerColor:'#91b4af',h.team==='enemy');
   });
   if(mobaJoystick.active){
     ctx.beginPath(); ctx.arc(mobaJoystick.baseX, mobaJoystick.baseY, 40, 0, Math.PI*2);
@@ -3789,7 +4058,7 @@ function mobaStep(){
 function mobaPointerPos(e){
   const canvas = document.getElementById("mb-canvas");
   const rect = canvas.getBoundingClientRect();
-  return { x:(e.clientX-rect.left)*(canvas.width/rect.width), y:(e.clientY-rect.top)*(canvas.height/rect.height) };
+  return { x:(e.clientX-rect.left)*(MOBA_W/rect.width), y:(e.clientY-rect.top)*(MOBA_H/rect.height) };
 }
 function mobaBindInput(){
   if(mobaInputBound) return;
@@ -3822,7 +4091,7 @@ function startMoba(){
   document.getElementById("mb-revive-btn").style.display = "none";
   mobaRevived = false;
   const canvas = document.getElementById("mb-canvas");
-  mbCtx = canvas.getContext("2d");
+  mbCtx = minigameCanvasContext(canvas,MOBA_W,MOBA_H);
   mobaBindInput();
   mobaHeroes = [];
   // Si el héroe equipado está en el roster de aliados, pelea con +20% de
@@ -3895,7 +4164,7 @@ function updateBrAbilityBtn(){
   const btn = document.getElementById("br-ability-btn");
   if(!btn) return;
   if(brDashCd>0){ btn.disabled=true; btn.textContent = Math.ceil(brDashCd/60); }
-  else { btn.disabled=false; btn.textContent = "💨"; }
+  else { btn.disabled=false; btn.textContent = "Impulso"; }
 }
 function updateBrHud(){
   const aliveCount = brUnits.filter(u=>u.alive).length;
@@ -3924,7 +4193,7 @@ function brEndGame(won, othersAliveAtDeath){
   const placement = won ? 1 : othersAliveAtDeath+1;
   // Sin ganar, primero se ofrece revivir gratis por anuncio (una vez por partida)
   if(!won && !brRevived){
-    document.getElementById("br-overlay-icon").textContent = "💀";
+    document.getElementById("br-overlay-icon").innerHTML = echoSceneSVG('br','result');
     document.getElementById("br-overlay-title").textContent = "La corrupción te alcanzó";
     document.getElementById("br-overlay-sub").textContent = `Puesto ${placement}/${BR_TOTAL}`;
     document.getElementById("br-revive-btn").style.display = "";
@@ -3940,8 +4209,8 @@ function brEndGame(won, othersAliveAtDeath){
   persistSave();
   checkAchievements();
   document.getElementById("br-revive-btn").style.display = "none";
-  document.getElementById("br-overlay-icon").textContent = won ? "🏆" : "💀";
-  document.getElementById("br-overlay-title").textContent = won ? "¡Victoria Royale!" : "Eliminada";
+  document.getElementById("br-overlay-icon").innerHTML = echoSceneSVG('br','result');
+  document.getElementById("br-overlay-title").textContent = won ? "Al otro lado de la grieta" : "La niebla cerró el paso";
   document.getElementById("br-overlay-sub").textContent =
     `Puesto ${placement}/${BR_TOTAL} · +${coinsEarned} 🍯${leagueGain?` · +${leagueGain} 👑`:""}${loreUnlocked?" · ECO III RECUPERADO":""}${won?` · Victorias totales: ${save.brWins}`:""}`;
   document.getElementById("br-overlay").classList.add("on");
@@ -3973,51 +4242,31 @@ function exitBR(){
   goTo("minigames");
 }
 function brRender(){
-  const ctx = brCtx;
+  const ctx = brCtx,motion=minigameMotionAllowed();
   ctx.clearRect(0,0,BR_W,BR_H);
-  // Corrupción de la Bruja Hexadecimal: exterior violeta con estática,
-  // zona segura con un resplandor cálido — misma paleta que HEX CLASH.
-  const bg = ctx.createRadialGradient(BR_W/2,BR_H/2,10,BR_W/2,BR_H/2,BR_W*0.8);
-  bg.addColorStop(0,"#4A1B62"); bg.addColorStop(1,"#170027");
-  ctx.fillStyle = bg; ctx.fillRect(0,0,BR_W,BR_H);
-  if(!brStaticNoise) brStaticNoise = Array.from({length:70},()=>({x:Math.random()*BR_W,y:Math.random()*BR_H,r:Math.random()*1.4+0.4}));
-  ctx.fillStyle = "rgba(214,150,255,.28)";
-  brStaticNoise.forEach(p=>{ ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); });
+  ctx.drawImage(minigameArenaArt('br',BR_W,BR_H),0,0,BR_W,BR_H);
+  // La misma tierra queda bajo la niebla de la Grieta. El círculo conserva
+  // exactamente el radio real de daño, sin ocultar enemigos ni barras de vida.
+  ctx.save();ctx.beginPath();ctx.rect(0,0,BR_W,BR_H);ctx.moveTo(brZone.cx+brZone.r,brZone.cy);ctx.arc(brZone.cx,brZone.cy,brZone.r,0,Math.PI*2,true);
+  ctx.fillStyle='rgba(40,27,56,.67)';ctx.fill('evenodd');ctx.restore();
   ctx.save();
   ctx.beginPath(); ctx.arc(brZone.cx, brZone.cy, brZone.r, 0, Math.PI*2); ctx.clip();
   const safeGrad = ctx.createRadialGradient(brZone.cx,brZone.cy,0,brZone.cx,brZone.cy,brZone.r);
-  safeGrad.addColorStop(0,"rgba(245,184,0,.16)"); safeGrad.addColorStop(1,"rgba(245,184,0,.02)");
+  safeGrad.addColorStop(0,"rgba(243,215,154,.1)"); safeGrad.addColorStop(1,"rgba(243,215,154,0)");
   ctx.fillStyle = safeGrad; ctx.fillRect(0,0,BR_W,BR_H);
   ctx.restore();
-  const pulse = 0.5+0.5*Math.sin(Date.now()/260);
+  const pulse = motion ? .5+.5*Math.sin(Date.now()/900) : .5;
   ctx.beginPath(); ctx.arc(brZone.cx, brZone.cy, brZone.r, 0, Math.PI*2);
-  ctx.strokeStyle = `rgba(155,89,182,${0.55+pulse*0.3})`; ctx.lineWidth=3; ctx.stroke();
-  ctx.beginPath(); ctx.arc(brZone.cx, brZone.cy, brZone.r+3, 0, Math.PI*2);
-  ctx.strokeStyle = "rgba(0,245,255,.3)"; ctx.lineWidth=1; ctx.stroke();
+  ctx.strokeStyle = `rgba(216,197,228,${.55+pulse*.18})`; ctx.lineWidth=2; ctx.stroke();
+  ctx.beginPath(); ctx.arc(brZone.cx, brZone.cy, brZone.r+4, 0, Math.PI*2);
+  ctx.strokeStyle = 'rgba(178,151,189,.22)';ctx.lineWidth=4;ctx.stroke();
   brFlashes.forEach(f=>{
-    ctx.beginPath();
-    ctx.arc(f.x, f.y, f.ring ? f.r*(1-f.life)+8 : f.r+(1-f.life)*10, 0, Math.PI*2);
-    ctx.globalAlpha=f.life; ctx.strokeStyle=f.hue; ctx.lineWidth=3; ctx.stroke(); ctx.globalAlpha=1;
+    ctx.save();ctx.beginPath();
+    ctx.arc(f.x,f.y,motion?(f.ring?f.r*(1-f.life)+8:f.r+(1-f.life)*10):f.r,0,Math.PI*2);
+    ctx.globalAlpha=f.life*.8;ctx.strokeStyle=f.ring?'#f1d894':'#cbd8bc';ctx.lineWidth=1.5;ctx.stroke();ctx.restore();
   });
   brUnits.forEach(u=>{
-    if(!u.alive) return;
-    const baseColor = u.isPlayer ? "#F5B800" : "#7FD8E8";
-    ctx.beginPath(); ctx.ellipse(u.x, u.y+BR_UNIT_R*0.75, BR_UNIT_R*0.9, BR_UNIT_R*0.32, 0, 0, Math.PI*2);
-    ctx.fillStyle = "rgba(0,0,0,.35)"; ctx.fill();
-    ctx.save();
-    ctx.shadowColor = baseColor; ctx.shadowBlur = u.isPlayer ? 15 : 6;
-    ctx.beginPath(); ctx.arc(u.x, u.y, BR_UNIT_R, 0, Math.PI*2);
-    ctx.fillStyle = baseColor; ctx.fill();
-    ctx.restore();
-    if(u.isPlayer){ ctx.lineWidth=2.5; ctx.strokeStyle="#fff"; ctx.stroke(); }
-    ctx.beginPath(); ctx.ellipse(u.x-3, u.y-4, 3.5, 2.2, -0.5, 0, Math.PI*2);
-    ctx.fillStyle = "rgba(255,255,255,.55)"; ctx.fill();
-    ctx.font="13px sans-serif"; ctx.textAlign="center"; ctx.textBaseline="middle";
-    ctx.fillText(u.icon, u.x, u.y+1);
-    const w=24, barY=u.y-BR_UNIT_R-7;
-    ctx.fillStyle="rgba(0,0,0,.4)"; ctx.fillRect(u.x-w/2, barY, w, 4);
-    ctx.fillStyle = u.hp/u.maxHp>0.4 ? "#2ED573" : "#FF5C5C";
-    ctx.fillRect(u.x-w/2, barY, w*Math.max(0,u.hp/u.maxHp), 4);
+    if(u.alive) minigameDrawUnit(ctx,u,BR_UNIT_R,u.isPlayer?'#d8ba73':'#9ab5ac',false);
   });
   if(brJoystick.active){
     ctx.beginPath(); ctx.arc(brJoystick.baseX, brJoystick.baseY, 40, 0, Math.PI*2);
@@ -4090,7 +4339,7 @@ function brStep(){
 function brPointerPos(e){
   const canvas = document.getElementById("br-canvas");
   const rect = canvas.getBoundingClientRect();
-  return { x:(e.clientX-rect.left)*(canvas.width/rect.width), y:(e.clientY-rect.top)*(canvas.height/rect.height) };
+  return { x:(e.clientX-rect.left)*(BR_W/rect.width), y:(e.clientY-rect.top)*(BR_H/rect.height) };
 }
 function brBindInput(){
   if(brInputBound) return;
@@ -4123,7 +4372,7 @@ function startBR(){
   document.getElementById("br-revive-btn").style.display = "none";
   brRevived = false;
   const canvas = document.getElementById("br-canvas");
-  brCtx = canvas.getContext("2d");
+  brCtx = minigameCanvasContext(canvas,BR_W,BR_H);
   brBindInput();
   brUnits = [];
   brUnits.push({id:"player", name:"Dulce Roja", icon:"❤️", isPlayer:true, x:BR_W/2, y:BR_H/2, hp:BR_MAX_HP, maxHp:BR_MAX_HP, atkCd:0, alive:true});
@@ -4966,15 +5215,20 @@ function fitGameBoard(){
 function renderRestorationScene(){
   const t=TERRITORIES.find(t=>t.id===currentTerritory)||TERRITORIES[0];
   const campaign=!cur.isCanvas&&!cur.isDaily&&!cur.isLeague&&!cur.isSurvival;
-  document.getElementById("screen-game").style.setProperty('--territory-hue',t.hue);
+  const screen=document.getElementById("screen-game");
+  screen.style.setProperty('--territory-hue',t.hue);
+  screen.classList.toggle('survival-mode',!!cur.isSurvival);
+  screen.classList.remove('pulse-low');
+  screen.dataset.mode=cur.isSurvival?'survival':cur.isLeague?'league':cur.isCanvas?'canvas':cur.isDaily?'daily':'campaign';
+  document.getElementById('hud-moves-label').textContent=cur.isSurvival?'Segundos':'Movs';
   const panel=document.getElementById("restoration-window");
   let landscape=panel.querySelector('.restoration-landscape');
   if(!landscape){landscape=document.createElement('div');landscape.className='restoration-landscape';landscape.setAttribute('aria-hidden','true');panel.prepend(landscape);}
-  landscape.innerHTML=territoryLandscapeSVG(t.id,'game',1);
+  landscape.innerHTML=cur.isSurvival?echoSceneSVG('survival','live'):cur.isLeague?echoSceneSVG('moba','live'):territoryLandscapeSVG(cur.isCanvas?1:t.id,'game',1);
   panel.style.setProperty('--scene-position',`${22+t.id*6}% ${38+t.id*3}%`);
   document.getElementById("restoration-name").textContent=campaign?LEVEL_NAMES_ALL[t.id][cur.n]:cur.isCanvas?"El Amanecer Carmesí":cur.isSurvival?"Eco I · El Primer Latido":cur.isLeague?"El duelo de los clanes":"El latido de hoy";
   document.getElementById("restoration-detail").textContent=campaign?CAMPAIGN_ARCS[t.id].steps[cur.n<4?0:cur.n<8?1:2]:cur.isSurvival?"Mantén vivo el pulso que Confite reconoce.":cur.isLeague?"Una rivalidad nacida de la Fragmentación.":"Cada combinación le devuelve color a Dulcelandia.";
-  document.getElementById("restoration-emblem").innerHTML=territoryEmblemSVG(t.id,false);
+  document.getElementById("restoration-emblem").innerHTML=territoryEmblemSVG(cur.isSurvival?8:cur.isLeague?3:cur.isCanvas?1:t.id,false);
   updateHud(); updateStreakPips();
 }
 
@@ -5317,7 +5571,8 @@ function delay(ms){ return new Promise(res=>setTimeout(res,ms)); }
 /* ---------------- HUD / RESULTADO ---------------- */
 function updateHud(){
   const movEl = document.getElementById("hud-moves");
-  movEl.textContent = cur.movesLeft;
+  if(cur.isSurvival) updateSurvivalHud();
+  else movEl.textContent = cur.movesLeft;
   const critical = !cur.isSurvival && cur.movesLeft <= 3 && cur.movesLeft > 0;
   movEl.classList.toggle("moves-critical", critical);
   document.getElementById("hud-score").textContent = cur.score.toLocaleString();
@@ -6496,9 +6751,10 @@ let survivalTimerInterval = null;
 let survivalTimeMs = 0;
 
 function startSurvival(){
+  exitCanvasMode();
   endSurvivalTimer();
   survivalTimeMs = SURVIVAL_START_TIME;
-  rainbowActive = false;
+  rainbowActive = false; bombActive = false;
   // V2 reset
   moveStreak = 0; freneticStartTime = Date.now(); endSugarRush();
   cur = { n:"S", type:"score", goal:0, target:0, color:0,
@@ -6507,6 +6763,8 @@ function startSurvival(){
           boostUsed:false, rainbowUsed:false, bombUsed:false, isDaily:false, isSurvival:true };
   save.lastTerritory = null; persistSave();
   document.getElementById("overlay").classList.remove("on");
+  document.getElementById("overlay-continue-btn").style.display="none";
+  document.getElementById("overlay-continue-ad-btn").style.display="none";
   document.getElementById("pause-overlay").classList.remove("on");
   pauseOpen = false;
   document.getElementById("hud-level").textContent = "⏱";
@@ -6545,6 +6803,7 @@ function updateSurvivalHud(){
   const fill = document.getElementById("survival-timer-fill");
   fill.style.width = pct+"%";
   fill.className = survivalTimeMs<4000 ? "danger" : survivalTimeMs<7000 ? "warn" : "";
+  document.getElementById('screen-game').classList.toggle('pulse-low',survivalTimeMs<4000);
 }
 function finishSurvival(){
   if(!cur || cur.done) return;
@@ -6559,14 +6818,14 @@ function finishSurvival(){
   persistSave();
   checkAchievements();
   playLose();
-  document.getElementById("overlay-icon").textContent = "⏱";
-  document.getElementById("overlay-title").textContent = "¡Tiempo!";
+  document.getElementById("overlay-icon").innerHTML = `<svg viewBox="0 0 100 90" role="img" aria-label="Confite te acompaña">${confiteSVG(loreUnlocked?'excited':'worried')}</svg>`;
+  document.getElementById("overlay-title").textContent = loreUnlocked ? "El primer latido vuelve" : "El pulso se apagó";
   document.getElementById("overlay-sub").textContent =
     `${cur.score.toLocaleString()} pts${isNewBest?" · ¡Nuevo récord!":` · Mejor: ${save.survivalBest.toLocaleString()}`}${coins>0?` · +${coins} 🍯`:""}${leagueGain?` · +${leagueGain} 👑`:""}${loreUnlocked?" · ECO I RECUPERADO":""}`;
   const starsEls = document.querySelectorAll("#overlay-stars .s");
   starsEls.forEach(el=>el.classList.remove("on"));
   document.getElementById("overlay-main-btn").textContent = "Intentar de nuevo";
-  document.getElementById("overlay-secondary-btn").textContent = "Minijuegos";
+  document.getElementById("overlay-secondary-btn").textContent = "Archivo";
   setConfiteGame(loreUnlocked?"Ese pulso... era mío. El Cristal y yo latimos igual.":cur.score<300?"El pulso se apagó. Necesito 300 puntos para oírlo completo.":isNewBest?"El Eco sigue estable. Ya puedo recordar su latido.":"Casi... ¿lo intentamos de nuevo?");
   setConfiteMood(loreUnlocked?"worried":isNewBest?"celebrate":"worried");
   document.getElementById("overlay").classList.add("on");
@@ -6746,11 +7005,18 @@ function dgBuildGrid(cfg){
 }
 function dgPieceSkinIcon(){
   const id = save.pieceSkin||"gothic";
-  if(id==="bloodmoon") return {BOMB:"🌕",CURSE:"🩸",CRYSTAL:"⚗️"};
-  if(id==="void") return {BOMB:"🕳️",CURSE:"👁️",CRYSTAL:"🔮"};
-  return {BOMB:"💣",CURSE:"🌀",CRYSTAL:"🔮"};
+  if(id==="bloodmoon") return {BOMB:dgSymbolSVG("bloodmoon"),CURSE:dgSymbolSVG("drop"),CRYSTAL:dgSymbolSVG("crystal")};
+  if(id==="void") return {BOMB:dgSymbolSVG("void"),CURSE:dgSymbolSVG("eye"),CRYSTAL:dgSymbolSVG("crystal")};
+  return {BOMB:dgSymbolSVG("bomb"),CURSE:dgSymbolSVG("curse"),CRYSTAL:dgSymbolSVG("crystal")};
 }
 function dgRenderGrid(){
+  const scene = document.getElementById("dg-game-scene");
+  const sceneKey = `${dgCur.mode}-${dgCur.n}-${save.activeSkin}`;
+  if(scene.dataset.sceneKey!==sceneKey){
+    scene.dataset.sceneKey=sceneKey;
+    scene.innerHTML=dgSceneMarkup("game",dgCur.isTimed?"Tiempo límite · 60 segundos":dgCur.isZen?"Zen · a tu ritmo":`Historia · Nivel ${dgCur.n}`,dgCur.isTimed?"Encuentra tu pulso":dgCur.isZen?"Un instante de calma":DG_LEVEL_NAMES[dgCur.n]||"La senda de la sombra");
+    document.querySelectorAll("#screen-dggame [data-dg-symbol]").forEach(el=>el.innerHTML=dgSymbolSVG(el.dataset.dgSymbol));
+  }
   const gridEl = document.getElementById("dg-grid");
   gridEl.innerHTML = "";
   const icons = dgPieceSkinIcon();
@@ -6769,7 +7035,7 @@ function dgRenderGrid(){
     if(dgShadowArr.length && dgShadowArr[r][c]>0){
       const sh = document.createElement("div");
       sh.className = "dg-shadow" + (dgShadowArr[r][c]===1?" hp1":"");
-      sh.textContent = "🌑";
+      sh.innerHTML = dgSymbolSVG("shadow");
       div.appendChild(sh);
     }
     if(dgSel && dgSel[0]===r && dgSel[1]===c) div.classList.add("selected");
@@ -7183,7 +7449,7 @@ function dgFinishRun(won){
     dgPushScoreHistory(dgCur.isTimed?"Tiempo Límite":"Zen", dgCur.score);
     dgAddXp(xpGain);
     if(isNewBest) leagueGain=awardLeaguePoints(Math.min(15,5+Math.floor(dgCur.score/1200)),"Récord en HEX CLASH");
-    document.getElementById("dg-overlay-icon").textContent = "🏁";
+    document.getElementById("dg-overlay-icon").innerHTML = dgConfitePortrait("celebrate");
     document.getElementById("dg-overlay-title").textContent = dgCur.isTimed ? "¡Tiempo agotado!" : "Partida terminada";
     document.getElementById("dg-overlay-sub").textContent = `${dgCur.score.toLocaleString()} puntos`;
     document.getElementById("dg-overlay-xp").textContent = `+${xpGain} XP · +${shards} 💠${leagueGain?` · +${leagueGain} 👑`:""}`;
@@ -7199,7 +7465,7 @@ function dgFinishRun(won){
     if(dgCur.n >= (save.dgUnlocked||1)) save.dgUnlocked = dgCur.n+1;
     dgAddXp(xpGain);
     leagueGain=awardLeaguePoints(8+stars*3+(dgCur.isBoss?8:0),dgCur.isBoss?"Jefe de HEX vencido":"Nivel HEX superado");
-    document.getElementById("dg-overlay-icon").textContent = dgCur.isBoss ? "👑" : "🏆";
+    document.getElementById("dg-overlay-icon").innerHTML = dgConfitePortrait("celebrate");
     document.getElementById("dg-overlay-title").textContent = "¡Nivel superado!";
     document.getElementById("dg-overlay-sub").textContent = dgObjectiveText(dgCur).replace("Meta: ", "");
     document.getElementById("dg-overlay-xp").textContent = `+${xpGain} XP · +${shards} 💠 · +${leagueGain} 👑`;
@@ -7207,7 +7473,7 @@ function dgFinishRun(won){
     document.getElementById("dg-overlay-main-btn").textContent = dgCur.n<20 ? "Siguiente nivel" : "Volver al menú";
     playWin(); spawnConfetti();
   } else {
-    document.getElementById("dg-overlay-icon").textContent = "💀";
+    document.getElementById("dg-overlay-icon").innerHTML = dgConfitePortrait("worried");
     document.getElementById("dg-overlay-title").textContent = "Sin movimientos";
     document.getElementById("dg-overlay-sub").textContent = `${dgCur.score.toLocaleString()} de ${dgCur.type==="score"?dgCur.goal.toLocaleString():dgCur.target}`;
     document.getElementById("dg-overlay-xp").textContent = "";
@@ -7343,7 +7609,70 @@ function dgClosePause(){ dgPauseOpen=false; document.getElementById("dg-pause-ov
 function dgTogglePauseMute(){ save.muted=!save.muted; persistSave(); dgOpenPause(); }
 
 /* ---- menús ---- */
+function dgConfitePortrait(mood){
+  return `<svg viewBox="0 0 100 92" fill="none" role="img" aria-label="Confite">${confiteSVG(mood||"happy")}</svg>`;
+}
+function dgSymbolSVG(kind){
+  const art={
+    story:`<path d="M11 53V25L22 15V9H42V15L53 25V53M18 53V30L32 17L46 30V53M25 53V36Q32 25 39 36V53M7 54H57M27 10V17M37 10V17"/><path d="M30 39H34V49H30Z" fill="currentColor" stroke="none"/><path d="M9 20L15 14M49 14L55 20" opacity=".5"/>`,
+    timed:`<path d="M18 8H46M18 56H46M22 9V17Q22 24 32 31Q42 24 42 17V9M22 55V47Q22 40 32 33Q42 40 42 47V55"/><path d="M25 15H39L32 24ZM25 49L32 40L39 49Z" fill="currentColor" stroke="none" opacity=".6"/><path d="M14 13V51M50 13V51" opacity=".4"/>`,
+    zen:`<circle cx="32" cy="31" r="23" opacity=".45"/><path d="M9 32H55M32 8V55" opacity=".22"/><path d="M16 37Q20 23 32 15Q44 23 48 37Q39 34 32 47Q25 34 16 37Z"/><path d="M21 32L32 24L43 32L32 40Z" fill="currentColor" stroke="none" opacity=".5"/><circle cx="32" cy="31" r="3" fill="currentColor" stroke="none"/>`,
+    bomb:`<path d="M24 19H40L51 30V44L40 55H24L13 44V30ZM29 19V12H38L42 7M37 10L45 14M31 26L37 33L31 39L37 46"/><path d="M18 30L24 35L18 40M46 30L40 35L46 40" opacity=".6"/>`,
+    curse:`<path d="M22 13Q12 13 12 23Q12 33 22 33H34Q44 33 44 43Q44 53 34 53Q24 53 24 43V23Q24 13 34 13Q44 13 44 23"/><path d="M6 41L14 49M50 11L58 19M10 45L14 41M50 19L54 15" opacity=".6"/>`,
+    crystal:`<path d="M32 5L49 18L53 37L32 59L11 37L15 18ZM15 18H49L40 37H24ZM32 5L24 37L32 59L40 37Z"/><path d="M15 18L24 37H11M49 18L40 37H53" opacity=".55"/>`,
+    shard:`<path d="M32 5L49 20L44 46L25 59L15 31ZM32 5L28 32L25 59M15 31L28 32L49 20M28 32L44 46"/>`,
+    star:`<path d="M32 4L39 22L59 24L44 37L49 57L32 46L15 57L20 37L5 24L25 22Z" fill="currentColor" stroke="none"/>`,
+    lock:`<rect x="17" y="28" width="30" height="25" rx="4"/><path d="M23 28V20Q23 8 32 8Q41 8 41 20V28M32 36V44"/><circle cx="32" cy="37" r="2" fill="currentColor"/>`,
+    shadow:`<path d="M32 5L54 18V46L32 59L10 46V18ZM16 20L32 28L48 20M32 28V52M22 12L25 22L19 29L25 36L21 47M43 13L39 23L46 35L39 48"/>`,
+    gothic:`<path d="M12 53V26L32 8L52 26V53M21 53V30L32 20L43 30V53M27 39L32 33L37 39L32 47Z"/><path d="M8 53H56M17 20L11 12M47 20L53 12" opacity=".55"/>`,
+    bloodmoon:`<circle cx="32" cy="31" r="23"/><path d="M39 10Q18 30 39 53Q17 48 13 31Q15 15 39 10Z" fill="currentColor" stroke="none" opacity=".6"/><path d="M42 17L39 25L46 31L40 41M30 13L27 19"/>`,
+    void:`<path d="M32 5L54 18V46L32 59L10 46V18ZM20 22L32 15L44 22V42L32 49L20 42Z"/><path d="M10 18L20 22M32 5V15M54 18L44 22M54 46L44 42M32 59V49M10 46L20 42" opacity=".55"/>`,
+    eye:`<path d="M5 32Q32 4 59 32Q32 60 5 32Z"/><circle cx="32" cy="32" r="10"/><path d="M32 25V39"/>`,
+    drop:`<path d="M32 6Q25 22 16 32Q6 51 27 57Q48 61 50 43Q49 30 32 6Z"/><path d="M20 38Q16 48 27 51" opacity=".6"/>`
+  };
+  return `<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${art[kind]||art.crystal}</svg>`;
+}
+function dgLandscapeSVG(key,restored){
+  const id=`hex-land-${String(key).replace(/[^a-zA-Z0-9_-]/g,"-")}`;
+  const sky=restored?["#6b526a","#c4a883","#d8bc93"]:["#292436","#55435e","#a78ca7"];
+  return `<svg viewBox="0 0 360 220" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
+    <defs><linearGradient id="${id}-sky" x2="0" y2="1"><stop stop-color="${sky[0]}"/><stop offset="1" stop-color="${sky[1]}"/></linearGradient><radialGradient id="${id}-halo"><stop stop-color="${sky[2]}" stop-opacity=".42"/><stop offset="1" stop-color="${sky[2]}" stop-opacity="0"/></radialGradient><linearGradient id="${id}-stone" x2=".6" y2="1"><stop stop-color="#8e778d"/><stop offset="1" stop-color="#3a3046"/></linearGradient><linearGradient id="${id}-light" x2="0" y2="1"><stop stop-color="#ead3a8"/><stop offset="1" stop-color="#b090a1" stop-opacity="0"/></linearGradient><linearGradient id="${id}-shade" x2="0" y2="1"><stop offset=".3" stop-color="#110e1a" stop-opacity="0"/><stop offset="1" stop-color="#110e1a" stop-opacity=".9"/></linearGradient></defs>
+    <path d="M0 0H360V220H0Z" fill="url(#${id}-sky)"/><ellipse cx="229" cy="52" rx="110" ry="93" fill="url(#${id}-halo)"/>
+    <circle cx="237" cy="41" r="23" fill="${sky[2]}" opacity=".32"/><circle cx="247" cy="32" r="22" fill="${sky[0]}" opacity=".88"/>
+    <g fill="#cbb9c8" opacity=".5"><circle cx="54" cy="23" r="1"/><circle cx="119" cy="36" r=".8"/><circle cx="187" cy="15" r="1.1"/><circle cx="304" cy="27" r=".8"/><path d="M278 63L280 59L282 63L280 67Z"/></g>
+    <path d="M-5 133L25 78L51 106L83 52L115 118L158 80L186 115L223 72L258 126L289 66L324 103L350 75L369 133Z" fill="#52425d" opacity=".65"/>
+    <path d="M-5 146L39 108L79 134L117 92L157 136L194 103L233 132L276 94L325 131L366 112V184H-5Z" fill="#3b334e"/>
+    <path d="M17 112L25 78L38 99L31 95ZM69 84L83 52L99 89L85 75ZM276 96L289 66L307 92L288 83Z" fill="#9b849c" opacity=".3"/>
+    <path d="M-9 153Q52 129 103 139T201 137T368 135V173H-9Z" fill="#a895ac" opacity=".08"/>
+    <path d="M62 157L110 138L177 143L219 125L298 146L324 164L285 185L225 194L192 211L128 195L90 184Z" fill="#30283e"/>
+    <path d="M62 157L122 168L128 195L90 184ZM122 168L184 181L192 211L159 184L141 188ZM184 181L246 160L225 194ZM246 160L324 164L285 185L267 166Z" fill="#46384f"/>
+    <path d="M62 157L110 138L177 143L219 125L298 146L324 164L246 160L184 181L122 168Z" fill="#685266"/>
+    <path d="M67 156L124 164L184 176L246 155L314 162" stroke="#b598a1" stroke-opacity=".35" stroke-width="1.5"/>
+    <path d="M191 145Q164 153 183 163Q203 172 172 181L177 207L194 215L198 187Q219 169 199 160Q183 154 206 149Z" fill="url(#${id}-light)" opacity=".4"/>
+    <g stroke="#a18b9b" stroke-width="1"><path d="M156 147V73L172 56H212L230 73V139H218V84Q194 54 170 84V148Z" fill="url(#${id}-stone)"/><path d="M164 147V79L178 64H207L222 79V141M171 84H180M210 84H218M156 102H170M218 104H230M156 124H170M218 125H230" opacity=".5"/><path d="M178 144V93Q194 72 211 93V140" stroke="#d4bdac" stroke-opacity=".6"/><path d="M178 144V93Q194 72 211 93V140Z" fill="#282031" stroke="none"/></g>
+    <path d="M192 84L202 96L198 113L188 107L185 95Z" fill="#e8c9a4"/><path d="M192 84L192 103L198 113L202 96ZM185 95L192 103L188 107Z" fill="#a48bb1"/><path d="M192 84L192 103L202 96" stroke="#fff0d5" stroke-width=".8"/><ellipse cx="194" cy="137" rx="19" ry="5" fill="#e6c8a0" opacity=".18"/>
+    <g fill="#655368" stroke="#a48a98" stroke-width=".8"><path d="M104 145V110H119V139L113 146Z"/><path d="M100 108H122V114H100ZM107 109V83L112 72L117 84V109Z"/><path d="M260 148V102H275V152ZM256 99H279V106H256ZM264 100V85L270 73L275 85V100Z"/></g>
+    <path d="M101 125H121M258 121H277M261 135H276" stroke="#b39baa" stroke-opacity=".4"/>
+    <g stroke="#342b3d" stroke-width="4" stroke-linecap="round"><path d="M50 161L43 97M45 121L28 108L21 92M46 134L60 117L63 104M308 154L320 87M316 112L337 93L341 75M317 112L304 95L302 85"/></g>
+    <g stroke="#8b728b" stroke-width="1.2" opacity=".7"><path d="M43 98L40 119L48 153M321 88L313 135M30 110L23 96M334 96L339 80"/></g>
+    <path d="M0 191L29 165L72 179L102 173L146 198L189 217L244 187L290 180L323 165L360 179V220H0Z" fill="#211b2b"/>
+    <path d="M0 191L29 165L42 188L72 179L98 202L143 198L189 217M244 187L290 180L306 197L323 165L338 189L360 179" stroke="#5a465c" stroke-width="2"/>
+    <g fill="${restored?"#cfb67e":"#8a7494"}" opacity=".8"><path d="M75 172L73 158L79 151L84 163L81 174ZM281 166L279 153L286 145L290 164Z"/><path d="M81 174L85 162L91 164L89 177ZM43 188L45 176L50 174L53 188Z"/></g>
+    <path d="M0 0H360V220H0Z" fill="url(#${id}-shade)"/>
+  </svg>`;
+}
+function dgSceneMarkup(key,eyebrow,caption){
+  return `${dgLandscapeSVG(key)}<div class="dg-scene-caption"><span>${eyebrow}</span>${caption}</div><div class="dg-scene-confite">${dgConfitePortrait("worried")}</div>`;
+}
+function renderDgTransition(name){
+  const victory=name==="hexvictory",prefix=victory?"victory":"curse";
+  document.getElementById(`dg-${prefix}-art`).innerHTML=dgLandscapeSVG(prefix,victory);
+  document.getElementById(`dg-${prefix}-confite`).innerHTML=dgConfitePortrait(victory?"celebrate":"worried");
+}
 function renderDgMenu(){
+  document.getElementById("dg-menu-scene").innerHTML=dgSceneMarkup("menu","El reino bajo la maldición","Donde la luz aún resiste");
+  document.querySelectorAll("#screen-dgmenu [data-dg-symbol]").forEach(el=>el.innerHTML=dgSymbolSVG(el.dataset.dgSymbol));
+  document.querySelector("#screen-dgmenu .dg-shard-symbol").innerHTML=dgSymbolSVG("shard");
   document.getElementById("dg-shards").textContent = save.soulShards||0;
   document.getElementById("dg-player-level").textContent = save.playerLevel||1;
   const need = dgXpForLevel(save.playerLevel||1);
@@ -7357,6 +7686,7 @@ function renderDgMenu(){
 }
 function dgToggleAmbientPref(){ save.dgAmbientOn = !save.dgAmbientOn; persistSave(); renderDgMenu(); }
 function renderDgLevels(){
+  document.getElementById("dg-levels-scene").innerHTML=dgSceneMarkup("levels","Historia · 20 hitos",DG_LEVEL_NAMES[Math.min(save.dgUnlocked||1,20)]);
   const grid = document.getElementById("dg-level-grid");
   grid.innerHTML = "";
   let totalStars=0;
@@ -7365,18 +7695,27 @@ function renderDgLevels(){
     totalStars += stars;
     const unlocked = lv.n <= (save.dgUnlocked||1);
     const cleared = stars>0;
-    const div = document.createElement("div");
-    div.className = "level-node" + (cleared?" cleared":"") + (!unlocked?" locked":"") + (lv.isBoss?" boss-level":"");
-    if(DG_LEVEL_NAMES[lv.n]) div.title = DG_LEVEL_NAMES[lv.n];
-    div.innerHTML = unlocked
-      ? `<div class="level-num">${lv.isBoss?"👑":lv.n}</div><div class="level-stars"><span class="s ${stars>=1?'on':''}">⭐</span><span class="s ${stars>=2?'on':''}">⭐</span><span class="s ${stars>=3?'on':''}">⭐</span></div>`
-      : `<div class="lock-icon">🔒</div>`;
+    const step=document.createElement("div");
+    step.className="dg-route-step"+(!unlocked?" is-locked":"");
+    const div = document.createElement("button");
+    div.type="button";
+    div.className = "dg-route-node" + (cleared?" cleared":"") + (!unlocked?" locked":"") + (lv.n===Math.min(save.dgUnlocked||1,20)?" is-current":"");
+    div.disabled=!unlocked;
+    div.setAttribute("aria-label",unlocked?`Nivel ${lv.n}: ${DG_LEVEL_NAMES[lv.n]}, ${stars} de 3 estrellas`:`Nivel ${lv.n}, bloqueado`);
+    div.innerHTML = unlocked ? (lv.isBoss?dgSymbolSVG("gothic"):lv.n) : dgSymbolSVG("lock");
     if(unlocked) div.onclick = ()=>dgStartLevel(lv.n);
-    grid.appendChild(div);
+    step.appendChild(div);
+    const copy=document.createElement("div");
+    copy.className="dg-route-copy";
+    copy.innerHTML=`<small>${lv.isBoss?"El último umbral":`Hito ${String(lv.n).padStart(2,"0")}`}</small><b>${unlocked?DG_LEVEL_NAMES[lv.n]:"Tras la niebla"}</b><div class="dg-route-stars">${[1,2,3].map(n=>`<span class="${stars>=n?'on':''}">${dgSymbolSVG("star")}</span>`).join("")}</div>`;
+    step.appendChild(copy);
+    grid.appendChild(step);
   });
   document.getElementById("dg-total-stars").textContent = totalStars;
 }
 function renderDgShop(){
+  document.getElementById("dg-shop-scene").innerHTML=dgSceneMarkup("shop","Poderes y apariencias","Reliquias de otro tiempo");
+  document.querySelector("#screen-dgshop .dg-shard-symbol").innerHTML=dgSymbolSVG("shard");
   document.getElementById("dg-shop-shards").textContent = save.soulShards||0;
   const pu = document.getElementById("dg-shop-powerups");
   const items = [
@@ -7386,7 +7725,7 @@ function renderDgShop(){
   ];
   pu.innerHTML = items.map(it=>`
     <div class="dg-shop-item" onclick="dgBuyPowerup('${it.id}',${it.cost})">
-      <div class="dg-shop-item-icon">${it.icon}</div>
+      <div class="dg-shop-item-icon">${dgSymbolSVG(it.id)}</div>
       <div class="dg-shop-item-name">${it.name}</div>
       <div class="dg-shop-item-sub">${it.sub}</div>
       <div class="dg-shop-item-cost">💠 ${it.cost}</div>
@@ -7399,7 +7738,7 @@ function renderDgShop(){
     const action = active ? "" : owned ? `dgEquipSkin('${s.id}')` : `dgBuySkinPiece('${s.id}',${s.cost})`;
     const adBtn = owned ? "" : `<button class="pause-ad-btn" style="margin-top:4px" onclick="event.stopPropagation(); dgUnlockSkinWithAd('${s.id}')">🎬 Gratis</button>`;
     return `<div class="dg-skin-card${active?' active-skin':''}" onclick="${action}">
-      <div class="dg-skin-preview" style="font-size:30px">${s.icon}</div>
+      <div class="dg-skin-preview ${s.id}">${dgSymbolSVG(s.id)}</div>
       <div class="dg-skin-name">${s.name}</div>
       <div class="dg-shop-item-sub">${active?"Equipado":owned?"Toca para equipar":`💠 ${s.cost}`}</div>
       ${adBtn}

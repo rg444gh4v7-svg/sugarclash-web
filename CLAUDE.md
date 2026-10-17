@@ -529,6 +529,16 @@ publicar de verdad en un portal:
 
 ## Minijuegos
 
+**Atlas y Ecos · 16.10:** Archivo con panoramas `echoSceneSVG(id,key)` por Eco,
+botones nativos y desbloqueos narrativos conservados. Combates con arte canvas
+estático reutilizado, unidades facetadas y Confite visible fuera del área táctil.
+`minigameCanvasContext()` usa DPR máximo 2; punteros siempre en MOBA_W/H o BR_W/H,
+no en dimensiones del buffer. Supervivencia comparte `screen-game`: despachar
+`goTo('survival')` a `startSurvival()` antes de buscar una pantalla inexistente.
+HEX usa paisajes/símbolos SVG y una ruta de 20 hitos. Mantener sus pantallas
+`position:absolute;inset:0` para limitar altura y permitir el scroll de niveles.
+Sin cambios de guardados, requisitos, balance ni anuncios opt-in.
+
 `screen-minigames` es el **Archivo de Confite**: los tres modos no son extras sueltos,
 sino los `Ecos de la Fragmentación`. `MINIGAMES` es su fuente de verdad narrativa y los
 desbloquea en orden, guardando cada revelación en `save.minigameLore`.
@@ -728,7 +738,7 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
   motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
   delay como pseudo-reverb).
-- **PWA v13:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
+- **PWA v14:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
   actualizan en segundo plano. Solo se eliminan cachés antiguas `sugarclash-*`.
   No borrar localStorage para actualizar. Una instalación con el worker anterior
   puede necesitar cerrar y abrir una vez más tras recibir la actualización.
