@@ -64,7 +64,7 @@ No borrar los datos del navegador: eso elimina el progreso.
 
 ## Qué falta para una prueba comercial real
 
-En la revisión del 16.10 pasaron 61 pruebas del motor/caché/gráficos/aldea/campaña/modos y comprobaciones
+En la revisión del 17.10 pasaron 62 pruebas del motor/caché/gráficos/aldea/campaña/modos y comprobaciones
 con DOM: campaña, deslizamiento, pulso, intercambio inválido, ajuste de tamaño,
 guardado, estados de restauración, pausa por visibilidad, resultados, selección sin
 gasto, compra explícita, requisitos, scroll de aldea y guardados con huecos. También se
