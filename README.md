@@ -6,6 +6,9 @@ Fragmentación. Los tres Ecos del Cristal son recuerdos jugables, no modos aisla
 
 Producción: https://sugarclash-web.vercel.app/
 
+Continuidad artística para Claude y Codex: [guía visual compartida](VISUAL_STYLE.md).
+Leer antes de rediseñar pantallas o modalidades; enlazada también en ambos archivos de agente.
+
 ## Desarrollo y pruebas
 
 Todo el motor, interfaz y narrativa viven intencionalmente en `index.html`, sin

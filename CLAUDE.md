@@ -1,16 +1,26 @@
 # Sugar Clash: Dulcelandia — CLAUDE.md
 ## Contexto completo del proyecto para nuevas sesiones de Claude
 
-> **Última actualización:** Septiembre 2026 — archivo generado tras múltiples sesiones de desarrollo autónomo.
+> **Última actualización:** 17 de octubre de 2026.
 > El creador (Jose) no es programador. Claude escribe todo el código. Jose toma las decisiones creativas.
 
 ---
+
+## Leer primero: continuidad visual
+
+Antes de cambiar gráficos, pantallas o modalidades, leer [VISUAL_STYLE.md](VISUAL_STYLE.md).
+Es la guía compartida con Codex: dirección **Atlas y Ecos**, paleta, referencias,
+funciones existentes, narrativa, rendimiento móvil y comprobaciones. Continuar
+ese estilo; no reiniciar el diseño ni regresar a tarjetas/emojis genéricos.
+La guía describe la dirección vigente; las notas históricas de abajo aportan contexto.
+Las decisiones nuevas de Jose prevalecen. Mantener esta referencia enlazada y
+actualizar la guía común cuando Jose apruebe un cambio de dirección.
 
 ## Estado actual del archivo
 
 ```
 sugarclash-web/index.html
-Líneas: ~7075 | Sintaxis: válida (node -e "new Function(js)")
+Entrada única HTML/CSS/JS; validar sintaxis tras cada edición.
 sugarclash-web/manifest.json, icon.svg, title-world-v3-hd.jpg, service-worker.js — PWA (offline + instalable)
 ```
 
@@ -20,9 +30,10 @@ antes del comando de validación de sintaxis si `node` no se encuentra.
 
 **Un solo archivo HTML/CSS/JS vanilla — intencional. No romper esta arquitectura.**
 
-`title-world-v3-hd.jpg` es el único arte raster protagonista (1706×3688): fondo cinematográfico
-de portada, mapa, Liga y Archivo de Confite. Está incluido en `service-worker.js` para funcionar
-offline. El motor, los emblemas vectoriales y toda la interfaz siguen viviendo en `index.html`.
+`title-world-v3-hd.jpg` es el único arte raster protagonista (1706×3688), usado en
+portada y algunos fondos heredados. Está incluido en `service-worker.js` para funcionar
+offline. El atlas, Archivo, Liga y modos renovados usan arte SVG/canvas nativo;
+el motor, los emblemas y toda la interfaz siguen viviendo en `index.html`.
 
 ---
 
@@ -71,7 +82,7 @@ Cada pantalla es una `<section class="screen" id="screen-NAME">`. `goTo(name)` a
 | `screen-minigames` | `renderMinigames()` | Hub de minijuegos |
 | `screen-moba` | `startMoba()` | MOBA 5v5 en canvas |
 | `screen-br` | `startBR()` | Battle Royale en canvas |
-| `screen-survival` | `startSurvival()` | Modo Supervivencia |
+| `screen-game` (compartida) | `startSurvival()` | Supervivencia; no existe `screen-survival` |
 | `screen-skins` | `renderSkins()` | 5 skins de Confite |
 | `screen-heroes` | `renderHeroes()` | 7 héroes |
 | `screen-memories` | `renderMemories()` | 8 fragmentos narrativos de Confite |
