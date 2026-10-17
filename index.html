@@ -72,6 +72,27 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 @media (max-height:670px){
   .title-content{gap:6px;padding-top:10px;padding-bottom:12px}#confite-title{width:78px;height:68px}.logo{font-size:38px}.logo small{margin-top:7px}.logo-sub{font-size:10px;max-width:275px}.title-league-mini{padding:7px 10px}.btn-play{padding-top:10px;padding-bottom:10px;box-shadow:inset 0 2px 1px rgba(255,255,255,.7),0 5px 0 #9c3d1c,0 10px 20px rgba(255,93,40,.34)}
 }
+/* Acceso directo: tres formas de jugar, sin atravesar el Archivo narrativo. */
+#screen-title .title-content{gap:12px;padding-bottom:max(20px,env(safe-area-inset-bottom));width:min(100%,370px)}
+#screen-title .title-actions{gap:12px}#screen-title .logo-sub{max-width:290px;color:#eee1e7;line-height:1.4}
+#screen-title .btn-play{width:100%;min-height:54px;padding:13px 20px;background:linear-gradient(#f5deb5,#d1a86e);color:#251a2c;border-color:#f1d5aa;box-shadow:0 5px 18px #0005;animation:none;text-shadow:none}
+.quick-modes{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.quick-mode{position:relative;display:flex;align-items:center;gap:9px;min-height:80px;padding:10px;border:1px solid #8d788788;border-radius:16px;background:linear-gradient(145deg,#30253ded,#1d1529f2);color:var(--cream);text-align:left;box-shadow:0 7px 19px #0004;min-width:0}
+.quick-mode-art{display:block;width:54px;height:61px;flex:none;border-radius:12px;overflow:hidden}.quick-mode-art svg{width:100%;height:100%;object-fit:cover}
+.quick-mode-copy{display:block;min-width:0}.quick-mode b{display:block;font:500 16px/1.15 'Fraunces',serif}.quick-mode small{display:block;font-size:10px;line-height:1.35;margin-top:5px;color:#bdb1c8}
+.quick-mode:focus-visible,.home-links button:focus-visible,.modes-back:focus-visible{outline:2px solid var(--atlas-gold);outline-offset:4px}
+.quick-mode:active{transform:scale(.98)}.home-links{display:flex;gap:10px;width:100%}.home-links button{flex:1;min-height:44px;border:1px solid #e8c79544;border-radius:99px;background:#160d22bb;color:#e3d1d8;font-size:12px;font-weight:700}
+#screen-world #world-quick-modes{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:0 0 8px}
+#screen-world .quick-mode{min-height:66px;padding:9px 5px;justify-content:center;box-shadow:none;border-color:var(--atlas-line);border-radius:13px;background:#231d3299;text-align:center}
+#screen-world .quick-mode-art{display:none}#screen-world .quick-mode b{font:700 11px/1.2 'Karla',sans-serif}#screen-world .quick-mode small{font-size:9px;margin-top:5px}
+.world-home{background:none;color:var(--atlas-gold);font-size:11px;min-height:44px;padding:0 8px}.world-header-actions{display:flex;align-items:center;gap:3px}
+#campaign-mission .campaign-play{margin-top:16px}#campaign-mission .campaign-next{margin-bottom:0}
+#screen-minigames .mg-card .echo-scene{height:112px}#screen-minigames .mg-info{padding:14px 17px}#screen-minigames .mg-name{font-size:23px;margin-top:0}#screen-minigames .mg-desc{margin-top:7px;font-size:12px}#screen-minigames .mg-chapter{margin-top:10px;line-height:1.5}
+.modes-welcome{font-size:13px;line-height:1.5;color:var(--atlas-muted)}.modes-back{min-height:44px;min-width:44px;background:#231d32;border:1px solid var(--atlas-line);border-radius:50%;color:var(--atlas-gold);font-size:18px;flex:none}
+.mode-story-note{display:block;font-size:10px;color:#b7aabd;line-height:1.5;margin-top:8px}.mode-memory-details{border-top:1px solid var(--atlas-line);padding-top:16px}.mode-memory-details summary{font-size:13px;color:var(--atlas-gold);cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px}.mode-memory-details .archive-guide{padding:7px 0 16px}.mode-memory-details .mg-archive{border-bottom:0}
+.mode-extra-links{display:flex;gap:9px;flex-wrap:wrap}.mode-extra-links .btn-ghost{flex:1;min-width:120px;min-height:46px;font-size:11px}.mode-extra-links .title-league-mini{width:100%;background:#231d32;border-color:var(--atlas-line);box-shadow:none;border-radius:14px;min-height:60px}
+@media(max-height:670px){#screen-title .title-content{gap:9px;padding-bottom:13px}#screen-title .title-actions{gap:9px}#screen-title .logo{font-size:38px}#screen-title #confite-title{width:74px;height:67px}.quick-mode{min-height:70px}.quick-mode-art{height:48px;width:42px}.quick-mode b{font-size:15px}.quick-mode small{font-size:9px}#screen-title .logo-sub{font-size:11px}.title-eyebrow{font-size:8px}#screen-title .btn-play{min-height:50px}}
+@media(prefers-reduced-motion:reduce){.quick-mode:active{transform:none}}
 
 /* ===== CONFITE · MATERIAL Y EMOCIÓN ===== */
 .cf-portrait{transform-box:fill-box;transform-origin:50% 100%;animation:cfBreathe 4.8s ease-in-out infinite;animation-play-state:paused}
@@ -615,7 +636,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .pulse-button.ready{box-shadow:0 0 18px #ffd6744d}
 .power-guide{font-size:10px;letter-spacing:.03em;line-height:1.25;text-align:center;color:#c5b8d2;padding:0 6px}
 #grid{touch-action:none;user-select:none;-webkit-user-select:none}
-#app-update{position:absolute;bottom:16px;left:8%;width:84%;z-index:90;padding:13px;border-radius:14px;color:#201229;background:#f6d799;box-shadow:0 6px 30px #0009;font-weight:700}
+#app-update{position:absolute;top:8px;left:50%;transform:translateX(-50%);max-width:90%;width:max-content;min-height:44px;z-index:90;padding:10px 14px;border-radius:14px;color:#201229;background:#f6d799;box-shadow:0 6px 30px #0009;font-size:11px;font-weight:700}
 .build-badge{font-size:9px;letter-spacing:.08em;color:#c6bbd3}
 @media(max-height:700px){#screen-game{gap:5px}.restoration-window{min-height:64px;padding-top:8px;padding-bottom:8px}.restoration-name{font-size:15px}.restoration-detail{font-size:9px}#confite-game-text{font-size:11px}}
 @media(max-height:700px){#overlay.on,#pause-overlay.on{justify-content:flex-start;overflow-y:auto;gap:8px;padding:12px}#overlay .overlay-icon{font-size:30px}#overlay .overlay-title{font-size:21px}#overlay .overlay-story{font-size:11px;padding:6px 9px}}
@@ -1294,20 +1315,14 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
         <path d="M36 64 Q48 72 60 64" stroke="#2A1430" stroke-width="3" stroke-linecap="round" fill="none"/>
       </svg>
       <div class="logo">Sugar Clash<small>Dulcelandia</small></div>
-      <div class="logo-sub">Restaura el mundo. Supera a los clanes. Descubre por qué Confite recuerda la oscuridad.</div>
-      <div class="title-league-mini" onclick="goTo('league')">
-        <div class="title-league-icon">⚔️</div>
-        <div class="title-league-copy"><b>Liga del Prisma</b><span id="title-league-division">Liga Semilla · temporada activa</span></div>
-        <div class="title-league-rank" id="title-league-rank">#—</div>
-      </div>
+      <div class="logo-sub">Una historia que restaurar. Dos batallas que probar. Elige y juega.</div>
       <div class="title-actions">
         <button class="btn-play" id="btn-title-main" onclick="continueCampaign()">▶ Jugar historia</button>
-        <button class="btn-ghost" id="btn-title-secondary" onclick="goTo('world')">Explorar el mundo</button>
-        <button class="btn-ghost" onclick="startIntro()">El origen de la Fragmentación</button>
-        <button class="btn-ghost" id="btn-hexclash" style="border-color:rgba(0,245,255,.35);color:var(--crystal)">🕯️ HEX CLASH · Modo Oscuro</button>
+        <div class="quick-modes" id="title-quick-modes" aria-label="Juega una batalla"></div>
+        <div class="home-links"><button id="btn-title-secondary" onclick="goTo('world')">Explorar el mundo</button><button onclick="goTo('minigames')">Todos los modos</button></div>
       </div>
       <div id="confite-title-bubble" style="font-size:11px;color:var(--crystal);font-style:italic;opacity:.85;display:none"></div>
-      <div class="build-badge">ATLAS Y ECOS · 16.10</div>
+      <div class="build-badge">ELIGE Y JUEGA · 17.10</div>
     </div>
   </section>
 
@@ -1381,7 +1396,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <section id="screen-world" class="screen">
     <header class="world-header">
       <div><div class="world-brand">Sugar Clash · Atlas vivo</div><h1 class="world-title">Dulcelandia</h1></div>
-      <button class="world-settings" onclick="goTo('settings')">Ajustes</button>
+      <div class="world-header-actions"><button class="world-home" onclick="goTo('title')">Inicio</button><button class="world-settings" onclick="goTo('settings')">Ajustes</button></div>
     </header>
     <div class="econ-bar world-resources" aria-label="Tus recursos">
       <button class="econ-pill lives" onclick="openNoLives()"><span class="lives-count">5</span>/<span class="lives-max">5</span> vidas<span class="lives-timer">LLENO</span></button>
@@ -1389,6 +1404,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <button class="econ-pill gems" onclick="openShop()"><span class="gems-count">0</span> gemas</button>
     </div>
     <div class="world-restoration"><div class="world-sub">El color vuelve · <span id="world-pct">0</span>%</div><div id="world-restore-track"><div id="world-restore-fill"></div></div></div>
+    <nav class="quick-modes" id="world-quick-modes" aria-label="Otros modos de juego"></nav>
     <div class="piggy-card" id="piggy-card" onclick="confirmOpenPiggy()">
       <div class="piggy-icon">🐷</div>
       <div class="piggy-info">
@@ -1578,29 +1594,36 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <!-- ============ MINIGAMES (hub de modos) ============ -->
   <section id="screen-minigames" class="screen">
     <div class="mg-header">
-      <div class="back-btn" onclick="goTo('world')">←</div>
-      <div class="mg-title"><small>Archivo de Confite</small>Ecos de la Fragmentación</div>
-      <div class="mg-progress-badge" id="mg-progress-badge">0/3</div>
+      <button class="modes-back" aria-label="Volver al inicio" onclick="goTo('title')">←</button>
+      <div class="mg-title"><small>Elige cómo jugar</small>Modos de juego</div>
     </div>
-    <div class="archive-guide"><svg id="confite-archive-svg" viewBox="0 0 100 90" fill="none" aria-hidden="true"></svg><div id="confite-mg-bubble">El Cristal no cuenta recuerdos con palabras. Los convierte en pruebas que podemos vivir.</div></div>
+    <div class="archive-guide"><svg id="confite-archive-svg" viewBox="0 0 100 90" fill="none" aria-hidden="true"></svg><p class="modes-welcome">Elige y juega. Guerra y Royale tienen práctica gratuita desde el primer día.</p></div>
+    <div id="mg-list"></div>
+    <div class="mode-extra-links">
+      <button class="title-league-mini" onclick="goTo('league')"><span class="title-league-icon">⚔️</span><span class="title-league-copy"><b>Liga del Prisma</b><span id="title-league-division">Liga Semilla · temporada activa</span></span><span class="title-league-rank" id="title-league-rank">#—</span></button>
+      <button class="btn-ghost" id="btn-hexclash">HEX CLASH</button>
+      <button class="btn-ghost" onclick="startIntro()">Conocer la historia</button>
+    </div>
+    <details class="mode-memory-details"><summary>Los recuerdos de Confite <span class="mg-progress-badge" id="mg-progress-badge">0/3</span></summary>
+    <div class="archive-guide"><div id="confite-mg-bubble"></div></div>
     <div class="mg-archive">
       <div class="mg-archive-top"><span>MEMORIA RECONSTRUIDA</span><b id="mg-archive-count">0 de 3 ecos</b></div>
       <div class="mg-archive-track"><div id="mg-archive-fill"></div></div>
-      <p>No son juegos separados: cada Eco revela qué ocurrió durante la Fragmentación y por qué Confite reconoce al Cristal.</p>
+      <p>Las prácticas no revelan la historia. Recupera los Ecos en orden para descubrir qué ocurrió durante la Fragmentación.</p>
     </div>
-    <div id="mg-list"></div>
+    </details>
   </section>
 
   <!-- ============ MOBA 5v5 (prototipo un jugador vs bots) ============ -->
   <section id="screen-moba" class="screen">
-    <header class="combat-heading"><small>Eco II · Combate 5v5 contra IA</small><h1>La Última Guerra del Azúcar</h1></header>
+    <header class="combat-heading"><small id="mb-mode-context">Combate 5v5 contra IA</small><h1 id="mb-mode-title">Guerra 5v5</h1></header>
     <div class="mb-hud">
-      <button class="back-btn" aria-label="Volver al Archivo" onclick="exitMoba()">←</button>
+      <button class="back-btn" aria-label="Volver" onclick="exitMoba()">←</button>
       <div class="mb-stat"><div class="mb-val" id="mb-ally-hp">500</div><div class="mb-lbl">Aliados</div></div>
       <div class="mb-stat"><div class="mb-val" id="mb-enemy-hp">500</div><div class="mb-lbl">Enemigos</div></div>
       <button class="mb-ability-btn" id="mb-ability-btn" aria-label="Activar pulso de Dulce Roja" onclick="mobaUseAbility()">Pulso</button>
     </div>
-    <div class="mb-hint">Arrastra para guiar a Dulce Roja · Pulso daña a los enemigos cercanos</div>
+    <div class="mb-hint">Arrastra para moverte · atacas al acercarte · Pulso golpea a los enemigos cercanos</div>
     <div class="mg-confite-pop combat-guide" id="mb-confite-pop">
       <svg class="mg-confite-pop-svg" viewBox="0 0 100 90" fill="none" id="mb-confite-pop-svg" aria-hidden="true"></svg>
       <div class="mg-confite-pop-text" id="mb-confite-pop-text"></div>
@@ -1613,7 +1636,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
         <div class="overlay-sub" id="mb-overlay-sub"></div>
         <button id="mb-revive-btn" class="btn-continue" style="background:linear-gradient(135deg,#00D68A,#00A870);display:none" onclick="mobaReviveWithAd()">🎬 Revivir con anuncio</button>
         <div class="overlay-btns">
-          <button class="btn-sm btn-secondary" onclick="exitMoba()">Archivo</button>
+          <button class="btn-sm btn-secondary" onclick="exitMoba()">Volver</button>
           <button class="btn-sm btn-primary" onclick="startMoba()">Jugar de nuevo</button>
         </div>
       </div>
@@ -1622,9 +1645,9 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 
   <!-- ============ BATTLE ROYALE (prototipo: jugador vs 9 bots, zona) ============ -->
   <section id="screen-br" class="screen">
-    <header class="combat-heading"><small>Eco III · Huida contra 9 bots</small><h1>La Huida de la Grieta</h1></header>
+    <header class="combat-heading"><small id="br-mode-context">Contra 9 bots</small><h1 id="br-mode-title">Royale</h1></header>
     <div class="mb-hud">
-      <button class="back-btn" aria-label="Volver al Archivo" onclick="exitBR()">←</button>
+      <button class="back-btn" aria-label="Volver" onclick="exitBR()">←</button>
       <div class="mb-stat"><div class="mb-val" id="br-alive">10/10</div><div class="mb-lbl">Vivos</div></div>
       <div class="mb-stat"><div class="mb-val" id="br-zone-status">Dentro</div><div class="mb-lbl">Zona</div></div>
       <button class="mb-ability-btn" id="br-ability-btn" aria-label="Activar impulso de velocidad" onclick="brUseDash()">Impulso</button>
@@ -1642,7 +1665,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
         <div class="overlay-sub" id="br-overlay-sub"></div>
         <button id="br-revive-btn" class="btn-continue" style="background:linear-gradient(135deg,#00D68A,#00A870);display:none" onclick="brReviveWithAd()">🎬 Revivir con anuncio</button>
         <div class="overlay-btns">
-          <button class="btn-sm btn-secondary" onclick="exitBR()">Archivo</button>
+          <button class="btn-sm btn-secondary" onclick="exitBR()">Volver</button>
           <button class="btn-sm btn-primary" onclick="startBR()">Jugar de nuevo</button>
         </div>
       </div>
@@ -2756,6 +2779,7 @@ function territoryUnlocked(id){
   return territoryProgress(id-1) >= 1;
 }
 function renderTitleHexButton(){
+  renderQuickModes('title');
   const btn = document.getElementById("btn-hexclash");
   if(!btn) return;
   if(save.dgModeUnlocked){
@@ -2763,14 +2787,10 @@ function renderTitleHexButton(){
     btn.style.opacity = "1";
     btn.onclick = ()=>goTo("dgmenu");
   } else {
-    btn.textContent = "🔒 HEX CLASH · Bloqueado";
+    btn.textContent = "HEX CLASH · tras el capítulo 1";
     btn.style.opacity = ".55";
     btn.onclick = ()=>{
-      const bubbleEl = document.getElementById("confite-title-bubble");
-      if(bubbleEl){
-        bubbleEl.textContent = "Restaura Las Tierras Carmesí por completo para descubrir qué despierta en la oscuridad...";
-        bubbleEl.style.display = "";
-      }
+      toast("Completa el capítulo 1 de la historia para abrir HEX CLASH.");
     };
   }
 }
@@ -2920,6 +2940,8 @@ function renderCampaignMission(){
   el.style.setProperty('--mission-color',t.hue);
   el.innerHTML=`<div class="campaign-heading"><div class="campaign-kicker">${complete?'Historia restaurada':`Capítulo ${String(t.id).padStart(2,'0')} · ${Math.round(progress*100)}% restaurado`}</div>
     <h2>${t.name}</h2><p class="campaign-purpose">${complete?'Dulcelandia vuelve a respirar. Aún quedan recuerdos por visitar.':arc.steps[n<4?0:n<8?1:2]}</p></div>
+    <button class="campaign-play" onclick="continueCampaign()">${complete?'Volver a jugar':`Continuar · ${n===TOTAL_LEVELS?'Guardián':`Ruta ${n}`}`}</button>
+    <div class="campaign-next">${complete?'Vuelve al Gran Cristal':`${arc.title} · Ruta ${n}/10`}</div>
     <div class="campaign-scene${t.id===2?' is-mochi':''}" style="--land-grey:${Math.max(0,45-progress*45)}%">
       <div class="campaign-stage"><div class="campaign-landscape${t.id===2?'':' legacy'}" aria-hidden="true">${t.id===2?mochiLandscapeSVG('campaign',progress):territoryLandscapeSVG(t.id,'campaign',progress)}</div>
       ${[12,32,63,87].map((x,i)=>`<i class="scene-petal" aria-hidden="true" style="--x:${x}%;--y:${25+i*13}%;--delay:-${i*1.7}s"></i>`).join('')}
@@ -2927,9 +2949,7 @@ function renderCampaignMission(){
       <button class="campaign-marker" onclick="continueCampaign()" aria-label="${complete?'Volver al Gran Cristal':`Continuar historia en ${t.name}, nivel ${n}`}" title="${arc.title}">${n===TOTAL_LEVELS?'✦':n}</button><span class="campaign-marker-label">${complete?'Vuelve a casa':'Sigue aquí'}</span></div>
     </div>
     <div class="campaign-companion"><svg id="confite-map" width="52" height="46" viewBox="0 0 100 90" aria-hidden="true">${confiteSVG(progress>=1?'celebrate':'happy')}</svg><div class="campaign-confite-copy"><div class="campaign-confite-label">CONFITE</div><div id="confite-world-bubble" aria-live="polite">${feeling.quote}</div></div></div>
-    <button class="campaign-play" onclick="continueCampaign()">${complete?'Volver a jugar':`Continuar · ${n===TOTAL_LEVELS?'Guardián':`Ruta ${n}`}`}</button>
-    <div class="campaign-next">${complete?'Vuelve al Gran Cristal':`${arc.title} · Ruta ${n}/10`}</div>
-    <nav class="campaign-nav" aria-label="Explorar Dulcelandia"><button aria-current="page" onclick="openWorldAtlas()">Mundo</button><button onclick="goTo('village')">Mi aldea</button><button onclick="goTo('minigames')">Archivo</button></nav>`;
+    <nav class="campaign-nav" aria-label="Explorar Dulcelandia"><button aria-current="page" onclick="openWorldAtlas()">Mapa</button><button onclick="goTo('village')">Mi aldea</button><button onclick="goTo('minigames')">Modos de juego</button></nav>`;
   observeAtlas(el);
 }
 function openWorldAtlas(){
@@ -2938,6 +2958,7 @@ function openWorldAtlas(){
   atlas.scrollIntoView?.({behavior:window.matchMedia?.('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'});
 }
 function renderWorld(){
+  renderQuickModes('world');
   renderCampaignMission();
   const camp=document.getElementById("world-extras");
   camp.appendChild(document.getElementById("piggy-card"));
@@ -3639,6 +3660,33 @@ const MINIGAMES = [
    quote:"La niebla no perseguía a los fragmentos. Estaba aprendiendo de ellos.",
    truth:"La energía expulsada durante la Fragmentación cayó en la grieta y creció durante 500 años. Así nació la Bruja Hexadecimal."},
 ];
+// Una práctica no escribe progreso, premios ni memorias. Estado solo de la sesión.
+let minigamePractice=false, modeReturnScreen='minigames';
+function renderQuickModes(origin){
+  const target=document.getElementById(`${origin}-quick-modes`);
+  if(!target) return;
+  const ids=origin==='title'?['moba','br']:['survival','moba','br'];
+  target.innerHTML=ids.map(id=>{
+    const name=id==='survival'?'Supervivencia':id==='moba'?'Guerra 5v5':'Royale';
+    const detail=id==='survival'?'Contra el reloj':minigameUnlocked(id)?'Contra IA':'Práctica · contra IA';
+    return `<button class="quick-mode" onclick="startMode('${id}','${origin}')"><span class="quick-mode-art" aria-hidden="true">${echoSceneSVG(id,`quick-${origin}`)}</span><span class="quick-mode-copy"><b>${name}</b><small>${detail}</small></span></button>`;
+  }).join('');
+}
+function startMode(id,origin='minigames'){
+  if(!MINIGAMES.some(m=>m.id===id)){ toast('Ese modo no está disponible.'); return; }
+  minigamePractice=!minigameUnlocked(id);
+  modeReturnScreen=['title','world','minigames'].includes(origin)?origin:'minigames';
+  goTo(id);
+}
+function showPracticeResult(id,won,summary){
+  const prefix=id==='moba'?'mb':'br';
+  document.getElementById(`${prefix}-revive-btn`).style.display='none';
+  document.getElementById(`${prefix}-overlay-icon`).innerHTML=echoSceneSVG(id,'result');
+  document.getElementById(`${prefix}-overlay-title`).textContent=won?'¡Práctica superada!':'Vamos otra vez';
+  document.getElementById(`${prefix}-overlay-sub`).textContent=`${summary} · Práctica sin premios ni cambios en tu historia.`;
+  document.getElementById(`${prefix}-overlay`).classList.add('on');
+  mgConfiteSay(prefix,won?'¡Bien! Ya conoces los controles. Puedes repetir cuando quieras.':'Puedes volver a intentarlo. Aquí no gastas vidas ni recursos.',won?'celebrate':'happy');
+}
 function minigameLoreDone(id){ return !!(save.minigameLore && save.minigameLore[id]); }
 function minigameUnlocked(id){
   const def=MINIGAMES.find(m=>m.id===id);
@@ -3651,13 +3699,14 @@ function startMinigameChapter(id){
     toast(`Primero recupera ${prev?.chapter||"el Eco anterior"}: ${prev?.name||"recuerdo bloqueado"}.`);
     return;
   }
+  minigamePractice=false; modeReturnScreen='minigames';
   goTo(id);
 }
 function renderMinigames(){
   const list = document.getElementById("mg-list");
   list.innerHTML = "";
   const recovered=minigameLoreCount();
-  document.getElementById("confite-archive-svg").innerHTML=confiteSVG(recovered===3?'happy':'worried');
+  document.getElementById("confite-archive-svg").innerHTML=confiteSVG('happy');
   document.getElementById("mg-progress-badge").textContent=`${recovered}/3`;
   document.getElementById("mg-archive-count").textContent=`${recovered} de 3 ecos`;
   document.getElementById("mg-archive-fill").style.width=`${Math.round(recovered/3*100)}%`;
@@ -3671,20 +3720,23 @@ function renderMinigames(){
     const gate=MINIGAMES.find(g=>g.id===m.gate);
     const div = document.createElement("button");
     div.type='button'; div.dataset.echo=m.id;
-    div.setAttribute('aria-disabled',String(!unlocked));
-    div.className = `mg-card${unlocked?"":" locked"}${done?" completed":""}`;
+    div.setAttribute('aria-disabled','false');
+    div.className = `mg-card${done?" completed":""}`;
+    const modeName=m.id==='survival'?'Supervivencia':m.id==='moba'?'Guerra 5v5':'Royale';
+    const how=m.id==='survival'?'Combina caramelos para ganar segundos. ¿Cuánto puedes mantener vivo el pulso?':m.id==='moba'?'Guía a Dulce Roja con cuatro aliados. Acércate para atacar y usa Pulso cuando haya enemigos cerca.':'Muévete, esquiva a los rivales y permanece dentro del anillo. Usa Impulso para escapar.';
     div.innerHTML = `
       <span class="echo-scene" style="display:block" aria-hidden="true">${echoSceneSVG(m.id,'archive')}</span>
       <span class="mg-info">
-        <span class="mg-chapter">${m.chapter} · ${done?"Memoria recuperada":unlocked?"Señal detectada":"Eco bloqueado"}</span>
-        <span class="mg-name">${m.name}</span>
-        <span class="mg-mode-label">${m.id==='survival'?'Supervivencia · Match-3':m.id==='moba'?'Combate 5v5 · contra IA':'Huida Royale · contra 9 bots'}</span>
-        <span class="mg-desc">${m.desc}</span>
-        <span class="mg-objective">${unlocked?m.objective:`Se abre al completar ${gate?.chapter}: ${gate?.name}`}</span>
+        <span class="mg-name">${modeName}</span>
+        <span class="mg-mode-label">${m.id==='survival'?'Match-3 · contra el reloj':m.id==='moba'?'Combate 5v5 · contra IA':'Huida Royale · contra 9 bots'}</span>
+        <span class="mg-desc">${how}</span>
+        <span class="mg-chapter">${m.chapter} · ${m.name}</span>
+        <span class="mg-objective">${unlocked?m.objective:'Práctica gratuita: no gasta vidas ni revela recuerdos.'}</span>
+        ${unlocked?'':`<span class="mode-story-note">El recuerdo se abre después de ${gate?.chapter}: ${gate?.name}.</span>`}
         ${done?`<span class="mg-reveal" style="display:block">“${m.quote}”</span>`:""}
-        <span class="mg-tag ${done?'done':unlocked?'ready':'soon'}">${done?'Revivir Eco':unlocked?'Entrar al recuerdo':'Continúa la historia'}</span>
+        <span class="mg-tag ready">${unlocked?'Jugar ahora':'Probar ahora · Práctica'}</span>
       </span>`;
-    div.onclick = ()=>startMinigameChapter(m.id);
+    div.onclick = ()=>startMode(m.id,'minigames');
     list.appendChild(div);
   });
 }
@@ -3817,6 +3869,7 @@ function mobaEndGame(won){
   mobaRunning = false;
   if(mobaRAF) cancelAnimationFrame(mobaRAF);
   const enemiesDefeated = mobaHeroes.filter(h=>h.team==="enemy" && !h.alive).length;
+  if(minigamePractice){ showPracticeResult('moba',won,`${enemiesDefeated}/5 rivales derrotados`); return; }
   // Sin ganar, primero se ofrece revivir gratis por anuncio (una vez por partida)
   if(!won && !mobaRevived){
     document.getElementById("mb-overlay-icon").innerHTML = echoSceneSVG('moba','result');
@@ -3858,7 +3911,8 @@ function exitMoba(){
   if(mobaRAF) cancelAnimationFrame(mobaRAF);
   document.getElementById("mb-overlay").classList.remove("on");
   document.getElementById("mb-revive-btn").style.display = "none";
-  goTo("minigames");
+  minigamePractice=false;
+  goTo(modeReturnScreen);
 }
 // Los escenarios se dibujan una vez por modo. Solo unidades, vida y efectos
 // vuelven a pintarse en el RAF existente; la decoración no altera las colisiones.
@@ -4087,6 +4141,8 @@ function mobaBindInput(){
   canvas.addEventListener("pointercancel", release);
 }
 function startMoba(){
+  document.getElementById('mb-mode-title').textContent='Guerra 5v5';
+  document.getElementById('mb-mode-context').textContent=minigamePractice?'Práctica gratuita · contra IA':'Eco II · La Última Guerra del Azúcar';
   document.getElementById("mb-overlay").classList.remove("on");
   document.getElementById("mb-revive-btn").style.display = "none";
   mobaRevived = false;
@@ -4115,7 +4171,7 @@ function startMoba(){
   mobaRunning = true;
   if(mobaRAF) cancelAnimationFrame(mobaRAF);
   mobaRAF = requestAnimationFrame(mobaStep);
-  mgConfiteSay("mb","El Cristal usa nuestros rostros para contar su última guerra. Protege a los cinco defensores.","worried");
+  mgConfiteSay("mb",minigamePractice?'Tú eres el corazón con aro dorado. Arrastra para moverte; atacas al acercarte.':"El Cristal usa nuestros rostros para contar su última guerra. Protege a los cinco defensores.",minigamePractice?'happy':"worried");
 }
 
 /* ---------------- BATTLE ROYALE (prototipo: jugador vs 9 bots, zona que se reduce) ---------------- */
@@ -4191,6 +4247,7 @@ function brEndGame(won, othersAliveAtDeath){
   brRunning = false;
   if(brRAF) cancelAnimationFrame(brRAF);
   const placement = won ? 1 : othersAliveAtDeath+1;
+  if(minigamePractice){ showPracticeResult('br',won,`Puesto ${placement}/${BR_TOTAL}`); return; }
   // Sin ganar, primero se ofrece revivir gratis por anuncio (una vez por partida)
   if(!won && !brRevived){
     document.getElementById("br-overlay-icon").innerHTML = echoSceneSVG('br','result');
@@ -4239,7 +4296,8 @@ function exitBR(){
   if(brRAF) cancelAnimationFrame(brRAF);
   document.getElementById("br-overlay").classList.remove("on");
   document.getElementById("br-revive-btn").style.display = "none";
-  goTo("minigames");
+  minigamePractice=false;
+  goTo(modeReturnScreen);
 }
 function brRender(){
   const ctx = brCtx,motion=minigameMotionAllowed();
@@ -4368,6 +4426,8 @@ function brBindInput(){
   canvas.addEventListener("pointercancel", release);
 }
 function startBR(){
+  document.getElementById('br-mode-title').textContent='Royale';
+  document.getElementById('br-mode-context').textContent=minigamePractice?'Práctica gratuita · contra 9 bots':'Eco III · La Huida de la Grieta';
   document.getElementById("br-overlay").classList.remove("on");
   document.getElementById("br-revive-btn").style.display = "none";
   brRevived = false;
@@ -4395,7 +4455,7 @@ function startBR(){
   brRunning = true;
   if(brRAF) cancelAnimationFrame(brRAF);
   brRAF = requestAnimationFrame(brStep);
-  mgConfiteSay("br","Esto no era una arena. Eran los fragmentos huyendo de algo que acababa de nacer.","worried");
+  mgConfiteSay("br",minigamePractice?'Eres el corazón con aro dorado. Arrastra para moverte y no salgas del anillo.':"Esto no era una arena. Eran los fragmentos huyendo de algo que acababa de nacer.",minigamePractice?'happy':"worried");
 }
 
 /* ---------------- MAPA DE NIVELES ---------------- */
@@ -6751,6 +6811,7 @@ let survivalTimerInterval = null;
 let survivalTimeMs = 0;
 
 function startSurvival(){
+  minigamePractice=false;
   exitCanvasMode();
   endSurvivalTimer();
   survivalTimeMs = SURVIVAL_START_TIME;
@@ -8093,7 +8154,7 @@ function renderPauseTimeExtra(){
 (function initTitleContinue(){
   if(save.lastTerritory && LEVELS_BY_TERRITORY[save.lastTerritory]){
     const btn = document.getElementById("btn-title-main");
-    btn.textContent = "▶ Continuar";
+    btn.textContent = "▶ Continuar historia";
     btn.onclick = continueCampaign;
     document.getElementById("btn-title-secondary").style.display = "";
     const bubbleEl = document.getElementById("confite-title-bubble");

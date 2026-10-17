@@ -5,6 +5,26 @@ Dirección vigente: **Atlas y Ecos**. Base publicada: commit `4590f94`.
 Leer antes de modificar gráficos, pantallas, mapas, animaciones o modalidades.
 Las decisiones nuevas de Jose prevalecen; no cambiar la dirección artística por iniciativa propia.
 
+## Prioridad de usabilidad aprobada · 17.10
+
+Jose indicó que el juego tenía demasiados menús y las modalidades no se encontraban.
+La portada ahora ofrece **Jugar/Continuar historia, Guerra 5v5 y Royale** sin pasos
+intermedios. «Todos los modos» muestra nombres de juego claros, instrucciones
+breves y acciones jugables; «Archivo/Ecos» queda como contexto narrativo secundario.
+En el mundo, los accesos a modos están arriba y Continuar aparece antes del paisaje.
+No volver a ocultar los botones bajo panoramas, desplegables o nombres de lore.
+
+Separar **acceso al juego** de **acceso al recuerdo**. Guerra/Royale pueden jugarse
+en práctica gratuita antes de su requisito narrativo. `startMode(id,origin)` elige
+práctica según `minigameUnlocked()` y recuerda desde dónde volver. Solo estado de
+sesión: `minigamePractice`, `modeReturnScreen`; no añadir campos al guardado.
+Práctica no entrega monedas, coronas, victorias, logros, anuncios de revivir ni
+memorias. `showPracticeResult()` termina antes del flujo de premios. Reintentar
+mantiene práctica; Volver regresa a su origen. `startMinigameChapter()` conserva
+la entrada narrativa con requisitos. Cuando el recuerdo es accesible, el mismo
+botón inicia el modo normal. La validación de usabilidad no demuestra todavía
+que la jugabilidad pueda competir con Candy Crush.
+
 ## Qué conservar
 
 Fantasía de confitería melancólica: dulce en la superficie, misterio y memoria en el
@@ -54,7 +74,7 @@ existente; el arte nuevo del atlas y de los modos es SVG inline o canvas nativo.
 | Mochi | `MOCHI_ATLAS_ART`, `mochiLandscapeSVG()`: SVG exacto de Figma; 390×440 en campaña, encuadre 360×210 en vistas compactas. No reemplazar por un placeholder. |
 | Otros territorios | `territoryLandscapeSVG()`, `territoryEmblemSVG()`, `atlasFeeling()`: ocho identidades, restauración y frases ambientales ligadas al progreso. |
 | Aldea | `villageBuildingSVG()`, `renderVillage()`: escena con camino y diez construcciones. Tocar inspecciona; construir requiere acción explícita. No volver a una cuadrícula de iconos. |
-| Archivo | `echoSceneSVG(id,key)`, `renderMinigames()`: cámara del Latido, ruinas de la Guerra y Grieta; panoramas propios y botones nativos. |
+| Modos y recuerdos | `renderQuickModes()`, `startMode()`, `renderMinigames()`: juego accesible con nombres claros; `echoSceneSVG()` conserva panoramas de cada Eco y los recuerdos van en un apartado secundario. |
 | MOBA / Royale | `minigameArenaArt()`, `minigameDrawUnit()`, `mobaRender()`, `brRender()`: arenas distintas, fondos estáticos reutilizados, unidades legibles. Las ruinas decorativas no cambian las colisiones. |
 | Supervivencia | Comparte `screen-game`; `goTo('survival')` llama a `startSurvival()` sin pantalla intermedia. `survival-mode`, panorama del Latido y temporizador en segundos; no mostrar los movimientos internos 9999. |
 | HEX CLASH | `dgLandscapeSVG()`, `dgSymbolSVG()`, `dgSceneMarkup()`: ruinas minerales, arco, cristales, relicario y piezas facetadas. Ruta de 20 hitos, no cuadrícula. Confite también en resultados. |
@@ -83,8 +103,9 @@ disponible, conservar el SVG y la implementación existente; no bloquear un ajus
 
 ## Historia y reglas que un rediseño no puede alterar
 
-Los Ecos se desbloquean en orden: Latido (300 puntos) → Guerra (victoria) →
-Grieta (podio). Consultar `MINIGAMES`; no revelar recuerdos bloqueados ni adelantar
+Los recuerdos de los Ecos se desbloquean en orden: Latido (300 puntos) → Guerra
+(victoria) → Grieta (podio). Esto no bloquea las partidas de práctica. Consultar
+`MINIGAMES`; no revelar recuerdos bloqueados ni adelantar
 la revelación final de Confite, reservada al epílogo del territorio 8.
 No inventar historia, monedas, progreso o poderes para rellenar una composición.
 
@@ -101,7 +122,7 @@ multijugador real, ingresos ni anuncios conectados.
 2. Hacer una mejora acotada y verificar el resultado; evitar loops abiertos de
    rediseño. No cambiar modelo sin avisar a Jose previamente.
 3. Validar sintaxis del script tras cada edición y ejecutar
-   `node --test tests/*.test.cjs`. Base al 17.10: 62 pruebas, no un límite fijo.
+   `node --test tests/*.test.cjs`. Base al 17.10: 69 pruebas, no un límite fijo.
 4. Revisar las pantallas afectadas en navegador. Usar progreso de prueba aislado,
    no sobrescribir el de Jose. Distinguir pruebas de navegador de iPhone físico.
 5. Al publicar cambios de app: actualizar caché cuando corresponda, comprobar

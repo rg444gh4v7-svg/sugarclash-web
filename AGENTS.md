@@ -547,12 +547,23 @@ publicar de verdad en un portal:
 
 ## Minijuegos
 
+**Acceso friendly · 17.10, decisión nueva de Jose:** la portada ofrece Guerra 5v5 y
+Royale en un toque, y el mundo tiene `renderQuickModes('world')` fuera de desplegables.
+El hub se llama «Modos de juego»; usar nombres de juego antes que nombres de lore.
+`startMode(id,origin)` permite práctica cuando falta el requisito narrativo;
+`startMinigameChapter()` sigue siendo la entrada narrativa con requisitos.
+`minigamePractice` y `modeReturnScreen` son transitorios. El retorno vuelve al origen,
+y reintentar conserva práctica. Los finales de práctica retornan mediante
+`showPracticeResult()` antes de premios/guardado: no monedas, coronas, victorias,
+logros, recuerdos ni anuncios de revivir. Los recuerdos siguen desbloqueándose en
+orden; no bloquear el juego libre para proteger una revelación. Ver guía visual.
+
 **Atlas y Ecos · 16.10:** `echoSceneSVG(id,key)` dibuja tres panoramas nativos
 independientes (`survival`, `moba`, `br`), sin dependencias ni nuevos raster. IDs
 prefijados por contexto (`archive`, `live`, `result`, `reveal`, `league`). El Archivo
-tiene un único scroll vertical y botones nativos: los bloqueados siguen siendo
-enfocables para explicar su requisito, con `aria-disabled` y la misma validación
-`startMinigameChapter()`. Confite es visible fuera del canvas durante el combate.
+tiene un único scroll vertical y botones nativos; desde el 17.10 todos los modos
+son jugables, aunque sus recuerdos sigan bloqueados. Confite es visible fuera
+del canvas durante el combate.
 
 `minigameArenaArt()` conserva un canvas estático por modo/tamaño/DPR; solo unidades
 y efectos se pintan en el RAF existente. `minigameCanvasContext()` limita DPR a 2;
@@ -763,7 +774,7 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
   motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
   delay como pseudo-reverb).
-- **PWA v14:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
+- **PWA v15:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
   actualizan en segundo plano. Solo se eliminan cachés antiguas `sugarclash-*`.
   No borrar localStorage para actualizar. Una instalación con el worker anterior
   puede necesitar cerrar y abrir una vez más tras recibir la actualización.

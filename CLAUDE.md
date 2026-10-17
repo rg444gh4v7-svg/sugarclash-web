@@ -540,6 +540,16 @@ publicar de verdad en un portal:
 
 ## Minijuegos
 
+**Acceso friendly · 17.10 (Jose):** Historia, Guerra 5v5 y Royale visibles desde
+portada; no volver a ocultar modalidades bajo lore o menús. `renderQuickModes()`
+también coloca accesos arriba del mundo; Continuar precede al paisaje. El hub
+se llama «Modos de juego». `startMode(id,origin)` inicia práctica si falta el
+requisito narrativo, sin monedas/coronas/victorias/logros/memorias/guardado ni
+anuncios de revivir. `showPracticeResult()` corta el flujo antes de premios.
+`minigamePractice` y `modeReturnScreen` viven solo en sesión: reintentar conserva
+práctica y Volver regresa al origen. `startMinigameChapter()` conserva requisitos
+para los recuerdos, no para impedir probar el combate. Actualizado en VISUAL_STYLE.md.
+
 **Atlas y Ecos · 16.10:** Archivo con panoramas `echoSceneSVG(id,key)` por Eco,
 botones nativos y desbloqueos narrativos conservados. Combates con arte canvas
 estático reutilizado, unidades facetadas y Confite visible fuera del área táctil.
@@ -749,7 +759,7 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
   motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
   delay como pseudo-reverb).
-- **PWA v14:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
+- **PWA v15:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
   actualizan en segundo plano. Solo se eliminan cachés antiguas `sugarclash-*`.
   No borrar localStorage para actualizar. Una instalación con el worker anterior
   puede necesitar cerrar y abrir una vez más tras recibir la actualización.

@@ -22,12 +22,17 @@ node --test tests/*.test.cjs
 
 Abrir `http://127.0.0.1:4177/`. Las pruebas cubren especiales persistentes, cadenas,
 gravedad, barajado, campaña, sintaxis y comportamiento de la caché online/offline.
-El worker v14 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
+El worker v15 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
 No borrar los datos del navegador: eso elimina el progreso.
 
 ## Iteración actual
 
-- Edición **Atlas y Ecos · 16.10**, identificable en la portada.
+- Edición **Elige y juega · 17.10**, identificable en la portada; conserva Atlas y Ecos.
+- Historia, Guerra 5v5 y Royale desde el inicio, sin recorrer el Archivo. Todos
+  los modos tienen nombres claros; la explicación narrativa queda en segundo plano.
+- Prácticas de combate abiertas desde el primer día, sin gastar vidas ni entregar
+  premios, logros o recuerdos. Retorno al origen y reintento sin menús intermedios.
+- Mundo con accesos a modalidades arriba y Continuar antes del paisaje.
 - Archivo con tres panoramas vectoriales originales, estados reales de memoria y
   botones accesibles; los desbloqueos siguen el orden del lore.
 - MOBA y Battle Royale: escenarios propios con ruinas, puentes, relieve y cristales,
@@ -67,7 +72,7 @@ No borrar los datos del navegador: eso elimina el progreso.
 
 ## Qué falta para una prueba comercial real
 
-En la revisión del 17.10 pasaron 62 pruebas del motor/caché/gráficos/aldea/campaña/modos y comprobaciones
+En la revisión del 17.10 pasaron 69 pruebas del motor/caché/gráficos/aldea/campaña/modos y comprobaciones
 con DOM: campaña, deslizamiento, pulso, intercambio inválido, ajuste de tamaño,
 guardado, estados de restauración, pausa por visibilidad, resultados, selección sin
 gasto, compra explícita, requisitos, scroll de aldea y guardados con huecos. También se

@@ -23,7 +23,7 @@ function element(tagName='div'){
 function archive(lore={}){
   const nodes=new Map(),log={navigation:[],toasts:[],persist:0,league:[],timers:[]};
   const save={minigameLore:lore,coins:125,gems:40,lives:3,stars:{1:{1:2}},unlocked:{1:2}};
-  const ctx=vm.createContext({save,document:{
+  const ctx=vm.createContext({save,minigamePractice:false,modeReturnScreen:'minigames',document:{
     getElementById:id=>{if(!nodes.has(id))nodes.set(id,element());return nodes.get(id);},
     createElement:tag=>element(tag)},
     confiteSVG:mood=>`<g data-mood="${mood}"></g>`,
@@ -34,7 +34,7 @@ function archive(lore={}){
   const start=script.indexOf('const MINIGAMES = [');
   assert.ok(start>=0,'Missing narrative chapter definitions');
   vm.runInContext(script.slice(start,script.indexOf('\n];',start)+3),ctx);
-  for(const name of ['minigameLoreDone','minigameUnlocked','minigameLoreCount','startMinigameChapter','unlockMinigameLore']) vm.runInContext(source(name),ctx);
+  for(const name of ['minigameLoreDone','minigameUnlocked','minigameLoreCount','startMode','startMinigameChapter','unlockMinigameLore']) vm.runInContext(source(name),ctx);
   return {ctx,nodes,log};
 }
 function svgIds(scene){ return [...scene.matchAll(/\bid="([^"]+)"/g)].map(match=>match[1]); }
@@ -149,14 +149,17 @@ test('Archive rendering is idempotent, exposes native entry buttons and never wr
   const cards=nodes.get('mg-list').children;
   assert.equal(cards.length,3);assert.ok(cards.every(card=>card.tagName==='BUTTON'));
   assert.deepEqual(cards.map(card=>card.dataset.echo),['survival','moba','br']);
-  assert.ok(cards[1].className.includes('locked'));assert.ok(cards[2].className.includes('locked'));
-  assert.equal(cards[1].getAttribute('aria-disabled'),'true');assert.equal(cards[2].getAttribute('aria-disabled'),'true');
-  assert.ok(cards.every(card=>!card.disabled),'Locked chapters remain focusable to explain their prerequisite');
-  for(const [i,label] of ['Supervivencia','Combate 5v5','Huida Royale'].entries()) assert.ok(cards[i].innerHTML.includes(label));
+  assert.ok(cards.every(card=>card.getAttribute('aria-disabled')==='false'));
+  assert.ok(cards.every(card=>!card.disabled),'Every mode remains playable while its memory is locked');
+  assert.match(cards[1].innerHTML,/práctica/i);assert.match(cards[2].innerHTML,/práctica/i);
+  assert.doesNotMatch(cards[1].innerHTML,/Esos no somos nosotros/);assert.doesNotMatch(cards[2].innerHTML,/La niebla no perseguía/);
+  for(const [i,label] of ['Supervivencia','5v5','Royale'].entries()) assert.ok(cards[i].innerHTML.includes(label));
   assert.equal(nodes.get('mg-progress-badge').textContent,'0/3');
   assert.equal(nodes.get('mg-archive-fill').style.width,'0%');
-  cards[0].onclick();cards[1].onclick();
-  assert.deepEqual(log.navigation,['survival']);assert.equal(log.toasts.length,1);
+  cards[0].onclick();assert.equal(ctx.minigamePractice,false);
+  cards[1].onclick();assert.equal(ctx.minigamePractice,true);
+  cards[2].onclick();assert.equal(ctx.minigamePractice,true);
+  assert.deepEqual(log.navigation,['survival','moba','br']);assert.equal(log.toasts.length,0);
   const first=cards.map(card=>card.innerHTML);
   ctx.renderMinigames();
   assert.deepEqual(nodes.get('mg-list').children.map(card=>card.innerHTML),first);
