@@ -7,7 +7,7 @@ function worker(online=true,storageFull=false){
   const listeners={},stored=new Map(),deleted=[],fetched=[],precache=[],opened=[];
   const cache={match:async key=>stored.get(typeof key==='string'?key:key.url)?.clone(),put:async(key,value)=>{if(storageFull)throw new Error('quota');stored.set(typeof key==='string'?key:key.url,value);},addAll:async requests=>precache.push(...requests)};
   vm.runInNewContext(source,{URL,Request,Response,self:{location:{origin:'https://game.test',href:'https://game.test/service-worker.js'},addEventListener:(name,fn)=>listeners[name]=fn,skipWaiting:async()=>{},clients:{claim:async()=>{}}},
-    caches:{open:async key=>{opened.push(key);return cache;},keys:async()=>['sugarclash-v7','sugarclash-v8','sugarclash-v9','sugarclash-v10','sugarclash-v11','sugarclash-v12','sugarclash-v13','sugarclash-v14','sugarclash-v15','another-app'],delete:async key=>deleted.push(key)},
+    caches:{open:async key=>{opened.push(key);return cache;},keys:async()=>['sugarclash-v7','sugarclash-v8','sugarclash-v9','sugarclash-v10','sugarclash-v11','sugarclash-v12','sugarclash-v13','sugarclash-v14','sugarclash-v15','sugarclash-v16','another-app'],delete:async key=>deleted.push(key)},
     fetch:async(request,options)=>{fetched.push({request,options});if(!online)throw new Error('offline');return new Response('new build');}});
   return {stored,deleted,listeners,fetched,precache,opened,async request(mode,url='https://game.test/'){
     const pending=[];let response;
@@ -31,7 +31,7 @@ test('Installation refreshes precached files instead of reusing HTTP cache',asyn
   assert.ok(w.precache.some(request=>request.url==='https://game.test/index.html'));
   assert.ok(w.precache.some(request=>request.url==='https://game.test/title-world-v3-hd.jpg'));
   assert.ok(w.precache.every(request=>request.cache==='reload'));
-  assert.deepEqual(w.opened,['sugarclash-v15']);
+  assert.deepEqual(w.opened,['sugarclash-v16']);
 });
 test('Cache quota errors do not hide a successful HTML update',async()=>{
   const w=worker(true,true);w.stored.set('https://game.test/',new Response('old build'));
@@ -47,5 +47,5 @@ test('Offline assets remain available',async()=>{
 });
 test('Activation only removes obsolete Sugar Clash caches',async()=>{
   const w=worker(); let done;w.listeners.activate({waitUntil:p=>done=p});await done;
-  assert.deepEqual(w.deleted,['sugarclash-v7','sugarclash-v8','sugarclash-v9','sugarclash-v10','sugarclash-v11','sugarclash-v12','sugarclash-v13','sugarclash-v14']);
+  assert.deepEqual(w.deleted,['sugarclash-v7','sugarclash-v8','sugarclash-v9','sugarclash-v10','sugarclash-v11','sugarclash-v12','sugarclash-v13','sugarclash-v14','sugarclash-v15']);
 });

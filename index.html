@@ -1621,9 +1621,9 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <button class="back-btn" aria-label="Volver" onclick="exitMoba()">←</button>
       <div class="mb-stat"><div class="mb-val" id="mb-ally-hp">500</div><div class="mb-lbl">Aliados</div></div>
       <div class="mb-stat"><div class="mb-val" id="mb-enemy-hp">500</div><div class="mb-lbl">Enemigos</div></div>
-      <button class="mb-ability-btn" id="mb-ability-btn" aria-label="Activar pulso de Dulce Roja" onclick="mobaUseAbility()">Pulso</button>
+      <button class="mb-ability-btn" id="mb-ability-btn" aria-label="Pulso: dañar e interrumpir enemigos cercanos" onclick="mobaUseAbility()">Pulso</button>
     </div>
-    <div class="mb-hint">Arrastra para moverte · atacas al acercarte · Pulso golpea a los enemigos cercanos</div>
+    <div class="mb-hint">Arrastra para esquivar las marcas · atacas cerca · Pulso interrumpe golpes</div>
     <div class="mg-confite-pop combat-guide" id="mb-confite-pop">
       <svg class="mg-confite-pop-svg" viewBox="0 0 100 90" fill="none" id="mb-confite-pop-svg" aria-hidden="true"></svg>
       <div class="mg-confite-pop-text" id="mb-confite-pop-text"></div>
@@ -1650,9 +1650,9 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <button class="back-btn" aria-label="Volver" onclick="exitBR()">←</button>
       <div class="mb-stat"><div class="mb-val" id="br-alive">10/10</div><div class="mb-lbl">Vivos</div></div>
       <div class="mb-stat"><div class="mb-val" id="br-zone-status">Dentro</div><div class="mb-lbl">Zona</div></div>
-      <button class="mb-ability-btn" id="br-ability-btn" aria-label="Activar impulso de velocidad" onclick="brUseDash()">Impulso</button>
+      <button class="mb-ability-btn" id="br-ability-btn" aria-label="Impulso de velocidad mientras arrastras para moverte" onclick="brUseDash()">Impulso</button>
     </div>
-    <div class="mb-hint">Arrastra para moverte · el anillo marca el refugio · Impulso acelera tu huida</div>
+    <div class="mb-hint">Esquiva las marcas · quédate en el anillo · arrastra + Impulso para huir</div>
     <div class="mg-confite-pop combat-guide" id="br-confite-pop">
       <svg class="mg-confite-pop-svg" viewBox="0 0 100 90" fill="none" id="br-confite-pop-svg" aria-hidden="true"></svg>
       <div class="mg-confite-pop-text" id="br-confite-pop-text"></div>
@@ -2048,12 +2048,14 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <div id="dg-flash"></div>
 
   <!-- ============ BOSS INTRO OVERLAY ============ -->
-  <div id="boss-intro-overlay">
+  <div id="boss-intro-overlay" role="dialog" aria-modal="true" aria-labelledby="bi-name">
     <div class="bi-crown">👑</div>
     <div class="bi-name" id="bi-name"></div>
-    <div class="bi-sub">Nivel Jefe</div>
+    <div class="bi-sub" id="bi-sub">Nivel Jefe</div>
+    <div class="bi-access" id="bi-access">Basta una estrella por nivel anterior.</div>
     <div class="bi-confite" id="bi-confite"></div>
     <button class="btn-sm btn-primary" id="bi-btn" style="margin-top:4px">¡A por el jefe!</button>
+    <button class="btn-sm btn-secondary" onclick="document.getElementById('boss-intro-overlay').classList.remove('on')">Volver al mapa</button>
   </div>
 
   <!-- ============ TERRITORIO COMPLETO OVERLAY ============ -->
@@ -2778,6 +2780,20 @@ function territoryUnlocked(id){
   if(id===1) return true;
   return territoryProgress(id-1) >= 1;
 }
+// Recupera acceso demostrado por victorias, sin quitar desbloqueos ya guardados.
+// Una estrella cuenta como victoria; dos/tres solo mejoran la valoración.
+function campaignUnlockedLevel(id){
+  const levels=LEVELS_BY_TERRITORY[id];
+  if(!levels) return 0;
+  const raw=Number(save.unlocked?.[id]);
+  const stored=Number.isFinite(raw)?Math.max(1,Math.min(TOTAL_LEVELS+1,Math.floor(raw))):1;
+  let earned=1;
+  for(const level of levels){
+    if(!(save.stars?.[id]?.[level.n]>0)) break;
+    earned=level.n+1;
+  }
+  return Math.max(stored,earned);
+}
 function renderTitleHexButton(){
   renderQuickModes('title');
   const btn = document.getElementById("btn-hexclash");
@@ -2925,7 +2941,7 @@ const CAMPAIGN_ARCS={
 function campaignNext(){
   const territory=TERRITORIES.find(t=>territoryUnlocked(t.id)&&territoryProgress(t.id)<1)||TERRITORIES[TERRITORIES.length-1];
   const n=LEVELS_BY_TERRITORY[territory.id].find(lv=>!(save.stars[territory.id]?.[lv.n]>0))?.n||TOTAL_LEVELS;
-  return {territory,n:Math.min(n,save.unlocked[territory.id]||1),complete:territoryProgress(8)>=1};
+  return {territory,n:Math.min(n,campaignUnlockedLevel(territory.id)),complete:territoryProgress(8)>=1};
 }
 function continueCampaign(){
   const {territory,n}=campaignNext();
@@ -3790,6 +3806,29 @@ function mgConfiteSay(prefix, text, mood, cooldownKey, cooldownMs){
   pop._hideTimer = setTimeout(()=>pop.classList.remove("on"), 2600);
 }
 
+// La IA anuncia cada golpe sobre una marca fija: moverse a tiempo evita el impacto.
+// Es estado de la partida, nunca del guardado. Comparte el RAF de cada combate.
+function minigameBeginStrike(attacker,target){
+  attacker.strike={targetId:target.id,x:target.x,y:target.y,r:22,frames:24,total:24};
+}
+function minigameHit(attacker,target,damage,cooldown,flashes,hue){
+  target.hp=Math.max(0,target.hp-damage);
+  attacker.atkCd=cooldown;
+  flashes.push({x:target.x,y:target.y,r:14,life:1,hue});
+  if(target.hp<=0) target.alive=false;
+  playPop();
+}
+function minigameAdvanceStrike(attacker,units,range,damage,cooldown,flashes,hue){
+  const strike=attacker.strike;
+  if(!strike || --strike.frames>0) return;
+  attacker.strike=null;
+  attacker.atkCd=cooldown;
+  const target=units.find(unit=>unit.id===strike.targetId && unit.alive);
+  if(!target || Math.hypot(target.x-strike.x,target.y-strike.y)>strike.r ||
+     Math.hypot(target.x-attacker.x,target.y-attacker.y)>range+4) return;
+  minigameHit(attacker,target,damage,cooldown,flashes,hue);
+}
+
 /* ---------------- MOBA 5v5 (prototipo: jugador + 4 aliados IA vs 5 bots) ---------------- */
 const MOBA_W = 340, MOBA_H = 460;
 const MOBA_HERO_R = 12, MOBA_RANGE = 46, MOBA_SPEED = 1.5;
@@ -3829,14 +3868,19 @@ function mobaNearestEnemy(h){
 }
 function mobaUseAbility(){
   if(!mobaRunning || mobaAbilityCd>0 || !mobaPlayer.alive) return;
+  let hit=0;
   mobaHeroes.forEach(h=>{
     if(h.team!=="enemy" || !h.alive) return;
     const d = Math.hypot(h.x-mobaPlayer.x, h.y-mobaPlayer.y);
     if(d<=MOBA_ABILITY_RADIUS){
+      hit++;
       h.hp -= MOBA_ABILITY_DMG;
+      h.strike=null;
+      h.atkCd=Math.max(h.atkCd,24);
       if(h.hp<=0){ h.hp=0; h.alive=false; }
     }
   });
+  if(!hit){ mgConfiteSay("mb","Acércate a un rival: Pulso alcanza el aro y corta su golpe.","happy","mb-pulse-range",3000); return; }
   mobaFlashes.push({x:mobaPlayer.x, y:mobaPlayer.y, r:MOBA_ABILITY_RADIUS, life:1, hue:"#F5B800", ring:true});
   playCrystal();
   mobaAbilityCd = MOBA_ABILITY_CD_MAX;
@@ -3899,7 +3943,7 @@ function mobaReviveWithAd(){
   mobaRevived = true;
   document.getElementById("mb-overlay").classList.remove("on");
   document.getElementById("mb-revive-btn").style.display = "none";
-  mobaHeroes.forEach(h=>{ if(h.team==="ally"){ h.alive=true; h.hp=Math.round(h.maxHp*0.6); } });
+  mobaHeroes.forEach(h=>{ h.strike=null; if(h.team==="ally"){ h.alive=true; h.hp=Math.round(h.maxHp*0.6); } });
   mobaRunning = true;
   if(mobaRAF) cancelAnimationFrame(mobaRAF);
   mobaRAF = requestAnimationFrame(mobaStep);
@@ -4029,6 +4073,19 @@ function minigameMotionAllowed(){
 }
 function minigameDrawUnit(ctx,u,r,color,enemy){
   ctx.save();
+  if(u.strike){
+    const s=u.strike,progress=1-s.frames/s.total;
+    ctx.beginPath();ctx.moveTo(u.x,u.y);ctx.lineTo(s.x,s.y);
+    ctx.strokeStyle=enemy||!u.team?'rgba(229,171,160,.65)':'rgba(159,198,190,.5)';ctx.lineWidth=1;ctx.stroke();
+    ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+    ctx.fillStyle=enemy||!u.team?'rgba(182,108,115,.18)':'rgba(129,173,164,.12)';ctx.fill();
+    ctx.beginPath();ctx.arc(s.x,s.y,s.r,-Math.PI/2,-Math.PI/2+Math.PI*2*progress);
+    ctx.strokeStyle=enemy||!u.team?'#e5aba0':'#9fc6be';ctx.lineWidth=2;ctx.stroke();
+  }
+  if(u.isPlayer && u.abilityRadius){
+    ctx.beginPath();ctx.arc(u.x,u.y,u.abilityRadius,0,Math.PI*2);
+    ctx.strokeStyle='rgba(232,199,149,.24)';ctx.lineWidth=1;ctx.stroke();
+  }
   ctx.beginPath();ctx.ellipse(u.x,u.y+r*.8,r+2,r*.4,0,0,Math.PI*2);ctx.fillStyle='rgba(10,17,24,.45)';ctx.fill();
   if(u.isPlayer){
     ctx.beginPath();ctx.arc(u.x,u.y,r+4,0,Math.PI*2);ctx.strokeStyle='rgba(255,233,183,.72)';ctx.lineWidth=1;ctx.stroke();
@@ -4087,6 +4144,8 @@ function mobaStep(){
   mobaHeroes.forEach(h=>{
     if(!h.alive) return;
     if(h.atkCd>0) h.atkCd--;
+    const hue=h.team==="ally"?"#7FD8E8":"#FF5C5C";
+    if(h.strike){ minigameAdvanceStrike(h,mobaHeroes,MOBA_RANGE,MOBA_ATK_DMG,MOBA_ATK_CD_MAX,mobaFlashes,hue); return; }
     const target = mobaNearestEnemy(h);
     if(!target) return;
     const dx=target.x-h.x, dy=target.y-h.y;
@@ -4095,11 +4154,8 @@ function mobaStep(){
       h.x += (dx/dist)*MOBA_SPEED; h.y += (dy/dist)*MOBA_SPEED;
       mobaClampHero(h);
     } else if(dist <= MOBA_RANGE && h.atkCd<=0){
-      target.hp -= MOBA_ATK_DMG;
-      h.atkCd = MOBA_ATK_CD_MAX;
-      mobaFlashes.push({x:target.x, y:target.y, r:14, life:1, hue: h.team==="ally" ? "#7FD8E8" : "#FF5C5C"});
-      playPop();
-      if(target.hp<=0){ target.hp=0; target.alive=false; }
+      if(h.isPlayer) minigameHit(h,target,MOBA_ATK_DMG,MOBA_ATK_CD_MAX,mobaFlashes,hue);
+      else minigameBeginStrike(h,target);
     }
   });
   if(mobaAbilityCd>0){ mobaAbilityCd--; updateMobaAbilityBtn(); }
@@ -4162,6 +4218,7 @@ function startMoba(){
     mobaHeroes.push(Object.assign({}, e, {team:"enemy", x:60+i*55, y:70, hp:MOBA_MAX_HP, maxHp:MOBA_MAX_HP, atkCd:0, alive:true, isPlayer:false}));
   });
   mobaPlayer = mobaHeroes.find(h=>h.isPlayer);
+  mobaPlayer.abilityRadius=MOBA_ABILITY_RADIUS;
   mobaAbilityCd = 0;
   mobaFlashes = [];
   mobaJoystick = {active:false, baseX:0, baseY:0, dx:0, dy:0};
@@ -4171,7 +4228,7 @@ function startMoba(){
   mobaRunning = true;
   if(mobaRAF) cancelAnimationFrame(mobaRAF);
   mobaRAF = requestAnimationFrame(mobaStep);
-  mgConfiteSay("mb",minigamePractice?'Tú eres el corazón con aro dorado. Arrastra para moverte; atacas al acercarte.':"El Cristal usa nuestros rostros para contar su última guerra. Protege a los cinco defensores.",minigamePractice?'happy':"worried");
+  mgConfiteSay("mb",minigamePractice?'Tu corazón lleva aro dorado. Sal de las marcas o usa Pulso para cortar el golpe.':"El Cristal usa nuestros rostros para contar su última guerra. Protege a los cinco defensores.",minigamePractice?'happy':"worried");
 }
 
 /* ---------------- BATTLE ROYALE (prototipo: jugador vs 9 bots, zona que se reduce) ---------------- */
@@ -4202,14 +4259,14 @@ function brNearest(u){
   return best;
 }
 function brAttack(u,target){
-  target.hp -= BR_ATK_DMG;
-  u.atkCd = BR_ATK_CD_MAX;
-  brFlashes.push({x:target.x, y:target.y, r:12, life:1, hue: u.isPlayer ? "#F5B800" : "#7FD8E8"});
-  playPop();
-  if(target.hp<=0){ target.hp=0; target.alive=false; }
+  if(u.isPlayer) minigameHit(u,target,BR_ATK_DMG,BR_ATK_CD_MAX,brFlashes,"#F5B800");
+  else minigameBeginStrike(u,target);
 }
 function brUseDash(){
   if(!brRunning || brDashCd>0 || !brPlayer.alive) return;
+  if(!brJoystick.active || Math.hypot(brJoystick.dx,brJoystick.dy)<=4){
+    mgConfiteSay("br","Arrastra para moverte y pulsa Impulso para salir de una marca.","happy","br-dash-move",3000); return;
+  }
   brDashTimer = BR_DASH_FRAMES;
   brDashCd = BR_DASH_CD_MAX;
   brFlashes.push({x:brPlayer.x, y:brPlayer.y, r:26, life:1, hue:"#7FD8E8", ring:true});
@@ -4356,10 +4413,12 @@ function brStep(){
       const distToCenter = Math.hypot(u.x-brZone.cx, u.y-brZone.cy);
       const outside = distToCenter > brZone.r - BR_UNIT_R;
       if(outside){
+        u.strike=null;
         const dx=brZone.cx-u.x, dy=brZone.cy-u.y, d=Math.hypot(dx,dy)||1;
         u.x += (dx/d)*BR_SPEED; u.y += (dy/d)*BR_SPEED;
         brClamp(u);
       } else {
+        if(u.strike){ minigameAdvanceStrike(u,brUnits,BR_RANGE,BR_ATK_DMG,BR_ATK_CD_MAX,brFlashes,"#7FD8E8"); return; }
         const target = brNearest(u);
         if(target){
           const dx=target.x-u.x, dy=target.y-u.y, dist=Math.hypot(dx,dy);
@@ -4475,7 +4534,7 @@ function renderMap(){
   bannerEl.style.borderColor = `${territory.hue}4D`;
 
   const territoryStars = save.stars[currentTerritory] || {};
-  const unlockedLevel = save.unlocked[currentTerritory] || 1;
+  const unlockedLevel = campaignUnlockedLevel(currentTerritory);
   const grid = document.getElementById("level-grid");
   grid.innerHTML = "";
   let totalStars = 0;
@@ -4832,10 +4891,16 @@ function exitCanvasMode(){
 /* Puerta de entrada: cada intento cuesta una vida. Es la pieza que hace que
    perder importe — sin esto no hay economía posible. */
 function tryStartLevel(n){
+  const valid=LEVELS_BY_TERRITORY[currentTerritory]?.some(level=>level.n===n);
+  if(!valid || !territoryUnlocked(currentTerritory) || n>campaignUnlockedLevel(currentTerritory)){
+    toast('Completa el nivel anterior para abrir este camino. Una estrella es suficiente.');
+    return false;
+  }
   syncLives();
-  if(save.lives <= 0){ openNoLives(); return; }
+  if(save.lives <= 0){ openNoLives(); return false; }
   spendLife();
   startLevel(n);
+  return true;
 }
 function startLevel(n){
   exitCanvasMode();
@@ -5751,8 +5816,7 @@ function finishLevel(won){
     if(!cur.isDaily){
       if(!save.stars[currentTerritory]) save.stars[currentTerritory] = {};
       save.stars[currentTerritory][cur.n] = Math.max(save.stars[currentTerritory][cur.n]||0, stars);
-      const unlockedLevel = save.unlocked[currentTerritory] || 1;
-      if(cur.n >= unlockedLevel) save.unlocked[currentTerritory] = cur.n+1;
+      save.unlocked[currentTerritory]=Math.max(campaignUnlockedLevel(currentTerritory),cur.n+1);
     }
     persistSave();
     checkAchievements();
@@ -6246,17 +6310,28 @@ const BOSS_TERRITORY_SUBTITLES = {
   8: "La pregunta que el Gran Cristal dejó sin responder",
 };
 function showBossIntro(levelN){
+  if(levelN!==TOTAL_LEVELS || !territoryUnlocked(currentTerritory) || levelN>campaignUnlockedLevel(currentTerritory)){
+    toast('Supera los nueve niveles anteriores. Basta una estrella en cada uno para llegar al guardián.');
+    return false;
+  }
   const name = BOSS_LEVEL_NAMES[currentTerritory] || "Nivel Jefe";
   const line = BOSS_CONFITE_LINES[currentTerritory] || "El nivel más difícil te espera. ¡Tú puedes!";
   const sub  = BOSS_TERRITORY_SUBTITLES[currentTerritory] || "Nivel Jefe";
   document.getElementById("bi-name").textContent = name;
   document.getElementById("bi-sub").textContent  = sub;
   document.getElementById("bi-confite").textContent = line;
-  document.getElementById("bi-btn").onclick = ()=>{
+  document.getElementById('bi-access').textContent='Entrada desbloqueada · 1 vida · no necesitas más estrellas';
+  const button=document.getElementById('bi-btn');
+  let launching=false;
+  button.disabled=false;
+  button.onclick = ()=>{
+    if(launching) return;
+    launching=true; button.disabled=true;
     document.getElementById("boss-intro-overlay").classList.remove("on");
-    tryStartLevel(levelN);
+    if(!tryStartLevel(levelN)){launching=false;button.disabled=false;}
   };
   document.getElementById("boss-intro-overlay").classList.add("on");
+  return true;
 }
 
 /* ---------------- TERRITORIO COMPLETO ---------------- */
