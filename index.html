@@ -2536,7 +2536,7 @@ function goTo(name, territoryId){
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("screen-"+name).classList.add("active");
   if(name==="map"){ if(territoryId) currentTerritory = territoryId; renderMap(); }
-  if(name==="world") renderWorld();
+  if(name==="world"){ renderWorld(); document.getElementById("screen-world").scrollTop=0; }
   if(name==="game"){
     document.getElementById("overlay-story").textContent="";
     renderRestorationScene();
@@ -2902,7 +2902,9 @@ function renderWorld(){
       const prevTerritory = TERRITORIES.find(pt=>pt.id===t.id-1);
       const prevPct = prevTerritory ? Math.round(territoryProgress(prevTerritory.id)*100) : 0;
       card.onclick = ()=>{
-        setWorldBubble(`${t.name} está sellado. Restaura ${prevTerritory?prevTerritory.name:"el anterior"} al 100% (ahora ${prevPct}%) para abrirlo.`);
+        const message=`${t.name} está sellado. Restaura ${prevTerritory?prevTerritory.name:"el anterior"} al 100% (ahora ${prevPct}%) para abrirlo.`;
+        setWorldBubble(message);
+        toast(message);
       };
     }
     list.appendChild(card);

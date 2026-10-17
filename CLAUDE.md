@@ -79,6 +79,13 @@ Cada pantalla es una `<section class="screen" id="screen-NAME">`. `goTo(name)` a
 | `screen-daily` | (diario en world) | Desafío diario (integrado en world) |
 
 ### Dirección visual del mapa (septiembre 2026)
+- **Atlas cinematográfico · 16.10 (Figma → app):** misión móvil con territorio
+  protagonista y datos reales de `campaignNext()`. Continuación por
+  `continueCampaign()` → `tryStartLevel()`; conservar vidas e intro de guardián.
+  `MOCHI_ATLAS_ART` empaqueta el SVG exacto de Figma inline; `mochiLandscapeSVG`
+  mantiene lienzo 390×440 o encuadre compacto 360×210, con IDs por contexto.
+  `#world-atlas` conserva los ocho territorios plegados. `observeAtlas()` también
+  pausa la escena de campaña fuera de vista. Sin raster ni dependencias nuevas.
 - **Un mundo que siente · 16.10:** se amplía el atlas nativo, sin añadir raster
   ni dependencias. `territoryLandscapeSVG(id,key,restoration)` tiene planos lejanos,
   relieve facetado, cascada, luz y niebla graduadas. Mantener únicos los IDs por
@@ -721,7 +728,7 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
   motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
   delay como pseudo-reverb).
-- **PWA v12:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
+- **PWA v13:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
   actualizan en segundo plano. Solo se eliminan cachés antiguas `sugarclash-*`.
   No borrar localStorage para actualizar. Una instalación con el worker anterior
   puede necesitar cerrar y abrir una vez más tras recibir la actualización.

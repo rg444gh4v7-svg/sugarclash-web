@@ -19,12 +19,18 @@ node --test tests/*.test.cjs
 
 Abrir `http://127.0.0.1:4177/`. Las pruebas cubren especiales persistentes, cadenas,
 gravedad, barajado, campaña, sintaxis y comportamiento de la caché online/offline.
-El worker v12 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
+El worker v13 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
 No borrar los datos del navegador: eso elimina el progreso.
 
 ## Iteración actual
 
-- Edición **Un hogar que despierta · 16.10**, identificable en la portada.
+- Edición **Atlas cinematográfico · 16.10**, identificable en la portada.
+- Dirección Figma aplicada al juego: cabecera compacta, recursos reales, territorio
+  protagonista, nivel activo dentro del paisaje, Confite y navegación clara.
+- Mochi incorpora el SVG exacto del diseño: pabellón, puente, cerezos, roca y
+  cascada; reutilizado en campaña, atlas, banner y tablero, con IDs únicos.
+- El atlas completo conserva sus ocho territorios y bloqueos en un desplegable.
+  Pétalos y agua se pausan fuera de vista y respetan movimiento reducido.
 - Aldea con terrazas, árboles y diez edificios redibujados con perspectiva y luz cálida.
 - Inspección antes de construir: beneficios, coste y confirmación explícita; scroll
   conservado, acceso directo desde la misión y regreso a campaña para reunir miel.
@@ -49,13 +55,15 @@ No borrar los datos del navegador: eso elimina el progreso.
 
 ## Qué falta para una prueba comercial real
 
-En la revisión del 16.10 pasaron 37 pruebas del motor/caché/gráficos/aldea y comprobaciones
+En la revisión del 16.10 pasaron 45 pruebas del motor/caché/gráficos/aldea/campaña y comprobaciones
 con DOM: campaña, deslizamiento, pulso, intercambio inválido, ajuste de tamaño,
 guardado, estados de restauración, pausa por visibilidad, resultados, selección sin
 gasto, compra explícita, requisitos, scroll de aldea y guardados con huecos. También se
 renderizaron las ocho ilustraciones, los diez edificios y las 25 variantes de Confite.
-No hubo navegador disponible para revisar el resultado completo: queda verificar
-composición y animaciones en un teléfono real. Un bot codicioso recorrió los 80 niveles y ganó 73
+Se comprobó en navegador la pantalla de mundo a 390px, la entrada real a partida,
+el cobro de vida, regreso al mapa y acceso a los ocho territorios sin desbordamiento
+horizontal. Queda verificar composición y animaciones en un iPhone real.
+Un bot codicioso recorrió los 80 niveles y ganó 73
 en una sola partida por nivel; es una comprobación preliminar, no una medición
 estadística del equilibrio ni de retención. Queda revisión visual en teléfono.
 

@@ -79,6 +79,21 @@ Cada pantalla es una `<section class="screen" id="screen-NAME">`. `goTo(name)` a
 | `screen-daily` | (diario en world) | Desafío diario (integrado en world) |
 
 ### Dirección visual del mapa (septiembre 2026)
+- **Atlas cinematográfico · 16.10 (Figma → app):** la misión principal usa la
+  composición móvil del archivo `WAa4LmTJ9Cd3ZhS3WIpL3E`, nodo `2:40`: recursos
+  reales, título de territorio, paisaje protagonista, hito de continuación,
+  Confite y navegación Mundo / Mi aldea / Archivo. `campaignNext()` sigue siendo
+  la única fuente del territorio/nivel. Ambos botones continúan por
+  `continueCampaign()` → `tryStartLevel()`; no eludir vidas ni intro de guardián.
+- `MOCHI_ATLAS_ART` es el SVG exacto descargado de Figma, empaquetado inline
+  para conservar la arquitectura de un archivo. `mochiLandscapeSVG(key,p,compact)`
+  conserva el lienzo 390×440 de campaña y lo encuadra en 360×210 para atlas,
+  banner y tablero. Todos los IDs y referencias se prefijan por contexto;
+  incluir `campaign` al comprobar colisiones. No usar URLs temporales de Figma.
+- El atlas completo vive plegado en `#world-atlas`; `openWorldAtlas()` lo abre
+  sin escribir el guardado. `observeAtlas()` observa también `.campaign-scene`,
+  desconecta al rerenderizar y pausa pétalos/agua fuera de vista, al ocultar la
+  página y con movimiento reducido. Confite y su burbuja viven en la misión.
 - **Un mundo que siente · 16.10:** se amplía el atlas nativo, sin añadir raster
   ni dependencias. `territoryLandscapeSVG(id,key,restoration)` tiene planos lejanos,
   relieve facetado, cascada, luz y niebla graduadas. Mantener únicos los IDs por
@@ -721,7 +736,7 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
   motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
   delay como pseudo-reverb).
-- **PWA v12:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
+- **PWA v13:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
   actualizan en segundo plano. Solo se eliminan cachés antiguas `sugarclash-*`.
   No borrar localStorage para actualizar. Una instalación con el worker anterior
   puede necesitar cerrar y abrir una vez más tras recibir la actualización.
