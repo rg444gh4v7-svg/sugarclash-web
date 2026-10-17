@@ -12,12 +12,21 @@ function source(name){
 function constant(name){
   const start=script.indexOf(`const ${name}=`);
   assert.ok(start>=0,`Missing constant ${name}`);
+  if(script[start+`const ${name}=`.length]==='"') return script.slice(start,script.indexOf('\n',start));
   return script.slice(start,script.indexOf('\n};',start)+3);
+}
+const svgIds=scene=>[...scene.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
+function checkSvgReferences(scene){
+  const ids=svgIds(scene);
+  assert.equal(new Set(ids).size,ids.length,'SVG IDs must be unique within each scene');
+  for(const id of ids) assert.match(id,/^[A-Za-z][A-Za-z0-9_-]*$/);
+  for(const ref of scene.matchAll(/url\(#([^)]*)\)/g)) assert.ok(ids.includes(ref[1]),`Missing SVG reference ${ref[1]}`);
+  return ids;
 }
 function visuals(){
   const ctx=vm.createContext({document:{createElementNS:()=>({attributes:{},setAttribute(k,v){this.attributes[k]=v;}})}});
-  for(const name of ['ATLAS_PALETTES','ATLAS_MOMENTS']) vm.runInContext(constant(name),ctx);
-  for(const name of ['territoryLandscapeSVG','atlasFeeling','atlasDecoration','confiteSVG','drawAtlasRoute']) vm.runInContext(source(name),ctx);
+  for(const name of ['MOCHI_ATLAS_ART','ATLAS_PALETTES','ATLAS_MOMENTS']) vm.runInContext(constant(name),ctx);
+  for(const name of ['mochiLandscapeSVG','territoryLandscapeSVG','atlasFeeling','atlasDecoration','confiteSVG','drawAtlasRoute']) vm.runInContext(source(name),ctx);
   return ctx;
 }
 test('Eight atlas territories have distinct finite native landscape artwork',()=>{
@@ -29,16 +38,43 @@ test('Eight atlas territories have distinct finite native landscape artwork',()=
     assert.match(scene,/class="land-far"/);assert.match(scene,/class="land-life"/);assert.match(scene,/class="land-veil"/);
   }
 });
-test('Atlas gradient IDs are unique across world, banner and game instances',()=>{
+test('Atlas SVG IDs are unique across world, banner, game and campaign instances',()=>{
   const v=visuals(),all=[];
-  for(const key of ['world','banner','game']) for(let id=1;id<=8;id++){
-    const scene=v.territoryLandscapeSVG(id,key,.5);
-    const ids=[...scene.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
-    assert.equal(ids.length,5);
-    for(const ref of scene.matchAll(/url\(#([^)]*)\)/g)) assert.ok(ids.includes(ref[1]),`Missing gradient ${ref[1]}`);
+  const mochiIdCount=svgIds(vm.runInContext('MOCHI_ATLAS_ART',v)).length;
+  assert.ok(mochiIdCount>5,'Mochi preserves native Figma node IDs as well as definitions');
+  for(const key of ['world','banner','game','campaign']) for(let id=1;id<=8;id++){
+    const scene=key==='campaign'&&id===2?v.mochiLandscapeSVG(key,.5):v.territoryLandscapeSVG(id,key,.5);
+    const ids=checkSvgReferences(scene);
+    assert.equal(ids.length,id===2?mochiIdCount:5);
     all.push(...ids);
   }
   assert.equal(new Set(all).size,all.length);
+});
+test('Native Mochi keeps the full Figma canvas and resolves safely scoped vector references',()=>{
+  const v=visuals(),key='campaign"><script src="https://example.invalid/art"></script> ¿#';
+  const scene=v.mochiLandscapeSVG(key,.5);
+  assert.match(scene,/<svg class="mochi-cinematic"[^>]*\bwidth="390"[^>]*\bheight="440"[^>]*\bviewBox="0 0 390 440"/);
+  assert.match(scene,/aria-hidden="true"/);
+  assert.doesNotMatch(scene,/<(?:image|foreignObject|script)\b|\b(?:href|src)\s*=|url\(\s*[^#]|data:|NaN|undefined|Infinity/i);
+  assert.ok(!scene.includes(key),'Context text must never be interpolated as SVG markup');
+  const ids=checkSvgReferences(scene);
+  assert.ok(ids.length>5);
+  assert.ok(ids.every(id=>id.startsWith('mochi-campaign-')));
+  assert.match(scene,/<(?:linearGradient|radialGradient)\b/);
+  assert.match(scene,/<clipPath\b/);
+});
+test('Mochi clamps restoration in both full campaign and compact atlas artwork',()=>{
+  const v=visuals();
+  for(const compact of [false,true]){
+    const scene=p=>v.mochiLandscapeSVG('restoration',p,compact);
+    assert.equal(scene(-3),scene(0));assert.equal(scene(7),scene(1));
+    for(const value of [NaN,Infinity,-Infinity,'0.5',null]) assert.equal(scene(value),scene(0));
+    assert.notEqual(scene(0),scene(.5));assert.notEqual(scene(.5),scene(1));
+    checkSvgReferences(scene(.5));
+  }
+  assert.match(v.mochiLandscapeSVG('campaign',0),/data-restoration="0"/);
+  assert.match(v.mochiLandscapeSVG('campaign',1),/data-restoration="1"/);
+  assert.match(v.mochiLandscapeSVG('atlas',.5,true),/<svg viewBox="0 0 360 210"/);
 });
 test('Landscape restoration clamps out-of-range progress and rejects non-finite values',()=>{
   const v=visuals(),scene=p=>v.territoryLandscapeSVG(2,'clamp',p);
@@ -103,4 +139,15 @@ test('Ambient character and landscape motion has reduced-motion and hidden-page 
   assert.match(html,/document\.documentElement\.classList\.toggle\('page-hidden',document\.hidden\)/);
   assert.match(html,/\.screen:not\(\.active\) \.land-far/);
   assert.match(html,/@media\(prefers-reduced-motion:reduce\)\{\.land-far,\.land-water,\.land-fireflies\{animation:none!important\}/);
+});
+test('Campaign scenery motion runs only while visible and respects accessibility gates',()=>{
+  for(const selector of ['scene-petal','scene-water-glint']){
+    assert.match(html,new RegExp(`\\.${selector}\\{[^}]*pointer-events:none[^}]*animation-play-state:paused`));
+    assert.match(html,new RegExp(`\\.campaign-scene\\.is-visible \\.${selector}`));
+    assert.match(html,new RegExp(`\\.screen:not\\(\\.active\\) \\.${selector}`));
+    assert.match(html,new RegExp(`\\.page-hidden \\.${selector}`));
+  }
+  assert.match(html,/@media\(prefers-reduced-motion:reduce\)\{\.scene-petal,\.scene-water-glint\{animation:none!important\}/);
+  assert.match(source('observeAtlas'),/querySelectorAll\('\.territory-card,\.level-node,\.campaign-scene'\)/);
+  assert.match(source('renderCampaignMission'),/observeAtlas\(el\)/);
 });

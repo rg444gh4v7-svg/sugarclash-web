@@ -7,7 +7,7 @@ function worker(online=true,storageFull=false){
   const listeners={},stored=new Map(),deleted=[],fetched=[],precache=[];
   const cache={match:async key=>stored.get(typeof key==='string'?key:key.url)?.clone(),put:async(key,value)=>{if(storageFull)throw new Error('quota');stored.set(typeof key==='string'?key:key.url,value);},addAll:async requests=>precache.push(...requests)};
   vm.runInNewContext(source,{URL,Request,Response,self:{location:{origin:'https://game.test',href:'https://game.test/service-worker.js'},addEventListener:(name,fn)=>listeners[name]=fn,skipWaiting:async()=>{},clients:{claim:async()=>{}}},
-    caches:{open:async()=>cache,keys:async()=>['sugarclash-v7','sugarclash-v8','sugarclash-v9','sugarclash-v10','sugarclash-v11','sugarclash-v12','another-app'],delete:async key=>deleted.push(key)},
+    caches:{open:async()=>cache,keys:async()=>['sugarclash-v7','sugarclash-v8','sugarclash-v9','sugarclash-v10','sugarclash-v11','sugarclash-v12','sugarclash-v13','another-app'],delete:async key=>deleted.push(key)},
     fetch:async(request,options)=>{fetched.push({request,options});if(!online)throw new Error('offline');return new Response('new build');}});
   return {stored,deleted,listeners,fetched,precache,async request(mode,url='https://game.test/'){
     const pending=[];let response;
@@ -45,5 +45,5 @@ test('Offline assets remain available',async()=>{
 });
 test('Activation only removes obsolete Sugar Clash caches',async()=>{
   const w=worker(); let done;w.listeners.activate({waitUntil:p=>done=p});await done;
-  assert.deepEqual(w.deleted,['sugarclash-v7','sugarclash-v8','sugarclash-v9','sugarclash-v10','sugarclash-v11']);
+  assert.deepEqual(w.deleted,['sugarclash-v7','sugarclash-v8','sugarclash-v9','sugarclash-v10','sugarclash-v11','sugarclash-v12']);
 });
