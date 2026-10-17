@@ -7,7 +7,7 @@ function worker(online=true,storageFull=false){
   const listeners={},stored=new Map(),deleted=[],fetched=[],precache=[],opened=[];
   const cache={match:async key=>stored.get(typeof key==='string'?key:key.url)?.clone(),put:async(key,value)=>{if(storageFull)throw new Error('quota');stored.set(typeof key==='string'?key:key.url,value);},addAll:async requests=>precache.push(...requests)};
   vm.runInNewContext(source,{URL,Request,Response,self:{location:{origin:'https://game.test',href:'https://game.test/service-worker.js'},addEventListener:(name,fn)=>listeners[name]=fn,skipWaiting:async()=>{},clients:{claim:async()=>{}}},
-    caches:{open:async key=>{opened.push(key);return cache;},keys:async()=>['sugarclash-v7','sugarclash-v8','sugarclash-v9','sugarclash-v10','sugarclash-v11','sugarclash-v12','sugarclash-v13','sugarclash-v14','sugarclash-v15','sugarclash-v16','another-app'],delete:async key=>deleted.push(key)},
+    caches:{open:async key=>{opened.push(key);return cache;},keys:async()=>['sugarclash-v7','sugarclash-v8','sugarclash-v9','sugarclash-v10','sugarclash-v11','sugarclash-v12','sugarclash-v13','sugarclash-v14','sugarclash-v15','sugarclash-v16','sugarclash-v17','another-app'],delete:async key=>deleted.push(key)},
     fetch:async(request,options)=>{fetched.push({request,options});if(!online)throw new Error('offline');return new Response('new build');}});
   return {stored,deleted,listeners,fetched,precache,opened,async request(mode,url='https://game.test/'){
     const pending=[];let response;
@@ -30,8 +30,21 @@ test('Installation refreshes precached files instead of reusing HTTP cache',asyn
   const w=worker();let done;w.listeners.install({waitUntil:p=>done=p});await done;
   assert.ok(w.precache.some(request=>request.url==='https://game.test/index.html'));
   assert.ok(w.precache.some(request=>request.url==='https://game.test/title-world-v3-hd.jpg'));
+  for(const asset of ['guardians-cinematic-v1.webp','worlds-cinematic-v1.webp','icon-crystal-192.png','icon-crystal-512.png','icon-crystal-ios-180.png'])assert.ok(w.precache.some(request=>request.url===`https://game.test/${asset}`),`Missing offline art ${asset}`);
   assert.ok(w.precache.every(request=>request.cache==='reload'));
-  assert.deepEqual(w.opened,['sugarclash-v16']);
+  assert.deepEqual(w.opened,['sugarclash-v17']);
+});
+test('Current PWA artwork and installation icons exist locally and match the manifest sizes',()=>{
+  const path=require('node:path'),root=path.join(__dirname,'..'),manifest=JSON.parse(readFileSync(path.join(root,'manifest.json'),'utf8'));
+  assert.equal(manifest.icons.length,2);
+  assert.deepEqual(manifest.icons.map(icon=>icon.src),['icon-crystal-192.png','icon-crystal-512.png']);
+  for(const icon of [...manifest.icons,{src:'icon-crystal-ios-180.png',sizes:'180x180',type:'image/png'}]){
+    const bytes=readFileSync(path.join(root,icon.src));assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
+    assert.equal(`${bytes.readUInt32BE(16)}x${bytes.readUInt32BE(20)}`,icon.sizes);assert.equal(icon.type,'image/png');
+  }
+  for(const asset of ['guardians-cinematic-v1.webp','worlds-cinematic-v1.webp']){
+    const bytes=readFileSync(path.join(root,asset));assert.equal(bytes.toString('ascii',0,4),'RIFF');assert.equal(bytes.toString('ascii',8,12),'WEBP');
+  }
 });
 test('Cache quota errors do not hide a successful HTML update',async()=>{
   const w=worker(true,true);w.stored.set('https://game.test/',new Response('old build'));
@@ -47,5 +60,5 @@ test('Offline assets remain available',async()=>{
 });
 test('Activation only removes obsolete Sugar Clash caches',async()=>{
   const w=worker(); let done;w.listeners.activate({waitUntil:p=>done=p});await done;
-  assert.deepEqual(w.deleted,['sugarclash-v7','sugarclash-v8','sugarclash-v9','sugarclash-v10','sugarclash-v11','sugarclash-v12','sugarclash-v13','sugarclash-v14','sugarclash-v15']);
+  assert.deepEqual(w.deleted,['sugarclash-v7','sugarclash-v8','sugarclash-v9','sugarclash-v10','sugarclash-v11','sugarclash-v12','sugarclash-v13','sugarclash-v14','sugarclash-v15','sugarclash-v16']);
 });

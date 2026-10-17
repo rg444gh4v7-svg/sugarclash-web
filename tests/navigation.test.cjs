@@ -12,7 +12,7 @@ function source(name){
   return script.slice(start,script.indexOf('\n}',start)+2);
 }
 function harness(lore={},practice=false){
-  const nodes=new Map(),log={navigation:[],toasts:[],persist:0,league:[],achievements:0,reveals:[],loreCalls:[],confite:[],timers:[]};
+  const nodes=new Map(),log={navigation:[],toasts:[],persist:0,league:[],achievements:0,reveals:[],loreCalls:[],confite:[],timers:[],celebrations:0};
   const node=id=>{
     if(!nodes.has(id)){
       const classes=new Set();
@@ -26,7 +26,7 @@ function harness(lore={},practice=false){
     awardLeaguePoints:(amount,reason)=>{log.league.push({amount,reason});return amount;},
     checkAchievements:()=>log.achievements++,showMinigameLoreReveal:id=>log.reveals.push(id),
     setTimeout:(callback,ms)=>{log.timers.push({callback,ms});return log.timers.length;},
-    echoSceneSVG:(id,key)=>`<svg data-mode="${id}" data-context="${key}"></svg>`,
+    echoSceneSVG:(id,key)=>`<svg data-mode="${id}" data-context="${key}"></svg>`,celebrateMilestone:()=>log.celebrations++,
     mgConfiteSay:(prefix,text,mood)=>log.confite.push({prefix,text,mood}),spawnConfetti(){},cancelAnimationFrame(){},
     mobaRunning:true,mobaRAF:1,mobaRevived:true,mobaHeroes:Array.from({length:5},()=>({team:'enemy',alive:false})),
     brRunning:true,brRAF:1,brRevived:true,BR_TOTAL:10});
@@ -101,7 +101,7 @@ test('Practice victories and defeats do not reveal story, award currency or writ
     if(mode==='moba')ctx.mobaEndGame(won);else ctx.brEndGame(won,2);
     assert.equal(ctx.save,reference);assert.equal(JSON.stringify(ctx.save),before,`${mode} practice must preserve saved progress`);
     assert.equal(log.persist,0);assert.equal(log.achievements,0);assert.deepEqual(log.league,[]);assert.deepEqual(log.loreCalls,[]);
-    assert.deepEqual(log.reveals,[]);assert.deepEqual(log.timers,[]);
+    assert.deepEqual(log.reveals,[]);assert.deepEqual(log.timers,[]);assert.equal(log.celebrations,0);
     const shown=[...nodes.values()].map(el=>`${el.textContent} ${el.innerHTML}`).concat(log.confite.map(message=>message.text)).join('\n');
     for(const spoiler of vm.runInContext('MINIGAMES.flatMap(m=>[m.quote,m.truth])',ctx))assert.ok(!shown.includes(spoiler),'Practice must keep the locked memories hidden');
     assert.doesNotMatch(shown,/ECO (?:II|III) RECUPERADO|Bruja Hexadecimal|obligarlo a obedecer/);
@@ -120,6 +120,6 @@ test('Story combat retains its currency, records, league points and one-time mem
     assert.equal(ctx.save.brBestPlacement,placement);assert.ok(ctx.save.minigameLore[mode]);
     assert.deepEqual(log.league.map(reward=>reward.amount),league);assert.deepEqual(log.loreCalls,[mode]);
     assert.equal(log.achievements,1);assert.equal(log.timers.length,1);
-    log.timers[0].callback();assert.deepEqual(log.reveals,[mode]);
+    log.timers[0].callback();assert.deepEqual(log.reveals,[mode]);assert.equal(log.celebrations,1);
   }
 });

@@ -21,12 +21,12 @@ function element(tagName='div'){
   return el;
 }
 function archive(lore={}){
-  const nodes=new Map(),log={navigation:[],toasts:[],persist:0,league:[],timers:[]};
+  const nodes=new Map(),log={navigation:[],toasts:[],persist:0,league:[],timers:[],celebrations:0};
   const save={minigameLore:lore,coins:125,gems:40,lives:3,stars:{1:{1:2}},unlocked:{1:2}};
   const ctx=vm.createContext({save,minigamePractice:false,modeReturnScreen:'minigames',document:{
     getElementById:id=>{if(!nodes.has(id))nodes.set(id,element());return nodes.get(id);},
     createElement:tag=>element(tag)},
-    confiteSVG:mood=>`<g data-mood="${mood}"></g>`,
+    confiteSVG:mood=>`<g data-mood="${mood}"></g>`,territoryLandscapeSVG:(id,key)=>`<svg data-territory="${id}" data-context="${key}"></svg>`,celebrateMilestone:()=>log.celebrations++,
     goTo:id=>log.navigation.push(id),toast:text=>log.toasts.push(text),persistSave:()=>log.persist++,
     awardLeaguePoints:(amount,reason)=>{log.league.push({amount,reason});return amount;},
     setTimeout:(callback,ms)=>{log.timers.push({callback,ms});return log.timers.length;},
@@ -34,7 +34,7 @@ function archive(lore={}){
   const start=script.indexOf('const MINIGAMES = [');
   assert.ok(start>=0,'Missing narrative chapter definitions');
   vm.runInContext(script.slice(start,script.indexOf('\n];',start)+3),ctx);
-  for(const name of ['minigameLoreDone','minigameUnlocked','minigameLoreCount','startMode','startMinigameChapter','unlockMinigameLore']) vm.runInContext(source(name),ctx);
+  for(const name of ['minigameLoreDone','minigameUnlocked','minigameLoreCount','startMode','startMinigameChapter','unlockMinigameLore','cinematicScene']) vm.runInContext(source(name),ctx);
   return {ctx,nodes,log};
 }
 function svgIds(scene){ return [...scene.matchAll(/\bid="([^"]+)"/g)].map(match=>match[1]); }
@@ -112,11 +112,11 @@ test('Recovering a lore memory grants its currency and league reward exactly onc
   assert.match(entry.quote,/latido/);assert.equal(ctx.save.coins,175);
   assert.equal(log.persist,1);assert.deepEqual(log.league,[{amount:10,reason:'Eco I recuperado'}]);
   assert.equal(log.timers.length,1);assert.equal(log.timers[0].ms,650);
-  log.timers[0].callback();assert.equal(log.reveal,'survival');
+  log.timers[0].callback();assert.equal(log.reveal,'survival');assert.equal(log.celebrations,1);
   const recovered=JSON.stringify(ctx.save);
   assert.equal(ctx.unlockMinigameLore('survival'),false);
   assert.equal(JSON.stringify(ctx.save),recovered);assert.equal(ctx.save.minigameLore.survival,entry);
-  assert.equal(log.persist,1);assert.equal(log.league.length,1);assert.equal(log.timers.length,1);
+  assert.equal(log.persist,1);assert.equal(log.league.length,1);assert.equal(log.timers.length,1);assert.equal(log.celebrations,1);
 });
 test('Echo scenes are distinct standalone vectors with unique IDs in archive and live contexts',()=>{
   const ctx=vm.createContext({});vm.runInContext(source('echoSceneSVG'),ctx);
@@ -275,6 +275,32 @@ test('Both combat renderers draw finite frames without changing combat state or 
       for(const {args} of drawing.calls.filter(call=>call.name==='fillRect'))assert.ok(args[2]>=0&&args[3]>=0,'Health bars must remain drawable');
     }
   }
+});
+test('Painted enemy sprites crop the final cell of their 4 by 2 sheet and retain clamped health bars',()=>{
+  for(const [width,height] of [[1024,512],[2048,1024]])for(const [hp,ratio] of [[-10,0],[60,.6],[120,1]]){
+    const drawing=drawingContext(),sprite={complete:true,naturalWidth:width,naturalHeight:height};
+    const unit={x:170,y:230,hp,maxHp:100,icon:'★',alive:true,isPlayer:false},before=JSON.stringify(unit),r=12;
+    const ctx=vm.createContext({cinematicImages:{guardian:sprite}});vm.runInContext(source('minigameDrawUnit'),ctx);
+    ctx.minigameDrawUnit(drawing.ctx,unit,r,'#9885ab',true);
+    const images=drawing.calls.filter(call=>call.name==='drawImage');assert.equal(images.length,1);
+    assert.equal(images[0].args[0],sprite);
+    assert.deepEqual(images[0].args.slice(1),[width*3/4,height/2,width/4,height/2,unit.x-r*1.35,unit.y-r*1.6,r*2.7,r*2.7]);
+    const bars=drawing.calls.filter(call=>call.name==='fillRect');assert.equal(bars.length,2);
+    const w=r*2+3;assert.deepEqual(bars[1].args,[unit.x-w/2,unit.y-r-7,w*ratio,3]);
+    assert.equal(JSON.stringify(unit),before);drawing.assertBalanced();
+  }
+});
+test('Unit drawing keeps its native fallback while sprites load or fail and leaves allied icons readable',()=>{
+  for(const sprite of [undefined,{complete:false,naturalWidth:1024,naturalHeight:512},{complete:true,naturalWidth:0,naturalHeight:0}]){
+    const drawing=drawingContext(),ctx=vm.createContext(sprite===undefined?{}:{cinematicImages:{guardian:sprite}});
+    vm.runInContext(source('minigameDrawUnit'),ctx);
+    ctx.minigameDrawUnit(drawing.ctx,{x:170,y:230,hp:60,maxHp:100,isPlayer:false},12,'#9885ab',true);
+    assert.equal(drawing.calls.filter(call=>call.name==='drawImage').length,0);
+    assert.ok(drawing.calls.some(call=>call.name==='arc'));assert.equal(drawing.calls.filter(call=>call.name==='fillRect').length,2);drawing.assertBalanced();
+  }
+  const drawing=drawingContext(),ctx=vm.createContext({cinematicImages:{guardian:{complete:true,naturalWidth:1024,naturalHeight:512}}});
+  vm.runInContext(source('minigameDrawUnit'),ctx);ctx.minigameDrawUnit(drawing.ctx,{x:170,y:230,hp:100,maxHp:100,icon:'★',isPlayer:true},12,'#d6a5ae',false);
+  assert.equal(drawing.calls.filter(call=>call.name==='drawImage').length,0);assert.ok(drawing.calls.some(call=>call.name==='fillText'&&call.args[0]==='★'));drawing.assertBalanced();
 });
 function hexArchive(unlocked=4){
   const nodes=new Map(),log={starts:[],persist:0};

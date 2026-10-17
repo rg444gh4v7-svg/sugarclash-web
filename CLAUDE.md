@@ -801,8 +801,9 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
   plegado en `#world-extras`, misión principal en `#campaign-mission`.
 - Los recuerdos se muestran en `#overlay-story` al ganar, no detrás del resultado.
 - Validación sin dependencias: `node --test tests/*.test.cjs` (motor, campaña y caché).
-- El cambio de poderes altera el balance: las tasas históricas del bot ya no son
-  evidencia del balance actual. Falta nueva prueba completa de los 80 niveles.
+- Las tasas históricas del bot no describen el balance actual. El recorrido
+  reproducible de los 80 niveles está en `docs/PLAYTHROUGH_REPORT.md`: valida
+  acceso y progresión del motor, no dificultad humana ni retención.
 
 ### Hecho (movido del roadmap)
 - ~~Exportar/importar guardado~~ — `exportSave()`/`importSave()` en Ajustes, código base64 del save

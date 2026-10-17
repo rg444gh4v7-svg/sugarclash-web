@@ -6,8 +6,8 @@
 <title>Sugar Clash: Dulcelandia</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0D0015">
-<link rel="icon" type="image/png" href="icon-512.png?v=6">
-<link rel="apple-touch-icon" sizes="180x180" href="icon-ios-180.png?v=6">
+<link rel="icon" type="image/png" href="icon-crystal-512.png?v=17">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-crystal-ios-180.png?v=17">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Karla:wght@400;600;700&display=swap" rel="stylesheet">
@@ -1179,6 +1179,71 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 .screen:not(.active) .dg-piece,.page-hidden .dg-piece{animation-play-state:paused!important}
 @media(max-height:700px){#screen-dggame> .dg-scene{height:61px}#screen-dggame .dg-scene-confite{height:45px;width:44px}#screen-dggame .dg-scene-caption{font-size:14px;bottom:10px}.dg-scene{height:160px}#screen-dggame{gap:5px;padding-bottom:7px}#dg-grid{max-width:min(380px,calc(100dvh - 232px));padding:6px;gap:3px}}
 @media(prefers-reduced-motion:reduce){.dg-piece,.dg-cell.hint-pulse .dg-piece,.dg-cell.dg-shadow-hit .dg-shadow,.dg-shake,.dg-combo-mult,.dg-tuto-highlight,#dg-flash.on{animation:none!important}.dg-xp-fill,#dg-progress-fill,#dg-timer-fill{transition:none}}
+/* ===== EL CRISTAL VIVO · arte cinematográfico, interfaz jugable ===== */
+.crystal-brand{width:52px;height:52px;object-fit:cover;border-radius:15px;box-shadow:0 4px 24px #0008;border:1px solid #e8c79566}
+#screen-title .crystal-brand{position:absolute;left:0;top:0;width:42px;height:42px;opacity:.9}
+.cinematic-scene{display:block;position:relative;width:100%;height:100%;overflow:hidden;isolation:isolate}
+.cinematic-fallback,.cinematic-art{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.cinematic-fallback>svg{width:100%;height:100%}
+.cinematic-art{opacity:0;filter:grayscale(var(--art-grey,0%));transition:filter 1.3s,opacity .4s}
+.environment-art-ready .cinematic-art{opacity:1}.environment-art-ready .cinematic-fallback{visibility:hidden}
+.cinematic-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#10091b11,transparent 45%,#10091b77);pointer-events:none}
+.campaign-scene .campaign-stage{height:220px}.campaign-scene .campaign-landscape,.campaign-scene .campaign-landscape.legacy{inset:0;width:100%;height:100%;transform:none;filter:none}
+.campaign-scene .campaign-marker{left:54%!important;top:62%!important}.campaign-scene .campaign-marker-label{left:59%!important;top:81%!important}
+.campaign-scene::before,.campaign-scene::after{display:none}.campaign-scene .scene-petal{z-index:2}
+.campaign-heading h2{color:#f6dfb7}.campaign-play{background:linear-gradient(#f6ddb2,#bf945e)!important;color:#291b2d!important}
+.territory-landscape .cinematic-scene{border-radius:30px}.territory-card .cinematic-art{filter:grayscale(var(--land-grey,0%)) brightness(.85)}
+#screen-map,#screen-game{isolation:isolate;background:#100919}
+.interior-backdrop{position:absolute;inset:0;z-index:-3;pointer-events:none;overflow:hidden;opacity:.58;background:url('title-world-v3-hd.jpg') center/cover}
+.interior-backdrop>.cinematic-scene{display:none}
+.interior-backdrop::after{content:"";position:absolute;inset:0;background:linear-gradient(#0d0619aa,#130b20a8 38%,#0d0619ed)}
+#screen-map>.interior-backdrop{position:fixed;opacity:.8}
+#screen-map .atlas-biome{opacity:.12}#screen-map .atlas-route{filter:drop-shadow(0 0 4px #ebc89155)}
+.level-landscape{position:absolute;z-index:-1;top:0;left:50%;width:190px;height:100px;transform:translateX(-50%);border-radius:50%;overflow:hidden;mask-image:radial-gradient(ellipse,#000 25%,#000b 52%,transparent 72%);opacity:.8}
+#territory-banner{background:#160d2499;backdrop-filter:blur(9px)}
+.banner-landscape{right:0;bottom:0;inset:0;width:100%;height:100%;opacity:.65;mask-image:linear-gradient(90deg,transparent,#000)}
+.guardian-portrait{position:relative;display:block;width:100%;height:100%;isolation:isolate;filter:drop-shadow(0 5px 5px #0009);transform-origin:50% 85%;transition:filter .5s,transform .5s}
+.guardian-fallback,.guardian-painted{position:absolute;inset:0;display:block;width:100%;height:100%}.guardian-fallback svg{width:100%;height:100%}
+.guardian-painted{background:url('guardians-cinematic-v1.webp');background-size:400% 200%;background-position:var(--guardian-x) var(--guardian-y);opacity:0}
+.guardian-art-ready .guardian-painted{opacity:1}.guardian-art-ready .guardian-fallback{visibility:hidden}
+.guardian-portrait[data-state="restored"]{filter:drop-shadow(0 0 9px #efc98b77) saturate(.75)}
+.guardian-portrait[data-state="defeated"]{filter:drop-shadow(0 0 15px #e8c795aa) saturate(.55);transform:scale(.9) rotate(-4deg)}
+#level-grid .level-node .level-num{position:relative;width:78px;height:78px;background:radial-gradient(ellipse at 50% 75%,#e2b57733,transparent 67%)!important;border:0!important;box-shadow:none!important;border-radius:0;animation:none!important;overflow:visible}
+#level-grid .boss-level .level-num{width:100px;height:100px}
+.level-number-tag{position:absolute;bottom:0;right:-3px;min-width:24px;height:24px;padding:2px;border-radius:50%;font:600 15px/18px 'Fraunces',serif;background:linear-gradient(#f4dbb0,#b88f59);color:#291d2d;border:1px solid #ffe9c5;box-shadow:0 2px 5px #0009;z-index:3}
+#level-grid .level-node.locked{filter:grayscale(.9);opacity:.58}#level-grid .lock-icon{top:55px;right:calc(50% - 37px)}
+#level-grid .level-node.is-current .guardian-portrait{filter:drop-shadow(0 0 9px #ffdd9c88)}
+#level-grid .current-step{top:-14px}#level-grid .level-name{background:#10091b77;border-radius:8px;padding:2px 5px}#level-grid .hard-badge{top:57px;left:calc(50% - 52px)}
+#level-grid .level-node{gap:2px}#level-grid .boss-level .level-name{font-size:11px}
+#restoration-window{min-height:100px;padding-right:112px;background:#10091b66}
+#restoration-emblem{right:3px;top:1px;width:108px;height:100px;filter:none;z-index:2}
+#restoration-emblem .guardian-portrait{transform:translateY(calc(var(--guardian-pressure,0)*4px)) scale(calc(1 - var(--guardian-pressure,0)*.08))}
+#restoration-emblem .t-emblem{width:65px;height:65px;margin:15px}
+.restoration-landscape .cinematic-art{filter:grayscale(var(--scene-grey,100%))}
+.restoration-window .restoration-landscape{opacity:.8}.restoration-name{text-shadow:0 2px 8px #000}
+#screen-game .hud-stat{background:linear-gradient(#33273ce6,#160e25e6);border-color:#d8b87a44;border-radius:14px}
+#screen-game #grid{border:1px solid #e4c49277;background:linear-gradient(135deg,#443047d9,#161126ed);box-shadow:inset 0 2px 9px #0009,0 0 0 4px #21142fbb,0 14px 32px #0009}
+#screen-game .cell{background-color:#160d2588;border-color:#f6dbb715}
+#boss-intro-overlay{background:linear-gradient(#100819b3,#100819f2),url('title-world-v3-hd.jpg') center/cover}
+.bi-crown{width:180px;height:180px;font-size:0;animation:none!important}
+.result-companions{display:flex;align-items:flex-end;justify-content:center;width:180px;height:96px;gap:2px}.result-companions>svg{width:86px;height:80px}.result-companions .guardian-portrait{width:90px;height:96px}
+.milestone-bloom{position:relative;isolation:isolate}.milestone-bloom .cinematic-art{animation:colorAwakens 2.6s ease-out both}
+.milestone-fx{position:absolute;inset:0;z-index:8;pointer-events:none;overflow:visible;animation:milestoneEnd 2.6s both}
+.milestone-ring{position:absolute;left:50%;top:42%;width:28px;height:28px;border-radius:50%;border:2px solid #ffe6b2;box-shadow:0 0 20px #ffd37c99;animation:milestoneRing 1.8s ease-out both}
+.milestone-spark{position:absolute;left:50%;top:42%;width:5px;height:9px;background:#f6d99c;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);animation:milestoneSpark 1.7s var(--spark-delay) ease-out both}
+.milestone-bloom .guardian-portrait{animation:guardianRelease 2.1s ease-out both}
+#milestone-status{position:absolute;z-index:88;left:50%;bottom:max(20px,env(safe-area-inset-bottom));transform:translateX(-50%);max-width:90%;width:max-content;padding:12px 18px;color:#fff0d2;background:linear-gradient(120deg,#34203df5,#1c192df5);border:1px solid #e8c79588;border-radius:20px;text-align:center;font:500 14px/1.35 'Fraunces',serif;pointer-events:none;box-shadow:0 8px 24px #0007}
+#milestone-status:empty{display:none}
+@keyframes milestoneRing{0%{transform:translate(-50%,-50%) scale(.5);opacity:0}18%{opacity:1}100%{transform:translate(-50%,-50%) scale(8);opacity:0}}
+@keyframes milestoneSpark{0%{transform:translate(0,0) scale(.1);opacity:0}15%{opacity:1}100%{transform:translate(var(--spark-x),var(--spark-y)) rotate(160deg);opacity:0}}
+@keyframes milestoneEnd{0%,90%{opacity:1}100%{opacity:0}}
+@keyframes colorAwakens{0%{filter:grayscale(1) brightness(.55)}50%{filter:grayscale(0) brightness(1.3)}100%{filter:grayscale(var(--art-grey,0%)) brightness(1)}}
+@keyframes guardianRelease{0%{filter:grayscale(1);transform:scale(.88)}45%{filter:drop-shadow(0 0 20px #ffe6ae);transform:scale(1.07)}100%{transform:scale(1)}}
+.page-hidden .milestone-fx,.page-hidden .milestone-bloom *{animation-play-state:paused!important}
+@media(max-height:700px){#restoration-window{min-height:80px;padding-right:88px}#restoration-emblem{width:87px;height:80px}.restoration-detail{font-size:9px}.campaign-scene .campaign-stage{height:190px}}
+#screen-minigames,#screen-moba,#screen-br,#screen-village{isolation:isolate}
+#screen-moba,#screen-br{background:linear-gradient(#150a2388,#140a22dd),url('title-world-v3-hd.jpg') center/cover}
+@media(prefers-reduced-motion:reduce){.milestone-bloom .cinematic-art,.milestone-bloom .guardian-portrait,.milestone-fx,.milestone-ring,.milestone-spark{animation:none!important}.milestone-ring{opacity:.7;transform:translate(-50%,-50%);width:90px;height:90px}.milestone-spark{display:none}.guardian-portrait{transition:none}}
 </style>
 </head>
 <body>
@@ -1305,6 +1370,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <i class="title-shard s1"></i><i class="title-shard s2"></i><i class="title-shard s3"></i><i class="title-shard s4"></i>
     </div>
     <div class="title-content">
+      <img class="crystal-brand" src="icon-crystal-192.png" alt="Emblema del Gran Cristal" width="42" height="42">
       <div class="title-eyebrow"><span class="title-eyebrow-dot"></span>El color está en juego</div>
       <svg id="confite-title" viewBox="0 0 100 90" fill="none">
         <ellipse cx="28" cy="14" rx="13" ry="22" fill="#FF8FB0" transform="rotate(-15 28 14)"/>
@@ -1322,7 +1388,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
         <div class="home-links"><button id="btn-title-secondary" onclick="goTo('world')">Explorar el mundo</button><button onclick="goTo('minigames')">Todos los modos</button></div>
       </div>
       <div id="confite-title-bubble" style="font-size:11px;color:var(--crystal);font-style:italic;opacity:.85;display:none"></div>
-      <div class="build-badge">ELIGE Y JUEGA · 17.10</div>
+      <div class="build-badge">EL CRISTAL VIVO · 17.10</div>
     </div>
   </section>
 
@@ -2654,9 +2720,73 @@ function importSave(){
 }
 
 /* ---------------- NAVEGACIÓN ---------------- */
+// Celebraciones de sesión: jamás se deducen al leer/importar un guardado.
+const pendingMilestones=new Map(),milestoneFrames=new Set(),milestoneCleanups=new Set();
+function queueMilestone(scope,id,detail={}){
+  pendingMilestones.set(`${scope}:${id}`,{...detail});
+}
+function scheduleMilestone(scope,id,selector){
+  const key=`${scope}:${id}`;
+  if(!pendingMilestones.has(key)) return;
+  const frame=requestAnimationFrame(()=>{
+    milestoneFrames.delete(frame);
+    const screen=document.getElementById(`screen-${scope}`),target=document.querySelector(selector);
+    if(document.hidden || !screen?.classList.contains('active') || !target || !target.isConnected) return;
+    const detail=pendingMilestones.get(key);
+    if(!detail) return;
+    pendingMilestones.delete(key);
+    target.scrollIntoView?.({behavior:'auto',block:'center'});
+    celebrateMilestone(target,detail.label||'El color vuelve. Un nuevo camino te espera.');
+  });
+  milestoneFrames.add(frame);
+}
+function celebrateMilestone(element,label){
+  if(!element || document.hidden) return;
+  const reduced=window.matchMedia?.('(prefers-reduced-motion:reduce)').matches;
+  const fx=document.createElement('span');fx.className='milestone-fx';fx.setAttribute('aria-hidden','true');
+  const ring=document.createElement('i');ring.className='milestone-ring';fx.appendChild(ring);
+  if(!reduced) for(let i=0;i<12;i++){
+    const spark=document.createElement('i'),angle=i*Math.PI/6;
+    spark.className='milestone-spark';spark.style.setProperty('--spark-x',`${Math.cos(angle)*(55+i%3*14)}px`);
+    spark.style.setProperty('--spark-y',`${Math.sin(angle)*(55+i%3*14)-18}px`);
+    spark.style.setProperty('--spark-delay',`${i%4*.055}s`);fx.appendChild(spark);
+  }
+  element.classList.add('milestone-bloom');element.appendChild(fx);
+  const status=document.getElementById('milestone-status');if(status) status.textContent=label;
+  let timer;
+  const cleanup=()=>{clearTimeout(timer);fx.remove();element.classList.remove('milestone-bloom');if(status?.textContent===label) status.textContent='';milestoneCleanups.delete(cleanup);};
+  milestoneCleanups.add(cleanup);timer=setTimeout(cleanup,reduced?1800:2800);
+}
+function cancelMilestoneEffects(){
+  milestoneFrames.forEach(frame=>cancelAnimationFrame(frame));milestoneFrames.clear();
+  Array.from(milestoneCleanups).forEach(cleanup=>cleanup());
+}
+const cinematicImages={};
+function loadCinematicArt(){
+  if(typeof Image==='undefined') return;
+  for(const [key,path] of [['guardian','guardians-cinematic-v1.webp'],['environment','worlds-cinematic-v1.webp']]){
+    const img=new Image();img.onload=()=>document.documentElement.classList.add(`${key}-art-ready`);img.src=path;cinematicImages[key]=img;
+  }
+}
+function cinematicScene(territoryId,key='scene',restoration=1){
+  const t=Math.max(1,Math.min(8,Math.floor(Number(territoryId)||1))),i=t-1;
+  const p=Math.max(0,Math.min(1,Number(restoration)||0));
+  return `<div class="cinematic-scene" aria-hidden="true" style="--art-grey:${Math.round((1-p)*65)}%"><div class="cinematic-fallback">${territoryLandscapeSVG(t,key,p)}</div><svg class="cinematic-art" viewBox="0 0 400 100" preserveAspectRatio="xMidYMid slice"><image href="worlds-cinematic-v1.webp" width="800" height="400" x="${-i%2*400}" y="${-Math.floor(i/2)*100}"/></svg></div>`;
+}
+function guardianPortrait(territoryId,level,key='map',state='hostile'){
+  const t=Math.max(1,Math.min(8,Math.floor(Number(territoryId)||1))),i=t-1;
+  const n=Math.max(1,Math.min(10,Math.floor(Number(level)||1))),mood=['hostile','restored','defeated'].includes(state)?state:'hostile';
+  return `<span class="guardian-portrait" data-state="${mood}" aria-hidden="true" style="--guardian-x:${i%4*100/3}%;--guardian-y:${Math.floor(i/4)*100}%"><span class="guardian-fallback">${guardianSVG(t,n,key,mood)}</span><span class="guardian-painted" style="transform:scale(${n===10?1:.83+n*.012})"></span></span>`;
+}
+function setInteriorBackdrop(screen,territoryId,key){
+  let art=screen.querySelector('.interior-backdrop');
+  if(!art){art=document.createElement('div');art.className='interior-backdrop';art.setAttribute('aria-hidden','true');screen.prepend(art);}
+  art.innerHTML=cinematicScene(territoryId,key,1);
+}
 function goTo(name, territoryId){
   // Supervivencia comparte screen-game: no existe una screen-survival intermedia.
   if(name==="survival"){ startSurvival(); return; }
+  cancelMilestoneEffects();
   if(name!=="game" && document.getElementById("screen-game").classList.contains("active")){ boardRun++; clearTimeout(hintTimerId); }
   document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
   document.getElementById("screen-"+name).classList.add("active");
@@ -2689,6 +2819,7 @@ function goTo(name, territoryId){
   if(name!=="map") document.getElementById("boss-intro-overlay").classList.remove("on");
   if(name!=="game") exitCanvasMode();
   if(name!=="dggame"){ dgStopTimer(); dgStopAmbient(); clearTimeout(dgHintTimerId); }
+  if(name==='minigames'||name==='village') setInteriorBackdrop(document.getElementById('screen-'+name),1,`${name}-backdrop`);
   refreshAppUpdateNotice();
 }
 function toggleMute(){
@@ -2959,7 +3090,7 @@ function renderCampaignMission(){
     <button class="campaign-play" onclick="continueCampaign()">${complete?'Volver a jugar':`Continuar · ${n===TOTAL_LEVELS?'Guardián':`Ruta ${n}`}`}</button>
     <div class="campaign-next">${complete?'Vuelve al Gran Cristal':`${arc.title} · Ruta ${n}/10`}</div>
     <div class="campaign-scene${t.id===2?' is-mochi':''}" style="--land-grey:${Math.max(0,45-progress*45)}%">
-      <div class="campaign-stage"><div class="campaign-landscape${t.id===2?'':' legacy'}" aria-hidden="true">${t.id===2?mochiLandscapeSVG('campaign',progress):territoryLandscapeSVG(t.id,'campaign',progress)}</div>
+      <div class="campaign-stage"><div class="campaign-landscape${t.id===2?'':' legacy'}" aria-hidden="true">${cinematicScene(t.id,'campaign',progress)}</div>
       ${[12,32,63,87].map((x,i)=>`<i class="scene-petal" aria-hidden="true" style="--x:${x}%;--y:${25+i*13}%;--delay:-${i*1.7}s"></i>`).join('')}
       ${t.id===2?'<i class="scene-water-glint" aria-hidden="true"></i>':''}
       <button class="campaign-marker" onclick="continueCampaign()" aria-label="${complete?'Volver al Gran Cristal':`Continuar historia en ${t.name}, nivel ${n}`}" title="${arc.title}">${n===TOTAL_LEVELS?'✦':n}</button><span class="campaign-marker-label">${complete?'Vuelve a casa':'Sigue aquí'}</span></div>
@@ -3007,6 +3138,7 @@ function renderWorld(){
     const current=unlocked&&!restored&&t.id===campaignNext().territory.id;
     card.className = `territory-card ${i%2===0?"map-left":"map-right"}${unlocked?"":" locked"}${restored?" restored":""}${current?" is-current":""}`;
     card.dataset.routeX=i%2===0?42:58;
+    card.dataset.territory=t.id;
     card.dataset.routeY=207+i*270;
     card.setAttribute('role','button');card.tabIndex=0;
     card.setAttribute('aria-label',`${t.name} · ${pct}% restaurado${current?' · Continuar aquí':''}`);
@@ -3017,7 +3149,7 @@ function renderWorld(){
     const feeling=atlasFeeling(t.id,p);
     const routeState = restored ? "Restaurado" : unlocked ? feeling.label : "Bajo la niebla";
     card.innerHTML = `
-      <div class="territory-landscape">${territoryLandscapeSVG(t.id,'world',p)}</div>
+      <div class="territory-landscape">${cinematicScene(t.id,'world',p)}</div>
       ${current?`<div class="atlas-guide"><svg viewBox="0 0 100 90">${confiteSVG('happy')}</svg><span>Estás aquí</span></div>`:''}
       <div class="t-icon" style="--territory-color:${t.hue}">
         ${territoryEmblemSVG(t.id,!unlocked)}
@@ -3048,6 +3180,8 @@ function renderWorld(){
   });
   drawAtlasRoute(list,Array.from(list.querySelectorAll('.territory-card')),2260);
   observeAtlas(list);
+  const worldEvent=Array.from(pendingMilestones.entries()).find(([key])=>key.startsWith('world:'));
+  if(worldEvent){const id=worldEvent[0].slice(6);document.getElementById('world-atlas').open=true;scheduleMilestone('world',id,`.territory-card[data-territory="${id}"]`);}
   document.getElementById("world-journey-count").textContent = `${restoredCount} / ${TERRITORIES.length}`;
   document.getElementById("world-journey-note").textContent = restoredCount===0
     ? "Cada territorio recuperado reconstruye un fragmento de la memoria de Confite."
@@ -3455,6 +3589,7 @@ function buildStructure(id){
   villageSelectedId=id;
   renderVillage(id);
   setVillageBubble(b.line);
+  celebrateMilestone(document.querySelector(`.v-node[data-building="${id}"]`),'Tu aldea cobra vida.');
 }
 function buildStructureWithAd(id){
   const b = BUILDINGS.find(x=>x.id===id);
@@ -3467,6 +3602,7 @@ function buildStructureWithAd(id){
   villageSelectedId=id;
   renderVillage(id);
   setVillageBubble(b.line + " (anuncio simulado — falta conectar la red)");
+  celebrateMilestone(document.querySelector(`.v-node[data-building="${id}"]`),'Un nuevo hogar encendido.');
 }
 function setVillageBubble(text){
   document.getElementById("confite-village-bubble").textContent = text;
@@ -3741,7 +3877,7 @@ function renderMinigames(){
     const modeName=m.id==='survival'?'Supervivencia':m.id==='moba'?'Guerra 5v5':'Royale';
     const how=m.id==='survival'?'Combina caramelos para ganar segundos. ¿Cuánto puedes mantener vivo el pulso?':m.id==='moba'?'Guía a Dulce Roja con cuatro aliados. Acércate para atacar y usa Pulso cuando haya enemigos cerca.':'Muévete, esquiva a los rivales y permanece dentro del anillo. Usa Impulso para escapar.';
     div.innerHTML = `
-      <span class="echo-scene" style="display:block" aria-hidden="true">${echoSceneSVG(m.id,'archive')}</span>
+      <span class="echo-scene" style="display:block" aria-hidden="true">${cinematicScene(m.id==='survival'?8:m.id==='moba'?3:5,'archive',1)}</span>
       <span class="mg-info">
         <span class="mg-name">${modeName}</span>
         <span class="mg-mode-label">${m.id==='survival'?'Match-3 · contra el reloj':m.id==='moba'?'Combate 5v5 · contra IA':'Huida Royale · contra 9 bots'}</span>
@@ -3765,7 +3901,7 @@ function unlockMinigameLore(id){
   save.coins=(save.coins||0)+50;
   awardLeaguePoints(10,`${def.chapter} recuperado`);
   persistSave();
-  setTimeout(()=>showMinigameLoreReveal(id),650);
+  setTimeout(()=>{showMinigameLoreReveal(id);celebrateMilestone(document.getElementById('mg-lore-icon'),'Un eco de la historia vuelve a ti.');},650);
   return true;
 }
 function showMinigameLoreReveal(id){
@@ -4092,6 +4228,12 @@ function minigameDrawUnit(ctx,u,r,color,enemy){
     ctx.beginPath();ctx.moveTo(u.x-3,u.y+r+7);ctx.lineTo(u.x,u.y+r+3);ctx.lineTo(u.x+3,u.y+r+7);ctx.fillStyle='#ffe8ae';ctx.fill();
   }
   const body=ctx.createLinearGradient(u.x-r,u.y-r,u.x+r,u.y+r);
+  const sprite=typeof cinematicImages!=='undefined'?cinematicImages.guardian:null;
+  const painted=enemy && sprite?.complete && sprite.naturalWidth>0;
+  if(painted){
+    const sw=sprite.naturalWidth/4,sh=sprite.naturalHeight/2;
+    ctx.drawImage(sprite,sw*3,sh,sw,sh,u.x-r*1.35,u.y-r*1.6,r*2.7,r*2.7);
+  }else{
   body.addColorStop(0,'#e4d4b2');body.addColorStop(.24,color);body.addColorStop(1,enemy?'#59465f':'#61594c');
   ctx.beginPath();ctx.arc(u.x,u.y,r,0,Math.PI*2);ctx.fillStyle=body;ctx.fill();
   ctx.strokeStyle=u.isPlayer?'#ffefcd':enemy?'#baa6c4':'#b7c6b4';ctx.lineWidth=u.isPlayer?2:1.2;ctx.stroke();
@@ -4101,6 +4243,7 @@ function minigameDrawUnit(ctx,u,r,color,enemy){
     ctx.beginPath();ctx.moveTo(u.x,u.y-7);ctx.lineTo(u.x,u.y+7);ctx.lineTo(u.x+5,u.y);ctx.closePath();ctx.fillStyle='#96829f';ctx.fill();
   }else{
     ctx.font=`${r+2}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(u.icon,u.x,u.y+1);
+  }
   }
   if(u.isHero&&!u.isPlayer){
     const y=u.y-r-11;
@@ -4514,18 +4657,131 @@ function startBR(){
   mgConfiteSay("br",minigamePractice?'Eres el corazón con aro dorado. Arrastra para moverte y no salgas del anillo.':"Esto no era una arena. Eran los fragmentos huyendo de algo que acababa de nacer.",minigamePractice?'happy':"worried");
 }
 
+/* Guardianes y sus ecos: ilustración vectorial pura, aislada por lugar de uso. */
+function guardianSVG(territoryId,level,key='map',state='hostile'){
+  const finite=value=>{try{const n=Number(value);return Number.isFinite(n)?n:1;}catch{return 1;}};
+  const t=Math.max(1,Math.min(8,Math.floor(finite(territoryId))));
+  const n=Math.max(1,Math.min(10,Math.floor(finite(level))));
+  let scope;try{scope=String(key??'map').replace(/[^A-Za-z0-9_-]/g,'').slice(0,40)||'map';}catch{scope='map';}
+  const p=`guardian-${scope}-${t}-${n}`,boss=n===10,tier=Math.floor((n-1)/3);
+  const mood=state==='restored'?'restored':state==='defeated'?'defeated':'hostile';
+  const colors=[null,['#d98973','#773b50','#e7bc79','#ffe1b4','#47283f'],['#cf9bc4','#68496e','#d8bb74','#fff1cb','#41334c'],['#c77b72','#703a55','#82aa95','#ffe0a7','#3c2d48'],['#a97d61','#4a3440','#ceaa76','#f5d8a3','#332735'],['#92ae85','#345b58','#c4aa72','#e3dfb4','#293d42'],['#e3ab73','#7b493f','#d28161','#fff0cd','#4b303a'],['#cbb4a7','#62465d','#c49678','#fff0ca','#392d43'],['#b9b7dd','#4f547c','#e2c68d','#eff0ed','#2f304f']][t];
+  const [light,dark,accent,ivory,ink]=colors;
+  const body=`url(#${p}-body)`,edge=`url(#${p}-edge)`,cream=`url(#${p}-ivory)`,glow=`url(#${p}-glow)`;
+  const face=(x,y,gap=11)=>{
+    const eyes=mood==='defeated'?`<path d="M${x-gap-4} ${y+1}l8 3m${gap*2-8}-3l8-3" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round"/>`:mood==='restored'?`<path d="M${x-gap-4} ${y+2}q4-6 8 0m${gap*2-8} 0q4-6 8 0" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round"/>`:`<path d="M${x-gap-5} ${y-5}l10 3m${gap*2-10} 0l10-3" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round"/><ellipse cx="${x-gap}" cy="${y+1}" rx="3" ry="4" fill="${ink}"/><ellipse cx="${x+gap}" cy="${y+1}" rx="3" ry="4" fill="${ink}"/><circle cx="${x-gap+1}" cy="${y}" r="1" fill="${ivory}"/><circle cx="${x+gap+1}" cy="${y}" r="1" fill="${ivory}"/>`;
+    return `${eyes}<path d="M${x-5} ${y+13}q5 ${mood==='restored'?6:mood==='defeated'?0:-4} 10 0" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round"/>`;
+  };
+  let art='';
+  if(t===1){
+    art=`<path d="M51 57C25 53 20 31 29 17L38 35 56 37ZM109 57C135 53 140 31 131 17L122 35 104 37Z" fill="${edge}" stroke="${ink}" stroke-width="2"/>
+      <path d="M47 94L30 105 27 126 44 133 58 117ZM113 94L130 105 133 126 116 133 102 117Z" fill="${body}"/>
+      <path d="M53 119L49 141 72 143 76 122M107 119L111 141 88 143 84 122" fill="${dark}" stroke="${ink}" stroke-width="2"/>
+      <path d="M48 78Q34 101 51 125Q80 142 109 125Q126 101 112 78Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M48 86L61 110 80 127 99 110 112 86 100 119 80 133 60 119Z" fill="${ink}" opacity=".22"/>
+      <path d="M42 52Q48 30 80 32Q112 30 118 52L111 80Q80 99 49 80Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M47 50Q66 35 84 39L72 46 58 47 54 63 48 60Z" fill="${ivory}" opacity=".58"/>
+      <path d="M102 39L114 52 107 78 83 87 99 74Z" fill="${dark}" opacity=".5"/>
+      <path d="M68 106L80 97 92 106 80 120Z" fill="${edge}"/><path d="M80 97V120L68 106Z" fill="${ivory}" opacity=".38"/>
+      <path d="M31 113L43 118M117 118L129 113" stroke="${accent}" stroke-width="3" stroke-linecap="round"/>${face(80,63,13)}`;
+  }else if(t===2){
+    const petals=Array.from({length:8},(_,i)=>`<path d="M69 40Q54 20 72 11Q90 14 92 37L80 56Z" transform="rotate(${i*45} 80 62)" fill="${cream}" stroke="${accent}" stroke-width="1.2"/><path d="M77 18Q74 30 80 43" transform="rotate(${i*45} 80 62)" fill="none" stroke="${accent}" stroke-width="1" opacity=".6"/>`).join('');
+    art=`<path d="M61 103Q41 91 29 107Q37 125 61 122M99 103Q119 91 131 107Q123 125 99 122" fill="${edge}" stroke="${ink}" stroke-width="1.5"/>
+      <path d="M64 115L53 140Q68 148 79 127L92 144 108 136 98 112Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M60 81Q44 109 63 127Q80 139 97 127Q116 109 100 81Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M67 88Q56 109 69 118L79 121 74 103 82 90Z" fill="${light}" opacity=".7"/>
+      ${petals}<path d="M53 54Q55 34 80 35Q105 34 107 54L101 77Q80 96 59 77Z" fill="${body}" stroke="${accent}" stroke-width="2"/>
+      <path d="M58 52Q66 39 82 41L72 48 62 61Z" fill="${ivory}" opacity=".35"/>
+      <path d="M75 108L80 99 85 108 80 119Z" fill="${edge}"/>
+      <path d="M36 109L54 114M106 114L124 109" stroke="${ivory}" opacity=".6" fill="none"/>${face(80,60,10)}`;
+  }else if(t===3){
+    art=`<path d="M78 19L80 8 83 19 84 143 80 152 76 143Z" fill="${edge}"/>
+      <path d="M57 69L16 33 24 79 49 108 62 96ZM103 69L144 33 136 79 111 108 98 96Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M22 43L51 77 28 70ZM138 43L109 77 132 70Z" fill="${accent}"/><path d="M29 79L50 96 43 75M131 79L110 96 117 75" fill="${ivory}" opacity=".48"/>
+      <path d="M62 116L53 140 72 136 80 121 88 136 107 140 98 116Z" fill="${edge}" stroke="${ink}" stroke-width="1.5"/>
+      <path d="M60 97Q80 84 100 97L105 114 94 129 66 129 55 114Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M61 77Q80 65 99 77L105 92 94 105 66 105 55 92Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M50 49L60 25 72 36 80 20 88 36 100 25 110 49 103 72 80 85 57 72Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M60 49L66 37 74 43 68 60 59 66Z" fill="${ivory}" opacity=".48"/>
+      <path d="M87 82L100 91 90 101 80 97ZM85 108L97 115 88 125 80 121Z" fill="${dark}" opacity=".6"/>
+      <path d="M59 76L80 85 101 76M60 102L80 110 100 102" fill="none" stroke="${accent}" stroke-width="2"/>${face(80,55,12)}`;
+  }else if(t===4){
+    art=`<path d="M43 65L15 76 13 112 37 129 54 103ZM117 65L145 76 147 112 123 129 106 103Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M16 77L35 84 42 74 43 93 31 115 15 110ZM144 77L125 84 118 74 117 93 129 115 145 110Z" fill="${light}" opacity=".65"/>
+      <path d="M53 115L43 141 70 144 79 118M107 115L117 141 90 144 81 118" fill="${dark}" stroke="${ink}" stroke-width="2"/>
+      <path d="M42 73L60 64 100 64 118 73 112 119 96 135 64 135 48 119Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M48 78L61 72 66 92 60 116 50 110ZM112 78L99 72 94 92 100 116 110 110Z" fill="${ivory}" opacity=".2"/>
+      <path d="M50 34L65 25 95 25 110 34 108 66 97 79 63 79 52 66Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M52 35L67 30 96 30 103 35 64 41 58 58 53 54Z" fill="${ivory}" opacity=".36"/>
+      <path d="M80 99C64 82 55 103 80 119C105 103 96 82 80 99Z" fill="${glow}" stroke="${accent}" stroke-width="1.5"/>
+      <path d="M72 97Q64 98 71 107" fill="none" stroke="${ivory}" stroke-width="2" opacity=".7"/>
+      <path d="M23 96L35 101M125 101L137 96M65 130H95" stroke="${accent}" stroke-width="2"/>${face(80,51,13)}`;
+  }else if(t===5){
+    art=`<path d="M59 70L31 58 18 29 32 34 43 52 59 49 48 22 58 27 72 54ZM101 70L129 58 142 29 128 34 117 52 101 49 112 22 102 27 88 54Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M35 44Q11 36 23 13Q46 16 43 37ZM57 36Q39 18 59 8Q76 20 67 39ZM125 44Q149 36 137 13Q114 16 117 37ZM103 36Q121 18 101 8Q84 20 93 39Z" fill="${edge}" stroke="${dark}" stroke-width="1"/>
+      <path d="M56 103Q34 109 30 134L47 124 52 142 66 123 74 145 80 127 86 145 94 123 108 142 113 124 130 134Q126 109 104 103Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M60 48L80 36 100 48 111 92 102 121 80 132 58 121 49 92Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M61 54L74 47 67 80 72 106 63 122 57 105 58 76Z" fill="${light}" opacity=".5"/>
+      <path d="M95 49L90 80 98 102 91 126 102 117 108 91Z" fill="${ink}" opacity=".3"/>
+      <path d="M42 85L22 99 17 118 34 113 53 98M118 85L138 99 143 118 126 113 107 98" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M76 93L80 83 84 93 80 104Z" fill="${glow}"/><path d="M65 109L72 114M88 114L95 109M76 54L80 47 84 54" stroke="${accent}" stroke-width="2" fill="none"/>${face(80,65,11)}`;
+  }else if(t===6){
+    art=`<path d="M43 100Q9 81 26 53L35 68Q24 36 52 17L55 44Q68 15 81 7Q91 26 96 45L119 23Q137 42 126 70L141 58Q153 91 120 109Z" fill="${edge}" opacity=".9"/>
+      <path d="M42 107Q28 85 42 63L53 79Q46 50 64 34L73 58 84 29 98 71 113 53Q132 77 115 109Z" fill="${glow}"/>
+      <path d="M52 113L42 138 66 144 78 122M108 113L118 138 94 144 82 122" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M48 80Q35 108 55 128Q80 140 105 128Q125 108 112 80Z" fill="${cream}" stroke="${dark}" stroke-width="2"/>
+      <path d="M44 84L24 99 23 119 43 126 58 109M116 84L136 99 137 119 117 126 102 109" fill="${cream}" stroke="${dark}" stroke-width="2"/>
+      <path d="M48 45L48 25 67 39Q80 32 93 39L112 25 112 45Q124 67 109 83L80 94 51 83Q36 67 48 45Z" fill="${cream}" stroke="${dark}" stroke-width="2"/>
+      <path d="M49 48L54 34 61 42M99 42L106 34 111 48" fill="${body}"/>
+      <path d="M46 68Q45 80 58 84L80 94 107 84 115 73 106 78 80 84 58 77Z" fill="${light}" opacity=".65"/>
+      <path d="M76 118Q60 109 77 94L81 103 88 97Q103 116 84 124Z" fill="${glow}"/><path d="M28 115L41 119M119 119L132 115" stroke="${dark}" stroke-width="3"/>${face(80,61,13)}`;
+  }else if(t===7){
+    art=`<path d="M55 87Q32 92 26 118L40 128 56 109M105 87Q128 92 134 118L120 128 104 109" fill="${cream}" stroke="${ink}" stroke-width="2"/>
+      <path d="M37 98L43 111M123 98L117 111M29 118L40 121M120 121L131 118" stroke="${accent}" stroke-width="2" fill="none"/>
+      <path d="M61 86L99 86 119 138 100 145 80 137 60 145 41 138Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M62 92L80 109 98 92 92 120 80 134 68 120Z" fill="${edge}"/><path d="M53 125L65 132 80 124 95 132 107 125" stroke="${ivory}" opacity=".5" stroke-width="2" fill="none"/>
+      <path d="M48 48Q50 22 80 22Q110 22 112 48L105 72 96 78 93 91 67 91 64 78 55 72Z" fill="${cream}" stroke="${ink}" stroke-width="2"/>
+      <path d="M52 48Q55 30 75 29L62 39 58 58Z" fill="${ivory}"/><path d="M101 36L107 49 101 68 92 76 91 88 96 76 105 70 111 49Z" fill="${accent}" opacity=".5"/>
+      <path d="M61 51Q68 43 74 52L73 65Q64 70 59 61ZM99 51Q92 43 86 52L87 65Q96 70 101 61Z" fill="${dark}" opacity=".55"/>
+      <path d="M80 68L75 76H85Z" fill="${dark}"/><path d="M67 82H93M72 80V88M80 80V89M88 80V88" stroke="${dark}" stroke-width="1.5"/>
+      <path d="M80 31L74 37 80 43 86 37Z" fill="${accent}"/><path d="M56 66L62 70M98 70L104 66" stroke="${accent}" stroke-width="2"/>
+      ${[[-19,0],[0,-6],[19,0]].map(([x,y])=>`<g transform="translate(${x} ${y})"><path d="M74 26Q68 20 74 15Q80 12 83 19Q91 17 91 24Q89 30 83 28Q79 35 74 29Z" fill="${edge}"/><circle cx="81" cy="24" r="3" fill="${ivory}"/></g>`).join('')}${face(80,55,13)}`;
+  }else{
+    art=`<path d="M48 81L22 49 30 21 54 53 62 89ZM112 81L138 49 130 21 106 53 98 89Z" fill="${body}" stroke="${ink}" stroke-width="1.5"/>
+      <path d="M30 24L37 53 52 73 42 39ZM130 24L123 53 108 73 118 39Z" fill="${ivory}" opacity=".48"/>
+      <path d="M60 112L47 140 68 146 80 120 92 146 113 140 100 112Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M50 79L80 66 110 79 104 116 80 138 56 116Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M50 79L80 91 80 138 56 116Z" fill="${ivory}" opacity=".23"/><path d="M110 79L80 91 104 116Z" fill="${ink}" opacity=".2"/>
+      <path d="M49 80L32 86 23 118 40 130 58 103M111 80L128 86 137 118 120 130 102 103" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M32 87L36 113 25 118M128 87L124 113 135 118" fill="${ivory}" opacity=".45"/>
+      <path d="M52 45L57 16 72 29 80 9 88 29 103 16 108 45 101 71 80 84 59 71Z" fill="${body}" stroke="${ink}" stroke-width="2"/>
+      <path d="M57 44L72 29 80 44 61 62ZM80 9V44L88 29Z" fill="${ivory}" opacity=".52"/><path d="M80 44L103 31 108 45 101 71 80 84Z" fill="${dark}" opacity=".45"/>
+      <path d="M80 97L91 111 80 126 69 111Z" fill="${glow}" stroke="${accent}"/><path d="M80 97V126L69 111Z" fill="${ivory}" opacity=".45"/>${face(80,52,12)}`;
+  }
+  const ornaments=tier>0?Array.from({length:Math.min(3,tier)},(_,i)=>`<path d="M${69+i*11} 132l4-6 4 6-4 5Z" fill="${accent}" stroke="${ivory}" stroke-width=".6"/>`).join(''):'';
+  const crown=boss?`<path d="M60 24L56 10 70 17 80 3 90 17 104 10 100 24Z" fill="${edge}" stroke="${ink}" stroke-width="1.2"/><path d="M63 22H97M80 9V20" stroke="${ivory}" stroke-width="1.3" opacity=".7"/>`:'';
+  const scale=boss?1:.69+n*.025;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none" aria-hidden="true" data-guardian="${t}" data-level="${n}" data-state="${mood}"><defs>
+    <linearGradient id="${p}-body" x1="35" y1="29" x2="120" y2="137" gradientUnits="userSpaceOnUse"><stop stop-color="${mood==='restored'?ivory:light}"/><stop offset=".36" stop-color="${light}"/><stop offset="1" stop-color="${dark}"/></linearGradient>
+    <linearGradient id="${p}-edge" x1="50" y1="20" x2="113" y2="123" gradientUnits="userSpaceOnUse"><stop stop-color="${ivory}"/><stop offset=".43" stop-color="${accent}"/><stop offset="1" stop-color="${dark}"/></linearGradient>
+    <linearGradient id="${p}-ivory" x1="46" y1="28" x2="112" y2="125" gradientUnits="userSpaceOnUse"><stop stop-color="${ivory}"/><stop offset=".5" stop-color="${mood==='defeated'?light:ivory}"/><stop offset="1" stop-color="${accent}"/></linearGradient>
+    <radialGradient id="${p}-glow" cx=".35" cy=".25" r=".8"><stop stop-color="${ivory}"/><stop offset=".43" stop-color="${accent}"/><stop offset="1" stop-color="${dark}"/></radialGradient>
+    </defs><ellipse cx="80" cy="146" rx="${boss?52:34+n}" ry="7" fill="${ink}" opacity=".28"/><g transform="translate(80 91) scale(${scale}) translate(-80 -91)"${mood==='defeated'?' opacity=".76"':''}>${art}${ornaments}${crown}</g></svg>`;
+}
+
 /* ---------------- MAPA DE NIVELES ---------------- */
 function renderMap(){
   const territory = TERRITORIES.find(t=>t.id===currentTerritory);
   const levels = LEVELS_BY_TERRITORY[currentTerritory];
   const screenMap = document.getElementById("screen-map");
+  setInteriorBackdrop(screenMap,territory.id,'map-backdrop');
   screenMap.style.setProperty("--territory-hue", territory.hue);
   const titleEl = document.getElementById("map-title");
   titleEl.textContent = territory.name;
   titleEl.style.color = territory.hue;
   const bannerEl = document.getElementById("territory-banner");
   const restored=territoryProgress(territory.id),feeling=atlasFeeling(territory.id,restored);
-  bannerEl.innerHTML = `<div class="map-scene-kicker">${feeling.label}</div><div class="banner-landscape">${territoryLandscapeSVG(territory.id,'banner',restored)}</div><div class="territory-banner-art" style="--territory-hue:${territory.hue}">${territoryEmblemSVG(territory.id)}</div><div class="map-scene-quote">«${feeling.quote}»</div><div class="territory-banner-copy">${territory.banner}</div><div class="map-rebirth" aria-label="${Math.round(restored*100)}% restaurado"><span>Niebla</span>${[0,.34,1].map(value=>`<i class="${restored>=value?'on':''}" aria-hidden="true"></i>`).join('')}<span>Vida</span></div>`;
+  bannerEl.innerHTML = `<div class="map-scene-kicker">${feeling.label}</div><div class="banner-landscape">${cinematicScene(territory.id,'banner',restored)}</div><div class="territory-banner-art" style="--territory-hue:${territory.hue}">${territoryEmblemSVG(territory.id)}</div><div class="map-scene-quote">«${feeling.quote}»</div><div class="territory-banner-copy">${territory.banner}</div><div class="map-rebirth" aria-label="${Math.round(restored*100)}% restaurado"><span>Niebla</span>${[0,.34,1].map(value=>`<i class="${restored>=value?'on':''}" aria-hidden="true"></i>`).join('')}<span>Vida</span></div>`;
   bannerEl.style.setProperty('--land-grey',Math.max(0,70-restored*70)+'%');
   bannerEl.style.setProperty("--territory-hue", territory.hue);
   bannerEl.style.borderColor = `${territory.hue}4D`;
@@ -4550,6 +4806,7 @@ function renderMap(){
     div.style.top=(72+index*144)+'px';
     div.style.left=`calc(${mapX[index]}% - min(${isBoss?'24%':'19%'},${isBoss?'90px':'76px'}))`;
     div.dataset.routeX=mapX[index];div.dataset.routeY=102+index*144;
+    div.dataset.level=lv.n;
     div.setAttribute('role','button');div.tabIndex=unlocked?0:-1;div.setAttribute('aria-disabled',String(!unlocked));
     div.style.animationDelay = (index*55)+"ms";
     const lname = LEVEL_NAMES_ALL[currentTerritory] && LEVEL_NAMES_ALL[currentTerritory][lv.n];
@@ -4582,6 +4839,9 @@ function renderMap(){
         ? `<div class="lock-icon">🔒</div><div class="level-num">${territoryEmblemSVG(currentTerritory,true)}</div><div class="level-name">${lname||"Guardián oculto"}</div>`
         : `<div class="lock-icon">🔒</div><div class="level-num">${lv.n}</div><div class="level-name">${lname||"Ruta en la niebla"}</div>`;
     }
+    const portrait=div.querySelector('.level-num');
+    portrait.innerHTML=`${guardianPortrait(currentTerritory,lv.n,'map',stars>0?'restored':'hostile')}<span class="level-number-tag">${isBoss?'✦':lv.n}</span>`;
+    div.insertAdjacentHTML('afterbegin',`<div class="level-landscape">${cinematicScene(currentTerritory,`node-${lv.n}`,stars>0?1:.2)}</div>`);
     if(current) div.insertAdjacentHTML('afterbegin','<span class="current-step">SIGUE AQUÍ</span>');
     div.setAttribute('aria-label',`${lname||`Nivel ${lv.n}`} · ${unlocked?`${stars} estrellas`:'Bloqueado'}${current?' · Siguiente nivel':''}`);
     div.onkeydown=e=>{if(unlocked&&(e.key==='Enter'||e.key===' ')){e.preventDefault();div.click();}};
@@ -4591,6 +4851,8 @@ function renderMap(){
   drawAtlasRoute(grid,Array.from(grid.querySelectorAll('.level-node')),1550,currentTerritory);
   grid.insertAdjacentHTML('afterbegin','<div class="atlas-map-caption">Sigue el sendero del color</div>');
   observeAtlas(grid);
+  const milestone=pendingMilestones.get(`map:${currentTerritory}`);
+  if(milestone) scheduleMilestone('map',currentTerritory,`.level-node[data-level="${milestone.next||milestone.level}"]`);
   document.getElementById("map-route-label").textContent = `Ruta ${clearedCount}/${levels.length}`;
   document.getElementById("map-route-fill").style.width = `${Math.round(clearedCount/levels.length*100)}%`;
   document.getElementById("total-stars").textContent = totalStars;
@@ -5338,6 +5600,7 @@ function renderRestorationScene(){
   const t=TERRITORIES.find(t=>t.id===currentTerritory)||TERRITORIES[0];
   const campaign=!cur.isCanvas&&!cur.isDaily&&!cur.isLeague&&!cur.isSurvival;
   const screen=document.getElementById("screen-game");
+  setInteriorBackdrop(screen,cur.isSurvival?8:cur.isLeague?3:cur.isCanvas?1:t.id,'live-backdrop');
   screen.style.setProperty('--territory-hue',t.hue);
   screen.classList.toggle('survival-mode',!!cur.isSurvival);
   screen.classList.remove('pulse-low');
@@ -5346,11 +5609,11 @@ function renderRestorationScene(){
   const panel=document.getElementById("restoration-window");
   let landscape=panel.querySelector('.restoration-landscape');
   if(!landscape){landscape=document.createElement('div');landscape.className='restoration-landscape';landscape.setAttribute('aria-hidden','true');panel.prepend(landscape);}
-  landscape.innerHTML=cur.isSurvival?echoSceneSVG('survival','live'):cur.isLeague?echoSceneSVG('moba','live'):territoryLandscapeSVG(cur.isCanvas?1:t.id,'game',1);
+  landscape.innerHTML=cinematicScene(cur.isSurvival?8:cur.isLeague?3:cur.isCanvas?1:t.id,'game',1);
   panel.style.setProperty('--scene-position',`${22+t.id*6}% ${38+t.id*3}%`);
   document.getElementById("restoration-name").textContent=campaign?LEVEL_NAMES_ALL[t.id][cur.n]:cur.isCanvas?"El Amanecer Carmesí":cur.isSurvival?"Eco I · El Primer Latido":cur.isLeague?"El duelo de los clanes":"El latido de hoy";
   document.getElementById("restoration-detail").textContent=campaign?CAMPAIGN_ARCS[t.id].steps[cur.n<4?0:cur.n<8?1:2]:cur.isSurvival?"Mantén vivo el pulso que Confite reconoce.":cur.isLeague?"Una rivalidad nacida de la Fragmentación.":"Cada combinación le devuelve color a Dulcelandia.";
-  document.getElementById("restoration-emblem").innerHTML=territoryEmblemSVG(cur.isSurvival?8:cur.isLeague?3:cur.isCanvas?1:t.id,false);
+  document.getElementById("restoration-emblem").innerHTML=campaign?guardianPortrait(t.id,cur.n,'game','hostile'):territoryEmblemSVG(cur.isSurvival?8:cur.isLeague?3:1,false);
   updateHud(); updateStreakPips();
 }
 
@@ -5707,6 +5970,7 @@ function updateHud(){
   document.getElementById("progress-fill").style.width = pct+"%";
   document.getElementById("restoration-percent").textContent=pct+"%";
   document.getElementById("restoration-window").style.setProperty("--scene-grey",(100-pct)+"%");
+  document.getElementById("restoration-emblem").style.setProperty('--guardian-pressure',pct/100);
   updateDuelRaceUI();
   updateFreneticBadge();
 }
@@ -5750,8 +6014,12 @@ function calcStars(){
   return 1;
 }
 function finishLevel(won){
+  if(!cur || cur.done) return;
   if(cur.isCanvas && won){ finishCanvasLevel(); return; }
   if(cur.isLeague){ finishLeagueDuel(won); return; }
+  const firstClear=won&&!cur.isDaily&&!cur.isSurvival&&!cur.isCanvas&&!(save.stars[currentTerritory]?.[cur.n]>0);
+  const heroesBefore=firstClear?availableHeroIds():[];
+  const nextTerritoryWasOpen=currentTerritory<8&&territoryUnlocked(currentTerritory+1);
   cur.done = true;
   clearHint(); clearTimeout(hintTimerId);
   endSugarRush();
@@ -5817,6 +6085,12 @@ function finishLevel(won){
     }
     persistSave();
     checkAchievements();
+    if(firstClear){
+      queueMilestone('map',currentTerritory,{level:cur.n,next:Math.min(TOTAL_LEVELS,cur.n+1),label:cur.n===TOTAL_LEVELS?'Guardián liberado. El territorio vuelve a respirar.':'Color recuperado. El sendero despierta.'});
+      if(currentTerritory<8 && !nextTerritoryWasOpen && territoryUnlocked(currentTerritory+1)) queueMilestone('world',currentTerritory+1,{label:'La niebla se abre. Un nuevo territorio te espera.'});
+      const newHero=availableHeroIds().find(id=>!heroesBefore.includes(id));
+      if(newHero) queueMilestone('heroes','all',{hero:newHero,label:'Un héroe se une a tu historia.'});
+    }
     const isBoss = (cur.n===TOTAL_LEVELS && !cur.isDaily);
     // Story moments: certain territory/level combos trigger a lore reveal
     const storyKey = `${currentTerritory}_${cur.n}`;
@@ -5859,6 +6133,7 @@ function finishLevel(won){
     document.getElementById("overlay-main-btn").textContent = "Reintentar";
   }
   document.getElementById("overlay-icon").innerHTML=`<svg viewBox="0 0 100 90" role="img" aria-label="Confite ${won?'celebra contigo':'te acompaña'}">${confiteSVG(won?'celebrate':'worried')}</svg>`;
+  if(!cur.isDaily&&!cur.isCanvas&&!cur.isSurvival) document.getElementById('overlay-icon').innerHTML=`<div class="result-companions"><svg viewBox="0 0 100 90" role="img" aria-label="Confite ${won?'celebra contigo':'te acompaña'}">${confiteSVG(won?'celebrate':'worried')}</svg>${guardianPortrait(currentTerritory,cur.n,'result',won?'defeated':'hostile')}</div>`;
   document.getElementById("overlay-secondary-btn").textContent="Mapa";
   const starsEls = document.querySelectorAll("#overlay-stars .s");
   starsEls.forEach(el=>el.classList.remove("on"));
@@ -5880,6 +6155,10 @@ function finishLevel(won){
     contAdBtn.style.display = "none";
   }
   overlay.classList.add("on");
+  if(firstClear){
+    document.getElementById('restoration-emblem').innerHTML=guardianPortrait(currentTerritory,cur.n,'game','restored');
+    celebrateMilestone(document.getElementById('restoration-window'),cur.n===TOTAL_LEVELS?'¡El guardián recupera su luz!':'¡Un lugar más vuelve a vivir!');
+  }
   if(won){
     starsEls.forEach((el,i)=>{
       if(i<stars) setTimeout(()=>{ el.classList.add("on"); playBuild&&playBuild(); }, 300+i*220);
@@ -6315,6 +6594,7 @@ function showBossIntro(levelN){
   const line = BOSS_CONFITE_LINES[currentTerritory] || "El nivel más difícil te espera. ¡Tú puedes!";
   const sub  = BOSS_TERRITORY_SUBTITLES[currentTerritory] || "Nivel Jefe";
   document.getElementById("bi-name").textContent = name;
+  document.querySelector('#boss-intro-overlay .bi-crown').innerHTML=guardianPortrait(currentTerritory,levelN,'boss','hostile');
   document.getElementById("bi-sub").textContent  = sub;
   document.getElementById("bi-confite").textContent = line;
   document.getElementById('bi-access').textContent='Entrada desbloqueada · 1 vida · no necesitas más estrellas';
@@ -6373,9 +6653,11 @@ function closeTerritoryComplete(){
   }
 }
 function closeHexCurseIntro(){
+  const first=!save.dgModeUnlocked;
   save.dgModeUnlocked = true;
   persistSave();
   goTo("world");
+  if(first) celebrateMilestone(document.getElementById('campaign-mission'),'La senda de HEX CLASH está abierta.');
 }
 
 /* ---------------- EPÍLOGO ---------------- */
@@ -6572,6 +6854,7 @@ function heroAbilityText(id){
   }[id] || "";
 }
 function equippedHero(){ return HEROES.find(h=>h.id===(save.equippedHero||"dulce")) || HEROES[0]; }
+function availableHeroIds(){return HEROES.filter(h=>h.id!=='hexbr'&&(h.unlockAt()||save.heroAdUnlocked?.[h.id])).map(h=>h.id);}
 function hasHeroAbility(id){ return (save.equippedHero||"dulce")===id; }
 function equipHero(id){
   if(id==="hexbr") return; // la antagonista es solo trofeo, no se equipa
@@ -6581,13 +6864,14 @@ function equipHero(id){
   toast(`${HEROES.find(h=>h.id===id).name} equipada`);
 }
 function unlockHeroWithAd(id){
-  if(id==="hexbr") return; // revelación final de la historia — no se adelanta
+  const h=HEROES.find(x=>x.id===id);
+  if(!h || id==="hexbr" || h.unlockAt() || save.heroAdUnlocked?.[id]) return;
   // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
   if(!save.heroAdUnlocked) save.heroAdUnlocked = {};
   save.heroAdUnlocked[id] = true;
   persistSave();
   renderHeroes();
-  const h = HEROES.find(x=>x.id===id);
+  celebrateMilestone(document.querySelector(`.hero-card[data-hero="${id}"]`),'Un héroe se une a tu historia.');
   toast(`¡${h.name} desbloqueada! (anuncio simulado — falta conectar la red)`);
 }
 const HEROES = [
@@ -6630,6 +6914,7 @@ function renderHeroes(){
     const equipped = (save.equippedHero||"dulce")===h.id;
     const card = document.createElement("div");
     card.className = "hero-card" + (unlocked ? "" : " locked-hero") + (equipped ? " equipped" : "");
+    card.dataset.hero=h.id;
     if(unlocked){
       const abilityHtml = h.id==="hexbr" ? "" : `<div class="hero-ability">✨ ${heroAbilityText(h.id)}</div>`;
       const equipBtn = h.id==="hexbr" ? "" : `<div class="hero-actions">
@@ -6665,6 +6950,8 @@ function renderHeroes(){
     list.appendChild(card);
   });
   document.getElementById("world-heroes-count") && (document.getElementById("world-heroes-count").textContent = `${unlockedCount}/7`);
+  const heroEvent=pendingMilestones.get('heroes:all');
+  if(heroEvent) scheduleMilestone('heroes','all',`.hero-card[data-hero="${heroEvent.hero}"]`);
   const bubble = document.getElementById("confite-heroes-bubble");
   if(bubble){
     if(unlockedCount<=1) bubble.textContent = "Solo conozco a Dulce Roja... y a mí. Hay guerreros de los ocho clanes esperando ser descubiertos.";
@@ -6764,12 +7051,13 @@ function renderMemories(){
   });
 }
 function unlockMemoryWithAd(key){
-  if((save.unlockedStories||{})[key]) return;
+  if(!STORY_MOMENTS[key] || (save.unlockedStories||{})[key]) return;
   // TODO integración real: recompensa solo en el callback de éxito del rewarded ad.
   if(!save.unlockedStories) save.unlockedStories = {};
   save.unlockedStories[key] = STORY_MOMENTS[key];
   persistSave();
   renderMemories();
+  celebrateMilestone(document.getElementById('screen-memories'),'Una memoria recupera su voz.');
   toast("¡Recuerdo desbloqueado! (anuncio simulado — falta conectar la red)");
 }
 
@@ -6819,13 +7107,14 @@ function renderSkins(){
 }
 function buySkin(id){
   const sk = CONFITE_SKINS.find(s=>s.id===id);
-  if(!sk || (save.coins||0)<sk.cost) return;
+  if(!sk || save.unlockedSkins?.[id] || (save.coins||0)<sk.cost) return;
   save.coins -= sk.cost;
   if(!save.unlockedSkins) save.unlockedSkins = {default:true};
   save.unlockedSkins[id] = true;
   persistSave();
   playBuild();
   activateSkin(id);
+  celebrateMilestone(document.querySelector('.skin-card.active-skin'),'Un nuevo aspecto para Confite.');
 }
 function activateSkin(id){
   save.activeSkin = id;
@@ -6843,6 +7132,7 @@ function unlockSkinWithAd(id){
   playBuild();
   activateSkin(id);
   toast(`¡${sk.name} desbloqueada! (anuncio simulado — falta conectar la red)`);
+  celebrateMilestone(document.querySelector('.skin-card.active-skin'),'Un nuevo aspecto para Confite.');
 }
 
 /* ---------------- HISTORIA (INTRO) ---------------- */
@@ -8243,6 +8533,8 @@ function renderPauseTimeExtra(){
     }
   }
 })();
+const milestoneStatus=document.createElement('div');milestoneStatus.id='milestone-status';milestoneStatus.setAttribute('role','status');milestoneStatus.setAttribute('aria-live','polite');document.getElementById('app').appendChild(milestoneStatus);
+loadCinematicArt();
 initBoardGestures();
 renderMap();
 renderTitleHexButton();
@@ -8261,6 +8553,14 @@ function refreshAppUpdateNotice(){
 }
 function syncVisualVisibility(){
   document.documentElement.classList.toggle('page-hidden',document.hidden);
+  if(document.hidden) cancelMilestoneEffects();
+  else if(document.getElementById('screen-map').classList.contains('active')){
+    const event=pendingMilestones.get(`map:${currentTerritory}`);
+    if(event) scheduleMilestone('map',currentTerritory,`.level-node[data-level="${event.next||event.level}"]`);
+  }else if(document.getElementById('screen-world').classList.contains('active')){
+    const event=Array.from(pendingMilestones.keys()).find(key=>key.startsWith('world:'));
+    if(event){const id=event.slice(6);scheduleMilestone('world',id,`.territory-card[data-territory="${id}"]`);}
+  }
 }
 document.addEventListener('visibilitychange',syncVisualVisibility);
 syncVisualVisibility();

@@ -1,9 +1,37 @@
 # Sugar Clash — guía visual compartida
 
 Referencia de continuidad para Claude y Codex. Actualizada el 17 de octubre de 2026.
-Dirección vigente: **Atlas y Ecos**. Base publicada: commit `4590f94`.
+Dirección vigente: **El Cristal Vivo · Atlas y Ecos**.
 Leer antes de modificar gráficos, pantallas, mapas, animaciones o modalidades.
 Las decisiones nuevas de Jose prevalecen; no cambiar la dirección artística por iniciativa propia.
+
+## Decisión nueva de Jose · El Cristal Vivo · 17.10
+
+La portada cinematográfica prometía más que el interior. Jose pidió expresamente
+un logo relacionado con ese fondo, monstruos en cada nivel y emoción al recuperar
+color. Se autoriza arte raster nuevo que iguale su materialidad: cristal cyan/rosa
+fracturado, corazón ámbar, confitería cálida frente a corrupción violeta. No volver
+a interpretar esta dirección como una prohibición de raster ni como otro tema CSS.
+
+`cinematicScene()` integra ocho paisajes y conserva `territoryLandscapeSVG()` como
+fallback. `guardianPortrait()` integra ocho familias territoriales, con
+`guardianSVG()` nativo como fallback; niveles 1–9 son ecos y el 10 es el guardián
+destacado, no ochenta personajes únicos. Mostrar retrato en ruta, partida,
+introducción y resultado; mantener número/nombre legible y a Confite presente.
+Los sprites enemigos de combate reutilizan el guardián cristalino sin alterar
+colisiones, vida, preparación de golpes ni controles. Arte y prompts:
+[ART_ASSETS.md](docs/ART_ASSETS.md). No nuevas dependencias de runtime.
+
+Las celebraciones salen de transiciones **ganadas**, no de renders/guardados
+importados. `pendingMilestones` es memoria de sesión. `queueMilestone()` registra;
+`scheduleMilestone()` espera un frame, verifica pantalla activa/visibilidad y
+consume una vez. Entrar a campaña pasa momentáneamente por mapa: no consumir
+antes de ese frame. Efectos finitos mediante `celebrateMilestone()`, sin RNG del
+motor, con limpieza al navegar/ocultar y alternativa de movimiento reducido.
+Primera victoria restaura color, abre el próximo hito y celebra al guardián;
+repetir mejora estrellas, no vuelve a desbloquear. Construcciones, aspectos,
+héroes y recuerdos celebran al concederse, no al equiparse o inspeccionarse.
+No anticipar la revelación de Confite/`hexbr`. No añadir campos al save para FX.
 
 ## Prioridad de usabilidad aprobada · 17.10
 
@@ -66,7 +94,8 @@ tarjetas idénticas, emojis protagonistas, reflejos plásticos y adornos sin fun
 
 Todo el runtime sigue en **`index.html`**, HTML/CSS/JS vanilla. Sin frameworks,
 bundler ni dependencias nuevas. `title-world-v3-hd.jpg` es el raster protagonista
-existente; el arte nuevo del atlas y de los modos es SVG inline o canvas nativo.
+existente; desde El Cristal Vivo también se usan los atlas WebP documentados arriba.
+El código SVG/canvas anterior se conserva para fallback y geometría interactiva.
 
 | Área | Fuente de verdad visual y restricciones |
 |---|---|

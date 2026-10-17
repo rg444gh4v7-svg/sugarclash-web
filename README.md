@@ -110,8 +110,8 @@ La siguiente inversión debe ser una prueba con jugadores nuevos, no más sistem
 2. Medir tiempo hasta jugar, abandonos, intentos por nivel y sesiones repetidas.
 3. Comprobar si guardan poderes con intención y recuerdan qué busca Confite.
 4. Registrar dónde abandonan; corregir ese punto y repetir con la misma prueba.
-5. Revalidar los 80 niveles tras el cambio de especiales; los antiguos resultados
-   del bot ya no validan este balance.
+5. Medir dificultad y retención con jugadores; el recorrido reproducible de los
+   80 niveles ya verifica acceso y progresión del motor, no el balance humano.
 
 Después, seleccionar un portal y conectar su SDK de anuncios recompensados,
 siempre voluntarios. No añadir intersticiales forzados. Ver `AGENTS.md` para las

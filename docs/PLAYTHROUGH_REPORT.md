@@ -4,6 +4,8 @@ Los 80 niveles de Dulcelandia se superaron en orden con el motor real: **97 inte
 
 El primer recorrido reprodujo el bloqueo reportado: tras ganar 1/1–1/9, la entrada a 1/10 falló al escribir `bi-sub.textContent`, porque ese ID no existía en el HTML. No era un requisito de tres estrellas. La corrección fue verificada continuando desde una partida de prueba nueva hasta el final.
 
+El recorrido se repitió con la integración de guardianes, arte cinematográfico y celebraciones de desbloqueo. Los 80 resultados, los reintentos y las jugadas coincidieron con la versión anterior. El SHA al final identifica esa fuente completa; esta simulación no evalúa la carga ni la apariencia de las imágenes o las animaciones.
+
 ## Método y alcance
 
 - Se ejecutó el JavaScript completo de `index.html` en Node con un DOM de Linkedom, una semilla reproducible y `localStorage` únicamente en memoria. No se leyó ni modificó la partida de Jose.
@@ -112,5 +114,5 @@ Linkedom ya estaba disponible en el entorno de QA; no se instaló ninguna depend
 El script devuelve JSON por salida estándar y termina con código distinto de cero si una entrada falla, una partida no alcanza su resultado, se modifica el estado al evaluar una jugada o un nivel no se gana dentro del límite.
 
 - Semilla base: `7331`.
-- SHA-256 del HTML probado: `c8ef40f8ba69e14c5a708683031f0c43c11df18d7e097db6cf6d1c40b8d79db9`.
+- SHA-256 del HTML probado: `9861423b016987701b9480a1b22442eb75b4b5d9117bd0f9eb08f8b0db9dec56`.
 - SHA-256 del HTML anterior al arreglo del jefe: `1b31e6d409c8b76b9f6bd61fcd5aa552da0663eafe20c3d135e169a69a47d92f`.

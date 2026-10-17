@@ -29,10 +29,12 @@ antes del comando de validación de sintaxis si `node` no se encuentra.
 
 **Un solo archivo HTML/CSS/JS vanilla — intencional. No romper esta arquitectura.**
 
-`title-world-v3-hd.jpg` es el único arte raster protagonista (1706×3688), usado en
-portada y algunos fondos heredados. Está incluido en `service-worker.js` para funcionar
-offline. El atlas, Archivo, Liga y modos renovados usan arte SVG/canvas nativo;
-el motor, los emblemas y toda la interfaz siguen viviendo en `index.html`.
+`title-world-v3-hd.jpg` es el arte raster vertical de referencia (1706×3688).
+Por petición expresa de Jose (17.10), El Cristal Vivo añade emblema de cristal,
+`guardians-cinematic-v1.webp` y `worlds-cinematic-v1.webp` para acercar el interior
+a esa portada. Worker v17 precachea los nuevos recursos. Ver `VISUAL_STYLE.md`
+y `docs/ART_ASSETS.md` para contratos, fallbacks y prompts. El motor y toda la
+interfaz siguen en `index.html`; no hay framework ni dependencia nueva de runtime.
 
 ---
 
@@ -827,8 +829,9 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
   plegado en `#world-extras`, misión principal en `#campaign-mission`.
 - Los recuerdos se muestran en `#overlay-story` al ganar, no detrás del resultado.
 - Validación sin dependencias: `node --test tests/*.test.cjs` (motor, campaña y caché).
-- El cambio de poderes altera el balance: las tasas históricas del bot ya no son
-  evidencia del balance actual. Falta nueva prueba completa de los 80 niveles.
+- Las tasas históricas del bot no describen el balance actual. El recorrido
+  reproducible de los 80 niveles está en `docs/PLAYTHROUGH_REPORT.md`: valida
+  acceso y progresión del motor, no dificultad humana ni retención.
 
 ### Hecho (movido del roadmap)
 - ~~Exportar/importar guardado~~ — `exportSave()`/`importSave()` en Ajustes, código base64 del save

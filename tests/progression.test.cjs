@@ -25,7 +25,7 @@ function harness(){
       const el={style:{setProperty(name,value){this[name]=value;}},dataset:{},attributes,children,textContent:'',
         classList:{add:(...names)=>names.forEach(name=>classes.add(name)),remove:(...names)=>names.forEach(name=>classes.delete(name)),contains:name=>classes.has(name)},
         setAttribute(name,value){attributes[name]=String(value);},appendChild(child){children.push(child);},
-        querySelectorAll:()=>children,insertAdjacentHTML(){},click(){this.onclick?.();}};
+        querySelector:selector=>node(`nested:${id}:${selector}`),querySelectorAll:()=>children,insertAdjacentHTML(){},click(){this.onclick?.();}};
       let content='',className='';
       Object.defineProperties(el,{
         innerHTML:{get:()=>content,set:value=>{content=value;children.length=0;}},
@@ -39,13 +39,14 @@ function harness(){
     bestScores:{},buildings:{casa:true},unlockedStories:{}};
   const ctx=vm.createContext({save,currentTerritory:1,TOTAL_LEVELS:10,LIVES_MAX:5,LIFE_REGEN_MS:1500000,
     LEVELS_BY_TERRITORY:Object.fromEntries(Array.from({length:8},(_,i)=>[i+1,Array.from({length:10},(_,n)=>({n:n+1,type:'score',goal:100,moves:15,cols:7}))])),
-    document:{getElementById:id=>id.startsWith('bi-')&&!bossIds.has(id)?null:node(id),
+    document:{getElementById:id=>id.startsWith('bi-')&&!bossIds.has(id)?null:node(id),querySelector:selector=>node(`selector:${selector}`),
       createElement:()=>node(`created-${nodes.size}`),querySelectorAll:()=>[node('star-1'),node('star-2'),node('star-3')]},
     goTo:(screen,id)=>{log.navigation.push({screen,id});if(id)ctx.currentTerritory=id;},
     startLevel:n=>{log.starts.push({territory:ctx.currentTerritory,n});ctx.cur={n,done:false};},
     persistSave:()=>{log.persists++;return true;},openNoLives:()=>log.noLives++,toast:text=>log.toasts.push(text),
     hasBuilding:()=>false,hasHeroAbility:()=>false,updateLivesUI(){},getBestScore:()=>0,
-    territoryLandscapeSVG:()=>'<svg></svg>',territoryEmblemSVG:()=>'<svg></svg>',
+    territoryLandscapeSVG:()=>'<svg></svg>',territoryEmblemSVG:()=>'<svg></svg>',cinematicScene:()=>'<div></div>',guardianPortrait:()=>'<span></span>',
+    setInteriorBackdrop(){},cancelMilestoneEffects(){},scheduleMilestone(){},queueMilestone(){},celebrateMilestone(){},pendingMilestones:new Map(),availableHeroIds:()=>[],
     atlasFeeling:()=>({label:'Restauración',quote:'El camino continúa.'}),drawAtlasRoute(){},observeAtlas(){},confiteMapSay(){},LEVEL_LORE_T1:{},
     cur:null,pauseOpen:false,hintTimerId:0,clearHint(){},clearTimeout(){},endSugarRush(){},
     playWin(){},playLose(){},spawnConfetti(){},playBuild(){},streakMult:()=>1,piggyAdd(){},

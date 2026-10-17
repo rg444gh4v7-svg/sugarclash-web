@@ -10,10 +10,10 @@ function source(name){
   return script.slice(start,script.indexOf('\n}',start)+2);
 }
 function village(coins=100,buildings={casa:true}){
-  const log={persist:0,achievements:0,buildSound:0,renders:[],bubble:''};
+  const log={persist:0,achievements:0,buildSound:0,renders:[],bubble:'',celebrations:[]};
   const ctx=vm.createContext({save:{coins,buildings:{...buildings}},villageSelectedId:null,
     playBuild:()=>log.buildSound++,persistSave:()=>log.persist++,checkAchievements:()=>log.achievements++,
-    renderVillage:id=>log.renders.push(id),setVillageBubble:text=>log.bubble=text});
+    renderVillage:id=>log.renders.push(id),setVillageBubble:text=>log.bubble=text,celebrateMilestone:(_element,label)=>log.celebrations.push(label),document:{querySelector:()=>null}});
   const start=script.indexOf('const BUILDINGS = [');
   vm.runInContext(script.slice(start,script.indexOf('\n];',start)+3),ctx);
   for(const name of ['villageBuildingSVG','villageBuildingState','buildingAbilityText','buildStructure','buildStructureWithAd']) vm.runInContext(source(name),ctx);
@@ -48,12 +48,14 @@ test('Explicit construction charges the exact price once and preserves the selec
   assert.equal(ctx.save.coins,60);assert.equal(ctx.save.buildings.puesto,true);
   assert.equal(ctx.villageSelectedId,'puesto');
   assert.deepEqual(log.renders,['puesto']);assert.equal(log.persist,1);assert.equal(log.achievements,1);assert.equal(log.buildSound,1);
+  assert.equal(log.celebrations.length,1);
   assert.equal(ctx.villageBuildingState('fuente'),'unlocked-next');
 });
 test('Insufficient honey and invalid or locked targets cannot mutate the save',()=>{
   const {ctx,log}=village(12),before=JSON.stringify(ctx.save);
   for(const id of ['unknown','fuente','puesto']) ctx.buildStructure(id);
   assert.equal(JSON.stringify(ctx.save),before);assert.equal(log.persist,0);assert.equal(log.buildSound,0);
+  assert.equal(log.celebrations.length,0);
   assert.match(log.bubble,/28/);
 });
 test('Opt-in demo construction remains clearly simulated and cannot bypass the path',()=>{
@@ -61,6 +63,7 @@ test('Opt-in demo construction remains clearly simulated and cannot bypass the p
   ctx.buildStructureWithAd('faro');assert.equal(ctx.save.buildings.faro,undefined);assert.equal(log.persist,0);
   ctx.buildStructureWithAd('puesto');ctx.buildStructureWithAd('puesto');
   assert.equal(ctx.save.buildings.puesto,true);assert.equal(ctx.save.coins,0);assert.equal(log.persist,1);
+  assert.equal(log.celebrations.length,1);
   assert.match(log.bubble,/anuncio simulado/);assert.match(html,/Anuncio simulado · construir/);
 });
 test('Village separates inspection from spending and gates ambient motion',()=>{
