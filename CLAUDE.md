@@ -239,6 +239,15 @@ obstacles[r][c] // 0 | 1 | 2 (bloques de chocolate, HP)
 
 ## Territorios y niveles
 
+**Jefes corregidos · 17.10:** `showBossIntro()` se rompía porque el HTML carecía
+de `id="bi-sub"`; mantenerlo junto a `bi-access`. Basta una estrella en cada nivel
+anterior. `campaignUnlockedLevel(id)` reconcilia desbloqueo guardado y victorias
+contiguas sin retirar acceso ni escribir desde render. Campaña/mapa/entrada lo usan;
+`tryStartLevel()` valida antes de cobrar, y el botón de jefe evita doble cobro.
+Recorrido automatizado real de los80: `scripts/campaign-playthrough.cjs`, informe
+en `docs/PLAYTHROUGH_REPORT.md` (80/80 en97 intentos,17 derrotas). No es prueba
+manual, no se forzaron resultados ni se modificó el guardado del creador.
+
 ```javascript
 const TERRITORIES = [...]  // 8 territorios con id, name, icon, hue, desc, banner
 const TOTAL_LEVELS = 10    // niveles por territorio (el 10 siempre es el jefe)
@@ -593,6 +602,10 @@ lo limitan a un uso — se resetean en `startMoba()`/`startBR()`. Revive al 60% 
 máxima. Marcado con `// TODO integración real` como el resto de los ganchos de anuncio.
 
 ### MOBA 5v5 (canvas)
+- **Táctica · 17.10:** los bots preparan golpes en marcas fijas, evitables al salir
+  antes del impacto. Pulso interrumpe preparaciones cercanas y no gasta recarga
+  si no alcanza a nadie. Royale comparte el patrón; Impulso conserva mouse/táctil.
+  No prometer balance resuelto: Royale aún permite victorias inactivo en simulación.
 - Variables globales con prefijo `moba*`; `mobaRunning`, `mobaRAF` para el game loop
 - El jugador controla a Dulce Roja + 4 aliados IA (`MOBA_ALLIES`, los mismos héroes de
   `HEROES`) contra 5 "Fragmentos Hexadecimales" (`MOBA_ENEMIES`)
@@ -759,7 +772,7 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
   motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
   delay como pseudo-reverb).
-- **PWA v15:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
+- **PWA v16:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
   actualizan en segundo plano. Solo se eliminan cachés antiguas `sugarclash-*`.
   No borrar localStorage para actualizar. Una instalación con el worker anterior
   puede necesitar cerrar y abrir una vez más tras recibir la actualización.

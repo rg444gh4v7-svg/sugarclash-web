@@ -103,6 +103,17 @@ disponible, conservar el SVG y la implementación existente; no bloquear un ajus
 
 ## Historia y reglas que un rediseño no puede alterar
 
+Corrección funcional aprobada · 17.10: los jefes necesitan las nueve victorias
+anteriores, no tres estrellas por nivel. `campaignUnlockedLevel()` reconcilia
+victorias contiguas con el acceso ya guardado, sin quitarlo ni escribir desde un
+render. `bi-sub` y `bi-access` deben existir en el diálogo; probar la entrada real,
+no llamar `startLevel()` saltándose intro/vidas. Informe: `docs/PLAYTHROUGH_REPORT.md`.
+
+Mejora táctica · 17.10: los ataques de IA de Guerra/Royale muestran una marca fija
+de preparación y comprueban posición/rango al impactar. Esquivar puede evitar daño;
+Pulso interrumpe enemigos cercanos. Mantener visibles las marcas sin tapar unidades
+y conservar mouse/táctil. No confundir estos cambios con balance comercial probado.
+
 Los recuerdos de los Ecos se desbloquean en orden: Latido (300 puntos) → Guerra
 (victoria) → Grieta (podio). Esto no bloquea las partidas de práctica. Consultar
 `MINIGAMES`; no revelar recuerdos bloqueados ni adelantar
@@ -122,7 +133,7 @@ multijugador real, ingresos ni anuncios conectados.
 2. Hacer una mejora acotada y verificar el resultado; evitar loops abiertos de
    rediseño. No cambiar modelo sin avisar a Jose previamente.
 3. Validar sintaxis del script tras cada edición y ejecutar
-   `node --test tests/*.test.cjs`. Base al 17.10: 69 pruebas, no un límite fijo.
+   `node --test tests/*.test.cjs`. Base al 17.10: 84 pruebas, no un límite fijo.
 4. Revisar las pantallas afectadas en navegador. Usar progreso de prueba aislado,
    no sobrescribir el de Jose. Distinguir pruebas de navegador de iPhone físico.
 5. Al publicar cambios de app: actualizar caché cuando corresponda, comprobar

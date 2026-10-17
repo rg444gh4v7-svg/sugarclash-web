@@ -22,11 +22,21 @@ node --test tests/*.test.cjs
 
 Abrir `http://127.0.0.1:4177/`. Las pruebas cubren especiales persistentes, cadenas,
 gravedad, barajado, campaña, sintaxis y comportamiento de la caché online/offline.
-El worker v15 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
+El worker v16 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
 No borrar los datos del navegador: eso elimina el progreso.
 
 ## Iteración actual
 
+- Jefes: corregido el diálogo que fallaba al buscar `bi-sub`. Una estrella por
+  nivel anterior basta; no hay que reunir 30 estrellas. `campaignUnlockedLevel()`
+  recupera acceso probado por victorias cuando `unlocked` está desactualizado,
+  sin quitar accesos ya guardados. Confirmar un jefe cobra una sola vida.
+- Guerra/Royale: los enemigos preparan golpes sobre una marca visible; salir de
+  ella evita el impacto. Pulso interrumpe ataques cercanos y no gasta recarga si
+  no alcanza rivales. Impulso sigue funcionando con mouse y táctil.
+- [Recorrido reproducible de los 80 niveles](docs/PLAYTHROUGH_REPORT.md): 80/80 en
+  orden, 97 intentos, 17 derrotas, 471 jugadas y ocho entradas a jefes. Motor real,
+  bot determinista y guardado aislado; no se forzaron victorias ni se usaron ayudas.
 - Edición **Elige y juega · 17.10**, identificable en la portada; conserva Atlas y Ecos.
 - Historia, Guerra 5v5 y Royale desde el inicio, sin recorrer el Archivo. Todos
   los modos tienen nombres claros; la explicación narrativa queda en segundo plano.
@@ -72,7 +82,7 @@ No borrar los datos del navegador: eso elimina el progreso.
 
 ## Qué falta para una prueba comercial real
 
-En la revisión del 17.10 pasaron 69 pruebas del motor/caché/gráficos/aldea/campaña/modos y comprobaciones
+En la revisión del 17.10 pasaron 84 pruebas del motor/caché/gráficos/aldea/campaña/modos y comprobaciones
 con DOM: campaña, deslizamiento, pulso, intercambio inválido, ajuste de tamaño,
 guardado, estados de restauración, pausa por visibilidad, resultados, selección sin
 gasto, compra explícita, requisitos, scroll de aldea y guardados con huecos. También se
@@ -82,9 +92,13 @@ el cobro de vida, regreso al mapa y acceso a los ocho territorios sin desbordami
 horizontal. Archivo, combates, Supervivencia y HEX se revisaron también en una
 sesión local aislada a 320×640 y 390×844, sin cambiar el progreso de producción.
 Queda verificar composición y animaciones en un iPhone real.
-Un bot codicioso recorrió los 80 niveles y ganó 73
-en una sola partida por nivel; es una comprobación preliminar, no una medición
-estadística del equilibrio ni de retención. Queda revisión visual en teléfono.
+El recorrido actual usa las entradas reales, confirmación de jefes y regeneración
+natural de vidas con reloj de prueba. Se verificó en navegador que Mochi abre su
+jefe con nueve victorias de una estrella, incluso con un desbloqueo desactualizado.
+El informe explica semillas, objetivos, reintentos y límites; no es una partida
+manual ni una medición estadística del equilibrio o de retención.
+En simulación, Royale todavía permite victorias sin actuar (22 de 50 encuentros
+de prueba): su balance requiere otra pasada. No afirmar que esa modalidad ya está resuelta.
 
 Esto todavía no demuestra retención ni ingresos. Liga, MOBA y Battle Royale no
 son multijugador real; los rivales son simulados. Los anuncios son demostraciones

@@ -34,7 +34,7 @@ function campaign(territory=2,cleared=4,reduced=false){
     territoryLandscapeSVG:(id,key,progress)=>{log.landscapes.push({id,key,progress});return `<svg data-territory="${id}"></svg>`;},
     confiteSVG:mood=>`<g data-mood="${mood}"></g>`,persistSave:()=>log.persists++});
   for(const [name,closing] of [['TERRITORIES','];'],['CAMPAIGN_ARCS','};'],['ATLAS_MOMENTS','};']]) vm.runInContext(constant(name,closing),ctx);
-  for(const name of ['territoryProgress','territoryUnlocked','campaignNext','atlasFeeling','renderCampaignMission','openWorldAtlas']) vm.runInContext(source(name),ctx);
+  for(const name of ['territoryProgress','territoryUnlocked','campaignUnlockedLevel','campaignNext','atlasFeeling','renderCampaignMission','openWorldAtlas']) vm.runInContext(source(name),ctx);
   return {ctx,mission,atlas,log};
 }
 test('Mochi mission renders real campaign progress, territory, route and continuation CTA',()=>{

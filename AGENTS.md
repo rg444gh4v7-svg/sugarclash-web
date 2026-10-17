@@ -246,6 +246,18 @@ obstacles[r][c] // 0 | 1 | 2 (bloques de chocolate, HP)
 
 ## Territorios y niveles
 
+**Acceso a jefes · 17.10:** `bi-sub` faltaba en el HTML y rompía
+`showBossIntro()` antes de mostrar el diálogo. Mantener ambos IDs `bi-sub` y
+`bi-access`. Los nueve niveles anteriores requieren solo una estrella, no 27/30.
+`campaignUnlockedLevel(id)` devuelve el máximo entre el desbloqueo guardado válido
+y las victorias contiguas demostradas; no muta el guardado ni retira acceso previo.
+Se usa en campaña, mapa y `tryStartLevel()`, que valida territorio/nivel antes
+de gastar vida. El diálogo no cobra; confirmar cobra una sola vez y resiste doble toque.
+`finishLevel()` persiste el acceso reconciliado. No saltar estas puertas en pruebas.
+Recorrido real del motor: `scripts/campaign-playthrough.cjs` y
+`docs/PLAYTHROUGH_REPORT.md` (80/80, 97 intentos, 17 derrotas, sin ayudas; prueba
+automatizada, no juego manual). Los guardados de Jose no se tocaron.
+
 ```javascript
 const TERRITORIES = [...]  // 8 territorios con id, name, icon, hue, desc, banner
 const TOTAL_LEVELS = 10    // niveles por territorio (el 10 siempre es el jefe)
@@ -608,6 +620,11 @@ lo limitan a un uso — se resetean en `startMoba()`/`startBR()`. Revive al 60% 
 máxima. Marcado con `// TODO integración real` como el resto de los ganchos de anuncio.
 
 ### MOBA 5v5 (canvas)
+- **Decisión táctica · 17.10:** IA prepara un golpe en una marca fija, después
+  comprueba rango/posición. Moverse fuera evita daño; Pulso cancela preparaciones
+  cercanas y conserva recarga si no alcanza a nadie. Los básicos del jugador
+  siguen automáticos. Royale comparte la preparación; no volver a daño instantáneo.
+  Impulso debe poder pulsarse con mouse antes de arrastrar, sin exigir dos entradas simultáneas.
 - Variables globales con prefijo `moba*`; `mobaRunning`, `mobaRAF` para el game loop
 - El jugador controla a Dulce Roja + 4 aliados IA (`MOBA_ALLIES`, los mismos héroes de
   `HEROES`) contra 5 "Fragmentos Hexadecimales" (`MOBA_ENEMIES`)
@@ -774,7 +791,7 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
   motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
   delay como pseudo-reverb).
-- **PWA v15:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
+- **PWA v16:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
   actualizan en segundo plano. Solo se eliminan cachés antiguas `sugarclash-*`.
   No borrar localStorage para actualizar. Una instalación con el worker anterior
   puede necesitar cerrar y abrir una vez más tras recibir la actualización.

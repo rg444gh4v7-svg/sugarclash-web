@@ -135,6 +135,7 @@ test('Campaign resumes the first unfinished accessible chapter without resetting
     LEVELS_BY_TERRITORY:Object.fromEntries(Array.from({length:8},(_,i)=>[i+1,Array.from({length:10},(_,n)=>({n:n+1}))])),
     save:{stars:{1:Object.fromEntries(Array.from({length:10},(_,i)=>[i+1,3])),2:{1:2,2:1}},unlocked:{1:11,2:3}},
     territoryUnlocked:id=>id<=2,territoryProgress:id=>id===1?1:id===2?.2:0});
+  vm.runInContext(source('campaignUnlockedLevel'),e);
   vm.runInContext(source('campaignNext'),e);
   assert.equal(e.campaignNext().territory.id,2); assert.equal(e.campaignNext().n,3);
   const before=JSON.stringify(e.save); e.campaignNext(); assert.equal(JSON.stringify(e.save),before);

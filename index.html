@@ -1650,9 +1650,9 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <button class="back-btn" aria-label="Volver" onclick="exitBR()">←</button>
       <div class="mb-stat"><div class="mb-val" id="br-alive">10/10</div><div class="mb-lbl">Vivos</div></div>
       <div class="mb-stat"><div class="mb-val" id="br-zone-status">Dentro</div><div class="mb-lbl">Zona</div></div>
-      <button class="mb-ability-btn" id="br-ability-btn" aria-label="Impulso de velocidad mientras arrastras para moverte" onclick="brUseDash()">Impulso</button>
+      <button class="mb-ability-btn" id="br-ability-btn" aria-label="Activar impulso de velocidad" onclick="brUseDash()">Impulso</button>
     </div>
-    <div class="mb-hint">Esquiva las marcas · quédate en el anillo · arrastra + Impulso para huir</div>
+    <div class="mb-hint">Esquiva las marcas · quédate en el anillo · Impulso acelera tu huida</div>
     <div class="mg-confite-pop combat-guide" id="br-confite-pop">
       <svg class="mg-confite-pop-svg" viewBox="0 0 100 90" fill="none" id="br-confite-pop-svg" aria-hidden="true"></svg>
       <div class="mg-confite-pop-text" id="br-confite-pop-text"></div>
@@ -4264,9 +4264,6 @@ function brAttack(u,target){
 }
 function brUseDash(){
   if(!brRunning || brDashCd>0 || !brPlayer.alive) return;
-  if(!brJoystick.active || Math.hypot(brJoystick.dx,brJoystick.dy)<=4){
-    mgConfiteSay("br","Arrastra para moverte y pulsa Impulso para salir de una marca.","happy","br-dash-move",3000); return;
-  }
   brDashTimer = BR_DASH_FRAMES;
   brDashCd = BR_DASH_CD_MAX;
   brFlashes.push({x:brPlayer.x, y:brPlayer.y, r:26, life:1, hue:"#7FD8E8", ring:true});
