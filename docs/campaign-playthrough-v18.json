@@ -1,0 +1,2795 @@
+{
+  "format": 1,
+  "sourceSha256": "ff722af7c0e007ad0784bfc68db86c8f6454cebbc45353193407b368083cf509",
+  "baseSeed": 7331,
+  "attemptsLimit": 10,
+  "scope": "Dulcelandia campaign, 8 territories × 10 levels, actual inline engine",
+  "method": "Fresh in-memory localStorage; sequential continueCampaign and real boss start handlers; legal objective-weighted greedy swaps and manual pulse; no boosters, continues, ads, forged board, score or goal changes. Presentation timers and rendering skipped; virtual clock advances only for natural life regeneration. This is a deterministic engine audit, not a browser layout check or a human win-rate estimate.",
+  "summary": {
+    "levelsWon": 80,
+    "levelsVisited": 80,
+    "attempts": 97,
+    "losses": 17,
+    "moves": 471,
+    "bossEntriesPassed": 8,
+    "regenerationWaits": 92,
+    "complete": true,
+    "failure": null
+  },
+  "levels": [
+    {
+      "territory": 1,
+      "level": 1,
+      "name": "La Pradera Dulce",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 1017341,
+          "won": true,
+          "type": "score",
+          "target": 500,
+          "achieved": 600,
+          "score": 600,
+          "moves": 2,
+          "movesAvailable": 11,
+          "movesLeft": 9,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 1,
+      "level": 2,
+      "name": "El Sendero de Caramelo",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 1027348,
+          "won": true,
+          "type": "score",
+          "target": 650,
+          "achieved": 1920,
+          "score": 1920,
+          "moves": 1,
+          "movesAvailable": 12,
+          "movesLeft": 11,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 1,
+      "level": 3,
+      "name": "El Bosque de Caramelo",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 1037355,
+          "won": true,
+          "type": "score",
+          "target": 800,
+          "achieved": 2320,
+          "score": 2320,
+          "moves": 1,
+          "movesAvailable": 12,
+          "movesLeft": 11,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 1,
+      "level": 4,
+      "name": "El Río de Miel",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 1047362,
+          "won": true,
+          "type": "collect",
+          "target": 12,
+          "achieved": 13,
+          "score": 4690,
+          "moves": 7,
+          "movesAvailable": 18,
+          "movesLeft": 11,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 1,
+      "level": 5,
+      "name": "La Aldea Carmesí",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 1057369,
+          "won": true,
+          "type": "score",
+          "target": 1100,
+          "achieved": 2170,
+          "score": 2170,
+          "moves": 2,
+          "movesAvailable": 10,
+          "movesLeft": 8,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 1,
+      "level": 6,
+      "name": "El Puente Quebrado",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 1067376,
+          "won": true,
+          "type": "score",
+          "target": 1300,
+          "achieved": 2520,
+          "score": 2520,
+          "moves": 1,
+          "movesAvailable": 8,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 1,
+      "level": 7,
+      "name": "La Torre Vigía",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 1077383,
+          "won": true,
+          "type": "crystals",
+          "target": 2,
+          "achieved": 3,
+          "score": 1920,
+          "moves": 1,
+          "movesAvailable": 15,
+          "movesLeft": 14,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 3,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 1,
+      "level": 8,
+      "name": "El Cañón de Azúcar",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 1087390,
+          "won": true,
+          "type": "score",
+          "target": 1700,
+          "achieved": 2220,
+          "score": 2220,
+          "moves": 1,
+          "movesAvailable": 8,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 1,
+      "level": 9,
+      "name": "Las Puertas Carmesí",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 1097397,
+          "won": true,
+          "type": "score",
+          "target": 1900,
+          "achieved": 2150,
+          "score": 2150,
+          "moves": 4,
+          "movesAvailable": 8,
+          "movesLeft": 4,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 1,
+      "level": 10,
+      "name": "El Último Carmesí",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 1107404,
+          "won": false,
+          "type": "score",
+          "target": 2200,
+          "achieved": 1650,
+          "score": 1650,
+          "moves": 8,
+          "movesAvailable": 8,
+          "movesLeft": 0,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        },
+        {
+          "attempt": 2,
+          "seed": 1115323,
+          "won": true,
+          "type": "score",
+          "target": 2200,
+          "achieved": 2250,
+          "score": 2250,
+          "moves": 4,
+          "movesAvailable": 8,
+          "movesLeft": 4,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 2,
+      "level": 1,
+      "name": "El Portal de los Cerezos",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 2017344,
+          "won": true,
+          "type": "score",
+          "target": 900,
+          "achieved": 2830,
+          "score": 2830,
+          "moves": 1,
+          "movesAvailable": 8,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 2,
+      "level": 2,
+      "name": "La Arena de Azúcar",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 2027351,
+          "won": true,
+          "type": "score",
+          "target": 1150,
+          "achieved": 1950,
+          "score": 1950,
+          "moves": 1,
+          "movesAvailable": 8,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 2,
+      "level": 3,
+      "name": "Los Pabellones de Mochi",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 2037358,
+          "won": true,
+          "type": "score",
+          "target": 1400,
+          "achieved": 2440,
+          "score": 2440,
+          "moves": 1,
+          "movesAvailable": 8,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 2,
+      "level": 4,
+      "name": "El Estanque de Almíbar",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 2047365,
+          "won": true,
+          "type": "collect",
+          "target": 13,
+          "achieved": 17,
+          "score": 8250,
+          "moves": 2,
+          "movesAvailable": 16,
+          "movesLeft": 14,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 3,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 2,
+      "level": 5,
+      "name": "La Galería de Wagashi",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 2057372,
+          "won": true,
+          "type": "score",
+          "target": 1900,
+          "achieved": 1900,
+          "score": 1900,
+          "moves": 6,
+          "movesAvailable": 8,
+          "movesLeft": 2,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 2,
+      "level": 6,
+      "name": "El Jardín del Silencio",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 2067379,
+          "won": true,
+          "type": "score",
+          "target": 2150,
+          "achieved": 3570,
+          "score": 3570,
+          "moves": 1,
+          "movesAvailable": 8,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 2,
+      "level": 7,
+      "name": "Los Faroles Apagados",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 2077386,
+          "won": true,
+          "type": "crystals",
+          "target": 1,
+          "achieved": 1,
+          "score": 4770,
+          "moves": 2,
+          "movesAvailable": 8,
+          "movesLeft": 6,
+          "pulses": 0,
+          "created": {
+            "crystal": 1,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 2,
+      "level": 8,
+      "name": "La Pagoda de Cristal",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 2087393,
+          "won": true,
+          "type": "score",
+          "target": 2650,
+          "achieved": 4020,
+          "score": 4020,
+          "moves": 1,
+          "movesAvailable": 9,
+          "movesLeft": 8,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 2,
+      "level": 9,
+      "name": "Las Raíces Eternas",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 2097400,
+          "won": true,
+          "type": "score",
+          "target": 2900,
+          "achieved": 4350,
+          "score": 4350,
+          "moves": 1,
+          "movesAvailable": 8,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 2,
+      "level": 10,
+      "name": "La Flor de Mochi Eterno",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 2107407,
+          "won": true,
+          "type": "score",
+          "target": 3200,
+          "achieved": 3300,
+          "score": 3300,
+          "moves": 4,
+          "movesAvailable": 8,
+          "movesLeft": 4,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 3,
+      "level": 1,
+      "name": "La Base de las Torres",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 3017347,
+          "won": true,
+          "type": "score",
+          "target": 1500,
+          "achieved": 2640,
+          "score": 2640,
+          "moves": 3,
+          "movesAvailable": 8,
+          "movesLeft": 5,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 2,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 3,
+      "level": 2,
+      "name": "El Primer Tramo",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 3027354,
+          "won": true,
+          "type": "score",
+          "target": 1800,
+          "achieved": 3320,
+          "score": 3320,
+          "moves": 5,
+          "movesAvailable": 8,
+          "movesLeft": 3,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 3,
+      "level": 3,
+      "name": "La Plaza Caramelizada",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 3037361,
+          "won": true,
+          "type": "score",
+          "target": 2100,
+          "achieved": 2200,
+          "score": 2200,
+          "moves": 2,
+          "movesAvailable": 8,
+          "movesLeft": 6,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 3,
+      "level": 4,
+      "name": "El Arco de Fruta",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 3047368,
+          "won": true,
+          "type": "collect",
+          "target": 13,
+          "achieved": 17,
+          "score": 19190,
+          "moves": 12,
+          "movesAvailable": 14,
+          "movesLeft": 2,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 5,
+            "wrapped": 1
+          },
+          "crystalsActivated": 3,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 3,
+      "level": 5,
+      "name": "Las Agujas del Mediodía",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 3057375,
+          "won": true,
+          "type": "score",
+          "target": 2700,
+          "achieved": 3500,
+          "score": 3500,
+          "moves": 8,
+          "movesAvailable": 8,
+          "movesLeft": 0,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 3,
+      "level": 6,
+      "name": "La Grieta Ascendente",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 3067382,
+          "won": true,
+          "type": "score",
+          "target": 3000,
+          "achieved": 3900,
+          "score": 3900,
+          "moves": 1,
+          "movesAvailable": 8,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 3,
+      "level": 7,
+      "name": "El Andamio Roto",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 3077389,
+          "won": true,
+          "type": "crystals",
+          "target": 2,
+          "achieved": 3,
+          "score": 5340,
+          "moves": 2,
+          "movesAvailable": 16,
+          "movesLeft": 14,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 3,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 3,
+      "level": 8,
+      "name": "La Plataforma Flotante",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 3087396,
+          "won": true,
+          "type": "score",
+          "target": 3600,
+          "achieved": 4270,
+          "score": 4270,
+          "moves": 2,
+          "movesAvailable": 8,
+          "movesLeft": 6,
+          "pulses": 0,
+          "created": {
+            "crystal": 1,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 3,
+      "level": 9,
+      "name": "El Vértice del Cielo",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 3097403,
+          "won": true,
+          "type": "score",
+          "target": 3900,
+          "achieved": 4550,
+          "score": 4550,
+          "moves": 9,
+          "movesAvailable": 10,
+          "movesLeft": 1,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 3,
+      "level": 10,
+      "name": "La Aguja del Cielo",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 3107410,
+          "won": false,
+          "type": "score",
+          "target": 4300,
+          "achieved": 2850,
+          "score": 2850,
+          "moves": 9,
+          "movesAvailable": 9,
+          "movesLeft": 0,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        },
+        {
+          "attempt": 2,
+          "seed": 3115329,
+          "won": true,
+          "type": "score",
+          "target": 4300,
+          "achieved": 5700,
+          "score": 5700,
+          "moves": 2,
+          "movesAvailable": 9,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 4,
+      "level": 1,
+      "name": "El Valle Helado",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 4017350,
+          "won": true,
+          "type": "score",
+          "target": 2200,
+          "achieved": 7300,
+          "score": 7300,
+          "moves": 1,
+          "movesAvailable": 8,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 4,
+      "level": 2,
+      "name": "Las Cuevas de Avellana",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 4027357,
+          "won": true,
+          "type": "score",
+          "target": 2550,
+          "achieved": 3600,
+          "score": 3600,
+          "moves": 3,
+          "movesAvailable": 8,
+          "movesLeft": 5,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 4,
+      "level": 3,
+      "name": "El Glaciar de Ganache",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 4037364,
+          "won": true,
+          "type": "score",
+          "target": 2900,
+          "achieved": 3750,
+          "score": 3750,
+          "moves": 2,
+          "movesAvailable": 8,
+          "movesLeft": 6,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 4,
+      "level": 4,
+      "name": "La Catarata Congelada",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 4047371,
+          "won": true,
+          "type": "collect",
+          "target": 11,
+          "achieved": 13,
+          "score": 5150,
+          "moves": 11,
+          "movesAvailable": 13,
+          "movesLeft": 2,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 4,
+      "level": 5,
+      "name": "El Corazón de la Montaña",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 4057378,
+          "won": true,
+          "type": "score",
+          "target": 3600,
+          "achieved": 5570,
+          "score": 5570,
+          "moves": 2,
+          "movesAvailable": 8,
+          "movesLeft": 6,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 1,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 4,
+      "level": 6,
+      "name": "Los Senderos de Cacao",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 4067385,
+          "won": true,
+          "type": "score",
+          "target": 3950,
+          "achieved": 4000,
+          "score": 4000,
+          "moves": 8,
+          "movesAvailable": 9,
+          "movesLeft": 1,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 2,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 4,
+      "level": 7,
+      "name": "La Veta Blanca",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 4077392,
+          "won": true,
+          "type": "crystals",
+          "target": 2,
+          "achieved": 2,
+          "score": 2920,
+          "moves": 1,
+          "movesAvailable": 12,
+          "movesLeft": 11,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 2,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 4,
+      "level": 8,
+      "name": "La Cumbre sin Nombre",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 4087399,
+          "won": false,
+          "type": "score",
+          "target": 4650,
+          "achieved": 2650,
+          "score": 2650,
+          "moves": 8,
+          "movesAvailable": 8,
+          "movesLeft": 0,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 3,
+          "shuffles": 0,
+          "bossEntry": null
+        },
+        {
+          "attempt": 2,
+          "seed": 4095318,
+          "won": true,
+          "type": "score",
+          "target": 4650,
+          "achieved": 8520,
+          "score": 8520,
+          "moves": 2,
+          "movesAvailable": 8,
+          "movesLeft": 6,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 3,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 4,
+      "level": 9,
+      "name": "El Umbral de la Hibernación",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 4097406,
+          "won": true,
+          "type": "score",
+          "target": 5000,
+          "achieved": 9450,
+          "score": 9450,
+          "moves": 2,
+          "movesAvailable": 9,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 3,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 4,
+      "level": 10,
+      "name": "El Corazón de Cacao",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 4107413,
+          "won": true,
+          "type": "score",
+          "target": 5400,
+          "achieved": 7440,
+          "score": 7440,
+          "moves": 2,
+          "movesAvailable": 9,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 3,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 5,
+      "level": 1,
+      "name": "El Claro de Gominola",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 5017353,
+          "won": false,
+          "type": "score",
+          "target": 2900,
+          "achieved": 2700,
+          "score": 2700,
+          "moves": 8,
+          "movesAvailable": 8,
+          "movesLeft": 0,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        },
+        {
+          "attempt": 2,
+          "seed": 5025272,
+          "won": true,
+          "type": "score",
+          "target": 2900,
+          "achieved": 3350,
+          "score": 3350,
+          "moves": 5,
+          "movesAvailable": 8,
+          "movesLeft": 3,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 5,
+      "level": 2,
+      "name": "Las Raíces de Regaliz",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 5027360,
+          "won": false,
+          "type": "score",
+          "target": 3300,
+          "achieved": 2050,
+          "score": 2050,
+          "moves": 8,
+          "movesAvailable": 8,
+          "movesLeft": 0,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        },
+        {
+          "attempt": 2,
+          "seed": 5035279,
+          "won": true,
+          "type": "score",
+          "target": 3300,
+          "achieved": 3450,
+          "score": 3450,
+          "moves": 2,
+          "movesAvailable": 8,
+          "movesLeft": 6,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 1
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 5,
+      "level": 3,
+      "name": "El Sendero de los Osos",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 5037367,
+          "won": true,
+          "type": "score",
+          "target": 3700,
+          "achieved": 4080,
+          "score": 4080,
+          "moves": 3,
+          "movesAvailable": 8,
+          "movesLeft": 5,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 1
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 5,
+      "level": 4,
+      "name": "Los Hongos de Colores",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 5047374,
+          "won": true,
+          "type": "collect",
+          "target": 15,
+          "achieved": 18,
+          "score": 11280,
+          "moves": 3,
+          "movesAvailable": 15,
+          "movesLeft": 12,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 3,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 5,
+      "level": 5,
+      "name": "El Árbol del Centro",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 5057381,
+          "won": true,
+          "type": "score",
+          "target": 4500,
+          "achieved": 7470,
+          "score": 7470,
+          "moves": 2,
+          "movesAvailable": 8,
+          "movesLeft": 6,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 2,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 5,
+      "level": 6,
+      "name": "La Guarida Translúcida",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 5067388,
+          "won": true,
+          "type": "score",
+          "target": 4900,
+          "achieved": 5550,
+          "score": 5550,
+          "moves": 3,
+          "movesAvailable": 10,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 1
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 3,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 5,
+      "level": 7,
+      "name": "Los Pasillos de Gelatina",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 5077395,
+          "won": true,
+          "type": "crystals",
+          "target": 2,
+          "achieved": 2,
+          "score": 4200,
+          "moves": 1,
+          "movesAvailable": 11,
+          "movesLeft": 10,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 3,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 5,
+      "level": 8,
+      "name": "La Caverna de las Voces",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 5087402,
+          "won": true,
+          "type": "score",
+          "target": 5700,
+          "achieved": 6100,
+          "score": 6100,
+          "moves": 3,
+          "movesAvailable": 10,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 1,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 3,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 5,
+      "level": 9,
+      "name": "El Laberinto de Regaliz",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 5097409,
+          "won": true,
+          "type": "score",
+          "target": 6100,
+          "achieved": 8350,
+          "score": 8350,
+          "moves": 5,
+          "movesAvailable": 10,
+          "movesLeft": 5,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 4,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 5,
+      "level": 10,
+      "name": "El Árbol de Gominola Ancestral",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 5107416,
+          "won": false,
+          "type": "score",
+          "target": 6600,
+          "achieved": 6110,
+          "score": 6110,
+          "moves": 8,
+          "movesAvailable": 8,
+          "movesLeft": 0,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 4,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 4,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        },
+        {
+          "attempt": 2,
+          "seed": 5115335,
+          "won": false,
+          "type": "score",
+          "target": 6600,
+          "achieved": 5950,
+          "score": 5950,
+          "moves": 8,
+          "movesAvailable": 8,
+          "movesLeft": 0,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 2,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        },
+        {
+          "attempt": 3,
+          "seed": 5123254,
+          "won": true,
+          "type": "score",
+          "target": 6600,
+          "achieved": 6800,
+          "score": 6800,
+          "moves": 7,
+          "movesAvailable": 8,
+          "movesLeft": 1,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 1
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 4,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 6,
+      "level": 1,
+      "name": "La Pradera de Nubes",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 6017356,
+          "won": true,
+          "type": "score",
+          "target": 3600,
+          "achieved": 4620,
+          "score": 4620,
+          "moves": 2,
+          "movesAvailable": 8,
+          "movesLeft": 6,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 6,
+      "level": 2,
+      "name": "El Campamento Apagado",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 6027363,
+          "won": true,
+          "type": "score",
+          "target": 4050,
+          "achieved": 4620,
+          "score": 4620,
+          "moves": 5,
+          "movesAvailable": 8,
+          "movesLeft": 3,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 3,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 6,
+      "level": 3,
+      "name": "Las Brasas del Pasado",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 6037370,
+          "won": false,
+          "type": "score",
+          "target": 4500,
+          "achieved": 2900,
+          "score": 2900,
+          "moves": 8,
+          "movesAvailable": 8,
+          "movesLeft": 0,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        },
+        {
+          "attempt": 2,
+          "seed": 6045289,
+          "won": false,
+          "type": "score",
+          "target": 4500,
+          "achieved": 2850,
+          "score": 2850,
+          "moves": 8,
+          "movesAvailable": 8,
+          "movesLeft": 0,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        },
+        {
+          "attempt": 3,
+          "seed": 6053208,
+          "won": true,
+          "type": "score",
+          "target": 4500,
+          "achieved": 16180,
+          "score": 16180,
+          "moves": 4,
+          "movesAvailable": 8,
+          "movesLeft": 4,
+          "pulses": 1,
+          "created": {
+            "crystal": 1,
+            "stripe": 1,
+            "wrapped": 1
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 6,
+      "level": 4,
+      "name": "El Sendero de Maple",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 6047377,
+          "won": true,
+          "type": "collect",
+          "target": 14,
+          "achieved": 15,
+          "score": 5670,
+          "moves": 8,
+          "movesAvailable": 14,
+          "movesLeft": 6,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 2,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 6,
+      "level": 5,
+      "name": "La Fogata Central",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 6057384,
+          "won": true,
+          "type": "score",
+          "target": 5400,
+          "achieved": 7950,
+          "score": 7950,
+          "moves": 4,
+          "movesAvailable": 8,
+          "movesLeft": 4,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 3,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 6,
+      "level": 6,
+      "name": "Los S'mores de Piedra",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 6067391,
+          "won": true,
+          "type": "score",
+          "target": 5850,
+          "achieved": 8370,
+          "score": 8370,
+          "moves": 2,
+          "movesAvailable": 8,
+          "movesLeft": 6,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 3,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 6,
+      "level": 7,
+      "name": "El Cielo Estrellado",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 6077398,
+          "won": true,
+          "type": "crystals",
+          "target": 2,
+          "achieved": 2,
+          "score": 3330,
+          "moves": 1,
+          "movesAvailable": 10,
+          "movesLeft": 9,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 3,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 6,
+      "level": 8,
+      "name": "La Tienda de Nubes",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 6087405,
+          "won": true,
+          "type": "score",
+          "target": 7200,
+          "achieved": 7460,
+          "score": 7460,
+          "moves": 11,
+          "movesAvailable": 11,
+          "movesLeft": 0,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 2,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 6,
+      "level": 9,
+      "name": "El Último Calor",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 6097412,
+          "won": true,
+          "type": "score",
+          "target": 7800,
+          "achieved": 7850,
+          "score": 7850,
+          "moves": 4,
+          "movesAvailable": 11,
+          "movesLeft": 7,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 2,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 6,
+      "level": 10,
+      "name": "La Última Fogata",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 6107419,
+          "won": false,
+          "type": "score",
+          "target": 8500,
+          "achieved": 5120,
+          "score": 5120,
+          "moves": 12,
+          "movesAvailable": 12,
+          "movesLeft": 0,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 2,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        },
+        {
+          "attempt": 2,
+          "seed": 6115338,
+          "won": true,
+          "type": "score",
+          "target": 8500,
+          "achieved": 9600,
+          "score": 9600,
+          "moves": 8,
+          "movesAvailable": 12,
+          "movesLeft": 4,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 3,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 5,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 7,
+      "level": 1,
+      "name": "Los Altares de Azúcar",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 7017359,
+          "won": true,
+          "type": "score",
+          "target": 4400,
+          "achieved": 5800,
+          "score": 5800,
+          "moves": 2,
+          "movesAvailable": 9,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 1,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 7,
+      "level": 2,
+      "name": "Las Flores de Cempasúchil",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 7027366,
+          "won": false,
+          "type": "score",
+          "target": 4900,
+          "achieved": 2350,
+          "score": 2350,
+          "moves": 9,
+          "movesAvailable": 9,
+          "movesLeft": 0,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        },
+        {
+          "attempt": 2,
+          "seed": 7035285,
+          "won": true,
+          "type": "score",
+          "target": 4900,
+          "achieved": 10410,
+          "score": 10410,
+          "moves": 5,
+          "movesAvailable": 9,
+          "movesLeft": 4,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 2,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 7,
+      "level": 3,
+      "name": "El Camino de los Ancestros",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 7037373,
+          "won": true,
+          "type": "score",
+          "target": 5400,
+          "achieved": 5450,
+          "score": 5450,
+          "moves": 5,
+          "movesAvailable": 10,
+          "movesLeft": 5,
+          "pulses": 1,
+          "created": {
+            "crystal": 1,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 7,
+      "level": 4,
+      "name": "Las Calaveras de Piedra",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 7047380,
+          "won": true,
+          "type": "collect",
+          "target": 16,
+          "achieved": 16,
+          "score": 6450,
+          "moves": 6,
+          "movesAvailable": 15,
+          "movesLeft": 9,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 2,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 7,
+      "level": 5,
+      "name": "El Patio de los Recuerdos",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 7057387,
+          "won": true,
+          "type": "score",
+          "target": 6400,
+          "achieved": 6920,
+          "score": 6920,
+          "moves": 2,
+          "movesAvailable": 9,
+          "movesLeft": 7,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 4,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 7,
+      "level": 6,
+      "name": "Las Velas sin Dueño",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 7067394,
+          "won": false,
+          "type": "score",
+          "target": 6900,
+          "achieved": 5710,
+          "score": 5710,
+          "moves": 11,
+          "movesAvailable": 11,
+          "movesLeft": 0,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 3,
+          "shuffles": 0,
+          "bossEntry": null
+        },
+        {
+          "attempt": 2,
+          "seed": 7075313,
+          "won": true,
+          "type": "score",
+          "target": 6900,
+          "achieved": 10950,
+          "score": 10950,
+          "moves": 9,
+          "movesAvailable": 11,
+          "movesLeft": 2,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 7,
+      "level": 7,
+      "name": "El Memorial del Valle",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 7077401,
+          "won": true,
+          "type": "crystals",
+          "target": 3,
+          "achieved": 3,
+          "score": 2610,
+          "moves": 1,
+          "movesAvailable": 15,
+          "movesLeft": 14,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 3,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 7,
+      "level": 8,
+      "name": "La Ofrenda Eterna",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 7087408,
+          "won": true,
+          "type": "score",
+          "target": 8800,
+          "achieved": 12760,
+          "score": 12760,
+          "moves": 9,
+          "movesAvailable": 11,
+          "movesLeft": 2,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 3,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 7,
+      "level": 9,
+      "name": "El Umbral del Dulce",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 7097415,
+          "won": true,
+          "type": "score",
+          "target": 9500,
+          "achieved": 10300,
+          "score": 10300,
+          "moves": 6,
+          "movesAvailable": 12,
+          "movesLeft": 6,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 4,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 7,
+      "level": 10,
+      "name": "La Calavera de Azúcar Sagrada",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 7107422,
+          "won": false,
+          "type": "score",
+          "target": 10200,
+          "achieved": 5240,
+          "score": 5240,
+          "moves": 9,
+          "movesAvailable": 9,
+          "movesLeft": 0,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 2,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 1,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        },
+        {
+          "attempt": 2,
+          "seed": 7115341,
+          "won": false,
+          "type": "score",
+          "target": 10200,
+          "achieved": 4150,
+          "score": 4150,
+          "moves": 9,
+          "movesAvailable": 9,
+          "movesLeft": 0,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        },
+        {
+          "attempt": 3,
+          "seed": 7123260,
+          "won": false,
+          "type": "score",
+          "target": 10200,
+          "achieved": 6800,
+          "score": 6800,
+          "moves": 9,
+          "movesAvailable": 9,
+          "movesLeft": 0,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 3,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 4,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        },
+        {
+          "attempt": 4,
+          "seed": 7131179,
+          "won": true,
+          "type": "score",
+          "target": 10200,
+          "achieved": 10370,
+          "score": 10370,
+          "moves": 4,
+          "movesAvailable": 9,
+          "movesLeft": 5,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 4,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 8,
+      "level": 1,
+      "name": "Las Ruinas de Cristal",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 8017362,
+          "won": true,
+          "type": "score",
+          "target": 5000,
+          "achieved": 5000,
+          "score": 5000,
+          "moves": 6,
+          "movesAvailable": 8,
+          "movesLeft": 2,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 8,
+      "level": 2,
+      "name": "La Plaza del Instante",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 8027369,
+          "won": true,
+          "type": "score",
+          "target": 5600,
+          "achieved": 13710,
+          "score": 13710,
+          "moves": 4,
+          "movesAvailable": 10,
+          "movesLeft": 6,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 8,
+      "level": 3,
+      "name": "Los Fractales Detenidos",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 8037376,
+          "won": false,
+          "type": "score",
+          "target": 6200,
+          "achieved": 4020,
+          "score": 4020,
+          "moves": 10,
+          "movesAvailable": 10,
+          "movesLeft": 0,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 2,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        },
+        {
+          "attempt": 2,
+          "seed": 8045295,
+          "won": true,
+          "type": "score",
+          "target": 6200,
+          "achieved": 8400,
+          "score": 8400,
+          "moves": 2,
+          "movesAvailable": 10,
+          "movesLeft": 8,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 8,
+      "level": 4,
+      "name": "El Espejo Opaco",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 8047383,
+          "won": false,
+          "type": "collect",
+          "target": 14,
+          "achieved": 11,
+          "score": 8500,
+          "moves": 15,
+          "movesAvailable": 15,
+          "movesLeft": 0,
+          "pulses": 3,
+          "created": {
+            "crystal": 0,
+            "stripe": 3,
+            "wrapped": 0
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        },
+        {
+          "attempt": 2,
+          "seed": 8055302,
+          "won": true,
+          "type": "collect",
+          "target": 14,
+          "achieved": 16,
+          "score": 7890,
+          "moves": 5,
+          "movesAvailable": 15,
+          "movesLeft": 10,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 8,
+      "level": 5,
+      "name": "La Geometría Perfecta",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 8057390,
+          "won": true,
+          "type": "score",
+          "target": 8000,
+          "achieved": 9080,
+          "score": 9080,
+          "moves": 9,
+          "movesAvailable": 9,
+          "movesLeft": 0,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 2,
+            "wrapped": 1
+          },
+          "crystalsActivated": 1,
+          "chocolateDestroyed": 5,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 8,
+      "level": 6,
+      "name": "El Prisma Sin Luz",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 8067397,
+          "won": true,
+          "type": "score",
+          "target": 9000,
+          "achieved": 12690,
+          "score": 12690,
+          "moves": 3,
+          "movesAvailable": 13,
+          "movesLeft": 10,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 3,
+          "chocolateDestroyed": 3,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 8,
+      "level": 7,
+      "name": "La Resonancia del Cristal",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 8077404,
+          "won": true,
+          "type": "crystals",
+          "target": 4,
+          "achieved": 9,
+          "score": 9600,
+          "moves": 1,
+          "movesAvailable": 13,
+          "movesLeft": 12,
+          "pulses": 0,
+          "created": {
+            "crystal": 0,
+            "stripe": 0,
+            "wrapped": 0
+          },
+          "crystalsActivated": 9,
+          "chocolateDestroyed": 0,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 8,
+      "level": 8,
+      "name": "Los Fragmentos Suspendidos",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 8087411,
+          "won": true,
+          "type": "score",
+          "target": 10500,
+          "achieved": 12140,
+          "score": 12140,
+          "moves": 11,
+          "movesAvailable": 15,
+          "movesLeft": 4,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 2,
+            "wrapped": 1
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 4,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 8,
+      "level": 9,
+      "name": "El Umbral Final",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 8097418,
+          "won": true,
+          "type": "score",
+          "target": 11500,
+          "achieved": 16830,
+          "score": 16830,
+          "moves": 6,
+          "movesAvailable": 13,
+          "movesLeft": 7,
+          "pulses": 1,
+          "created": {
+            "crystal": 0,
+            "stripe": 1,
+            "wrapped": 0
+          },
+          "crystalsActivated": 2,
+          "chocolateDestroyed": 6,
+          "shuffles": 0,
+          "bossEntry": null
+        }
+      ],
+      "won": true
+    },
+    {
+      "territory": 8,
+      "level": 10,
+      "name": "El Cristal que se Rompió a sí Mismo",
+      "attempts": [
+        {
+          "attempt": 1,
+          "seed": 8107425,
+          "won": true,
+          "type": "score",
+          "target": 10000,
+          "achieved": 11160,
+          "score": 11160,
+          "moves": 11,
+          "movesAvailable": 11,
+          "movesLeft": 0,
+          "pulses": 2,
+          "created": {
+            "crystal": 0,
+            "stripe": 2,
+            "wrapped": 1
+          },
+          "crystalsActivated": 0,
+          "chocolateDestroyed": 4,
+          "shuffles": 0,
+          "bossEntry": "intro → start button → life spent → game"
+        }
+      ],
+      "won": true
+    }
+  ]
+}

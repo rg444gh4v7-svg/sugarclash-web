@@ -1,6 +1,8 @@
-const sharp = require('/Users/jose/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
+// Development-only asset preparation. No runtime dependency is added to the game.
+// Usage: node scripts/repack-atlas.cjs input.png output.webp [alpha=24] [columns=5]
+const sharp = require(process.env.SUGARCLASH_SHARP_PATH || '/Users/jose/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp');
 
-async function components(file, threshold = 24) {
+async function components(file, threshold = 24, count = 10) {
   const { data, info } = await sharp(file).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
   const { width: w, height: h } = info;
   const seen = new Uint8Array(w * h);
@@ -22,14 +24,14 @@ async function components(file, threshold = 24) {
       function visit(n) { if (!seen[n] && data[n * 4 + 3] >= threshold) { seen[n] = 1; queue[tail++] = n; } }
     }
   }
-  const top = found.sort((a, b) => b.area - a.area).slice(0, 10);
-  if (top.length !== 10) throw new Error(`Expected 10 creatures, found ${top.length} in ${file}`);
+  const top = found.sort((a, b) => b.area - a.area).slice(0, count);
+  if (top.length !== count) throw new Error(`Expected ${count} subjects, found ${top.length} in ${file}`);
   top.sort((a, b) => (a.cy < h / 2 ? 0 : 1) - (b.cy < h / 2 ? 0 : 1) || a.cx - b.cx);
   return { data, w, h, top };
 }
 
-async function repack(input, output, threshold) {
-  const { data, w, top } = await components(input, threshold);
+async function repack(input, output, threshold, columns=5) {
+  const { data, w, top } = await components(input, threshold, columns*2);
   const parts = [];
   for (let i = 0; i < top.length; i++) {
     const comp = top[i], pad = 4;
@@ -42,10 +44,10 @@ async function repack(input, output, threshold) {
     }
     const cell = await sharp(isolated, { raw: { width, height, channels: 4 } })
       .resize(320, 320, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer();
-    parts.push({ input: cell, left: (i % 5) * 320, top: Math.floor(i / 5) * 320 });
+    parts.push({ input: cell, left: (i % columns) * 320, top: Math.floor(i / columns) * 320 });
   }
-  await sharp({ create: { width: 1600, height: 640, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+  await sharp({ create: { width: columns*320, height: 640, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
     .composite(parts).webp({ quality: 84, alphaQuality: 100, effort: 5 }).toFile(output);
 }
 
-repack(process.argv[2], process.argv[3], Number(process.argv[4] || 24)).then(() => console.log(process.argv[3])).catch(error => { console.error(error); process.exit(1); });
+repack(process.argv[2], process.argv[3], Number(process.argv[4] || 24),Number(process.argv[5]||5)).then(() => console.log(process.argv[3])).catch(error => { console.error(error); process.exit(1); });

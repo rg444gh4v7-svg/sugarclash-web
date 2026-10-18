@@ -1,7 +1,7 @@
 # Sugar Clash — guía visual compartida
 
 Referencia de continuidad para Claude y Codex. Actualizada el 17 de octubre de 2026.
-Dirección vigente: **El Cristal Vivo · Atlas y Ecos**.
+Dirección vigente: **El Cristal Vivo · Mundo Vivo 18 (Atlas y Ecos)**.
 Leer antes de modificar gráficos, pantallas, mapas, animaciones o modalidades.
 Las decisiones nuevas de Jose prevalecen; no cambiar la dirección artística por iniciativa propia.
 
@@ -14,13 +14,28 @@ fracturado, corazón ámbar, confitería cálida frente a corrupción violeta. N
 a interpretar esta dirección como una prohibición de raster ni como otro tema CSS.
 
 `cinematicScene()` integra ocho paisajes y conserva `territoryLandscapeSVG()` como
-fallback. `guardianPortrait()` integra ocho familias territoriales, con
-`guardianSVG()` nativo como fallback; niveles 1–9 son ecos y el 10 es el guardián
-destacado, no ochenta personajes únicos. Mostrar retrato en ruta, partida,
-introducción y resultado; mantener número/nombre legible y a Confite presente.
-Los sprites enemigos de combate reutilizan el guardián cristalino sin alterar
-colisiones, vida, preparación de golpes ni controles. Arte y prompts:
-[ART_ASSETS.md](docs/ART_ASSETS.md). No nuevas dependencias de runtime.
+fallback. El lote anterior de ocho familias sigue como compatibilidad, pero **Mundo
+Vivo 18** aprueba ochenta criaturas distintas: `monsters-t1-v18.webp` a
+`monsters-t8-v18.webp`, ocho atlas transparentes de 1600×640, 5 columnas × 2 filas.
+Cada territorio dispone de diez siluetas propias y cada nivel usa su celda real
+(1–10); el jefe es la criatura 10, no una ampliación de la misma familia.
+`guardianPortrait()` mantiene `guardianSVG()` como fallback y debe mostrar el
+retrato en ruta, partida, introducción y resultado sin perder número/nombre.
+
+`combatants-v18.webp` aporta diez combatientes distintos en la misma geometría
+5×2: cinco aliados de Guerra y cinco enemigos. Royale conserva a Dulce Roja y usa
+nueve rivales distintos de `monsters-t5-v18.webp`. `arena-war-v18.webp` y
+`arena-royale-v18.webp` se recortan dentro del canvas estático cacheado; no crean
+colisiones ni modifican controles. El lote también incluye la escena vertical de
+la Aldea, el reino HEX, veinte enemigos HEX en dos atlas, diez edificios y ocho
+piezas pintadas. Arte, geometría y procedencia: [ART_ASSETS.md](docs/ART_ASSETS.md).
+No hay dependencias nuevas de runtime.
+
+La cobertura global usa arte contextual detrás de las **22 pantallas**: portada y
+mundo para campaña/colecciones, Aldea para construcción, Guerra/Royale para sus
+modos y `hex-realm-v18.webp` para las seis vistas HEX. Paneles y modales son vidrio
+translúcido; no volver a una página opaca que esconda el paisaje. Esta capa es solo
+presentación: no concede premios, no escribe `sugarclash_save_v1` y no añade RAF.
 
 Las celebraciones salen de transiciones **ganadas**, no de renders/guardados
 importados. `pendingMilestones` es memoria de sesión. `queueMilestone()` registra;
@@ -102,11 +117,12 @@ El código SVG/canvas anterior se conserva para fallback y geometría interactiv
 | Campaña | `renderCampaignMission()`, `campaignNext()`: territorio real, paisaje, hito, Confite y Continuar. El atlas completo sigue en `#world-atlas`. |
 | Mochi | `MOCHI_ATLAS_ART`, `mochiLandscapeSVG()`: SVG exacto de Figma; 390×440 en campaña, encuadre 360×210 en vistas compactas. No reemplazar por un placeholder. |
 | Otros territorios | `territoryLandscapeSVG()`, `territoryEmblemSVG()`, `atlasFeeling()`: ocho identidades, restauración y frases ambientales ligadas al progreso. |
-| Aldea | `villageBuildingSVG()`, `renderVillage()`: escena con camino y diez construcciones. Tocar inspecciona; construir requiere acción explícita. No volver a una cuadrícula de iconos. |
+| Cobertura global | Las 22 `.screen` conservan fondo contextual y superficies translúcidas. `title-world-v3-hd.jpg`, `village-cinematic-v18.webp`, las dos arenas y `hex-realm-v18.webp` ambientan; no cambian navegación ni estado. |
+| Aldea | `village-cinematic-v18.webp` ambienta; `buildings-v18.webp` aporta diez edificios pintados y `villageBuildingSVG()` permanece como fallback. `renderVillage()` conserva camino e inspección; construir requiere acción explícita. |
 | Modos y recuerdos | `renderQuickModes()`, `startMode()`, `renderMinigames()`: juego accesible con nombres claros; `echoSceneSVG()` conserva panoramas de cada Eco y los recuerdos van en un apartado secundario. |
-| MOBA / Royale | `minigameArenaArt()`, `minigameDrawUnit()`, `mobaRender()`, `brRender()`: arenas distintas, fondos estáticos reutilizados, unidades legibles. Las ruinas decorativas no cambian las colisiones. |
+| MOBA / Royale | `minigameArenaArt()`, `minigameDrawUnit()`, `mobaRender()`, `brRender()`: fondos `arena-*-v18.webp` estáticos, atlas `combatants-v18.webp` para Guerra y nueve criaturas de `monsters-t5-v18.webp` para Royale. Las ruinas decorativas no cambian las colisiones. |
 | Supervivencia | Comparte `screen-game`; `goTo('survival')` llama a `startSurvival()` sin pantalla intermedia. `survival-mode`, panorama del Latido y temporizador en segundos; no mostrar los movimientos internos 9999. |
-| HEX CLASH | `dgLandscapeSVG()`, `dgSymbolSVG()`, `dgSceneMarkup()`: ruinas minerales, arco, cristales, relicario y piezas facetadas. Ruta de 20 hitos, no cuadrícula. Confite también en resultados. |
+| HEX CLASH | `hex-realm-v18.webp`, `hex-enemies-a-v18.webp`, `hex-enemies-b-v18.webp` y `candies-v18.webp` llevan la misma materialidad al reino, veinte enemigos y ocho piezas. `dgLandscapeSVG()`, `dgSymbolSVG()` y el dibujo previo son fallbacks. Ruta de 20 hitos, no cuadrícula. |
 | Liga / Diario / Lienzo | Mantener el lenguaje común sin borrar su propósito: rivalidad, regreso diario y recuperación de una ilustración. Reutilizar el tablero compartido y su `data-mode`. |
 
 Referencia Figma de composición:
@@ -123,6 +139,8 @@ disponible, conservar el SVG y la implementación existente; no bloquear un ajus
   de escenas. Reutilizar `observeAtlas()` y `syncVisualVisibility()` donde corresponda.
 - No añadir timers o RAF perpetuos para decoración. Reutilizar el loop de combate;
   conservar la cancelación por `boardRun` de las animaciones del tablero.
+- Los atlas raster cambian únicamente la pintura. No alterar recompensas, balance,
+  hitboxes, vida, colisiones, requisitos, guardado ni frecuencia de los loops.
 - Canvas Retina con DPR máximo 2. `minigameCanvasContext()` configura el buffer;
   punteros y dibujo usan MOBA_W/H o BR_W/H lógicos, no el tamaño físico del buffer.
 - IDs SVG únicos por contexto y territorio/modo; todos los `url(#id)` deben resolver.
@@ -153,6 +171,11 @@ No cambiar balance, guardados, costes o requisitos bajo la etiqueta «mejora vis
 Conservar `sugarclash_save_v1`, vidas y anuncios siempre opt-in. Nunca borrar datos
 para actualizar. MOBA/Royale/Liga siguen siendo locales contra IA: no prometer
 multijugador real, ingresos ni anuncios conectados.
+
+**Estado de integración:** el alcance Mundo Vivo 18 está aprobado y sus recursos se
+integran como un único lote visual. No declarar todavía QA completa en todos los
+dispositivos ni publicación confirmada: verificar carga/fallback de cada atlas,
+320×640 y 390×844, cache v18, versión servida y teléfono físico antes de ese cierre.
 
 ## Ciclo de trabajo económico
 

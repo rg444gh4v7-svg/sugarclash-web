@@ -1244,6 +1244,182 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
 #screen-minigames,#screen-moba,#screen-br,#screen-village{isolation:isolate}
 #screen-moba,#screen-br{background:linear-gradient(#150a2388,#140a22dd),url('title-world-v3-hd.jpg') center/cover}
 @media(prefers-reduced-motion:reduce){.milestone-bloom .cinematic-art,.milestone-bloom .guardian-portrait,.milestone-fx,.milestone-ring,.milestone-spark{animation:none!important}.milestone-ring{opacity:.7;transform:translate(-50%,-50%);width:90px;height:90px}.milestone-spark{display:none}.guardian-portrait{transition:none}}
+
+/* ===== EL CRISTAL VIVO · cobertura cinematografica global (22 pantallas) ===== */
+:is(#screen-title,#screen-intro,#screen-world,#screen-league,#screen-achievements,#screen-village,#screen-settings,#screen-minigames,#screen-moba,#screen-br,#screen-epilogue,#screen-map,#screen-game,#screen-skins,#screen-heroes,#screen-memories,#screen-dgmenu,#screen-dglevels,#screen-dgshop,#screen-dggame,#screen-hexcurse,#screen-hexvictory){
+  --cinematic-panel:rgba(25,17,37,.7);
+  --cinematic-line:rgba(232,199,149,.27);
+  --cinematic-glow:rgba(255,224,174,.12);
+  isolation:isolate;
+}
+:is(#screen-intro,#screen-world,#screen-league,#screen-achievements,#screen-village,#screen-settings,#screen-minigames,#screen-moba,#screen-br,#screen-epilogue,#screen-skins,#screen-heroes,#screen-memories,#screen-dgmenu,#screen-dglevels,#screen-dgshop,#screen-dggame,#screen-hexcurse,#screen-hexvictory){
+  position:absolute;
+  background:transparent!important;
+}
+:is(#screen-intro,#screen-world,#screen-league,#screen-achievements,#screen-village,#screen-settings,#screen-minigames,#screen-moba,#screen-br,#screen-epilogue,#screen-skins,#screen-heroes,#screen-memories,#screen-dgmenu,#screen-dglevels,#screen-dgshop,#screen-dggame,#screen-hexcurse,#screen-hexvictory)::before{
+  content:""!important;
+  display:block!important;
+  position:fixed;
+  inset:0;
+  z-index:-3;
+  pointer-events:none;
+  background-image:var(--cinematic-image,url('title-world-v3-hd.jpg'));
+  background-position:var(--cinematic-position,center 45%);
+  background-size:cover;
+  background-repeat:no-repeat;
+  filter:saturate(1.05) contrast(1.03);
+  opacity:var(--cinematic-opacity,.88);
+  transform:none;
+  animation:none;
+}
+:is(#screen-intro,#screen-world,#screen-league,#screen-achievements,#screen-village,#screen-settings,#screen-minigames,#screen-moba,#screen-br,#screen-epilogue,#screen-skins,#screen-heroes,#screen-memories,#screen-dgmenu,#screen-dglevels,#screen-dgshop,#screen-dggame,#screen-hexcurse,#screen-hexvictory)::after{
+  content:""!important;
+  display:block!important;
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  background:var(--cinematic-wash,linear-gradient(180deg,rgba(10,5,18,.35),rgba(14,7,24,.5) 48%,rgba(10,5,18,.72)));
+}
+#screen-intro{--cinematic-position:center 34%;--cinematic-wash:linear-gradient(180deg,rgba(9,4,18,.36),rgba(20,7,30,.5) 58%,rgba(8,3,16,.76))}
+#screen-world{--cinematic-position:center 52%;--cinematic-opacity:.82;--cinematic-wash:linear-gradient(180deg,rgba(10,4,19,.3),rgba(12,6,23,.42) 54%,rgba(9,4,17,.68))}
+#screen-achievements,#screen-skins,#screen-heroes,#screen-memories,#screen-settings{--cinematic-position:center 48%;--cinematic-opacity:.74}
+#screen-epilogue{--cinematic-position:center 68%;--cinematic-opacity:.82;--cinematic-wash:linear-gradient(180deg,rgba(8,3,15,.42),rgba(21,7,31,.45),rgba(8,3,15,.74))}
+#screen-minigames{--cinematic-position:center 56%;--cinematic-opacity:.75}
+#screen-village{--cinematic-image:url('village-cinematic-v18.webp');--cinematic-position:center 48%;--cinematic-opacity:.98;--cinematic-wash:linear-gradient(180deg,rgba(7,13,20,.2),rgba(11,16,25,.38) 48%,rgba(8,10,20,.68))}
+#screen-league,#screen-moba{--cinematic-image:url('arena-war-v18.webp');--cinematic-position:center 48%;--cinematic-opacity:.96;--cinematic-wash:linear-gradient(180deg,rgba(9,8,18,.24),rgba(15,9,24,.4) 48%,rgba(8,5,16,.68))}
+#screen-br{--cinematic-image:url('arena-royale-v18.webp');--cinematic-position:center 48%;--cinematic-opacity:.96;--cinematic-wash:linear-gradient(180deg,rgba(6,8,16,.2),rgba(12,9,22,.39) 48%,rgba(7,5,15,.67))}
+:is(#screen-dgmenu,#screen-dglevels,#screen-dgshop,#screen-dggame,#screen-hexcurse,#screen-hexvictory){--cinematic-image:url('hex-realm-v18.webp');--cinematic-position:center 48%;--cinematic-opacity:.96;--cinematic-panel:rgba(24,20,33,.72);--cinematic-line:rgba(213,187,149,.27);--cinematic-wash:linear-gradient(180deg,rgba(9,7,14,.25),rgba(18,13,25,.46) 50%,rgba(8,6,13,.7))}
+
+/* Paneles con profundidad: el arte permanece visible y el texto conserva contraste. */
+:is(.world-header,.league-header,.village-header,.settings-header,.mg-header,.map-header,.combat-heading,.dg-header,#dg-hud){
+  position:relative;
+  z-index:2;
+  padding:9px 11px;
+  border:1px solid var(--cinematic-line);
+  border-radius:16px;
+  background:linear-gradient(120deg,rgba(34,24,47,.78),rgba(15,18,31,.6));
+  box-shadow:inset 0 1px rgba(255,255,255,.09),0 10px 26px rgba(0,0,0,.22);
+  -webkit-backdrop-filter:blur(13px) saturate(1.12);
+  backdrop-filter:blur(13px) saturate(1.12);
+}
+:is(.badge,.settings-row,.stat-tile,.skin-card,.hero-card,.memory-card,.league-hero,.league-duel,.league-row,.mg-card,.archive-guide,.mode-memory-details,.village-companion,.village-detail,#village-grid,#world-extras,#world-atlas,.piggy-card,.village-entry,.dg-mode-card,.dg-level-card,.dg-shop-card,.dg-level-badge,.dg-menu-row .dg-btn-secondary){
+  border-color:var(--cinematic-line);
+  background-color:var(--cinematic-panel);
+  box-shadow:inset 0 1px rgba(255,255,255,.08),0 10px 25px rgba(0,0,0,.22);
+  -webkit-backdrop-filter:blur(11px) saturate(1.1);
+  backdrop-filter:blur(11px) saturate(1.1);
+}
+#screen-world :is(#world-extras,#world-atlas,.piggy-card,.village-entry){background:linear-gradient(125deg,rgba(38,22,49,.72),rgba(12,23,35,.58))}
+#screen-league :is(.league-hero,.league-duel,.league-row){background:linear-gradient(130deg,rgba(33,27,44,.75),rgba(15,19,29,.6))}
+#screen-village #village-grid{background:linear-gradient(180deg,rgba(25,42,39,.34),rgba(12,20,29,.56))}
+#screen-village :is(.village-companion,.village-detail){background:linear-gradient(125deg,rgba(33,42,38,.72),rgba(18,20,34,.66))}
+#screen-minigames :is(.mg-card,.archive-guide,.mode-memory-details){background:linear-gradient(145deg,rgba(36,27,47,.72),rgba(18,18,31,.58))}
+#screen-achievements .badge.unlocked,#screen-skins .skin-card.active-skin,#screen-heroes .hero-card.equipped,#screen-memories .memory-card.unlocked{background:linear-gradient(130deg,rgba(81,56,37,.55),rgba(35,24,47,.65));box-shadow:inset 0 1px rgba(255,255,255,.12),0 0 24px var(--cinematic-glow)}
+:is(#screen-dgmenu,#screen-dglevels,#screen-dgshop) :is(.dg-mode-card,.dg-level-card,.dg-shop-card,.dg-level-badge,.dg-btn-secondary){background-color:rgba(27,23,36,.7);border-color:rgba(220,192,150,.25)}
+
+/* Relato: sin tarjeta opaca, con una lamina de cristal integrada al paisaje. */
+#screen-intro :is(.intro-body,.intro-tag),#screen-epilogue :is(.ep-body,.intro-tag),:is(#screen-hexcurse,#screen-hexvictory) :is(.ep-body,.intro-tag){
+  position:relative;
+  z-index:2;
+  border-color:rgba(232,199,149,.25);
+  text-shadow:0 2px 10px rgba(0,0,0,.7);
+}
+#screen-intro .intro-body,#screen-epilogue .ep-body,:is(#screen-hexcurse,#screen-hexvictory) .ep-body{
+  padding:14px 16px;
+  border:1px solid rgba(232,199,149,.2);
+  border-radius:16px;
+  background:linear-gradient(120deg,rgba(30,19,43,.64),rgba(11,12,24,.48));
+  box-shadow:inset 0 1px rgba(255,255,255,.07),0 12px 30px rgba(0,0,0,.2);
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
+}
+#screen-intro :is(.intro-heading,.intro-crystal-svg,.intro-confite-wrap),#screen-epilogue .ep-heading,:is(#screen-hexcurse,#screen-hexvictory) :is(.ep-heading,.dg-transition-art){filter:drop-shadow(0 8px 18px rgba(0,0,0,.55))}
+#screen-intro :is(.intro-skip,.intro-nav),#screen-epilogue .intro-nav{z-index:4}
+
+/* Capas de resultado, pausa y economia en el mismo mundo visual. */
+:is(#overlay,#tutorial-overlay,#pause-overlay,#boss-intro-overlay,#territory-complete-overlay,#nolives-overlay,#shop-overlay,#daily-cal-overlay,#weekly-chest-overlay,#minigame-lore-overlay,#mb-overlay,#br-overlay,#dg-start-overlay,#dg-tutorial-overlay,#dg-pause-overlay,#dg-overlay){
+  -webkit-backdrop-filter:blur(11px) saturate(1.08);
+  backdrop-filter:blur(11px) saturate(1.08);
+}
+:is(#overlay,#tutorial-overlay,#pause-overlay,#boss-intro-overlay,#territory-complete-overlay){background:linear-gradient(180deg,rgba(12,6,23,.58),rgba(13,7,24,.82)),url('title-world-v3-hd.jpg') center 48%/cover no-repeat}
+#overlay.canvas-win{background:linear-gradient(to top,rgba(7,13,31,.94) 0%,rgba(7,13,31,.84) 27%,rgba(7,13,31,.5) 48%,transparent 68%)}
+#mb-overlay{background:linear-gradient(rgba(9,8,17,.62),rgba(11,7,20,.84)),url('arena-war-v18.webp') center 50%/cover no-repeat}
+#br-overlay{background:linear-gradient(rgba(7,9,17,.58),rgba(10,7,19,.84)),url('arena-royale-v18.webp') center 50%/cover no-repeat}
+:is(#dg-start-overlay,#dg-tutorial-overlay,#dg-pause-overlay,#dg-overlay){background:linear-gradient(rgba(10,8,15,.62),rgba(13,10,19,.86)),url('hex-realm-v18.webp') center 50%/cover no-repeat}
+:is(#nolives-overlay,#shop-overlay,#daily-cal-overlay,#weekly-chest-overlay){background:linear-gradient(rgba(9,5,17,.62),rgba(10,5,18,.84)),url('title-world-v3-hd.jpg') center 52%/cover no-repeat}
+#minigame-lore-overlay{background:linear-gradient(rgba(8,6,16,.58),rgba(10,6,18,.84)),url('arena-war-v18.webp') center 48%/cover no-repeat}
+:is(.econ-modal,.mg-lore-modal,.achv-toast,.econ-toast,.login-bonus-popup,.stripe-tip){
+  border-color:rgba(232,199,149,.4);
+  background:linear-gradient(145deg,rgba(40,28,52,.84),rgba(16,16,29,.78));
+  box-shadow:inset 0 1px rgba(255,255,255,.1),0 22px 55px rgba(0,0,0,.48);
+  -webkit-backdrop-filter:blur(16px) saturate(1.12);
+  backdrop-filter:blur(16px) saturate(1.12);
+}
+
+@media(max-width:350px){
+  :is(.world-header,.league-header,.village-header,.settings-header,.mg-header,.map-header,.combat-heading,.dg-header,#dg-hud){padding:7px 8px;border-radius:13px}
+  #screen-intro .intro-body,#screen-epilogue .ep-body,:is(#screen-hexcurse,#screen-hexvictory) .ep-body{padding:11px 12px}
+  :is(.badge,.settings-row,.stat-tile,.skin-card,.hero-card,.memory-card,.league-hero,.league-duel,.league-row,.mg-card,.archive-guide,.village-companion,.village-detail){-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px)}
+}
+@media(max-height:700px){
+  :is(#screen-intro,#screen-epilogue,#screen-hexcurse,#screen-hexvictory)::before{background-position:center 46%}
+  #screen-intro .intro-body,#screen-epilogue .ep-body{padding-block:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  :is(#screen-intro,#screen-world,#screen-league,#screen-achievements,#screen-village,#screen-settings,#screen-minigames,#screen-moba,#screen-br,#screen-epilogue,#screen-skins,#screen-heroes,#screen-memories,#screen-dgmenu,#screen-dglevels,#screen-dgshop,#screen-dggame,#screen-hexcurse,#screen-hexvictory)::before{animation:none!important;transform:none!important}
+  :is(.world-header,.league-header,.village-header,.settings-header,.mg-header,.map-header,.combat-heading,.dg-header,#dg-hud,.badge,.settings-row,.stat-tile,.skin-card,.hero-card,.memory-card,.league-hero,.league-duel,.league-row,.mg-card,.archive-guide,.village-companion,.village-detail){transition:none!important}
+}
+/* Mundo Vivo V18: cada encuentro, edificio y pieza conserva su identidad. */
+.guardian-portrait[data-atlas] .guardian-painted{background-image:var(--guardian-sheet);background-size:500% 200%;opacity:0}
+.guardian-art-ready .guardian-portrait[data-atlas] .guardian-fallback{visibility:visible}
+.monster1-art-ready .guardian-portrait[data-atlas="1"] .guardian-painted,.monster2-art-ready .guardian-portrait[data-atlas="2"] .guardian-painted,.monster3-art-ready .guardian-portrait[data-atlas="3"] .guardian-painted,.monster4-art-ready .guardian-portrait[data-atlas="4"] .guardian-painted,.monster5-art-ready .guardian-portrait[data-atlas="5"] .guardian-painted,.monster6-art-ready .guardian-portrait[data-atlas="6"] .guardian-painted,.monster7-art-ready .guardian-portrait[data-atlas="7"] .guardian-painted,.monster8-art-ready .guardian-portrait[data-atlas="8"] .guardian-painted{opacity:1}
+.monster1-art-ready .guardian-portrait[data-atlas="1"] .guardian-fallback,.monster2-art-ready .guardian-portrait[data-atlas="2"] .guardian-fallback,.monster3-art-ready .guardian-portrait[data-atlas="3"] .guardian-fallback,.monster4-art-ready .guardian-portrait[data-atlas="4"] .guardian-fallback,.monster5-art-ready .guardian-portrait[data-atlas="5"] .guardian-fallback,.monster6-art-ready .guardian-portrait[data-atlas="6"] .guardian-fallback,.monster7-art-ready .guardian-portrait[data-atlas="7"] .guardian-fallback,.monster8-art-ready .guardian-portrait[data-atlas="8"] .guardian-fallback{visibility:hidden}
+.painted-portrait{display:block;position:relative;width:100%;height:100%;filter:drop-shadow(0 5px 4px #08051088)}
+.painted-fallback,.painted-sprite{position:absolute;inset:0;display:block;width:100%;height:100%}.painted-fallback>svg{width:100%;height:100%}
+.painted-sprite{background:var(--portrait-sheet) var(--portrait-x) var(--portrait-y)/500% 200% no-repeat;opacity:0}
+.combatants-art-ready [data-art="combatants"]>.painted-sprite,.buildings-art-ready [data-art="buildings"]>.painted-sprite,.hexa-art-ready [data-art="hexa"]>.painted-sprite,.hexb-art-ready [data-art="hexb"]>.painted-sprite{opacity:1}
+.combatants-art-ready [data-art="combatants"]>.painted-fallback,.buildings-art-ready [data-art="buildings"]>.painted-fallback,.hexa-art-ready [data-art="hexa"]>.painted-fallback,.hexb-art-ready [data-art="hexb"]>.painted-fallback{visibility:hidden}
+.mode-cinematic-scene{display:block;position:relative;width:100%;height:100%;overflow:hidden}.mode-cinematic-scene>svg{width:100%;height:100%}
+.mode-painted-scene{position:absolute;inset:0;background:var(--mode-scene) center 54%/cover;opacity:0;box-shadow:inset 0 -15px 22px #120a2488}
+.war-art-ready [data-mode="moba"]>.mode-painted-scene,.royale-art-ready [data-mode="br"]>.mode-painted-scene,.hex-art-ready [data-mode="survival"]>.mode-painted-scene{opacity:1}
+.mode-cinematic-scene>.echo-core{position:absolute;left:50%;top:35%;width:20px;height:32px;transform:translateX(-50%);background:linear-gradient(140deg,#b6f9ff,#fa94e2 45%,#ffe6a5);clip-path:polygon(50% 0,100% 35%,75% 90%,50% 100%,20% 88%,0 35%);filter:drop-shadow(0 0 9px #aeebff)}
+#screen-world .quick-mode-art{display:block;width:42px;height:38px;border-radius:9px;overflow:hidden}.quick-mode-art .mode-cinematic-scene{min-width:42px}
+#screen-village>.interior-backdrop,#screen-minigames>.interior-backdrop{display:none}
+#screen-map::before,#screen-map::after{display:none}#screen-map>.interior-backdrop{opacity:.86}
+#screen-game>.interior-backdrop{opacity:.88}.interior-backdrop::after{background:linear-gradient(#0d061977,#130b2080 38%,#0d0619cc)}
+#restoration-emblem .pulse-crystal{width:76px;height:76px;margin:10px;border-radius:22px;box-shadow:0 0 24px #acb9ff55}
+.painted-candy{position:absolute;inset:3%;background:url('candies-v18.webp') var(--candy-x) var(--candy-y)/400% 200% no-repeat;opacity:0;filter:drop-shadow(0 3px 2px #0008);pointer-events:none}
+.candies-art-ready .painted-candy{opacity:1}.candies-art-ready .board-piece>.candy-icon{visibility:hidden}
+.c0 .painted-candy{filter:hue-rotate(25deg) drop-shadow(0 3px 2px #0008)}.c1 .painted-candy{filter:hue-rotate(110deg) drop-shadow(0 3px 2px #0008)}.c2 .painted-candy{filter:hue-rotate(-50deg) drop-shadow(0 3px 2px #0008)}.c5 .painted-candy{filter:hue-rotate(-25deg) drop-shadow(0 3px 2px #0008)}
+.candies-art-ready #grid .cell.obstacle-1::after,.candies-art-ready #grid .cell.obstacle-2::after{background:url('candies-v18.webp') 100% 100%/400% 200% no-repeat;border:0;box-shadow:none;inset:4%;border-radius:0;transform:none;font-size:0}
+.candies-art-ready #grid .cell.obstacle-1::after{filter:brightness(.78);opacity:.85}
+.v-node-svg{display:block;width:112px;height:112px;margin-top:-18px}.v-node-label{background:#101322a8;border:1px solid #e5c89233;border-radius:8px;padding:3px 5px;max-width:120px}
+#screen-village #village-grid{background:linear-gradient(#1c13252b,#16162555),url('village-cinematic-v18.webp') center/100% auto}
+.village-path-svg>g.v-island{opacity:.38}.village-path-svg>g:not(.v-island){opacity:.3}
+.intro-hero-art{width:128px;height:148px}.intro-shadow-art{border-radius:23px;filter:saturate(.4) hue-rotate(25deg) brightness(.7)}
+.ep-crystal{object-fit:cover;border-radius:25px;box-shadow:0 0 40px #e7b3fb44}
+.hero-icon{flex:none;width:85px;height:104px;border-radius:20px;overflow:visible}.hero-card-top{align-items:flex-start}.hero-icon>.t-emblem{width:82px;height:96px}
+.skin-card{position:relative;isolation:isolate;overflow:hidden}.skin-card::before{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(#150c2866,#150c28aa),url('village-cinematic-v18.webp') center 40%/cover}.skin-preview{filter:drop-shadow(0 7px 4px #0009)}
+.memory-card{position:relative;isolation:isolate;overflow:hidden;padding-top:70px;min-height:156px}.memory-landscape{position:absolute;inset:0 0 auto;height:65px;z-index:-1;mask-image:linear-gradient(#000 70%,transparent)}.memory-echo-card{padding-top:17px}
+.badge-medallion{position:relative;width:58px;height:60px;margin:auto auto 5px;font-size:0}.badge-medallion>.t-emblem{width:58px;height:58px}.badge-medallion>small{position:absolute;bottom:-3px;right:-3px;font-size:17px;background:#20132a;border-radius:50%;padding:3px}
+#tc-icon{width:138px;height:138px;animation:none}.hex-enemy{display:block;width:100%;height:100%}.hex-enemy[data-state="defeated"]{filter:saturate(.4) drop-shadow(0 0 9px #e9c888)}
+.hex-painted-scene{position:absolute;inset:0;background:linear-gradient(#160b2222,#160b2288),url('hex-realm-v18.webp') center/cover;opacity:0}.hex-art-ready .hex-painted-scene{opacity:1}.dg-scene-caption,.dg-scene-confite{z-index:2}
+.dg-scene-enemy{position:absolute;right:62px;bottom:0;width:100px;height:100px;z-index:1}#screen-dggame .dg-scene-caption{right:160px;font-size:13px}#screen-dggame .dg-scene-enemy{height:83px;width:83px}
+.dg-route-node{width:80px;height:86px;clip-path:none;background:radial-gradient(ellipse at 50% 70%,#e1ae8b44,transparent 68%);box-shadow:none;overflow:visible}.dg-route-node> .hex-enemy{width:86px;height:86px}.dg-route-node::after{display:none}
+.hex-level-tag{position:absolute;right:-3px;bottom:0;font-size:13px;line-height:22px;min-width:22px;height:22px;border-radius:50%;background:#e2c395;color:#221527;border:1px solid #fff0c7}.hex-level-tag>svg{width:17px;height:17px;margin:2px}.dg-route-node.locked .hex-enemy{filter:grayscale(1);opacity:.35}
+#dg-start-enemy{width:115px;height:115px}#dg-overlay-icon{width:170px;height:94px}#dg-overlay-icon .result-companions>.hex-enemy{width:88px;height:88px}
+@keyframes encounterArrives{0%{transform:translateY(8px) scale(.9);opacity:.1}60%{transform:translateY(-3px) scale(1.04)}100%{transform:none;opacity:1}}
+.screen.active .level-node.is-current .guardian-painted,#boss-intro-overlay.on .guardian-painted,.dg-route-node.is-current .painted-sprite{animation:encounterArrives .85s ease-out both}
+.page-hidden .guardian-painted,.page-hidden .painted-sprite{animation-play-state:paused!important}
+@media(max-height:700px){#screen-dggame .dg-scene-enemy{width:60px;height:60px;right:45px}#screen-dggame .dg-scene-caption{right:108px;font-size:11px}#dg-start-enemy{width:85px;height:85px}.intro-hero-art{width:95px;height:104px}#screen-world .quick-mode-art{height:30px}}
+@media(prefers-reduced-motion:reduce){.guardian-painted,.painted-sprite{animation:none!important}.mode-cinematic-scene>.echo-core{animation:none!important}}
+.candies-art-ready .dg-piece::after{content:"";position:absolute;inset:0;z-index:-1;background:url('candies-v18.webp') 66.666667% 0/400% 200% no-repeat;filter:hue-rotate(var(--hex-piece-hue,0deg));opacity:.82;pointer-events:none}
+.dg-p0{--hex-piece-hue:145deg}.dg-p1{--hex-piece-hue:0deg}.dg-p2{--hex-piece-hue:-60deg}.dg-p3{--hex-piece-hue:-165deg}.dg-p4{--hex-piece-hue:75deg}.dg-p5{--hex-piece-hue:-150deg}
+.candies-art-ready .dg-pCRYSTAL::after{background-position:66.666667% 100%;filter:none;opacity:1}
+#canvas-scene>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}#grid.canvas-mode .painted-candy{inset:14%}
+.combat-guide,.mb-hint{background:#100a20c9;border:1px solid #e8c79533;border-radius:12px;padding:7px 9px;color:#e1d9e5}.combat-guide .mg-confite-pop-text{color:#f2e3ee}
+.village-sub{align-self:flex-start;padding:4px 9px;border-radius:10px;background:#101322c9;color:#eee1cf}
 </style>
 </head>
 <body>
@@ -1388,7 +1564,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
         <div class="home-links"><button id="btn-title-secondary" onclick="goTo('world')">Explorar el mundo</button><button onclick="goTo('minigames')">Todos los modos</button></div>
       </div>
       <div id="confite-title-bubble" style="font-size:11px;color:var(--crystal);font-style:italic;opacity:.85;display:none"></div>
-      <div class="build-badge">EL CRISTAL VIVO · 17.10</div>
+      <div class="build-badge">MUNDO VIVO · V18</div>
     </div>
   </section>
 
@@ -1425,7 +1601,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     <!-- Slide 2 -->
     <div class="intro-slide" id="intro-slide-2">
       <div class="intro-slide-bg" style="background:radial-gradient(ellipse at 50% 40%,rgba(245,184,0,.10) 0%,transparent 70%)"></div>
-      <div style="font-size:48px">🍬</div>
+      <div class="intro-hero-art" id="intro-dulce-art"></div>
       <div class="intro-heading">Hoy, Dulce Roja<br>comienza el camino</div>
       <div class="intro-body">Sanadora del Clan Caramelo. Impulsiva, empática, nunca se rinde. Su misión: restaurar el color que el mundo perdió hace 500 años.</div>
     </div>
@@ -1441,7 +1617,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     <!-- Slide 4 -->
     <div class="intro-slide" id="intro-slide-4">
       <div class="intro-slide-bg" style="background:radial-gradient(ellipse at 50% 60%,rgba(155,89,182,.16) 0%,transparent 70%)"></div>
-      <div style="font-size:44px">🕸️</div>
+      <img class="intro-shadow-art" src="icon-crystal-192.png" alt="El cristal bajo la sombra" width="82" height="82">
       <div class="intro-heading">Pero algo más<br>también despertó</div>
       <div class="intro-body">La energía de la ruptura no desapareció — cayó al fondo más oscuro del mundo y creció durante 500 años hasta convertirse en la <strong style="color:var(--crystal)">Bruja Hexadecimal</strong>: hecha de código y maldición, de hexágonos donde el mundo es redondo. Todavía duerme. Por ahora.</div>
     </div>
@@ -1741,7 +1917,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
   <!-- ============ EPÍLOGO ============ -->
   <section id="screen-epilogue" class="screen">
     <div id="ep-slide-0" class="ep-slide">
-      <div class="ep-crystal">💎</div>
+      <img class="ep-crystal" src="icon-crystal-192.png" alt="El Gran Cristal" width="90" height="90">
       <div class="ep-heading">La Capital de Cristal despertó</div>
       <div class="ep-body">500 años de silencio roto de golpe. La luz del Gran Cristal volvió a iluminar cada rincón de Dulcelandia.</div>
       <div class="ep-nav"><div class="ep-dots" id="ep-dots"></div><button class="ep-next" onclick="showEpilogueSlide(1)">Siguiente →</button></div>
@@ -1777,7 +1953,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
       <div class="ep-nav"><button class="ep-next" onclick="showEpilogueSlide(6)">Siguiente →</button></div>
     </div>
     <div id="ep-slide-6" class="ep-slide">
-      <div class="ep-crystal">🌟</div>
+      <img class="ep-crystal" src="icon-crystal-192.png" alt="El color restaurado" width="90" height="90">
       <div class="ep-heading">Dulcelandia restaurada</div>
       <div class="ep-body">Los 8 territorios brillan de nuevo. La historia de Confite no termina aquí — solo empieza de verdad.</div>
       <div class="ep-reward" id="ep-reward-text">+300 🍯 · Logro desbloqueado 💎</div>
@@ -2038,7 +2214,7 @@ button{font-family:'Karla',sans-serif;cursor:pointer;border:none}
     <div id="dg-grid-wrap">
       <div id="dg-grid"></div>
       <div id="dg-start-overlay">
-        <div class="dg-overlay-emblem" data-dg-symbol="story" aria-hidden="true"></div>
+        <div class="dg-overlay-emblem" id="dg-start-enemy" aria-hidden="true"></div>
         <div class="dg-title-big" id="dg-start-title">Historia · Nivel 1</div>
         <div id="dg-start-lore" style="font-size:11.5px;color:var(--crystal);font-style:italic;opacity:.9;max-width:270px"></div>
         <div class="tutorial-text" id="dg-start-sub">Alinea 3 o más piezas del mismo color.</div>
@@ -2764,8 +2940,16 @@ function cancelMilestoneEffects(){
 const cinematicImages={};
 function loadCinematicArt(){
   if(typeof Image==='undefined') return;
-  for(const [key,path] of [['guardian','guardians-cinematic-v1.webp'],['environment','worlds-cinematic-v1.webp']]){
-    const img=new Image();img.onload=()=>document.documentElement.classList.add(`${key}-art-ready`);img.src=path;cinematicImages[key]=img;
+  const assets=[['guardian','guardians-cinematic-v1.webp'],['environment','worlds-cinematic-v1.webp'],
+    ['combatants','combatants-v18.webp'],['war','arena-war-v18.webp'],['royale','arena-royale-v18.webp'],
+    ['village','village-cinematic-v18.webp'],['hex','hex-realm-v18.webp'],['buildings','buildings-v18.webp'],
+    ['candies','candies-v18.webp'],['hexa','hex-enemies-a-v18.webp'],['hexb','hex-enemies-b-v18.webp'],
+    ...Array.from({length:8},(_,i)=>[`monster${i+1}`,`monsters-t${i+1}-v18.webp`])];
+  for(const [key,path] of assets){
+    const img=new Image();img.onload=()=>{
+      document.documentElement.classList.add(`${key}-art-ready`);
+      if(key==='war'||key==='royale') minigameArenaArt.cache={};
+    };img.src=path;cinematicImages[key]=img;
   }
 }
 function cinematicScene(territoryId,key='scene',restoration=1){
@@ -2774,14 +2958,33 @@ function cinematicScene(territoryId,key='scene',restoration=1){
   return `<div class="cinematic-scene" aria-hidden="true" style="--art-grey:${Math.round((1-p)*65)}%"><div class="cinematic-fallback">${territoryLandscapeSVG(t,key,p)}</div><svg class="cinematic-art" viewBox="0 0 400 100" preserveAspectRatio="xMidYMid slice"><image href="worlds-cinematic-v1.webp" width="800" height="400" x="${-i%2*400}" y="${-Math.floor(i/2)*100}"/></svg></div>`;
 }
 function guardianPortrait(territoryId,level,key='map',state='hostile'){
-  const t=Math.max(1,Math.min(8,Math.floor(Number(territoryId)||1))),i=t-1;
-  const n=Math.max(1,Math.min(10,Math.floor(Number(level)||1))),mood=['hostile','restored','defeated'].includes(state)?state:'hostile';
-  return `<span class="guardian-portrait" data-state="${mood}" aria-hidden="true" style="--guardian-x:${i%4*100/3}%;--guardian-y:${Math.floor(i/4)*100}%"><span class="guardian-fallback">${guardianSVG(t,n,key,mood)}</span><span class="guardian-painted" style="transform:scale(${n===10?1:.83+n*.012})"></span></span>`;
+  const finite=(value,max)=>Number.isFinite(Number(value))?Math.max(1,Math.min(max,Math.floor(Number(value)||1))):1;
+  const t=finite(territoryId,8);
+  const n=finite(level,10),i=n-1,mood=['hostile','restored','defeated'].includes(state)?state:'hostile';
+  return `<span class="guardian-portrait" data-atlas="${t}" data-level="${n}" data-state="${mood}" aria-hidden="true" style="--guardian-sheet:url('monsters-t${t}-v18.webp');--guardian-x:${i%5*25}%;--guardian-y:${Math.floor(i/5)*100}%"><span class="guardian-fallback">${guardianSVG(t,n,key,mood)}</span><span class="guardian-painted"></span></span>`;
+}
+function paintedPortrait(kind,index,fallback=''){
+  const sheets={combatants:'combatants-v18.webp',buildings:'buildings-v18.webp',hexa:'hex-enemies-a-v18.webp',hexb:'hex-enemies-b-v18.webp'};
+  const art=Object.hasOwn(sheets,kind)?kind:'combatants';
+  const i=Number.isFinite(Number(index))?Math.max(0,Math.min(9,Math.floor(Number(index)||0))):0;
+  return `<span class="painted-portrait" data-art="${art}" data-index="${i}" aria-hidden="true" style="--portrait-sheet:url('${sheets[art]}');--portrait-x:${i%5*25}%;--portrait-y:${Math.floor(i/5)*100}%"><span class="painted-fallback">${fallback}</span><span class="painted-sprite"></span></span>`;
+}
+function dgEnemyPortrait(level,key='hex',state='hostile'){
+  const n=Number.isFinite(Number(level))?Math.max(1,Math.min(20,Math.floor(Number(level)||1))):1;
+  return `<span class="hex-enemy" data-state="${state==='defeated'?'defeated':'hostile'}">${paintedPortrait(n<=10?'hexa':'hexb',(n-1)%10,dgSymbolSVG('shadow'))}</span>`;
+}
+function modeScene(id,key='archive'){
+  const mode=['survival','moba','br'].includes(id)?id:'survival';
+  const file=mode==='moba'?'arena-war-v18.webp':mode==='br'?'arena-royale-v18.webp':'hex-realm-v18.webp';
+  return `<span class="mode-cinematic-scene" data-mode="${mode}" aria-hidden="true" style="--mode-scene:url('${file}')">${echoSceneSVG(mode,key)}<span class="mode-painted-scene"></span>${mode==='survival'?'<span class="echo-core"></span>':''}</span>`;
 }
 function setInteriorBackdrop(screen,territoryId,key){
   let art=screen.querySelector('.interior-backdrop');
   if(!art){art=document.createElement('div');art.className='interior-backdrop';art.setAttribute('aria-hidden','true');screen.prepend(art);}
   art.innerHTML=cinematicScene(territoryId,key,1);
+  const mode=screen.id==='screen-game'&&typeof cur!=='undefined'?cur:null;
+  const path=screen.id==='screen-village'?'village-cinematic-v18.webp':mode?.isSurvival?'hex-realm-v18.webp':mode?.isLeague?'arena-war-v18.webp':'title-world-v3-hd.jpg';
+  art.style.backgroundImage=`url('${path}')`;
 }
 function goTo(name, territoryId){
   // Supervivencia comparte screen-game: no existe una screen-survival intermedia.
@@ -3336,7 +3539,7 @@ function updateLeagueWorldCard(){
 }
 function renderLeague(){
   syncLeague();
-  document.getElementById("league-scene").innerHTML=echoSceneSVG('moba','league');
+  document.getElementById("league-scene").innerHTML=modeScene('moba','league');
   const lg=save.league;
   const div=LEAGUE_DIVISIONS[Math.max(0,Math.min(LEAGUE_DIVISIONS.length-1,lg.division||0))];
   const rows=leagueStandings(lg.weekKey,leagueDayIndex());
@@ -3511,7 +3714,7 @@ function renderVillage(revealedId=null){
     node.style.top = points[i].y+"px";
     node.style.animationDelay = (i*55)+"ms";
     const sub = built ? "Hogar encendido" : unlocked ? `Siguiente · ${b.cost} 🍯` : "Camino cerrado";
-    node.innerHTML = `<svg class="v-node-svg" viewBox="0 0 80 84" aria-hidden="true">${villageBuildingSVG(b.id)}</svg><div class="v-node-label">${b.name}</div><div class="v-node-sub">${sub}</div>`;
+    node.innerHTML = `<span class="v-node-svg">${paintedPortrait('buildings',i,`<svg viewBox="0 0 80 84">${villageBuildingSVG(b.id)}</svg>`)}</span><div class="v-node-label">${b.name}</div><div class="v-node-sub">${sub}</div>`;
     node.onclick=()=>selectVillageBuilding(b.id);
     node.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectVillageBuilding(b.id);}};
     scene.appendChild(node);
@@ -3714,7 +3917,7 @@ function renderAchievements(){
       progressHtml = `<div class="badge-progress">${cur2}/${a.target}</div>
         <div style="background:rgba(255,255,255,.1);border-radius:99px;height:3px;margin-top:4px"><div style="height:3px;border-radius:99px;background:var(--crystal);width:${pct}%"></div></div>`;
     }
-    div.innerHTML = `<div class="badge-icon">${unlocked ? a.icon : "🔒"}</div>
+    div.innerHTML = `<div class="badge-icon badge-medallion">${territoryEmblemSVG(sorted.indexOf(a)%8+1,!unlocked)}<small>${unlocked ? a.icon : "🔒"}</small></div>
       <div class="badge-name">${a.name}</div>
       <div class="badge-desc">${a.desc}</div>
       ${unlocked ? `<div class="badge-status">Desbloqueado · +${ACHIEVEMENT_REWARD} 🍯</div>` : progressHtml}`;
@@ -3821,7 +4024,7 @@ function renderQuickModes(origin){
   target.innerHTML=ids.map(id=>{
     const name=id==='survival'?'Supervivencia':id==='moba'?'Guerra 5v5':'Royale';
     const detail=id==='survival'?'Contra el reloj':minigameUnlocked(id)?'Contra IA':'Práctica · contra IA';
-    return `<button class="quick-mode" onclick="startMode('${id}','${origin}')"><span class="quick-mode-art" aria-hidden="true">${echoSceneSVG(id,`quick-${origin}`)}</span><span class="quick-mode-copy"><b>${name}</b><small>${detail}</small></span></button>`;
+    return `<button class="quick-mode" onclick="startMode('${id}','${origin}')"><span class="quick-mode-art" aria-hidden="true">${modeScene(id,`quick-${origin}`)}</span><span class="quick-mode-copy"><b>${name}</b><small>${detail}</small></span></button>`;
   }).join('');
 }
 function startMode(id,origin='minigames'){
@@ -3833,7 +4036,7 @@ function startMode(id,origin='minigames'){
 function showPracticeResult(id,won,summary){
   const prefix=id==='moba'?'mb':'br';
   document.getElementById(`${prefix}-revive-btn`).style.display='none';
-  document.getElementById(`${prefix}-overlay-icon`).innerHTML=echoSceneSVG(id,'result');
+  document.getElementById(`${prefix}-overlay-icon`).innerHTML=modeScene(id,'result');
   document.getElementById(`${prefix}-overlay-title`).textContent=won?'¡Práctica superada!':'Vamos otra vez';
   document.getElementById(`${prefix}-overlay-sub`).textContent=`${summary} · Práctica sin premios ni cambios en tu historia.`;
   document.getElementById(`${prefix}-overlay`).classList.add('on');
@@ -3877,7 +4080,7 @@ function renderMinigames(){
     const modeName=m.id==='survival'?'Supervivencia':m.id==='moba'?'Guerra 5v5':'Royale';
     const how=m.id==='survival'?'Combina caramelos para ganar segundos. ¿Cuánto puedes mantener vivo el pulso?':m.id==='moba'?'Guía a Dulce Roja con cuatro aliados. Acércate para atacar y usa Pulso cuando haya enemigos cerca.':'Muévete, esquiva a los rivales y permanece dentro del anillo. Usa Impulso para escapar.';
     div.innerHTML = `
-      <span class="echo-scene" style="display:block" aria-hidden="true">${cinematicScene(m.id==='survival'?8:m.id==='moba'?3:5,'archive',1)}</span>
+      <span class="echo-scene" style="display:block" aria-hidden="true">${modeScene(m.id,'archive')}</span>
       <span class="mg-info">
         <span class="mg-name">${modeName}</span>
         <span class="mg-mode-label">${m.id==='survival'?'Match-3 · contra el reloj':m.id==='moba'?'Combate 5v5 · contra IA':'Huida Royale · contra 9 bots'}</span>
@@ -3908,7 +4111,7 @@ function showMinigameLoreReveal(id){
   const def=MINIGAMES.find(m=>m.id===id);
   if(!def) return;
   document.getElementById("mg-lore-chapter").textContent=`${def.chapter.toUpperCase()} RECUPERADO`;
-  document.getElementById("mg-lore-icon").innerHTML=echoSceneSVG(id,'reveal');
+  document.getElementById("mg-lore-icon").innerHTML=modeScene(id,'reveal');
   document.getElementById("mg-lore-title").textContent=def.name;
   document.getElementById("mg-lore-quote").textContent=`“${def.quote}”`;
   document.getElementById("mg-lore-truth").textContent=def.truth;
@@ -3971,18 +4174,18 @@ const MOBA_HERO_R = 12, MOBA_RANGE = 46, MOBA_SPEED = 1.5;
 const MOBA_ATK_DMG = 9, MOBA_ATK_CD_MAX = 50, MOBA_MAX_HP = 100;
 const MOBA_ABILITY_DMG = 26, MOBA_ABILITY_RADIUS = 75, MOBA_ABILITY_CD_MAX = 260;
 const MOBA_ALLIES = [
-  {id:"dulce",   name:"Dulce Roja",  icon:"❤️", isPlayer:true},
-  {id:"kenshi",  name:"Kenshi",      icon:"🐻"},
-  {id:"tangwei", name:"Tang Wei",    icon:"🍡"},
-  {id:"maple",   name:"Maple",       icon:"🏕️"},
-  {id:"bastion", name:"Bastión",     icon:"🛡️"},
+  {id:"dulce",   name:"Dulce Roja",  icon:"❤️", isPlayer:true, spriteSheet:"combatants", spriteIndex:0},
+  {id:"kenshi",  name:"Kenshi",      icon:"🐻", spriteSheet:"combatants", spriteIndex:1},
+  {id:"tangwei", name:"Tang Wei",    icon:"🍡", spriteSheet:"combatants", spriteIndex:2},
+  {id:"maple",   name:"Maple",       icon:"🏕️", spriteSheet:"combatants", spriteIndex:3},
+  {id:"bastion", name:"Bastión",     icon:"🛡️", spriteSheet:"combatants", spriteIndex:4},
 ];
 const MOBA_ENEMIES = [
-  {id:"hex1", name:"Fragmento Hexadecimal", icon:"💠"},
-  {id:"hex2", name:"Fragmento Hexadecimal", icon:"💠"},
-  {id:"hex3", name:"Fragmento Hexadecimal", icon:"💠"},
-  {id:"hex4", name:"Fragmento Hexadecimal", icon:"💠"},
-  {id:"hex5", name:"Fragmento Hexadecimal", icon:"💠"},
+  {id:"hex1", name:"Fragmento Hexadecimal", icon:"💠", spriteSheet:"combatants", spriteIndex:5},
+  {id:"hex2", name:"Fragmento Hexadecimal", icon:"💠", spriteSheet:"combatants", spriteIndex:6},
+  {id:"hex3", name:"Fragmento Hexadecimal", icon:"💠", spriteSheet:"combatants", spriteIndex:7},
+  {id:"hex4", name:"Fragmento Hexadecimal", icon:"💠", spriteSheet:"combatants", spriteIndex:8},
+  {id:"hex5", name:"Fragmento Hexadecimal", icon:"💠", spriteSheet:"combatants", spriteIndex:9},
 ];
 let mbCtx = null, mobaRunning = false, mobaRAF = null, mobaInputBound = false;
 let mobaHeroes = [], mobaPlayer = null, mobaAbilityCd = 0, mobaFlashes = [];
@@ -4052,7 +4255,7 @@ function mobaEndGame(won){
   if(minigamePractice){ showPracticeResult('moba',won,`${enemiesDefeated}/5 rivales derrotados`); return; }
   // Sin ganar, primero se ofrece revivir gratis por anuncio (una vez por partida)
   if(!won && !mobaRevived){
-    document.getElementById("mb-overlay-icon").innerHTML = echoSceneSVG('moba','result');
+    document.getElementById("mb-overlay-icon").innerHTML = modeScene('moba','result');
     document.getElementById("mb-overlay-title").textContent = "Tu equipo cayó";
     document.getElementById("mb-overlay-sub").textContent = `${enemiesDefeated}/5 enemigos derrotados`;
     document.getElementById("mb-revive-btn").style.display = "";
@@ -4067,7 +4270,7 @@ function mobaEndGame(won){
   persistSave();
   checkAchievements();
   document.getElementById("mb-revive-btn").style.display = "none";
-  document.getElementById("mb-overlay-icon").innerHTML = echoSceneSVG('moba','result');
+  document.getElementById("mb-overlay-icon").innerHTML = modeScene('moba','result');
   document.getElementById("mb-overlay-title").textContent = won ? "El recuerdo resiste" : "La memoria se desvanece";
   document.getElementById("mb-overlay-sub").textContent =
     `${enemiesDefeated}/5 enemigos derrotados · +${coinsEarned} 🍯${leagueGain?` · +${leagueGain} 👑`:""}${loreUnlocked?" · ECO II RECUPERADO":""}${won?` · Victorias totales: ${save.mobaWins}`:""}`;
@@ -4112,6 +4315,19 @@ function minigameArenaArt(mode,width,height){
   const art=document.createElement('canvas');art.width=Math.round(width*dpr);art.height=Math.round(height*dpr);
   const c=art.getContext('2d'),isWar=mode==='moba';
   c.scale(art.width/340,art.height/460);
+  const arenaKey=isWar?'war':'royale';
+  const arena=typeof cinematicImages!=='undefined'?cinematicImages[arenaKey]:null;
+  if(arena?.complete&&arena.naturalWidth>0&&arena.naturalHeight>0){
+    const targetRatio=340/460,imageRatio=arena.naturalWidth/arena.naturalHeight;
+    let sx=0,sy=0,sw=arena.naturalWidth,sh=arena.naturalHeight;
+    if(imageRatio>targetRatio){sw=sh*targetRatio;sx=(arena.naturalWidth-sw)/2;}
+    else{sh=sw/targetRatio;sy=(arena.naturalHeight-sh)/2;}
+    c.drawImage(arena,sx,sy,sw,sh,0,0,340,460);
+    const veil=c.createLinearGradient(0,0,0,460);
+    veil.addColorStop(0,'rgba(13,6,25,.35)');veil.addColorStop(.52,'rgba(13,6,25,.28)');veil.addColorStop(1,'rgba(13,6,25,.4)');
+    c.fillStyle=veil;c.fillRect(0,0,340,460);
+    cache[key]=art;return art;
+  }
   const shape=(points,fill,stroke)=>{
     c.beginPath();points.forEach((p,i)=>i?c.lineTo(p[0],p[1]):c.moveTo(p[0],p[1]));c.closePath();
     c.fillStyle=fill;c.fill();
@@ -4228,11 +4444,15 @@ function minigameDrawUnit(ctx,u,r,color,enemy){
     ctx.beginPath();ctx.moveTo(u.x-3,u.y+r+7);ctx.lineTo(u.x,u.y+r+3);ctx.lineTo(u.x+3,u.y+r+7);ctx.fillStyle='#ffe8ae';ctx.fill();
   }
   const body=ctx.createLinearGradient(u.x-r,u.y-r,u.x+r,u.y+r);
-  const sprite=typeof cinematicImages!=='undefined'?cinematicImages.guardian:null;
-  const painted=enemy && sprite?.complete && sprite.naturalWidth>0;
+  const spriteKey=typeof u.spriteSheet==='string'?u.spriteSheet:(enemy?'guardian':null);
+  const sprite=typeof cinematicImages!=='undefined'&&spriteKey?cinematicImages[spriteKey]:null;
+  const painted=!!spriteKey&&sprite?.complete&&sprite.naturalWidth>0&&sprite.naturalHeight>0;
   if(painted){
-    const sw=sprite.naturalWidth/4,sh=sprite.naturalHeight/2;
-    ctx.drawImage(sprite,sw*3,sh,sw,sh,u.x-r*1.35,u.y-r*1.6,r*2.7,r*2.7);
+    const cols=spriteKey==='guardian'?4:5,rows=2,total=cols*rows;
+    const requested=Number.isFinite(Number(u.spriteIndex))?Math.floor(Number(u.spriteIndex)):spriteKey==='guardian'?7:0;
+    const index=Math.max(0,Math.min(total-1,requested));
+    const sw=sprite.naturalWidth/cols,sh=sprite.naturalHeight/rows,size=r*4;
+    ctx.drawImage(sprite,sw*(index%cols),sh*Math.floor(index/cols),sw,sh,u.x-size/2,u.y-size*.55,size,size);
   }else{
   body.addColorStop(0,'#e4d4b2');body.addColorStop(.24,color);body.addColorStop(1,enemy?'#59465f':'#61594c');
   ctx.beginPath();ctx.arc(u.x,u.y,r,0,Math.PI*2);ctx.fillStyle=body;ctx.fill();
@@ -4244,6 +4464,10 @@ function minigameDrawUnit(ctx,u,r,color,enemy){
   }else{
     ctx.font=`${r+2}px sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(u.icon,u.x,u.y+1);
   }
+  }
+  if(u.isPlayer&&painted){
+    ctx.beginPath();ctx.ellipse(u.x,u.y+r*.9,r*1.5,r*.55,0,0,Math.PI*2);ctx.strokeStyle='#ffe7a2';ctx.lineWidth=2;ctx.stroke();
+    ctx.beginPath();ctx.moveTo(u.x,u.y-r*2.4);ctx.lineTo(u.x-4,u.y-r*2.9);ctx.lineTo(u.x+4,u.y-r*2.9);ctx.closePath();ctx.fillStyle='#ffe7a2';ctx.fill();
   }
   if(u.isHero&&!u.isPlayer){
     const y=u.y-r-11;
@@ -4371,7 +4595,7 @@ function startMoba(){
   mobaRunning = true;
   if(mobaRAF) cancelAnimationFrame(mobaRAF);
   mobaRAF = requestAnimationFrame(mobaStep);
-  mgConfiteSay("mb",minigamePractice?'Tu corazón lleva aro dorado. Sal de las marcas o usa Pulso para cortar el golpe.':"El Cristal usa nuestros rostros para contar su última guerra. Protege a los cinco defensores.",minigamePractice?'happy':"worried");
+  mgConfiteSay("mb",minigamePractice?'Dulce Roja lleva aro dorado. Sal de las marcas o usa Pulso para cortar el golpe.':"El Cristal usa nuestros rostros para contar su última guerra. Protege a los cinco defensores.",minigamePractice?'happy':"worried");
 }
 
 /* ---------------- BATTLE ROYALE (prototipo: jugador vs 9 bots, zona que se reduce) ---------------- */
@@ -4447,7 +4671,7 @@ function brEndGame(won, othersAliveAtDeath){
   if(minigamePractice){ showPracticeResult('br',won,`Puesto ${placement}/${BR_TOTAL}`); return; }
   // Sin ganar, primero se ofrece revivir gratis por anuncio (una vez por partida)
   if(!won && !brRevived){
-    document.getElementById("br-overlay-icon").innerHTML = echoSceneSVG('br','result');
+    document.getElementById("br-overlay-icon").innerHTML = modeScene('br','result');
     document.getElementById("br-overlay-title").textContent = "La corrupción te alcanzó";
     document.getElementById("br-overlay-sub").textContent = `Puesto ${placement}/${BR_TOTAL}`;
     document.getElementById("br-revive-btn").style.display = "";
@@ -4463,7 +4687,7 @@ function brEndGame(won, othersAliveAtDeath){
   persistSave();
   checkAchievements();
   document.getElementById("br-revive-btn").style.display = "none";
-  document.getElementById("br-overlay-icon").innerHTML = echoSceneSVG('br','result');
+  document.getElementById("br-overlay-icon").innerHTML = modeScene('br','result');
   document.getElementById("br-overlay-title").textContent = won ? "Al otro lado de la grieta" : "La niebla cerró el paso";
   document.getElementById("br-overlay-sub").textContent =
     `Puesto ${placement}/${BR_TOTAL} · +${coinsEarned} 🍯${leagueGain?` · +${leagueGain} 👑`:""}${loreUnlocked?" · ECO III RECUPERADO":""}${won?` · Victorias totales: ${save.brWins}`:""}`;
@@ -4634,11 +4858,11 @@ function startBR(){
   brCtx = minigameCanvasContext(canvas,BR_W,BR_H);
   brBindInput();
   brUnits = [];
-  brUnits.push({id:"player", name:"Dulce Roja", icon:"❤️", isPlayer:true, x:BR_W/2, y:BR_H/2, hp:BR_MAX_HP, maxHp:BR_MAX_HP, atkCd:0, alive:true});
+  brUnits.push({id:"player", name:"Dulce Roja", icon:"❤️", isPlayer:true, spriteSheet:"combatants", spriteIndex:0, x:BR_W/2, y:BR_H/2, hp:BR_MAX_HP, maxHp:BR_MAX_HP, atkCd:0, alive:true});
   for(let i=0;i<BR_TOTAL-1;i++){
     const ang = (i/(BR_TOTAL-1))*Math.PI*2;
     const dist = 150+Math.random()*40;
-    brUnits.push({id:"bot"+i, name:`Rival ${i+1}`, icon:BR_ICONS[i%BR_ICONS.length], isPlayer:false,
+    brUnits.push({id:"bot"+i, name:`Rival ${i+1}`, icon:BR_ICONS[i%BR_ICONS.length], isPlayer:false, spriteSheet:"monster5", spriteIndex:i,
       x:BR_W/2+Math.cos(ang)*dist, y:BR_H/2+Math.sin(ang)*dist, hp:BR_MAX_HP, maxHp:BR_MAX_HP, atkCd:0, alive:true});
   }
   brPlayer = brUnits[0];
@@ -4654,7 +4878,7 @@ function startBR(){
   brRunning = true;
   if(brRAF) cancelAnimationFrame(brRAF);
   brRAF = requestAnimationFrame(brStep);
-  mgConfiteSay("br",minigamePractice?'Eres el corazón con aro dorado. Arrastra para moverte y no salgas del anillo.':"Esto no era una arena. Eran los fragmentos huyendo de algo que acababa de nacer.",minigamePractice?'happy':"worried");
+  mgConfiteSay("br",minigamePractice?'Eres Dulce Roja, con aro dorado. Arrastra para moverte y no salgas del anillo.':"Esto no era una arena. Eran los fragmentos huyendo de algo que acababa de nacer.",minigamePractice?'happy':"worried");
 }
 
 /* Guardianes y sus ecos: ilustración vectorial pura, aislada por lugar de uso. */
@@ -5077,7 +5301,7 @@ function startCanvasLevel(sceneId){
     wrap.insertBefore(sceneEl, wrap.firstChild);
   }
   sceneEl.classList.remove("alive");
-  sceneEl.innerHTML=scene.svg;
+  sceneEl.innerHTML=scene.svg+'<img src="village-cinematic-v18.webp" alt="La aldea recupera su luz">';
   sceneEl.style.display="";
   let goalEl=document.getElementById("canvas-goal");
   if(!goalEl){
@@ -5546,7 +5770,7 @@ function renderGrid(motion=[]){
     const div = document.createElement("div");
     div.className = "cell " + (t<0?"empty":COLORCLASS[t]);
     if(cur.cols>=8) div.style.borderRadius="7px";
-    div.innerHTML = t<0 ? "" : `<span class="board-piece${power?' power-'+power.toLowerCase():''}" aria-hidden="true"><svg class="candy-icon" viewBox="0 0 64 64"><use href="#${CANDY_IDS[t]}"></use></svg></span>`;
+    div.innerHTML = t<0 ? "" : `<span class="board-piece${power?' power-'+power.toLowerCase():''}" aria-hidden="true"><svg class="candy-icon" viewBox="0 0 64 64"><use href="#${CANDY_IDS[t]}"></use></svg><span class="painted-candy" style="--candy-x:${t%4*100/3}%;--candy-y:${Math.floor(t/4)*100}%"></span></span>`;
     div.dataset.r=r; div.dataset.c=c;
     div.onclick = ()=>onCellClick(r,c);
     if(sel && sel[0]===r && sel[1]===c) div.classList.add("selected");
@@ -5609,11 +5833,11 @@ function renderRestorationScene(){
   const panel=document.getElementById("restoration-window");
   let landscape=panel.querySelector('.restoration-landscape');
   if(!landscape){landscape=document.createElement('div');landscape.className='restoration-landscape';landscape.setAttribute('aria-hidden','true');panel.prepend(landscape);}
-  landscape.innerHTML=cinematicScene(cur.isSurvival?8:cur.isLeague?3:cur.isCanvas?1:t.id,'game',1);
+  landscape.innerHTML=cur.isSurvival?modeScene('survival','game'):cur.isLeague?modeScene('moba','duel'):cinematicScene(cur.isCanvas?1:t.id,'game',1);
   panel.style.setProperty('--scene-position',`${22+t.id*6}% ${38+t.id*3}%`);
   document.getElementById("restoration-name").textContent=campaign?LEVEL_NAMES_ALL[t.id][cur.n]:cur.isCanvas?"El Amanecer Carmesí":cur.isSurvival?"Eco I · El Primer Latido":cur.isLeague?"El duelo de los clanes":"El latido de hoy";
   document.getElementById("restoration-detail").textContent=campaign?CAMPAIGN_ARCS[t.id].steps[cur.n<4?0:cur.n<8?1:2]:cur.isSurvival?"Mantén vivo el pulso que Confite reconoce.":cur.isLeague?"Una rivalidad nacida de la Fragmentación.":"Cada combinación le devuelve color a Dulcelandia.";
-  document.getElementById("restoration-emblem").innerHTML=campaign?guardianPortrait(t.id,cur.n,'game','hostile'):territoryEmblemSVG(cur.isSurvival?8:cur.isLeague?3:1,false);
+  document.getElementById("restoration-emblem").innerHTML=campaign?guardianPortrait(t.id,cur.n,'game','hostile'):cur.isSurvival?'<img class="pulse-crystal" src="icon-crystal-192.png" alt="">':cur.isLeague?paintedPortrait('combatants',2,territoryEmblemSVG(3,false)):territoryEmblemSVG(1,false);
   updateHud(); updateStreakPips();
 }
 
@@ -6631,7 +6855,8 @@ function checkTerritoryComplete(){
       save.coins=(save.coins||0)+reward;
       persistSave();
       const lines=TERRITORY_COMPLETE_DATA[t.id];
-      document.getElementById("tc-icon").textContent=t.icon;
+      document.getElementById("tc-icon").innerHTML=guardianPortrait(t.id,10,'territory','restored');
+      document.getElementById("territory-complete-overlay").style.backgroundImage=`linear-gradient(#10091b88,#10091be6),url('title-world-v3-hd.jpg')`;
       document.getElementById("tc-title").textContent=`¡${t.name} restaurada!`;
       document.getElementById("tc-narrative").textContent=lines.narrative;
       document.getElementById("tc-confite-line").innerHTML=`<em>Confite:</em> "${lines.confite}"`;
@@ -6922,7 +7147,7 @@ function renderHeroes(){
         </div>`;
       card.innerHTML = `
         <div class="hero-card-top">
-          <div class="hero-icon" style="background:${h.color}22;border-color:${h.color}44">${h.icon}</div>
+          <div class="hero-icon" style="background:${h.color}22;border-color:${h.color}44">${['dulce','mochiko','tangwei','bastion','kenshi'].includes(h.id)?paintedPortrait('combatants',['dulce','mochiko','tangwei','bastion','kenshi'].indexOf(h.id),territoryEmblemSVG(Math.max(1,['dulce','mochiko','tangwei','bastion','kenshi','maple','hexbr'].indexOf(h.id)+1),false)):territoryEmblemSVG(h.id==='maple'?6:8,false)}</div>
           <div class="hero-info">
             <div class="hero-name">${h.name}${equipped?'<span class="hero-equip-badge">EQUIPADO</span>':''}</div>
             <div class="hero-clan" style="color:${h.color}">${h.clan}</div>
@@ -7018,6 +7243,7 @@ function renderMemories(){
           <button class="hero-btn ad" style="margin-top:8px;width:auto" onclick="unlockMemoryWithAd('${def.key}')">🎬 Desbloquear ahora · anuncio</button>
         </div>`;
     }
+    card.innerHTML=`<div class="memory-landscape">${cinematicScene(Number(def.key.split('_')[0]),`memory-${def.key}`,text?1:.1)}</div>`+card.innerHTML;
     list.appendChild(card);
   });
   const section = document.createElement("div");
@@ -7144,6 +7370,8 @@ function startIntro(){
   goTo("intro");
 }
 function showIntroSlide(idx){
+  const hero=document.getElementById('intro-dulce-art');
+  if(hero&&!hero.innerHTML) hero.innerHTML=paintedPortrait('combatants',0,territoryEmblemSVG(1,false));
   for(let i=0;i<INTRO_TOTAL;i++){
     const el = document.getElementById("intro-slide-"+i);
     if(el) el.classList.toggle("active", i===idx);
@@ -7437,7 +7665,7 @@ function dgRenderGrid(){
   const sceneKey = `${dgCur.mode}-${dgCur.n}-${save.activeSkin}`;
   if(scene.dataset.sceneKey!==sceneKey){
     scene.dataset.sceneKey=sceneKey;
-    scene.innerHTML=dgSceneMarkup("game",dgCur.isTimed?"Tiempo límite · 60 segundos":dgCur.isZen?"Zen · a tu ritmo":`Historia · Nivel ${dgCur.n}`,dgCur.isTimed?"Encuentra tu pulso":dgCur.isZen?"Un instante de calma":DG_LEVEL_NAMES[dgCur.n]||"La senda de la sombra");
+    scene.innerHTML=dgSceneMarkup("game",dgCur.isTimed?"Tiempo límite · 60 segundos":dgCur.isZen?"Zen · a tu ritmo":`Historia · Nivel ${dgCur.n}`,dgCur.isTimed?"Encuentra tu pulso":dgCur.isZen?"Un instante de calma":DG_LEVEL_NAMES[dgCur.n]||"La senda de la sombra",dgCur.isTimed||dgCur.isZen?null:dgCur.n);
     document.querySelectorAll("#screen-dggame [data-dg-symbol]").forEach(el=>el.innerHTML=dgSymbolSVG(el.dataset.dgSymbol));
   }
   const gridEl = document.getElementById("dg-grid");
@@ -7904,6 +8132,7 @@ function dgFinishRun(won){
     document.getElementById("dg-overlay-main-btn").textContent = "Reintentar";
     playLose();
   }
+  if(!dgCur.isTimed&&!dgCur.isZen) document.getElementById('dg-overlay-icon').innerHTML=`<span class="result-companions">${dgConfitePortrait(won?'celebrate':'worried')}${dgEnemyPortrait(dgCur.n,'result',won?'defeated':'hostile')}</span>`;
   persistSave();
   const starsEls = document.querySelectorAll("#dg-overlay-stars .s");
   starsEls.forEach(el=>el.classList.remove("on"));
@@ -7940,6 +8169,8 @@ function dgExitToMenu(){
 
 /* ---- inicio de partidas ---- */
 function dgSetupCommonUi(cfg, extra){
+  const portrait=document.getElementById('dg-start-enemy');
+  if(portrait) portrait.innerHTML=extra.isTimed||extra.isZen?dgSymbolSVG(extra.isTimed?'timed':'zen'):dgEnemyPortrait(extra.n,'intro');
   document.getElementById("dg-overlay").classList.remove("on");
   document.getElementById("dg-pause-overlay").classList.remove("on");
   document.getElementById("dg-tutorial-overlay").classList.remove("on");
@@ -8084,8 +8315,9 @@ function dgLandscapeSVG(key,restored){
     <path d="M0 0H360V220H0Z" fill="url(#${id}-shade)"/>
   </svg>`;
 }
-function dgSceneMarkup(key,eyebrow,caption){
-  return `${dgLandscapeSVG(key)}<div class="dg-scene-caption"><span>${eyebrow}</span>${caption}</div><div class="dg-scene-confite">${dgConfitePortrait("worried")}</div>`;
+function dgSceneMarkup(key,eyebrow,caption,level=null){
+  const n=Number(level)||0,position=n?25+Math.floor((n-1)/5)*18:45;
+  return `${dgLandscapeSVG(key)}<span class="hex-painted-scene" style="background-position:center ${position}%"></span>${n?`<div class="dg-scene-enemy">${dgEnemyPortrait(n,key)}</div>`:''}<div class="dg-scene-caption"><span>${eyebrow}</span>${caption}</div><div class="dg-scene-confite">${dgConfitePortrait("worried")}</div>`;
 }
 function renderDgTransition(name){
   const victory=name==="hexvictory",prefix=victory?"victory":"curse";
@@ -8125,7 +8357,7 @@ function renderDgLevels(){
     div.className = "dg-route-node" + (cleared?" cleared":"") + (!unlocked?" locked":"") + (lv.n===Math.min(save.dgUnlocked||1,20)?" is-current":"");
     div.disabled=!unlocked;
     div.setAttribute("aria-label",unlocked?`Nivel ${lv.n}: ${DG_LEVEL_NAMES[lv.n]}, ${stars} de 3 estrellas`:`Nivel ${lv.n}, bloqueado`);
-    div.innerHTML = unlocked ? (lv.isBoss?dgSymbolSVG("gothic"):lv.n) : dgSymbolSVG("lock");
+    div.innerHTML = `${dgEnemyPortrait(lv.n,'route',cleared?'defeated':'hostile')}<span class="hex-level-tag">${unlocked?lv.n:dgSymbolSVG('lock')}</span>`;
     if(unlocked) div.onclick = ()=>dgStartLevel(lv.n);
     step.appendChild(div);
     const copy=document.createElement("div");

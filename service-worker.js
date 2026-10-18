@@ -1,5 +1,14 @@
-const CACHE_NAME = "sugarclash-v17";
-const ASSETS = ["./", "./index.html", "./manifest.json", "./icon.svg", "./icon-192.png", "./icon-512.png", "./icon-ios-180.png", "./title-world-v3-hd.jpg", "./icon-crystal-192.png", "./icon-crystal-512.png", "./icon-crystal-ios-180.png", "./guardians-cinematic-v1.webp", "./worlds-cinematic-v1.webp"];
+const CACHE_NAME = "sugarclash-v18";
+const ASSETS = [
+  "./", "./index.html", "./manifest.json", "./icon.svg", "./icon-192.png", "./icon-512.png", "./icon-ios-180.png",
+  "./title-world-v3-hd.jpg", "./icon-crystal-192.png", "./icon-crystal-512.png", "./icon-crystal-ios-180.png",
+  "./guardians-cinematic-v1.webp", "./worlds-cinematic-v1.webp",
+  "./arena-war-v18.webp", "./arena-royale-v18.webp", "./combatants-v18.webp",
+  "./monsters-t1-v18.webp", "./monsters-t2-v18.webp", "./monsters-t3-v18.webp", "./monsters-t4-v18.webp",
+  "./monsters-t5-v18.webp", "./monsters-t6-v18.webp", "./monsters-t7-v18.webp", "./monsters-t8-v18.webp",
+  "./village-cinematic-v18.webp", "./hex-realm-v18.webp", "./hex-enemies-a-v18.webp", "./hex-enemies-b-v18.webp",
+  "./buildings-v18.webp", "./candies-v18.webp"
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

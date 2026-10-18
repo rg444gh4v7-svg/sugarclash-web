@@ -26,7 +26,8 @@ function archive(lore={}){
   const ctx=vm.createContext({save,minigamePractice:false,modeReturnScreen:'minigames',document:{
     getElementById:id=>{if(!nodes.has(id))nodes.set(id,element());return nodes.get(id);},
     createElement:tag=>element(tag)},
-    confiteSVG:mood=>`<g data-mood="${mood}"></g>`,territoryLandscapeSVG:(id,key)=>`<svg data-territory="${id}" data-context="${key}"></svg>`,celebrateMilestone:()=>log.celebrations++,
+    confiteSVG:mood=>`<g data-mood="${mood}"></g>`,territoryLandscapeSVG:(id,key)=>`<svg data-territory="${id}" data-context="${key}"></svg>`,
+    modeScene:(id,key)=>`<span data-mode="${id}" data-context="${key}"></span>`,celebrateMilestone:()=>log.celebrations++,
     goTo:id=>log.navigation.push(id),toast:text=>log.toasts.push(text),persistSave:()=>log.persist++,
     awardLeaguePoints:(amount,reason)=>{log.league.push({amount,reason});return amount;},
     setTimeout:(callback,ms)=>{log.timers.push({callback,ms});return log.timers.length;},
@@ -215,6 +216,23 @@ test('Combat arenas reuse deterministic native canvas artwork for each mode and 
   assert.deepEqual(drawings[3].calls.find(call=>call.name==='scale').args,[2,2]);
   for(const drawing of drawings){drawing.assertBalanced();assert.ok(drawing.calls.some(call=>call.name==='fill'));}
 });
+test('Combat arenas prefer their loaded cinematic raster while preserving logical canvas geometry',()=>{
+  const drawings=[],warImage={complete:true,naturalWidth:941,naturalHeight:1672},royaleImage={complete:true,naturalWidth:941,naturalHeight:1672};
+  const ctx=vm.createContext({cinematicImages:{war:warImage,royale:royaleImage},window:{devicePixelRatio:2},document:{createElement:()=>{
+    const drawing=drawingContext();drawings.push(drawing);return {getContext:()=>drawing.ctx};
+  }}});
+  vm.runInContext(source('minigameArenaArt'),ctx);
+  const war=ctx.minigameArenaArt('moba',340,460),royale=ctx.minigameArenaArt('br',340,460);
+  assert.equal(war.width,680);assert.equal(war.height,920);assert.equal(royale.width,680);assert.equal(royale.height,920);
+  for(const [drawing,image] of [[drawings[0],warImage],[drawings[1],royaleImage]]){
+    const paint=drawing.calls.find(call=>call.name==='drawImage');assert.ok(paint);assert.equal(paint.args[0],image);
+    assert.deepEqual(paint.args.slice(-4),[0,0,340,460]);
+    const [sx,sy,sw,sh]=paint.args.slice(1,5);assert.ok(sx>=0&&sy>=0&&sw<=image.naturalWidth&&sh<=image.naturalHeight);
+    assert.ok(Math.abs(sw/sh-340/460)<1e-9,'Arena crop must preserve proportions without stretching');
+    assert.ok(drawing.calls.some(call=>call.name==='fillRect'),'A restrained readability veil remains over the painted arena');
+    drawing.assertBalanced();
+  }
+});
 test('Combat canvas buffers support Retina while capping density and preserving responsive proportions',()=>{
   for(const [density,expected] of [[1,1],[2,2],[3,2],[.5,1],[0,1],[undefined,1],['2',2],[NaN,1]]){
     const drawing=drawingContext(),canvas={style:{},getContext:()=>drawing.ctx};
@@ -276,31 +294,43 @@ test('Both combat renderers draw finite frames without changing combat state or 
     }
   }
 });
-test('Painted enemy sprites crop the final cell of their 4 by 2 sheet and retain clamped health bars',()=>{
-  for(const [width,height] of [[1024,512],[2048,1024]])for(const [hp,ratio] of [[-10,0],[60,.6],[120,1]]){
+test('Painted combat units crop their assigned cell of a 5 by 2 atlas and retain clamped health bars',()=>{
+  for(const [width,height] of [[1600,640],[2000,800]])for(const [index,hp,ratio] of [[0,-10,0],[4,60,.6],[5,60,.6],[9,120,1]]){
     const drawing=drawingContext(),sprite={complete:true,naturalWidth:width,naturalHeight:height};
-    const unit={x:170,y:230,hp,maxHp:100,icon:'★',alive:true,isPlayer:false},before=JSON.stringify(unit),r=12;
-    const ctx=vm.createContext({cinematicImages:{guardian:sprite}});vm.runInContext(source('minigameDrawUnit'),ctx);
+    const unit={x:170,y:230,hp,maxHp:100,icon:'★',alive:true,isPlayer:index===0,spriteSheet:'combatants',spriteIndex:index},before=JSON.stringify(unit),r=12;
+    const ctx=vm.createContext({cinematicImages:{combatants:sprite}});vm.runInContext(source('minigameDrawUnit'),ctx);
     ctx.minigameDrawUnit(drawing.ctx,unit,r,'#9885ab',true);
     const images=drawing.calls.filter(call=>call.name==='drawImage');assert.equal(images.length,1);
     assert.equal(images[0].args[0],sprite);
-    assert.deepEqual(images[0].args.slice(1),[width*3/4,height/2,width/4,height/2,unit.x-r*1.35,unit.y-r*1.6,r*2.7,r*2.7]);
+    const sw=width/5,sh=height/2,size=r*4;
+    assert.deepEqual(images[0].args.slice(1),[sw*(index%5),sh*Math.floor(index/5),sw,sh,unit.x-size/2,unit.y-size*.55,size,size]);
     const bars=drawing.calls.filter(call=>call.name==='fillRect');assert.equal(bars.length,2);
     const w=r*2+3;assert.deepEqual(bars[1].args,[unit.x-w/2,unit.y-r-7,w*ratio,3]);
     assert.equal(JSON.stringify(unit),before);drawing.assertBalanced();
   }
 });
 test('Unit drawing keeps its native fallback while sprites load or fail and leaves allied icons readable',()=>{
-  for(const sprite of [undefined,{complete:false,naturalWidth:1024,naturalHeight:512},{complete:true,naturalWidth:0,naturalHeight:0}]){
-    const drawing=drawingContext(),ctx=vm.createContext(sprite===undefined?{}:{cinematicImages:{guardian:sprite}});
+  for(const sprite of [undefined,{complete:false,naturalWidth:1600,naturalHeight:640},{complete:true,naturalWidth:0,naturalHeight:0}]){
+    const drawing=drawingContext(),ctx=vm.createContext(sprite===undefined?{}:{cinematicImages:{combatants:sprite}});
     vm.runInContext(source('minigameDrawUnit'),ctx);
-    ctx.minigameDrawUnit(drawing.ctx,{x:170,y:230,hp:60,maxHp:100,isPlayer:false},12,'#9885ab',true);
+    ctx.minigameDrawUnit(drawing.ctx,{x:170,y:230,hp:60,maxHp:100,isPlayer:false,spriteSheet:'combatants',spriteIndex:7},12,'#9885ab',true);
     assert.equal(drawing.calls.filter(call=>call.name==='drawImage').length,0);
     assert.ok(drawing.calls.some(call=>call.name==='arc'));assert.equal(drawing.calls.filter(call=>call.name==='fillRect').length,2);drawing.assertBalanced();
   }
-  const drawing=drawingContext(),ctx=vm.createContext({cinematicImages:{guardian:{complete:true,naturalWidth:1024,naturalHeight:512}}});
-  vm.runInContext(source('minigameDrawUnit'),ctx);ctx.minigameDrawUnit(drawing.ctx,{x:170,y:230,hp:100,maxHp:100,icon:'★',isPlayer:true},12,'#d6a5ae',false);
+  const drawing=drawingContext(),ctx=vm.createContext({});
+  vm.runInContext(source('minigameDrawUnit'),ctx);ctx.minigameDrawUnit(drawing.ctx,{x:170,y:230,hp:100,maxHp:100,icon:'★',isPlayer:true,spriteSheet:'combatants',spriteIndex:0},12,'#d6a5ae',false);
   assert.equal(drawing.calls.filter(call=>call.name==='drawImage').length,0);assert.ok(drawing.calls.some(call=>call.name==='fillText'&&call.args[0]==='★'));drawing.assertBalanced();
+});
+test('MOBA and Royale assign a different painted cell to every live combatant',()=>{
+  const rosterStart=script.indexOf('const MOBA_ALLIES ='),rosterEnd=script.indexOf('\nlet mbCtx',rosterStart),ctx=vm.createContext({});
+  vm.runInContext(script.slice(rosterStart,rosterEnd),ctx);
+  const roster=vm.runInContext('({allies:MOBA_ALLIES,enemies:MOBA_ENEMIES})',ctx);
+  assert.deepEqual(Array.from(roster.allies,u=>u.spriteIndex),[0,1,2,3,4]);
+  assert.deepEqual(Array.from(roster.enemies,u=>u.spriteIndex),[5,6,7,8,9]);
+  assert.ok([...roster.allies,...roster.enemies].every(u=>u.spriteSheet==='combatants'));
+  const brSource=source('startBR');
+  assert.match(brSource,/spriteSheet:"combatants", spriteIndex:0/);
+  assert.match(brSource,/spriteSheet:"monster5", spriteIndex:i/);
 });
 function hexArchive(unlocked=4){
   const nodes=new Map(),log={starts:[],persist:0};
@@ -310,7 +340,9 @@ function hexArchive(unlocked=4){
     dgAmbientOn:true,dgPowerups:{bomb:2,curse:1,crystal:0},pieceSkin:'gothic',unlockedPieceSkins:{gothic:true}};
   const ctx=vm.createContext({save,document:{getElementById:node,createElement:tag=>element(tag),
     querySelector:selector=>node(selector),querySelectorAll:()=>symbols},
-    confiteSVG:mood=>`<g data-mood="${mood}"></g>`,dgStartLevel:n=>log.starts.push(n),persistSave:()=>log.persist++});
+    confiteSVG:mood=>`<g data-mood="${mood}"></g>`,
+    dgEnemyPortrait:(level,key,state='hostile')=>`<span data-hex-level="${level}" data-context="${key}" data-state="${state}"></span>`,
+    dgStartLevel:n=>log.starts.push(n),persistSave:()=>log.persist++});
   for(const name of ['dgShadowCountForLevel','dgLevelDef','dgXpForLevel','dgConfitePortrait','dgSymbolSVG','dgLandscapeSVG','dgSceneMarkup','renderDgMenu','renderDgLevels','renderDgShop'])vm.runInContext(source(name),ctx);
   for(const [name,end] of [['DG_LEVEL_NAMES','\n};'],['DG_PIECE_SKINS','\n];'],['DG_LEVELS','\n']]){
     const start=script.indexOf(`const ${name} =`);assert.ok(start>=0,`Missing ${name}`);

@@ -30,11 +30,14 @@ antes del comando de validación de sintaxis si `node` no se encuentra.
 **Un solo archivo HTML/CSS/JS vanilla — intencional. No romper esta arquitectura.**
 
 `title-world-v3-hd.jpg` es el arte raster vertical de referencia (1706×3688).
-Por petición expresa de Jose (17.10), El Cristal Vivo añade emblema de cristal,
-`guardians-cinematic-v1.webp` y `worlds-cinematic-v1.webp` para acercar el interior
-a esa portada. Worker v17 precachea los nuevos recursos. Ver `VISUAL_STYLE.md`
-y `docs/ART_ASSETS.md` para contratos, fallbacks y prompts. El motor y toda la
-interfaz siguen en `index.html`; no hay framework ni dependencia nueva de runtime.
+El Cristal Vivo conserva el emblema, `guardians-cinematic-v1.webp` y
+`worlds-cinematic-v1.webp` como primera capa/fallback. El alcance aprobado **Mundo
+Vivo 18** añade ochenta criaturas de campaña, combatientes, arenas, Aldea y HEX
+con la misma materialidad de la portada. El catálogo del worker v18 incluye el lote,
+pero eso no confirma por sí solo QA completa ni publicación. Ver `VISUAL_STYLE.md`
+y `docs/ART_ASSETS.md` para geometría, fuentes originales, fallbacks y prompts.
+El motor y toda la interfaz siguen en `index.html`; no hay framework ni dependencia
+nueva de runtime.
 
 ---
 
@@ -91,6 +94,17 @@ Cada pantalla es una `<section class="screen" id="screen-NAME">`. `goTo(name)` a
 | `screen-daily` | (diario en world) | Desafío diario (integrado en world) |
 
 ### Dirección visual del mapa (septiembre 2026)
+- **Mundo Vivo 18 · 17.10:** la campaña ya no comparte ocho monstruos genéricos.
+  `monsters-t1-v18.webp` … `monsters-t8-v18.webp` son ocho atlas RGBA de
+  1600×640, 5×2: diez criaturas distintas por territorio, ochenta en total.
+  Nivel `n` usa índice `n-1`; el jefe usa la décima celda. `guardianSVG()` y el
+  atlas v1 permanecen como fallback mientras carga/falla el raster. Conservar
+  nombre y número legibles en ruta, partida, diálogo y resultado.
+- **Cobertura global v18:** las 22 pantallas reciben paisaje contextual mediante
+  CSS y paneles translúcidos: mundo/portada, Aldea, Guerra, Royale o reino HEX.
+  No convertir el fondo en interacción ni ocultarlo con superficies opacas.
+  Los nuevos recursos son presentación: no cambian premios, economía, acceso,
+  vidas, guardado, hitboxes o balance; tampoco justifican timers/RAF adicionales.
 - **Atlas cinematográfico · 16.10 (Figma → app):** la misión principal usa la
   composición móvil del archivo `WAa4LmTJ9Cd3ZhS3WIpL3E`, nodo `2:40`: recursos
   reales, título de territorio, paisaje protagonista, hito de continuación,
@@ -374,6 +388,12 @@ ventanas cálidas. `v-art-window`, `v-art-smoke` y `v-art-water` solo se animan 
 edificios construidos y visibles. Se reutiliza `atlasObservers` con clave
 `village-grid`; desconectar al rerenderizar, pausar con `.page-hidden` y movimiento reducido.
 
+**Mundo Vivo 18:** `village-cinematic-v18.webp` es el fondo vertical de la escena y
+`buildings-v18.webp` contiene las diez construcciones pintadas. El mismo nodo, camino,
+estado `built`/`unlocked-next`/`locked`, precio y handler siguen siendo la fuente de
+verdad; `villageBuildingSVG()` permanece como fallback. Nunca conceder una
+construcción por cargar o renderizar la imagen.
+
 `villageBuildingState(id)` comprueba todos los requisitos anteriores, no el número
 de edificios: conserva guardados importados con huecos sin saltarse el camino.
 Se usa también para proteger `buildStructure()` y su anuncio simulado opt-in.
@@ -573,17 +593,22 @@ logros, recuerdos ni anuncios de revivir. Los recuerdos siguen desbloqueándose 
 orden; no bloquear el juego libre para proteger una revelación. Ver guía visual.
 
 **Atlas y Ecos · 16.10:** `echoSceneSVG(id,key)` dibuja tres panoramas nativos
-independientes (`survival`, `moba`, `br`), sin dependencias ni nuevos raster. IDs
+independientes (`survival`, `moba`, `br`) que permanecen como fallback. IDs
 prefijados por contexto (`archive`, `live`, `result`, `reveal`, `league`). El Archivo
 tiene un único scroll vertical y botones nativos; desde el 17.10 todos los modos
 son jugables, aunque sus recuerdos sigan bloqueados. Confite es visible fuera
 del canvas durante el combate.
 
 `minigameArenaArt()` conserva un canvas estático por modo/tamaño/DPR; solo unidades
-y efectos se pintan en el RAF existente. `minigameCanvasContext()` limita DPR a 2;
+y efectos se pintan en el RAF existente. Mundo Vivo 18 usa
+`arena-war-v18.webp`/`arena-royale-v18.webp` dentro de ese canvas ya cacheado;
+`combatants-v18.webp` contiene cinco aliados y cinco enemigos de Guerra, y Royale
+usa a Dulce Roja más nueve celdas distintas de `monsters-t5-v18.webp`.
+`minigameCanvasContext()` limita DPR a 2;
 los punteros usan MOBA_W/H o BR_W/H, nunca el backing-store. Mantener el tamaño
 lógico al llamar `drawImage()`. No introducir colisiones para ruinas decorativas.
-`minigameMotionAllowed()` consulta movimiento reducido y visibilidad en vivo.
+`minigameMotionAllowed()` consulta movimiento reducido y visibilidad en vivo. No
+crear otro RAF para fondos o sprites.
 
 Supervivencia comparte `screen-game`: `goTo('survival')` debe despachar directamente
 a `startSurvival()` antes de buscar un elemento de pantalla. La clase `survival-mode`
@@ -634,17 +659,20 @@ máxima. Marcado con `// TODO integración real` como el resto de los ganchos de
   vida máxima** y una corona 👑 sobre su unidad — conecta el sistema de héroes con el
   minijuego en vez de vivir aislados. Se calcula en `startMoba()`, marcado como `isHero`.
 - `mobaEndGame(won)` → guarda `save.mobaWins`
-- `mobaRender()`: arena con gradiente dorado/caramelo + tinte de equipo (rosa aliados,
-  rojo enemigos) en vez del fondo plano de antes; unidades con `shadowBlur` del color de
-  equipo + sombra de piso + brillo especular, no círculos planos
+- `mobaRender()`: `arena-war-v18.webp` se pinta una vez en el canvas estático y
+  `combatants-v18.webp` recorta cinco aliados + cinco enemigos (5×2). Gradiente,
+  formas nativas, iconos y siluetas simples siguen siendo fallback. No cambiar
+  radios, vida, alcance o lógica de equipo para acomodar la ilustración.
 
 ### Battle Royale (canvas)
 - Variables globales con prefijo `br*`; `brRunning`, `brRAF` para el game loop
 - `BR_TOTAL = 10` (jugador + 9 bots), zona que se achica (`brZone.r`) y daña si quedás
   afuera
 - `brEndGame(won, othersAliveAtDeath)` → guarda `save.brWins` y `save.brBestPlacement`
-- `brRender()`: la zona ya no es un círculo rojo plano — el exterior es corrupción
-  púrpura con estática (`brStaticNoise`, precomputado una vez) en la paleta de HEX
+- `brRender()`: `arena-royale-v18.webp` se pinta en el canvas estático. Dulce Roja
+  reutiliza su celda de `combatants-v18.webp`; los nueve bots usan índices 0–8 de
+  `monsters-t5-v18.webp`, por lo que no se repite una sola silueta. La zona mantiene
+  el exterior de corrupción púrpura con estática (`brStaticNoise`, precomputado una vez) en la paleta de HEX
   CLASH, el interior de la zona segura tiene un resplandor dorado cálido, y el borde
   pulsa entre púrpura y cian (`Date.now()` en la animación, no depende de un frame
   counter propio)
@@ -768,6 +796,13 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 `cur`, `stripes`, `obstacles`, etc. — todo tiene prefijo `dg`). Se accede desde el botón
 "🕯️ HEX CLASH · Modo Oscuro" en `screen-title` o desde `screen-dgmenu`.
 
+**Mundo Vivo 18:** `hex-realm-v18.webp` ambienta las seis vistas HEX;
+`hex-enemies-a-v18.webp` y `hex-enemies-b-v18.webp` reúnen veinte adversarios
+distintos, y `candies-v18.webp` ocho piezas pintadas. `dgLandscapeSVG()`,
+`dgSymbolSVG()` y las piezas nativas son fallbacks. Estos atlas no cambian
+`dgBoard`, `dgSpecialArr`, `dgShadowArr`, XP, fragmentos, tienda, requisitos ni save.
+No iniciar loops nuevos para ellos; usar los renders y animaciones existentes.
+
 - **Pantallas:** `screen-dgmenu` (hub), `screen-dglevels` (20 niveles Historia),
   `screen-dgshop` (cargas de poder + skins), `screen-dggame` (tablero).
 - **Estado del nivel:** `dgCur` (análogo a `cur`). Tableros: `dgBoard` (color 0..5, o
@@ -793,10 +828,11 @@ Sistema nuevo, completamente separado del motor de Dulcelandia (no comparten `bo
 - **Audio:** reutiliza `actx`/`tone()`/`playBomb()`/`playCrystal()`/`playShuffle()` del
   motor original. Ambiente propio en `dgStartAmbient()`/`dgStopAmbient()` (drones +
   delay como pseudo-reverb).
-- **PWA v16:** HTML prioriza red evitando también caché HTTP, con fallback offline; imágenes usan caché y se
-  actualizan en segundo plano. Solo se eliminan cachés antiguas `sugarclash-*`.
-  No borrar localStorage para actualizar. Una instalación con el worker anterior
-  puede necesitar cerrar y abrir una vez más tras recibir la actualización.
+- **PWA v18:** HTML prioriza red evitando también caché HTTP, con fallback offline;
+  el catálogo enumera los recursos Mundo Vivo 18 y las imágenes usan caché. Solo se
+  eliminan cachés antiguas `sugarclash-*`. No borrar localStorage para actualizar.
+  Una instalación anterior puede necesitar cerrar y abrir tras recibir el worker.
+  Precache enumerado no equivale a publicación o QA de teléfono confirmadas.
 
 ---
 

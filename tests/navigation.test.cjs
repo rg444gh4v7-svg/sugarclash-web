@@ -26,7 +26,8 @@ function harness(lore={},practice=false){
     awardLeaguePoints:(amount,reason)=>{log.league.push({amount,reason});return amount;},
     checkAchievements:()=>log.achievements++,showMinigameLoreReveal:id=>log.reveals.push(id),
     setTimeout:(callback,ms)=>{log.timers.push({callback,ms});return log.timers.length;},
-    echoSceneSVG:(id,key)=>`<svg data-mode="${id}" data-context="${key}"></svg>`,celebrateMilestone:()=>log.celebrations++,
+    echoSceneSVG:(id,key)=>`<svg data-mode="${id}" data-context="${key}"></svg>`,
+    modeScene:(id,key)=>`<span data-mode="${id}" data-context="${key}"></span>`,celebrateMilestone:()=>log.celebrations++,
     mgConfiteSay:(prefix,text,mood)=>log.confite.push({prefix,text,mood}),spawnConfetti(){},cancelAnimationFrame(){},
     mobaRunning:true,mobaRAF:1,mobaRevived:true,mobaHeroes:Array.from({length:5},()=>({team:'enemy',alive:false})),
     brRunning:true,brRAF:1,brRevived:true,BR_TOTAL:10});
