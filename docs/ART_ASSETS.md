@@ -1,8 +1,8 @@
 # Arte integrado · El Cristal Vivo · Mundo Vivo 18
 
 17 de octubre de 2026. Método: generador de imágenes integrado de Codex/ChatGPT
-(`image_gen`, built-in); no plugin externo, CLI/API de pago ni cambio manual de
-modelo. Referencia aprobada por Jose: `title-world-v3-hd.jpg` y su captura de
+(`image_gen`, built-in); sin plugin externo ni clave API adicional. Las imágenes
+usan la generación integrada de la cuenta. Referencia aprobada por Jose: `title-world-v3-hd.jpg` y su captura de
 portada. Producción carga únicamente archivos empaquetados en el repositorio.
 
 ## Contrato del lote Mundo Vivo 18
