@@ -102,3 +102,49 @@ La comparación de vidas llevó a corregir una fricción concreta: antes se cons
 Las fuentes conservan sus licencias OFL en [Fraunces](FONT_LICENSE_FRAUNCES.txt) y [Karla](FONT_LICENSE_KARLA.txt). Empaquetarlas elimina la petición remota de tipografía; por sí solo no certifica todos los requisitos del portal.
 
 Antes de una publicación comercial quedan las sesiones observadas y mediciones propuestas, la prueba en teléfono físico, la decisión e integración del SDK del portal y su proceso de aceptación. No se ha publicado esta iteración como consecuencia de este estudio y no se estiman ingresos. Ninguna fila de la comparación asigna posiciones de mercado ni afirma que Renacer supere a los competidores.
+
+## Primera propuesta casual · 21 de octubre · Iteración visual superada
+
+Jose rechazó que la reconstrucción siguiera pareciendo el mismo juego de cristal y morado. Pidió más originalidad, acabado de juego casual comercial y un logo de Sugar Clash que tenga personalidad. La primera respuesta intentó un valle de confitería claro, formas redondeadas con volumen y una entrada compacta. **La decisión posterior de Jose conserva el contraste entre oscuridad/descolorido y color recuperado; se recoge al final y prevalece sobre esta propuesta clara.** Logo nuevo, estructura de entrada, restauración, Confite y memoria permanecen.
+
+«Casual americano» se utiliza aquí como referencia de acabado y acceso solicitada por Jose, no como una afirmación sobre nacionalidades, edades o géneros. El estudio no prueba que una paleta produzca éxito comercial. Este cambio es una decisión creativa y una hipótesis de producto que debe validarse.
+
+### Tres referencias actuales y qué aportan
+
+Fuentes primarias consultadas el 21 de octubre de 2026. Se revisaron sus descripciones y artículos oficiales; no se hizo una prueba cronometrada jugando a las tres aplicaciones.
+
+| Referencia | Hecho comprobado | Interpretación aplicable |
+|---|---|---|
+| **Royal Match · Dream Games** | Su descripción de arte enfatiza formas curvas y suaves, mundo alegre y objetos ligados al castillo. [Diseño oficial](https://www.dreamgames.com/games/royal-match). | Un vocabulario coherente de formas debe unir escenario, fichas y controles. Sugar Clash puede lograrlo con azúcar, galleta, fruta y glaseado propios. |
+| **Toon Blast · Peak** | Tocar grupos del mismo color crea especiales y permite combinarlos; el grupo indica previamente qué especial se obtendrá. [Cómo jugar](https://peakgames.helpshift.com/hc/en/4-toon-blast/faq/5-how-to-play/?p=android), [especiales](https://peakgames.helpshift.com/hc/en/4-toon-blast/faq/7-what-are-the-special-items/?p=android). | Hacer legible una recompensa antes de actuar permite planificar. Se recomienda mostrar el poder que producirá una combinación seleccionada, conservando las reglas de intercambio de Sugar Clash. |
+| **Match Factory! · Peak/Zynga** | Es un puzzle de seleccionar objetos idénticos en 3D, con niveles temporizados y ayudas; su ficha menciona frutas, caramelos y pasteles. [Ficha de Zynga](https://www.zynga.com/games/match-factory/). | Los objetos reconocibles pueden aportar tactilidad y variedad de siluetas. La referencia no justifica transformar Sugar Clash en un puzzle 3D ni imponer reloj a la campaña. |
+
+### Cinco decisiones concretas para arte, interfaz y respuesta
+
+| Decisión | Aplicación propuesta | Comprobación |
+|---|---|---|
+| **1 · Un lugar al que apetezca entrar** | Cielo claro, verdes de pistacho, crema, coral y cacao; paisaje con planos grandes, arquitectura de confitería y luz cálida. La sombra sirve a la profundidad. Mostrar la transformación real de una zona mediante detalles del entorno. | Comparar portada, partida y aldea a tamaño móvil: deben pertenecer al mismo mundo y diferenciarse claramente de la versión violeta anterior. |
+| **2 · Un logo reconocible** | Dibujar un wordmark original **Sugar Clash** de letras anchas, compactas y expresivas, crema/coral y contorno petróleo. Trabajar una silueta legible y un gesto de lettering propio, con acabado contenido. | Leer el nombre a 160 px de ancho y comprobar una versión de un solo color. La forma debe seguir reconocible sin paisaje, brillos ni un cristal detrás. |
+| **3 · Una portada de juego** | Logo, Confite, progreso real y un botón Jugar/Continuar grande dentro de la escena. Guerra y Royale permanecen visibles. Reducir el titular editorial y la distancia hasta la primera acción. | A 320×640 y 390×844 se ven Jugar, Guerra y Royale sin desplazarse. Conservar un toque hasta la siguiente partida. |
+| **4 · Fichas que enseñan a jugar** | Volumen y sombras breves, colores separados y siluetas distintas; una señal consistente para rayo, bomba y especial. Probar una vista previa del poder posible al elegir una combinación válida. | Identificar piezas y especiales con efectos desactivados, sin depender solo del color. Verificar que la vista previa coincide con el poder real del motor. |
+| **5 · Cada jugada tiene peso** | Compresión breve al seleccionar, intercambio claro, estallido corto, caída legible y sonido asociado al poder. Reservar la celebración grande para una combinación o victoria real; el escenario y la siguiente construcción muestran la consecuencia. | Medir tiempo desde gesto hasta respuesta y observar si se distingue selección, rechazo y éxito. Mantener los controles disponibles al terminar y respetar movimiento reducido. |
+
+Las decisiones sobre logo, paleta, tiempos y composición son recomendaciones originales, no funciones atribuidas a los competidores. Su implementación corresponde a la iteración visual; este apartado no certifica que ya estén todas terminadas.
+
+### Diferenciación que se pone a prueba
+
+La propuesta es **«una aventura de confitería que reparas con tus jugadas, acompañado por Confite»**. El Pulso que el jugador decide cuándo usar puede dar una decisión propia al tablero. La aldea da propósito a la miel y el cambio del paisaje hace visible la reparación. Guerra y Royale ofrecen variación accesible; la campaña mantiene el centro emocional.
+
+Se toman como referencia claridad, volumen y respuesta; no se copian personajes, escenarios, logos ni composiciones de terceros. La nueva marca debe reconocerse por su nombre y sus formas, no por parecer una versión de Royal Match o Toon Blast.
+
+Prueba propuesta: enseñar durante cinco segundos una captura nueva y otra anterior, en orden alternado entre participantes. Después pedir que identifiquen el nombre, la acción principal y de qué trata el juego. Registrar respuestas literales y preferencia con su motivo. En una sesión jugable, observar si entienden un especial y el Pulso sin explicación externa y si comienzan voluntariamente el siguiente nivel. Es una prueba cualitativa; no permite afirmar adicción, retención ni éxito comercial. La solicitud de un juego más atractivo se traduce en claridad, respuesta y ganas de seguir observadas, no en una promesa de adicción.
+
+## Última corrección de Jose · Conservar oscuridad, descolorido y color recuperado
+
+Después del primer logo excesivamente azucarado, Jose precisó **«tampoco tan infantil»**. Más tarde corrigió la propuesta clara: **«se está saliendo de la línea de lo que es descolorado, lo que era dark y lo que era color. Mantente en esa línea»**. Esta decisión es la vigente. Mantiene el logo nuevo y la estructura de entrada; recupera la oscuridad como estado del mundo y el color como consecuencia de restaurarlo.
+
+El acabado es casual cuidado para público amplio. La base coordinada es carbón/petróleo, texto hueso y acentos contenidos de coral, oro y teal. La escena se desatura según progreso real y recupera color al avanzar; texto, controles y piezas conservan legibilidad. El wordmark integrado **SUGAR CLASH** tiene lettering propio crema/coral con contorno petróleo, sin mascota incorporada; su emblema compacto es una S. Recursos, colores y reglas de restauración se centralizan en [VISUAL_STYLE.md](../VISUAL_STYLE.md).
+
+Las referencias Royal Match, Toon Blast y Match Factory sirven para estudiar claridad, respuesta y propósito de las acciones. No justifican copiar su estilo, perder la identidad de Dulcelandia ni equiparar «americano» con infantil o con una etnia. La marca y la relación descolorido/color son decisiones originales que aún necesitan prueba con jugadores.
+
+La validación visual debe mostrar los estados sin restaurar, intermedio y completo, con el mismo guardado y encuadre: comprobar que se entiende qué cambió y por qué. Probar después que se sigue leyendo el objetivo y encontrando Jugar en el estado oscuro. La QA final del nuevo tema y arte sigue pendiente; no se afirma mejora de retención, aceptación comercial ni ingresos por cambiar su apariencia.

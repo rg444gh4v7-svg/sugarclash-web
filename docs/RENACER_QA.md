@@ -4,9 +4,13 @@ Versión local del 21 de octubre de 2026. No es una publicación en Vercel/Poki/
 
 ## Motor
 
-`node --test tests/*.test.cjs`: **60 pruebas aprobadas**. Cubren reglas de tablero, poderes/gravedad/cadenas, guardado y migración, vidas reservadas/devueltas, puertas y jefes, reto diario, cancelación de sesiones, combate, controles, pausa y caché offline. JavaScript de `index.html` y `service-worker.js` compila: **SYNTAX OK**. `git diff --check` pasa.
+`node --test tests/*.test.cjs`: **69 pruebas aprobadas**. Cubren reglas de tablero, poderes/gravedad/cadenas, guardado y migración, vidas reservadas/devueltas, puertas y jefes, reto diario, cancelación de sesiones, combate, controles, pausa y caché offline. JavaScript de `index.html` y `service-worker.js` compila: **SYNTAX OK**. `git diff --check` pasa.
 
 El recorrido real usa una semilla reproducible y decisiones legales sobre el motor actual: **80/80 niveles, 108 intentos, 28 derrotas, 24 esperas simuladas y cero jugadas rechazadas**. No se fuerzan victorias ni se compran ayudas. El bot utiliza el Pulso manual; el reloj avanza al agotarse vidas. [Método y resultados](RENACER_PLAYTHROUGH.md).
+
+## Revisión visual vigente
+
+El cierre oscuro/descolorido y color recuperado está en [DARK_COLOR_QA.md](DARK_COLOR_QA.md), con logo/paisaje nuevos,69 pruebas, partida ganada real, capturas320/390/desktop y recarga offline. Las capturas siguientes conservan el historial de la primera reconstrucción.
 
 ## Navegador
 

@@ -18,7 +18,7 @@ El Confitero Oscuro conserva su lugar en el universo: comprende heridas reales y
 - Decisiones pequeñas con consecuencias visibles: combinaciones, poderes que se guardan, Pulso que se activa y paisajes que recuperan color.
 - Confite acompaña y anima; la derrota no humilla.
 - Dificultad real y justa. Ganar permite continuar; la escasez no debe castigar una victoria.
-- Un mundo ilustrado con identidad propia, materiales minerales, luz cálida y niebla violeta.
+- Un mundo ilustrado con identidad propia: lo oscuro y descolorido contrasta con el color que se recupera al jugar. Tono casual cuidado para público amplio, sin infantilizarlo. La dirección vigente se mantiene en [VISUAL_STYLE.md](VISUAL_STYLE.md).
 - Los anuncios siempre serían voluntarios. No hay intersticiales forzados, cobros reales ni botones de anuncios que prometan premios inexistentes.
 - El canal previsto es la web y sus portales; no se promete monetización, tráfico, multijugador ni resultados comerciales sin comprobarlos.
 - Ofrecer espacio para descansar: modos gratuitos, juego sin reloj y reto diario sin penalizar una racha.

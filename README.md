@@ -15,7 +15,7 @@ node scripts/renacer-playthrough.cjs
 Abrir <http://127.0.0.1:4177/>. La nueva versión se encuentra en el proyecto local; este trabajo no publica cambios en Vercel ni en un portal.
 
 - Campaña: ocho territorios, diez guardianes por territorio; luz, recolección e hielo.
-- Poderes persistentes: rayos, bombas y cristales; cadenas, gravedad y combinaciones de poderes.
+- Poderes persistentes: rayos, bombas y estrellas; cadenas, gravedad y combinaciones de poderes.
 - Pulso manual de Confite: duplica la luz de la siguiente jugada.
 - Diez construcciones con mejoras permanentes y recompensas ganadas.
 - Guerra 5v5 y Royale contra IA local, accesibles desde el inicio.
@@ -30,5 +30,11 @@ Abrir <http://127.0.0.1:4177/>. La nueva versión se encuentra en el proyecto lo
 Renacer utiliza `sugarclash_renacer_v1`. Si aún no existe, lee el progreso compatible de `sugarclash_save_v1` sin escribir ni borrar esa clave. Las estrellas y construcciones se conservan; los sistemas retirados permanecen en el guardado antiguo. La edición anterior está en [legacy/index.html](legacy/index.html), con sus pruebas e instrucciones archivadas. Su enlace permite volver a abrirla con sus propios datos.
 
 El [recorrido reproducible](docs/RENACER_PLAYTHROUGH.md) registra victorias y derrotas del motor real: no certifica dificultad humana, retención, aceptación del portal ni pruebas en un teléfono físico. Las pruebas de esta edición están en `tests/`; las antiguas, en `legacy/tests/`, documentan otro motor y se conservan como referencia.
+
+## Entrega final comprobada
+
+Dirección cerrada: mundo oscuro/descolorido y color que regresa con el progreso; logo sobrio.69 pruebas aprobadas y campaña real de80/80 completada con guardado aislado (108 intentos,28 derrotas,0 jugadas rechazadas). Navegador móvil/escritorio y offline revisados. [Informe y evidencia final](docs/DARK_COLOR_QA.md).
+
+La pestaña principal de4177 se actualizó a esta versión conservando los recursos visibles. Los avances de QA se hicieron en un origen separado; no son progreso del jugador.
 
 La URL histórica de producción es https://sugarclash-web.vercel.app/; no debe confundirse con la vista local nueva.

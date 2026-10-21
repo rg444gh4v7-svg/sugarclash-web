@@ -1,64 +1,84 @@
 # Sugar Clash — guía visual compartida
 
-## Dirección vigente: Renacer · El Cristal Vivo
+## Dirección vigente · 21 de octubre de 2026
 
-Jose pidió reconstruir el juego desde cero conservando concepto y filosofía, y después estudiar el mercado y mejorarlo. Esta decisión sustituye la antigua restricción de no reiniciar el diseño. La continuidad emocional y artística permanece. Referencia conceptual: [CONCEPT.md](CONCEPT.md). La guía histórica de Atlas y Ecos se conserva en [legacy/VISUAL_STYLE.md](legacy/VISUAL_STYLE.md).
+**Descolorido y oscuro frente al color recuperado; casual para público amplio, «tampoco tan infantil».** Jose corrigió la propuesta clara: «se está saliendo de la línea de lo que es descolorado, lo que era dark y lo que era color. Mantente en esa línea». Esta es la última decisión creativa y prevalece sobre el tema marfil y sobre la presentación histórica de cristal/morado genérico.
 
-### Identidad
+Jose confirmó después la base casi monocroma, el regreso progresivo del color y el logo «sobrio». Conservar el logo nuevo, la estructura nueva de entrada al juego y el tono cuidado. La base es carbón y petróleo, con color localizado y una restauración perceptible del paisaje. La referencia conceptual sigue siendo [CONCEPT.md](CONCEPT.md). Esta es la única guía visual vigente para Claude y Codex; [VISUAL_REBOOT.md](docs/VISUAL_REBOOT.md) registra la iteración clara superada y [legacy/VISUAL_STYLE.md](legacy/VISUAL_STYLE.md) conserva el contexto de Atlas y Ecos.
 
-Fantasía de confitería melancólica: restauración, memoria, cristal fracturado y un hogar que vuelve a encenderse. Confite mantiene el SVG y los cinco estados expresivos originales. Dulce Roja sigue siendo sanadora; los ochenta guardianes recuperan su luz. La revelación de Confite se reserva al final de T8.
+### Identidad y tono
 
-Paisajes cinematográficos locales, niebla violeta mineral, rosa cálido, oro contenido y luz cyan. No reiniciar el arte como tarjetas con emojis, neón generalizado o mascotas sustitutas. La portada `title-world-v3-hd.jpg` sigue siendo la referencia de materiales. Los atlas existentes se reutilizan con su geometría real, documentada en [ART_ASSETS.md](docs/ART_ASSETS.md).
+Dulcelandia es un reino de confitería que perdió su color. Dulce Roja y Confite restauran guardianes, caminos y un hogar. La escena oscura o descolorida muestra lo perdido; el color que vuelve es una consecuencia de jugar. El misterio, la memoria y la revelación final de Confite conservan su lugar en la historia.
 
-### Composición nueva
+Un acabado casual cuidado significa formas legibles, ilustración con intención, respuesta clara y una siguiente acción comprensible. El tono es expresivo sin lenguaje de bebé ni apariencia general de juguete. Confite mantiene su SVG y emociones como compañero pequeño dentro del juego; el logo se sostiene por sus letras. No incorporar mascotas, letras de burbuja o glaseado inflado a la marca.
 
-- Desktop: navegación lateral discreta, cabecera de recursos y paisaje protagonista con texto editorial. Móvil: cabecera compacta y navegación inferior; campaña, Guerra y Royale accesibles desde portada.
-- Una acción principal clara. Prólogo opcional. Tutorial contextual con combinación de cuatro preparada, sin bloquear el tablero.
-- Partida: guardián/nombre, objetivo legible, luz/niebla, movimientos, tablero y Pulso manual de Confite. El escenario recupera saturación con progreso real; la miniatura de Confite permanece también en móvil.
-- Atlas: panorama del territorio, progreso real y ruta de diez criaturas con próximo/completado/bloqueado distinguibles. Ningún render cambia estrellas.
-- Aldea: escena vertical, camino y diez edificios. Selección inspecciona; panel explica efecto/precio y acción explícita. Resultados conectan miel ganada con la próxima construcción.
-- Diario: mismo tablero por fecha local, acceso gratuito y sin rachas castigadas. Guerra/Royale contra IA se identifican claramente como locales.
-- Modales de vidrio oscuro, bordes finos y tipografía legible. Cerrar uno de recursos mantiene la arena pausada hasta que el jugador continúe.
+El cristal y la niebla pertenecen al lore. No teñir cada pantalla de violeta ni añadir minerales, neón y brillos para comunicar oscuridad. Carbón, petróleo y pizarra sostienen la interfaz; coral, oro y teal destacan acciones y acontecimientos concretos. Las referencias de mercado enseñan claridad y respuesta: no son una instrucción para copiar el estilo de Royal Match o Toon Blast. «Casual americano» no describe edad, etnia o nacionalidad del público.
 
-### Base visual
+### Recursos y geometría
+
+| Recurso | Uso vigente y geometría |
+|---|---|
+| `assets/renacer-restoration-v3.webp` | Paisaje original de **1536×1024**: puente de confitería, reino descolorido, río teal y flores coral. Fuente vigente de la escena; su saturación muestra restauración real. `renacer-meadow-v2.webp` queda descartado. No determina colisiones. |
+| `assets/sugar-clash-logo-v2.webp` | Wordmark **SUGAR CLASH**, transparente, **1100×653**. Lettering ancho crema/coral, contorno petróleo y detalle dorado; sin mascota incorporada. Conservar proporción y aire alrededor con `object-fit:contain`. |
+| `assets/icon-sugar-v2.svg` | Emblema **S**, lienzo **256×256**, petróleo/crema/coral; marca compacta y favicon. |
+| `assets/icon-sugar-v2-192.png`, `-512.png`, `-180.png` | Variantes de **192×192**, **512×512** y **180×180** para manifest y Apple touch icon. Mantener coherencia con el SVG. |
+| `assets/candies-toon-v2.webp` | Atlas RGBA **1280×640**, **4×2**, celdas **320×320**. Orden lógico: rosa, verde, azul, dorado, violeta, coral, especial y chocolate. Mantener colores/siluetas distinguibles y la correspondencia del motor. |
+| `monsters-t1-v18.webp` … `monsters-t8-v18.webp` | Ochenta guardianes, atlas **5×2**, celdas **320×320**. Nivel `n` usa `n-1`; jefe usa la celda 9. Nombre y número permanecen legibles. |
+| `combatants-v18.webp`, `buildings-v18.webp` | Atlas **5×2** de combatientes y diez edificios, con su orden existente. La pintura y los marcos no cambian hitboxes, estados o premios. |
+
+El paisaje y el atlas nuevos conviven con los retratos y edificios existentes. [ART_ASSETS.md](docs/ART_ASSETS.md) documenta los recursos históricos; conservarlos para compatibilidad y fallbacks. No presentar una reutilización de paisaje como ocho ilustraciones nuevas ni la inclusión en caché como QA completa.
+
+### Color y tipografía
+
+Paleta coordinada para la capa final dark/color:
 
 | Uso | Valor |
 |---|---|
-| Fondo | `#120e1b` |
-| Superficie | `#221b2d` |
-| Texto | `#f6eddf` |
-| Acento | `#e8c795` |
-| Secundario | `#b4a8bc` |
-| Rosa / cyan | `#ed94af` / `#9ce2df` |
-| Títulos | Fraunces400–600 |
-| Controles/datos | Karla400–800 |
+| Fondo carbón | `#141820` |
+| Superficie | `#20262e` |
+| Superficie elevada | `#29323c` |
+| Texto hueso | `#eee7db` |
+| Texto secundario | `#adb5b5` |
+| Borde | `#414b56` |
+| Acción principal coral | `#cf9279`, texto carbón |
+| Acento oro | `#c8ab7d` |
+| Acento teal | `#7ba9a6` |
+| Títulos, controles y datos | Karla; peso 700 habitual y variantes legibles según función |
 
-Las fuentes están incrustadas como WOFF2 con licencias OFL en `docs/FONT_LICENSE_*.txt`; no se solicitan a Google en runtime. Todo el motor y CSS permanecen en `index.html`.
+La pizarra del tablero deja que sus piezas conserven color. Acentos localizados, radios de 12–16 px, superficies mates y sombras de contacto. Evitar resplandor generalizado, sobrecarga de cápsulas y bordes de juguete. Un foco principal por vista.
 
-### Geometría de arte
+Karla y Fraunces están incrustadas como WOFF2; la interfaz vigente usa Karla también en títulos. Licencias OFL: [Karla](docs/FONT_LICENSE_KARLA.txt) y [Fraunces](docs/FONT_LICENSE_FRAUNCES.txt). No solicitar fuentes a Google en runtime. Todo el motor, HTML y CSS sigue en `index.html`, sin framework ni dependencias nuevas de runtime.
 
-- `worlds-cinematic-v1.webp`:2×4, panorama888×222. Conservar proporción4:1 y recortar al encuadrar.
-- `monsters-t1-v18.webp`…`t8`:5×2, celda320×320. Nivel`n` usa`n-1`; jefe usa9.
-- `combatants-v18.webp`, `buildings-v18.webp`:5×2. Cinco aliados/cinco rivales; diez edificios en orden.
-- `candies-v18.webp`:4×2. Rosa, verde, azul, dorado, violeta, coral, cristal y bloque. Mantener formas/colores distinguibles.
-- Arena/Aldea/HEX: escenas verticales locales. El arte no define colisiones ni concede premios.
+### Restauración y progreso real
 
-### Movimiento y comprobaciones
+La escena recibe un estado `--restored` entre **0 y 1**, derivado del progreso real: sin restaurar, descolorida; al avanzar, recupera color. Aislar `saturate(var(--restored,0))` y el tratamiento de luz en la capa ilustrada. No filtrar textos, recursos, botones, foco accesible ni piezas del tablero. El jugador debe poder leer y actuar desde el estado inicial.
 
-Intercambios, caídas, cadenas y respuesta del guardián acompañan acciones reales. No hay animaciones ambientales perpetuas. Respetar movimiento reducido, visibilidad y limpieza de sesiones. Canvas DPR≤2 y coordenadas lógicas independientes del tamaño CSS.
+En portada y atlas, usar victorias demostradas del capítulo; en partida, el objetivo real de la sesión. Revisar los estados inicial, intermedio y completo. La transición acompaña una diferencia real, no una animación que finge progreso al abrir la página. No escribir guardado ni conceder color permanente desde un render. Un paisaje recuperado puede seguir rodeado de interfaz oscura.
 
-Comprobar320×640 y390×844: sin scroll horizontal, tablero completo y controles alcanzables. No confundir navegador emulado con iPhone físico. Cada edición exige`SYNTAX OK`, pruebas y revisión visual pertinente; cambios de reglas añaden recorrido real. Los informes comerciales siguen siendo hipótesis hasta probar con jugadores. Esta reconstrucción se entrega local; publicar exige comprobar por separado el destino y la versión servida.
+### Composición de pantallas
 
-## Pase del agente visual · 21 de octubre
+- **Portada de juego:** logo, contexto breve del capítulo, escena, siguiente nivel, Jugar/Continuar, progreso real y accesos directos a modos. `.play-home`, `.play-world`, `.play-level`, `.play-progress` y `.play-modes` son la estructura nueva. No volver al titular editorial dominante de una landing. En móvil, comprobar que Jugar, Guerra y Royale sean alcanzables al entrar.
+- **Fuente de acceso:** `campaignNext()` elige territorio/nivel y `continueCampaign()` entra por `requestLevel()`. Mostrar guardianes, recursos y marcas reales. La campaña reserva una vida al entrar y la devuelve una sola vez al ganar; perder o abandonar la consume. No alterar esa regla para una composición.
+- **Partida:** guardián/nombre, objetivo y cantidad restante, movimientos, tablero y Pulso manual de Confite. Tutorial contextual con combinación de cuatro preparada, sin modal obligatorio. El paisaje acompaña la restauración; las piezas y poderes son el foco visual.
+- **Atlas:** capítulo, paisaje, progreso y ruta de diez guardianes. Próximo/completado/bloqueado distinguibles; los estados bloqueados conservan nombres y requisitos legibles. Ningún render cambia estrellas.
+- **Aldea:** escena y camino de diez edificios interactivos sobre fondo secundario. Seleccionar inspecciona; beneficio, precio y construcción explícita viven en el panel. El resultado conecta miel ganada con la próxima construcción sin obligar a visitarla.
+- **Modos:** Guerra y Royale son locales contra IA. Diario mantiene tablero por fecha local, acceso gratuito y premio limitado a una reclamación. Supervivencia y Zen explican su ritmo. Nombres de juego antes que lore.
+- **Recursos y modales:** cabecera compacta y navegación clara; superficies carbón/petróleo con texto hueso. Cerrar un modal de recursos conserva la arena pausada hasta continuar. Recursos, costes y controles deben seguir legibles en las tres fases de restauración.
 
-Integrado en el CSS inline: veladura localizada detrás de la etiqueta de portada, contraste de descripciones/capítulo, rótulos bloqueados legibles, bordes minerales compartidos, separación de criaturas/edificios y señales de poderes. Sin cambios de motor ni movimiento nuevo. Detalle y trazabilidad en [VISUAL_REVIEW_RENACER.md](docs/VISUAL_REVIEW_RENACER.md).
+La capa visual no cambia balance, guardados, costes, requisitos, premios ni acceso a modos. Los anuncios seguirían siendo voluntarios; no hay SDK publicitario ni pagos reales conectados. No prometer multijugador online.
 
-## Corrección de Jose · 21 de octubre: calma y jerarquía
+### Respuesta y movimiento
 
-«Sobrecargadísima visualmente». Esta corrección prevalece sobre el pase anterior. Conservar el mundo ilustrado no significa poner todo el arte y todos los acentos a máxima intensidad.
+Selección, intercambio, rechazo, creación de poder, impacto, caída y victoria reciben respuestas breves y claras. El bloque `FEEDBACK_START` concentra la capa cosmética: `feedbackHit()`, `feedbackCombo()` y `feedbackVictory()` acompañan resultados reales. `feedbackCancel()` limpia temporizadores, clases, partículas y voces al cambiar de sesión/pantalla u ocultar la página.
 
-- Un foco por vista: acción principal en portada, próximo guardián en ruta, piezas en partida y combatientes en arena. Recursos sin cápsulas decorativas; superficies mates, sin resplandores generalizados.
-- Portada móvil: ilustración en la parte superior, texto sobre fondo tranquilo. Guerra/Royale siguen directos, pero no se repiten debajo como tarjetas. Sin insignia, segundo eslogan ni pie ornamental.
-- Aldea: fondo reducido a una huella ambiental; los diez edificios interactivos son los protagonistas. Nunca superponerlos sobre otro conjunto de edificios igualmente contrastado.
-- Tablero: escenario secundario y marco sobrio. No desaturar caramelos ni quitar señales de poderes, impactos, objetivo, movimiento o foco accesible. Arena: imagen ambiental al32%, sin cambiar colisiones ni reglas.
-- No añadir más imágenes, brillos ni animación ambiental para resolver densidad. Este pase no modifica progreso, economía ni acceso a modos.
+La celebración de victoria ocurre después de validar y guardar una victoria ganada. No celebrar por renderizar, visitar una pantalla o importar un guardado. Partículas finitas y acotadas, sin consumir RNG del motor ni modificar premios o campos persistentes. No añadir animación ambiental perpetua ni efectos que tapen piezas o retrasen la siguiente acción.
+
+Respetar `prefers-reduced-motion`, visibilidad, pausa y silencio. La alternativa reducida conserva información con una señal quieta y legible. Canvas DPR máximo 2 y coordenadas lógicas independientes del tamaño CSS.
+
+### Verificación y alcance
+
+La versión integrada pasó69 pruebas, revisión de navegador a320×640,390×844 y escritorio, y recarga offline con el servidor de QA apagado. La evidencia y el alcance están en [DARK_COLOR_QA.md](docs/DARK_COLOR_QA.md). Mantener estas comprobaciones en futuras ediciones: logo sin deformación, acciones alcanzables, navegación sin colisión, textos/requisitos legibles, tablero completo y sin scroll horizontal. Revisar transparencia del logo, cada celda del atlas e iconos. Distinguir navegador emulado de teléfono físico.
+
+Validar especialmente restauración a 0, intermedia y 1 sin teñir la interfaz ni desaturar fichas. Cada edición de código exige `SYNTAX OK`, pruebas pertinentes y revisión visual; las reglas requieren recorrido real del motor. Verificar manifest, versión de caché, carga y offline. Un catálogo o un push no prueban versión servida ni despliegue.
+
+Las comparaciones y decisiones de producto están en [MARKET_STUDY_RENACER.md](docs/MARKET_STUDY_RENACER.md). Los recorridos automatizados comprueban reglas y acceso; no miden diversión, retención ni éxito comercial.
