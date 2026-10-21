@@ -12,7 +12,7 @@ node --test tests/*.test.cjs
 node scripts/renacer-playthrough.cjs
 ```
 
-Abrir <http://127.0.0.1:4177/>. La nueva versión se encuentra en el proyecto local; este trabajo no publica cambios en Vercel ni en un portal.
+Jugar en producción: <https://sugarclash-web.vercel.app/>. Para desarrollo local, abrir <http://127.0.0.1:4177/>. [Publicación y verificación](docs/DEPLOYMENT_RENACER.md).
 
 - Campaña: ocho territorios, diez guardianes por territorio; luz, recolección e hielo.
 - Poderes persistentes: rayos, bombas y estrellas; cadenas, gravedad y combinaciones de poderes.
@@ -37,4 +37,4 @@ Dirección cerrada: mundo oscuro/descolorido y color que regresa con el progreso
 
 La pestaña principal de4177 se actualizó a esta versión conservando los recursos visibles. Los avances de QA se hicieron en un origen separado; no son progreso del jugador.
 
-La URL histórica de producción es https://sugarclash-web.vercel.app/; no debe confundirse con la vista local nueva.
+La versión final se publicó en https://sugarclash-web.vercel.app/ por autorización de Jose. El contenido servido coincide con el commit36aba63; despliegue y hashes están en el informe de publicación.

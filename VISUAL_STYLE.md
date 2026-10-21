@@ -82,3 +82,7 @@ La versión integrada pasó69 pruebas, revisión de navegador a320×640,390×844
 Validar especialmente restauración a 0, intermedia y 1 sin teñir la interfaz ni desaturar fichas. Cada edición de código exige `SYNTAX OK`, pruebas pertinentes y revisión visual; las reglas requieren recorrido real del motor. Verificar manifest, versión de caché, carga y offline. Un catálogo o un push no prueban versión servida ni despliegue.
 
 Las comparaciones y decisiones de producto están en [MARKET_STUDY_RENACER.md](docs/MARKET_STUDY_RENACER.md). Los recorridos automatizados comprueban reglas y acceso; no miden diversión, retención ni éxito comercial.
+
+### Publicación verificada
+
+Jose autorizó «Publica». La versión final36aba63 está publicada en https://sugarclash-web.vercel.app/, con despliegueREADY y archivos servidos comprobados byte por byte. [Destino, versión y evidencia](docs/DEPLOYMENT_RENACER.md). Mantener el contraste dark/descolorido frente al color recuperado y el logo sobrio en futuras ediciones.

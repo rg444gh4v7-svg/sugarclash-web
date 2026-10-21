@@ -1,6 +1,6 @@
 # Renacer · cierre visual oscuro/color
 
-21 de octubre de 2026. Versión local. Dirección confirmada por Jose: mundo casi monocromo, color que regresa con el progreso y logo sobrio. No se publicó ningún despliegue.
+21 de octubre de2026. Validación de la versión local antes de publicar. Dirección confirmada por Jose: mundo casi monocromo, color que regresa con el progreso y logo sobrio. La publicación posterior autorizada está documentada en [DEPLOYMENT_RENACER.md](DEPLOYMENT_RENACER.md).
 
 ## Cambios revisados
 
@@ -44,4 +44,4 @@ Las capturas anteriores de `RENACER_QA.md` se conservan como historial visual. L
 
 Se revisó la pestaña principal `http://127.0.0.1:4177/`: todavía contenía el runtime anterior. Estaba en Inicio y se recargó, sin iniciar partidas ni importar/borrar progreso. La portada nueva, el logo y la escena descolorida quedaron visibles. Antes y después se observaron los mismos5/5 vidas,10 miel y25 gemas, y0/80 guardianes. [Captura de la pestaña final](qa/renacer-final-main.jpg). La pestaña separada de QA se cerró y quedó una única pestaña de juego para la entrega.
 
-Dos auditorías finales independientes, de jugabilidad y de recursos, no detectaron bloqueos. Se conservaron el estudio de mercado, las fuentes, los prompts y los informes. No quedan acciones necesarias para esta entrega local; publicar corresponde a una solicitud posterior.
+Dos auditorías finales independientes, de jugabilidad y de recursos, no detectaron bloqueos. Se conservaron el estudio de mercado, las fuentes, los prompts y los informes. La entrega local quedó cerrada; después Jose autorizó publicar. El resultado y su verificación se conservan en el informe de publicación.
