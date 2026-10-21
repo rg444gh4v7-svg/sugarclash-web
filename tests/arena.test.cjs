@@ -184,6 +184,30 @@ test('arena shortcuts leave a generic modal and its keyboard controls untouched'
   assert.equal(h.value('arenaState.keys.has("w")'), true, 'arena input resumes after the dialog is gone');
 });
 
+test('Space on focused Impulso and pause controls keeps their native button activation', () => {
+  const h = createHarness(); h.start();
+  h.run('arenaState.units=[arenaState.player,arenaState.units[5]];arenaState.units[1].x=195;arenaState.units[1].y=328');
+  let prevented = 0;
+  const nativeControl = { closest(selector) { return selector.includes('button') ? this : null; } };
+  const pressSpace = target => h.box.window.dispatch('keydown', {
+    key: ' ', repeat: false, target, preventDefault() { prevented++; }
+  });
+  pressSpace(nativeControl);
+  assert.equal(prevented, 0, 'Space remains available to activate the focused Impulso button');
+  assert.equal(h.value('arenaState.pulse'), 0, 'the global shortcut must not fire Pulse instead');
+  assert.equal(h.value('arenaState.units[1].hp'), 100);
+  h.run('pauseArena(true)');
+  pressSpace(nativeControl);
+  assert.equal(prevented, 0, 'Space remains available to activate Continuar partida while paused');
+  assert.equal(h.value('arenaState.pulse'), 0);
+  assert.equal(h.value('arenaState.dash'), 0);
+  h.run('pauseArena()');
+  pressSpace({ closest() { return null; } });
+  assert.equal(prevented, 1, 'Space on the arena canvas still activates its documented shortcut');
+  assert.ok(h.value('arenaState.pulse') > 0);
+  assert.ok(h.value('arenaState.units[1].hp') < 100);
+});
+
 test('Pulse needs a nearby rival and cancels its prepared strike', () => {
   const h = createHarness(); h.start();
   h.run(`{

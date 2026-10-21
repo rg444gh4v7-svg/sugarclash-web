@@ -48,3 +48,17 @@ Las fuentes están incrustadas como WOFF2 con licencias OFL en `docs/FONT_LICENS
 Intercambios, caídas, cadenas y respuesta del guardián acompañan acciones reales. No hay animaciones ambientales perpetuas. Respetar movimiento reducido, visibilidad y limpieza de sesiones. Canvas DPR≤2 y coordenadas lógicas independientes del tamaño CSS.
 
 Comprobar320×640 y390×844: sin scroll horizontal, tablero completo y controles alcanzables. No confundir navegador emulado con iPhone físico. Cada edición exige`SYNTAX OK`, pruebas y revisión visual pertinente; cambios de reglas añaden recorrido real. Los informes comerciales siguen siendo hipótesis hasta probar con jugadores. Esta reconstrucción se entrega local; publicar exige comprobar por separado el destino y la versión servida.
+
+## Pase del agente visual · 21 de octubre
+
+Integrado en el CSS inline: veladura localizada detrás de la etiqueta de portada, contraste de descripciones/capítulo, rótulos bloqueados legibles, bordes minerales compartidos, separación de criaturas/edificios y señales de poderes. Sin cambios de motor ni movimiento nuevo. Detalle y trazabilidad en [VISUAL_REVIEW_RENACER.md](docs/VISUAL_REVIEW_RENACER.md).
+
+## Corrección de Jose · 21 de octubre: calma y jerarquía
+
+«Sobrecargadísima visualmente». Esta corrección prevalece sobre el pase anterior. Conservar el mundo ilustrado no significa poner todo el arte y todos los acentos a máxima intensidad.
+
+- Un foco por vista: acción principal en portada, próximo guardián en ruta, piezas en partida y combatientes en arena. Recursos sin cápsulas decorativas; superficies mates, sin resplandores generalizados.
+- Portada móvil: ilustración en la parte superior, texto sobre fondo tranquilo. Guerra/Royale siguen directos, pero no se repiten debajo como tarjetas. Sin insignia, segundo eslogan ni pie ornamental.
+- Aldea: fondo reducido a una huella ambiental; los diez edificios interactivos son los protagonistas. Nunca superponerlos sobre otro conjunto de edificios igualmente contrastado.
+- Tablero: escenario secundario y marco sobrio. No desaturar caramelos ni quitar señales de poderes, impactos, objetivo, movimiento o foco accesible. Arena: imagen ambiental al32%, sin cambiar colisiones ni reglas.
+- No añadir más imágenes, brillos ni animación ambiental para resolver densidad. Este pase no modifica progreso, economía ni acceso a modos.
