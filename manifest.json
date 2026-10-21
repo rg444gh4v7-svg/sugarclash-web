@@ -1,14 +1,24 @@
 {
-  "name": "Sugar Clash: Dulcelandia",
+  "name": "Sugar Clash · Renacer",
   "short_name": "Sugar Clash",
-  "description": "Match-3 narrativo con Confite, más el modo Dark Gothic HEX CLASH.",
+  "description": "Libera guardianes, devuelve el color a Dulcelandia y construye un hogar con Confite. Match-3, Guerra 5v5 y Royale.",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0D0015",
-  "theme_color": "#0D0015",
+  "background_color": "#120e1b",
+  "theme_color": "#120e1b",
   "icons": [
-    { "src": "icon-crystal-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-crystal-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+    {
+      "src": "icon-crystal-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-crystal-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
   ]
 }

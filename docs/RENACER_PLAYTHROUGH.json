@@ -1,0 +1,1573 @@
+{
+  "seed": 20261021,
+  "testedLevels": 80,
+  "completedLevels": 80,
+  "attempts": 108,
+  "losses": 28,
+  "firstAttemptWins": 68,
+  "waits": 24,
+  "waitMinutes": 600,
+  "pulseUses": 277,
+  "invalidMoves": 0,
+  "simulatedElapsedMinutes": 600,
+  "completedCampaign": true,
+  "legacyKeyWritten": false,
+  "results": [
+    {
+      "t": 1,
+      "n": 1,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 4,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 4,
+          "progress": 2626,
+          "goal": 807,
+          "score": 2626
+        }
+      ]
+    },
+    {
+      "t": 1,
+      "n": 2,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 6,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 6,
+          "progress": 13,
+          "goal": 13,
+          "score": 1328
+        }
+      ]
+    },
+    {
+      "t": 1,
+      "n": 3,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 5,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 5,
+          "progress": 1168,
+          "goal": 891,
+          "score": 1168
+        }
+      ]
+    },
+    {
+      "t": 1,
+      "n": 4,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 6,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 6,
+          "progress": 2142,
+          "goal": 933,
+          "score": 2142
+        }
+      ]
+    },
+    {
+      "t": 1,
+      "n": 5,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 8,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 8,
+          "progress": 15,
+          "goal": 14,
+          "score": 1802
+        }
+      ]
+    },
+    {
+      "t": 1,
+      "n": 6,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 5,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 5,
+          "progress": 1026,
+          "goal": 1017,
+          "score": 1026
+        }
+      ]
+    },
+    {
+      "t": 1,
+      "n": 7,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 4,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 4,
+          "progress": 1364,
+          "goal": 1059,
+          "score": 1364
+        }
+      ]
+    },
+    {
+      "t": 1,
+      "n": 8,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 6,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 6,
+          "progress": 16,
+          "goal": 15,
+          "score": 1404
+        }
+      ]
+    },
+    {
+      "t": 1,
+      "n": 9,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 5,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 5,
+          "progress": 1278,
+          "goal": 1143,
+          "score": 1278
+        }
+      ]
+    },
+    {
+      "t": 1,
+      "n": 10,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 15,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 15,
+          "progress": 1556,
+          "goal": 1541,
+          "score": 1556
+        }
+      ]
+    },
+    {
+      "t": 2,
+      "n": 1,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 2,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 2,
+          "progress": 1100,
+          "goal": 892,
+          "score": 1100
+        }
+      ]
+    },
+    {
+      "t": 2,
+      "n": 2,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 6,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 6,
+          "progress": 16,
+          "goal": 14,
+          "score": 2728
+        }
+      ]
+    },
+    {
+      "t": 2,
+      "n": 3,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 7,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 7,
+          "progress": 11,
+          "goal": 11,
+          "score": 798
+        }
+      ]
+    },
+    {
+      "t": 2,
+      "n": 4,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 4,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 4,
+          "progress": 1046,
+          "goal": 1018,
+          "score": 1046
+        }
+      ]
+    },
+    {
+      "t": 2,
+      "n": 5,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 5,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 5,
+          "progress": 15,
+          "goal": 15,
+          "score": 696
+        }
+      ]
+    },
+    {
+      "t": 2,
+      "n": 6,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 4,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 4,
+          "progress": 13,
+          "goal": 13,
+          "score": 612
+        }
+      ]
+    },
+    {
+      "t": 2,
+      "n": 7,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 7,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 7,
+          "progress": 1160,
+          "goal": 1144,
+          "score": 1160
+        }
+      ]
+    },
+    {
+      "t": 2,
+      "n": 8,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 6,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 6,
+          "progress": 18,
+          "goal": 16,
+          "score": 706
+        }
+      ]
+    },
+    {
+      "t": 2,
+      "n": 9,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 4,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 4,
+          "progress": 14,
+          "goal": 14,
+          "score": 822
+        }
+      ]
+    },
+    {
+      "t": 2,
+      "n": 10,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 11,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 11,
+          "progress": 1808,
+          "goal": 1651,
+          "score": 1808
+        }
+      ]
+    },
+    {
+      "t": 3,
+      "n": 1,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 8,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 8,
+          "progress": 1044,
+          "goal": 977,
+          "score": 1044
+        }
+      ]
+    },
+    {
+      "t": 3,
+      "n": 2,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 19,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 19,
+          "progress": 15,
+          "goal": 15,
+          "score": 1518
+        }
+      ]
+    },
+    {
+      "t": 3,
+      "n": 3,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 6,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 6,
+          "progress": 12,
+          "goal": 12,
+          "score": 498
+        }
+      ]
+    },
+    {
+      "t": 3,
+      "n": 4,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 5,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 5,
+          "progress": 1308,
+          "goal": 1103,
+          "score": 1308
+        }
+      ]
+    },
+    {
+      "t": 3,
+      "n": 5,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 14,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 14,
+          "progress": 17,
+          "goal": 16,
+          "score": 2522
+        }
+      ]
+    },
+    {
+      "t": 3,
+      "n": 6,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 6,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 6,
+          "progress": 14,
+          "goal": 14,
+          "score": 654
+        }
+      ]
+    },
+    {
+      "t": 3,
+      "n": 7,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 14,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 14,
+          "progress": 1332,
+          "goal": 1229,
+          "score": 1332
+        }
+      ]
+    },
+    {
+      "t": 3,
+      "n": 8,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 21,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 21,
+          "progress": 19,
+          "goal": 17,
+          "score": 2646
+        }
+      ]
+    },
+    {
+      "t": 3,
+      "n": 9,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 7,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 7,
+          "progress": 15,
+          "goal": 15,
+          "score": 714
+        }
+      ]
+    },
+    {
+      "t": 3,
+      "n": 10,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 11,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 11,
+          "progress": 1806,
+          "goal": 1762,
+          "score": 1806
+        }
+      ]
+    },
+    {
+      "t": 4,
+      "n": 1,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 10,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 10,
+          "progress": 1198,
+          "goal": 1062,
+          "score": 1198
+        }
+      ]
+    },
+    {
+      "t": 4,
+      "n": 2,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 14,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 14,
+          "progress": 16,
+          "goal": 16,
+          "score": 1732
+        }
+      ]
+    },
+    {
+      "t": 4,
+      "n": 3,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 6,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 6,
+          "progress": 13,
+          "goal": 13,
+          "score": 1342
+        }
+      ]
+    },
+    {
+      "t": 4,
+      "n": 4,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 12,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 12,
+          "progress": 1516,
+          "goal": 1188,
+          "score": 1516
+        }
+      ]
+    },
+    {
+      "t": 4,
+      "n": 5,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 15,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 15,
+          "progress": 18,
+          "goal": 17,
+          "score": 1452
+        }
+      ]
+    },
+    {
+      "t": 4,
+      "n": 6,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 4,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 4,
+          "progress": 15,
+          "goal": 15,
+          "score": 638
+        }
+      ]
+    },
+    {
+      "t": 4,
+      "n": 7,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 17,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 17,
+          "progress": 1846,
+          "goal": 1314,
+          "score": 1846
+        }
+      ]
+    },
+    {
+      "t": 4,
+      "n": 8,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 16,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 16,
+          "progress": 18,
+          "goal": 18,
+          "score": 2582
+        }
+      ]
+    },
+    {
+      "t": 4,
+      "n": 9,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 8,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 8,
+          "progress": 16,
+          "goal": 16,
+          "score": 2234
+        }
+      ]
+    },
+    {
+      "t": 4,
+      "n": 10,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 16,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 16,
+          "progress": 1950,
+          "goal": 1872,
+          "score": 1950
+        }
+      ]
+    },
+    {
+      "t": 5,
+      "n": 1,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 6,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 6,
+          "progress": 1262,
+          "goal": 1147,
+          "score": 1262
+        }
+      ]
+    },
+    {
+      "t": 5,
+      "n": 2,
+      "attempts": 2,
+      "won": true,
+      "losses": 1,
+      "moves": 38,
+      "attemptsDetail": [
+        {
+          "won": false,
+          "moves": 20,
+          "progress": 15,
+          "goal": 17,
+          "score": 2122
+        },
+        {
+          "won": true,
+          "moves": 18,
+          "progress": 17,
+          "goal": 17,
+          "score": 2590
+        }
+      ]
+    },
+    {
+      "t": 5,
+      "n": 3,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 6,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 6,
+          "progress": 14,
+          "goal": 14,
+          "score": 662
+        }
+      ]
+    },
+    {
+      "t": 5,
+      "n": 4,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 10,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 10,
+          "progress": 1312,
+          "goal": 1273,
+          "score": 1312
+        }
+      ]
+    },
+    {
+      "t": 5,
+      "n": 5,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 19,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 19,
+          "progress": 18,
+          "goal": 18,
+          "score": 2232
+        }
+      ]
+    },
+    {
+      "t": 5,
+      "n": 6,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 4,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 4,
+          "progress": 16,
+          "goal": 16,
+          "score": 570
+        }
+      ]
+    },
+    {
+      "t": 5,
+      "n": 7,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 17,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 17,
+          "progress": 1674,
+          "goal": 1399,
+          "score": 1674
+        }
+      ]
+    },
+    {
+      "t": 5,
+      "n": 8,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 18,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 18,
+          "progress": 20,
+          "goal": 19,
+          "score": 3734
+        }
+      ]
+    },
+    {
+      "t": 5,
+      "n": 9,
+      "attempts": 2,
+      "won": true,
+      "losses": 1,
+      "moves": 29,
+      "attemptsDetail": [
+        {
+          "won": false,
+          "moves": 20,
+          "progress": 16,
+          "goal": 17,
+          "score": 2774
+        },
+        {
+          "won": true,
+          "moves": 9,
+          "progress": 17,
+          "goal": 17,
+          "score": 868
+        }
+      ]
+    },
+    {
+      "t": 5,
+      "n": 10,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 8,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 8,
+          "progress": 2038,
+          "goal": 1983,
+          "score": 2038
+        }
+      ]
+    },
+    {
+      "t": 6,
+      "n": 1,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 13,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 13,
+          "progress": 2162,
+          "goal": 1232,
+          "score": 2162
+        }
+      ]
+    },
+    {
+      "t": 6,
+      "n": 2,
+      "attempts": 2,
+      "won": true,
+      "losses": 1,
+      "moves": 37,
+      "attemptsDetail": [
+        {
+          "won": false,
+          "moves": 20,
+          "progress": 15,
+          "goal": 18,
+          "score": 2012
+        },
+        {
+          "won": true,
+          "moves": 17,
+          "progress": 19,
+          "goal": 18,
+          "score": 2970
+        }
+      ]
+    },
+    {
+      "t": 6,
+      "n": 3,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 15,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 15,
+          "progress": 15,
+          "goal": 15,
+          "score": 2380
+        }
+      ]
+    },
+    {
+      "t": 6,
+      "n": 4,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 8,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 8,
+          "progress": 1568,
+          "goal": 1358,
+          "score": 1568
+        }
+      ]
+    },
+    {
+      "t": 6,
+      "n": 5,
+      "attempts": 4,
+      "won": true,
+      "losses": 3,
+      "moves": 78,
+      "attemptsDetail": [
+        {
+          "won": false,
+          "moves": 20,
+          "progress": 18,
+          "goal": 19,
+          "score": 2400
+        },
+        {
+          "won": false,
+          "moves": 20,
+          "progress": 18,
+          "goal": 19,
+          "score": 2852
+        },
+        {
+          "won": false,
+          "moves": 20,
+          "progress": 16,
+          "goal": 19,
+          "score": 2090
+        },
+        {
+          "won": true,
+          "moves": 18,
+          "progress": 20,
+          "goal": 19,
+          "score": 1738
+        }
+      ]
+    },
+    {
+      "t": 6,
+      "n": 6,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 8,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 8,
+          "progress": 17,
+          "goal": 17,
+          "score": 1010
+        }
+      ]
+    },
+    {
+      "t": 6,
+      "n": 7,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 14,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 14,
+          "progress": 1488,
+          "goal": 1484,
+          "score": 1488
+        }
+      ]
+    },
+    {
+      "t": 6,
+      "n": 8,
+      "attempts": 4,
+      "won": true,
+      "losses": 3,
+      "moves": 77,
+      "attemptsDetail": [
+        {
+          "won": false,
+          "moves": 20,
+          "progress": 15,
+          "goal": 20,
+          "score": 2134
+        },
+        {
+          "won": false,
+          "moves": 20,
+          "progress": 15,
+          "goal": 20,
+          "score": 2284
+        },
+        {
+          "won": false,
+          "moves": 20,
+          "progress": 14,
+          "goal": 20,
+          "score": 2310
+        },
+        {
+          "won": true,
+          "moves": 17,
+          "progress": 21,
+          "goal": 20,
+          "score": 3682
+        }
+      ]
+    },
+    {
+      "t": 6,
+      "n": 9,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 17,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 17,
+          "progress": 18,
+          "goal": 18,
+          "score": 1820
+        }
+      ]
+    },
+    {
+      "t": 6,
+      "n": 10,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 17,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 17,
+          "progress": 2162,
+          "goal": 2093,
+          "score": 2162
+        }
+      ]
+    },
+    {
+      "t": 7,
+      "n": 1,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 8,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 8,
+          "progress": 1324,
+          "goal": 1317,
+          "score": 1324
+        }
+      ]
+    },
+    {
+      "t": 7,
+      "n": 2,
+      "attempts": 2,
+      "won": true,
+      "losses": 1,
+      "moves": 33,
+      "attemptsDetail": [
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 15,
+          "goal": 19,
+          "score": 2348
+        },
+        {
+          "won": true,
+          "moves": 14,
+          "progress": 21,
+          "goal": 19,
+          "score": 1602
+        }
+      ]
+    },
+    {
+      "t": 7,
+      "n": 3,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 12,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 12,
+          "progress": 16,
+          "goal": 16,
+          "score": 2014
+        }
+      ]
+    },
+    {
+      "t": 7,
+      "n": 4,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 9,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 9,
+          "progress": 1712,
+          "goal": 1443,
+          "score": 1712
+        }
+      ]
+    },
+    {
+      "t": 7,
+      "n": 5,
+      "attempts": 6,
+      "won": true,
+      "losses": 5,
+      "moves": 112,
+      "attemptsDetail": [
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 13,
+          "goal": 20,
+          "score": 2342
+        },
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 15,
+          "goal": 20,
+          "score": 2796
+        },
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 11,
+          "goal": 20,
+          "score": 2600
+        },
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 12,
+          "goal": 20,
+          "score": 2468
+        },
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 14,
+          "goal": 20,
+          "score": 2752
+        },
+        {
+          "won": true,
+          "moves": 17,
+          "progress": 22,
+          "goal": 20,
+          "score": 2392
+        }
+      ]
+    },
+    {
+      "t": 7,
+      "n": 6,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 12,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 12,
+          "progress": 18,
+          "goal": 18,
+          "score": 1330
+        }
+      ]
+    },
+    {
+      "t": 7,
+      "n": 7,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 10,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 10,
+          "progress": 1802,
+          "goal": 1569,
+          "score": 1802
+        }
+      ]
+    },
+    {
+      "t": 7,
+      "n": 8,
+      "attempts": 4,
+      "won": true,
+      "losses": 3,
+      "moves": 76,
+      "attemptsDetail": [
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 17,
+          "goal": 21,
+          "score": 2778
+        },
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 19,
+          "goal": 21,
+          "score": 2980
+        },
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 15,
+          "goal": 21,
+          "score": 2892
+        },
+        {
+          "won": true,
+          "moves": 19,
+          "progress": 21,
+          "goal": 21,
+          "score": 2520
+        }
+      ]
+    },
+    {
+      "t": 7,
+      "n": 9,
+      "attempts": 5,
+      "won": true,
+      "losses": 4,
+      "moves": 83,
+      "attemptsDetail": [
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 18,
+          "goal": 19,
+          "score": 1758
+        },
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 18,
+          "goal": 19,
+          "score": 2654
+        },
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 17,
+          "goal": 19,
+          "score": 2558
+        },
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 16,
+          "goal": 19,
+          "score": 2048
+        },
+        {
+          "won": true,
+          "moves": 7,
+          "progress": 19,
+          "goal": 19,
+          "score": 972
+        }
+      ]
+    },
+    {
+      "t": 7,
+      "n": 10,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 14,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 14,
+          "progress": 2716,
+          "goal": 2204,
+          "score": 2716
+        }
+      ]
+    },
+    {
+      "t": 8,
+      "n": 1,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 8,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 8,
+          "progress": 1452,
+          "goal": 1402,
+          "score": 1452
+        }
+      ]
+    },
+    {
+      "t": 8,
+      "n": 2,
+      "attempts": 2,
+      "won": true,
+      "losses": 1,
+      "moves": 33,
+      "attemptsDetail": [
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 9,
+          "goal": 20,
+          "score": 2374
+        },
+        {
+          "won": true,
+          "moves": 14,
+          "progress": 22,
+          "goal": 20,
+          "score": 3108
+        }
+      ]
+    },
+    {
+      "t": 8,
+      "n": 3,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 7,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 7,
+          "progress": 17,
+          "goal": 17,
+          "score": 1284
+        }
+      ]
+    },
+    {
+      "t": 8,
+      "n": 4,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 14,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 14,
+          "progress": 1798,
+          "goal": 1528,
+          "score": 1798
+        }
+      ]
+    },
+    {
+      "t": 8,
+      "n": 5,
+      "attempts": 5,
+      "won": true,
+      "losses": 4,
+      "moves": 95,
+      "attemptsDetail": [
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 15,
+          "goal": 21,
+          "score": 2030
+        },
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 19,
+          "goal": 21,
+          "score": 2258
+        },
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 12,
+          "goal": 21,
+          "score": 3504
+        },
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 16,
+          "goal": 21,
+          "score": 2068
+        },
+        {
+          "won": true,
+          "moves": 19,
+          "progress": 21,
+          "goal": 21,
+          "score": 3934
+        }
+      ]
+    },
+    {
+      "t": 8,
+      "n": 6,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 18,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 18,
+          "progress": 19,
+          "goal": 19,
+          "score": 4280
+        }
+      ]
+    },
+    {
+      "t": 8,
+      "n": 7,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 14,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 14,
+          "progress": 1654,
+          "goal": 1654,
+          "score": 1654
+        }
+      ]
+    },
+    {
+      "t": 8,
+      "n": 8,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 16,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 16,
+          "progress": 22,
+          "goal": 22,
+          "score": 2254
+        }
+      ]
+    },
+    {
+      "t": 8,
+      "n": 9,
+      "attempts": 2,
+      "won": true,
+      "losses": 1,
+      "moves": 31,
+      "attemptsDetail": [
+        {
+          "won": false,
+          "moves": 19,
+          "progress": 19,
+          "goal": 20,
+          "score": 1854
+        },
+        {
+          "won": true,
+          "moves": 12,
+          "progress": 20,
+          "goal": 20,
+          "score": 1722
+        }
+      ]
+    },
+    {
+      "t": 8,
+      "n": 10,
+      "attempts": 1,
+      "won": true,
+      "losses": 0,
+      "moves": 11,
+      "attemptsDetail": [
+        {
+          "won": true,
+          "moves": 11,
+          "progress": 2536,
+          "goal": 2314,
+          "score": 2536
+        }
+      ]
+    }
+  ]
+}

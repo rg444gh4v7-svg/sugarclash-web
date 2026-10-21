@@ -1,127 +1,34 @@
-# Sugar Clash: Dulcelandia
+# Sugar Clash · Renacer
 
-Juego web de restauración, memoria y estrategia match-3. Dulce Roja acompaña a
-Confite por ocho territorios; cada capítulo devuelve color y revela parte de la
-Fragmentación. Los tres Ecos del Cristal son recuerdos jugables, no modos aislados.
+Un juego nuevo construido desde cero sobre el concepto de Dulcelandia: restauración, memoria y estrategia. Dulce Roja libera guardianes; Confite acompaña el viaje y cada victoria devuelve color al mundo.
 
-Producción: https://sugarclash-web.vercel.app/
+Todo el juego vive en `index.html`, con HTML/CSS/JavaScript vanilla, imágenes locales, fuentes OFL empaquetadas y audio sintetizado. No hay framework, bundler, dependencias de runtime, pagos ni anuncios conectados.
 
-Continuidad artística para Claude y Codex: [guía visual compartida](VISUAL_STYLE.md).
-Leer antes de rediseñar pantallas o modalidades; enlazada también en ambos archivos de agente.
-
-## Desarrollo y pruebas
-
-Todo el motor, interfaz y narrativa viven intencionalmente en `index.html`, sin
-frameworks ni compilación. `title-world-v3-hd.jpg` ambienta las pantallas y los
-emblemas son SVG. Audio sintetizado. Guardado local: `sugarclash_save_v1`.
+## Jugar y comprobar
 
 ```sh
 python3 -m http.server 4177 --bind 127.0.0.1
 node --test tests/*.test.cjs
+node scripts/renacer-playthrough.cjs
 ```
 
-Abrir `http://127.0.0.1:4177/`. Las pruebas cubren especiales persistentes, cadenas,
-gravedad, barajado, campaña, sintaxis y comportamiento de la caché online/offline.
-El worker v16 prioriza HTML nuevo al abrir con conexión y conserva fallback offline.
-No borrar los datos del navegador: eso elimina el progreso.
+Abrir <http://127.0.0.1:4177/>. La nueva versión se encuentra en el proyecto local; este trabajo no publica cambios en Vercel ni en un portal.
 
-## Iteración actual
+- Campaña: ocho territorios, diez guardianes por territorio; luz, recolección e hielo.
+- Poderes persistentes: rayos, bombas y cristales; cadenas, gravedad y combinaciones de poderes.
+- Pulso manual de Confite: duplica la luz de la siguiente jugada.
+- Diez construcciones con mejoras permanentes y recompensas ganadas.
+- Guerra 5v5 y Royale contra IA local, accesibles desde el inicio.
+- El Latido, Jardín en calma y un reto diario reproducible y gratuito.
+- Vidas: se reserva una al entrar en campaña y se devuelve al ganar; perder o abandonar la consume. Regeneración de 25 minutos. Los otros modos no gastan vidas.
+- Guardado, exportación/importación y PWA offline con caché independiente.
 
-- Jefes: corregido el diálogo que fallaba al buscar `bi-sub`. Una estrella por
-  nivel anterior basta; no hay que reunir 30 estrellas. `campaignUnlockedLevel()`
-  recupera acceso probado por victorias cuando `unlocked` está desactualizado,
-  sin quitar accesos ya guardados. Confirmar un jefe cobra una sola vida.
-- Guerra/Royale: los enemigos preparan golpes sobre una marca visible; salir de
-  ella evita el impacto. Pulso interrumpe ataques cercanos y no gasta recarga si
-  no alcanza rivales. Impulso sigue funcionando con mouse y táctil.
-- [Recorrido reproducible de los 80 niveles](docs/PLAYTHROUGH_REPORT.md): 80/80 en
-  orden, 97 intentos, 17 derrotas, 471 jugadas y ocho entradas a jefes. Motor real,
-  bot determinista y guardado aislado; no se forzaron victorias ni se usaron ayudas.
-- Edición **Elige y juega · 17.10**, identificable en la portada; conserva Atlas y Ecos.
-- Historia, Guerra 5v5 y Royale desde el inicio, sin recorrer el Archivo. Todos
-  los modos tienen nombres claros; la explicación narrativa queda en segundo plano.
-- Prácticas de combate abiertas desde el primer día, sin gastar vidas ni entregar
-  premios, logros o recuerdos. Retorno al origen y reintento sin menús intermedios.
-- Mundo con accesos a modalidades arriba y Continuar antes del paisaje.
-- Archivo con tres panoramas vectoriales originales, estados reales de memoria y
-  botones accesibles; los desbloqueos siguen el orden del lore.
-- MOBA y Battle Royale: escenarios propios con ruinas, puentes, relieve y cristales,
-  unidades facetadas, HUD y resultados coherentes. Canvas Retina (DPR máximo 2),
-  fondos reutilizados y controles en coordenadas lógicas.
-- Supervivencia: cámara del Primer Latido, pulso visual sensible al tiempo y
-  resultado acompañado por Confite. Corregida su entrada al tablero compartido.
-- HEX CLASH: paisaje mineral, ruta de 20 hitos, relicario, piezas y transiciones
-  vectoriales. Pantallas fijadas al viewport para no dejar niveles fuera de alcance.
-- Dirección Figma aplicada al juego: cabecera compacta, recursos reales, territorio
-  protagonista, nivel activo dentro del paisaje, Confite y navegación clara.
-- Mochi incorpora el SVG exacto del diseño: pabellón, puente, cerezos, roca y
-  cascada; reutilizado en campaña, atlas, banner y tablero, con IDs únicos.
-- El atlas completo conserva sus ocho territorios y bloqueos en un desplegable.
-  Pétalos y agua se pausan fuera de vista y respetan movimiento reducido.
-- Aldea con terrazas, árboles y diez edificios redibujados con perspectiva y luz cálida.
-- Inspección antes de construir: beneficios, coste y confirmación explícita; scroll
-  conservado, acceso directo desde la misión y regreso a campaña para reunir miel.
-- Confite acompaña la aldea; humo, agua y ventanas solo se animan donde es visible.
-- Paisajes con varios planos, relieve, cascadas y niebla ligada a la restauración.
-- Panoramas de territorio y 24 frases ambientales que acompañan tres estados del mundo.
-- Confite más expresivo: manos, orejas, reflejos, parpadeo y respiración; también
-  acompaña el resultado de la partida. Sin nuevas dependencias ni raster.
-- Ocho paisajes vectoriales propios con islas, nubes y vegetación de cada región.
-- Caminos curvos, siguiente nivel señalado y progreso visible en el mundo.
-- Fichas y poderes se mueven juntos, con aterrizaje, reflejos, fragmentos y estelas.
-- Efectos limitados para móvil, pausados fuera de pantalla y con movimiento reducido.
-- Desliza para intercambiar; el tablero se ajusta a la altura de pantalla.
-- Cinco piezas crean un cristal; combina poderes entre sí o cristal con color.
-- Pulso manual de Confite: carga en tres jugadas y elige dos turnos de puntos dobles.
-- La escena del territorio recupera color durante cada partida.
-- Una pulsación desde portada hasta la siguiente partida; prólogo opcional.
-- Misión narrativa visible, campamento plegable y mapas sin scrolls anidados.
-- Poderes que sobreviven a su creación y activan otros poderes en cadena.
-- Intercambios y caídas animados, con respeto a movimiento reducido.
-- Recuerdos y consecuencias visibles en el resultado de cada nivel.
+## Continuidad y datos
 
-## Qué falta para una prueba comercial real
+[CONCEPT.md](CONCEPT.md) conserva el concepto y la filosofía. [VISUAL_STYLE.md](VISUAL_STYLE.md) es la única guía visual compartida. [Estudio de mercado](docs/MARKET_STUDY_RENACER.md) compara referencias oficiales, cambios aplicados y validación comercial pendiente.
 
-En la revisión del 17.10 pasaron 84 pruebas del motor/caché/gráficos/aldea/campaña/modos y comprobaciones
-con DOM: campaña, deslizamiento, pulso, intercambio inválido, ajuste de tamaño,
-guardado, estados de restauración, pausa por visibilidad, resultados, selección sin
-gasto, compra explícita, requisitos, scroll de aldea y guardados con huecos. También se
-renderizaron las ocho ilustraciones, los diez edificios y las 25 variantes de Confite.
-Se comprobó en navegador la pantalla de mundo a 390px, la entrada real a partida,
-el cobro de vida, regreso al mapa y acceso a los ocho territorios sin desbordamiento
-horizontal. Archivo, combates, Supervivencia y HEX se revisaron también en una
-sesión local aislada a 320×640 y 390×844, sin cambiar el progreso de producción.
-Queda verificar composición y animaciones en un iPhone real.
-El recorrido actual usa las entradas reales, confirmación de jefes y regeneración
-natural de vidas con reloj de prueba. Se verificó en navegador que Mochi abre su
-jefe con nueve victorias de una estrella, incluso con un desbloqueo desactualizado.
-El informe explica semillas, objetivos, reintentos y límites; no es una partida
-manual ni una medición estadística del equilibrio o de retención.
-En simulación, Royale todavía permite victorias sin actuar (22 de 50 encuentros
-de prueba): su balance requiere otra pasada. No afirmar que esa modalidad ya está resuelta.
+Renacer utiliza `sugarclash_renacer_v1`. Si aún no existe, lee el progreso compatible de `sugarclash_save_v1` sin escribir ni borrar esa clave. Las estrellas y construcciones se conservan; los sistemas retirados permanecen en el guardado antiguo. La edición anterior está en [legacy/index.html](legacy/index.html), con sus pruebas e instrucciones archivadas. Su enlace permite volver a abrirla con sus propios datos.
 
-Esto todavía no demuestra retención ni ingresos. Liga, MOBA y Battle Royale no
-son multijugador real; los rivales son simulados. Los anuncios son demostraciones
-y no generan ingresos. No hay cobros reales ni analítica remota conectada.
+El [recorrido reproducible](docs/RENACER_PLAYTHROUGH.md) registra victorias y derrotas del motor real: no certifica dificultad humana, retención, aceptación del portal ni pruebas en un teléfono físico. Las pruebas de esta edición están en `tests/`; las antiguas, en `legacy/tests/`, documentan otro motor y se conservan como referencia.
 
-La siguiente inversión debe ser una prueba con jugadores nuevos, no más sistemas:
-
-1. Observar si entienden la primera jugada y el objetivo sin ayuda.
-2. Medir tiempo hasta jugar, abandonos, intentos por nivel y sesiones repetidas.
-3. Comprobar si guardan poderes con intención y recuerdan qué busca Confite.
-4. Registrar dónde abandonan; corregir ese punto y repetir con la misma prueba.
-5. Medir dificultad y retención con jugadores; el recorrido reproducible de los
-   80 niveles ya verifica acceso y progresión del motor, no el balance humano.
-
-Después, seleccionar un portal y conectar su SDK de anuncios recompensados,
-siempre voluntarios. No añadir intersticiales forzados. Ver `AGENTS.md` para las
-reglas de arquitectura, economía y continuidad narrativa.
-
-## Publicación
-
-El proyecto está vinculado a Vercel en `.vercel/` (configuración local, no se sube).
-Guardar commit, hacer push y ejecutar
-`vercel deploy --prod --yes --scope pulsarproyects --project sugarclash-web`
-con la cuenta autorizada. Seleccionar equipo/proyecto explícitamente evitó un
-rechazo de autorización en la publicación del 15.10.
-El push de Git por sí solo no garantiza el despliegue: verificar la URL pública.
+La URL histórica de producción es https://sugarclash-web.vercel.app/; no debe confundirse con la vista local nueva.

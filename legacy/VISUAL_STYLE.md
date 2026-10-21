@@ -1,0 +1,195 @@
+# Sugar Clash — guía visual compartida
+
+Referencia de continuidad para Claude y Codex. Actualizada el 17 de octubre de 2026.
+Dirección vigente: **El Cristal Vivo · Mundo Vivo 18 (Atlas y Ecos)**.
+Leer antes de modificar gráficos, pantallas, mapas, animaciones o modalidades.
+Las decisiones nuevas de Jose prevalecen; no cambiar la dirección artística por iniciativa propia.
+
+## Decisión nueva de Jose · El Cristal Vivo · 17.10
+
+La portada cinematográfica prometía más que el interior. Jose pidió expresamente
+un logo relacionado con ese fondo, monstruos en cada nivel y emoción al recuperar
+color. Se autoriza arte raster nuevo que iguale su materialidad: cristal cyan/rosa
+fracturado, corazón ámbar, confitería cálida frente a corrupción violeta. No volver
+a interpretar esta dirección como una prohibición de raster ni como otro tema CSS.
+
+`cinematicScene()` integra ocho paisajes y conserva `territoryLandscapeSVG()` como
+fallback. El lote anterior de ocho familias sigue como compatibilidad, pero **Mundo
+Vivo 18** aprueba ochenta criaturas distintas: `monsters-t1-v18.webp` a
+`monsters-t8-v18.webp`, ocho atlas transparentes de 1600×640, 5 columnas × 2 filas.
+Cada territorio dispone de diez siluetas propias y cada nivel usa su celda real
+(1–10); el jefe es la criatura 10, no una ampliación de la misma familia.
+`guardianPortrait()` mantiene `guardianSVG()` como fallback y debe mostrar el
+retrato en ruta, partida, introducción y resultado sin perder número/nombre.
+
+`combatants-v18.webp` aporta diez combatientes distintos en la misma geometría
+5×2: cinco aliados de Guerra y cinco enemigos. Royale conserva a Dulce Roja y usa
+nueve rivales distintos de `monsters-t5-v18.webp`. `arena-war-v18.webp` y
+`arena-royale-v18.webp` se recortan dentro del canvas estático cacheado; no crean
+colisiones ni modifican controles. El lote también incluye la escena vertical de
+la Aldea, el reino HEX, veinte enemigos HEX en dos atlas, diez edificios y ocho
+piezas pintadas. Arte, geometría y procedencia: [ART_ASSETS.md](docs/ART_ASSETS.md).
+No hay dependencias nuevas de runtime.
+
+La cobertura global usa arte contextual detrás de las **22 pantallas**: portada y
+mundo para campaña/colecciones, Aldea para construcción, Guerra/Royale para sus
+modos y `hex-realm-v18.webp` para las seis vistas HEX. Paneles y modales son vidrio
+translúcido; no volver a una página opaca que esconda el paisaje. Esta capa es solo
+presentación: no concede premios, no escribe `sugarclash_save_v1` y no añade RAF.
+
+Las celebraciones salen de transiciones **ganadas**, no de renders/guardados
+importados. `pendingMilestones` es memoria de sesión. `queueMilestone()` registra;
+`scheduleMilestone()` espera un frame, verifica pantalla activa/visibilidad y
+consume una vez. Entrar a campaña pasa momentáneamente por mapa: no consumir
+antes de ese frame. Efectos finitos mediante `celebrateMilestone()`, sin RNG del
+motor, con limpieza al navegar/ocultar y alternativa de movimiento reducido.
+Primera victoria restaura color, abre el próximo hito y celebra al guardián;
+repetir mejora estrellas, no vuelve a desbloquear. Construcciones, aspectos,
+héroes y recuerdos celebran al concederse, no al equiparse o inspeccionarse.
+No anticipar la revelación de Confite/`hexbr`. No añadir campos al save para FX.
+
+## Prioridad de usabilidad aprobada · 17.10
+
+Jose indicó que el juego tenía demasiados menús y las modalidades no se encontraban.
+La portada ahora ofrece **Jugar/Continuar historia, Guerra 5v5 y Royale** sin pasos
+intermedios. «Todos los modos» muestra nombres de juego claros, instrucciones
+breves y acciones jugables; «Archivo/Ecos» queda como contexto narrativo secundario.
+En el mundo, los accesos a modos están arriba y Continuar aparece antes del paisaje.
+No volver a ocultar los botones bajo panoramas, desplegables o nombres de lore.
+
+Separar **acceso al juego** de **acceso al recuerdo**. Guerra/Royale pueden jugarse
+en práctica gratuita antes de su requisito narrativo. `startMode(id,origin)` elige
+práctica según `minigameUnlocked()` y recuerda desde dónde volver. Solo estado de
+sesión: `minigamePractice`, `modeReturnScreen`; no añadir campos al guardado.
+Práctica no entrega monedas, coronas, victorias, logros, anuncios de revivir ni
+memorias. `showPracticeResult()` termina antes del flujo de premios. Reintentar
+mantiene práctica; Volver regresa a su origen. `startMinigameChapter()` conserva
+la entrada narrativa con requisitos. Cuando el recuerdo es accesible, el mismo
+botón inicia el modo normal. La validación de usabilidad no demuestra todavía
+que la jugabilidad pueda competir con Candy Crush.
+
+## Qué conservar
+
+Fantasía de confitería melancólica: dulce en la superficie, misterio y memoria en el
+fondo. Un mundo ilustrado que se restaura, no una colección de minijuegos genéricos.
+Jose rechazó la apariencia demasiado infantil, los logos genéricos y las pantallas
+simples de tarjetas con emojis. Quiere profundidad, emoción y una historia coherente.
+
+- Paisaje protagonista, interfaz discreta: relieve facetado, roca, arquitectura,
+  vegetación, agua, niebla y luz en varios planos. Añadir detalle con intención,
+  sin tapar fichas, enemigos, barras de vida ni zonas táctiles.
+- Morados oscuros y minerales con oro cálido. No devolver toda la interfaz al
+  neón amarillo/cian heredado. Los territorios conservan sus colores propios;
+  el contraste sirve para leer el juego, no para hacer brillar todo a la vez.
+- Confite es el ancla emocional: conservar silueta, aspectos, emociones y presencia.
+  Usar `confiteSVG()`; no redibujarlo como otra mascota ni sustituirlo por un trofeo.
+- Un panorama, un propósito narrativo y una acción principal clara por vista.
+  Recursos y progreso deben venir del guardado real, nunca de cifras decorativas.
+- Estados distinguibles: próximo, completado y bloqueado. El bloqueo puede apagar
+  color, pero debe conservar legibilidad y explicar el requisito.
+
+## Vocabulario visual
+
+| Uso | Referencia actual en `index.html` |
+|---|---|
+| Fondo | `--dark: #0D0015` |
+| Acento de interfaz | `--atlas-gold: #E8C795` |
+| Texto secundario | `--atlas-muted: #AAA4B8` |
+| Superficie | `--atlas-surface: #231D32` |
+| Bordes | `--atlas-line: #443B55` |
+| Títulos y frases emocionales | Fraunces, pesos 400–600 |
+| Datos, instrucciones y controles | Karla |
+
+Reutilizar las variables existentes; estos valores documentan la base, no crean
+otro sistema de temas. Las variaciones de HEX y de cada territorio son deliberadas.
+Paneles de borde fino, esquinas suaves, sombras contenidas; evitar rejillas de
+tarjetas idénticas, emojis protagonistas, reflejos plásticos y adornos sin función.
+
+## Dónde y cómo está implementado
+
+Todo el runtime sigue en **`index.html`**, HTML/CSS/JS vanilla. Sin frameworks,
+bundler ni dependencias nuevas. `title-world-v3-hd.jpg` es el raster protagonista
+existente; desde El Cristal Vivo también se usan los atlas WebP documentados arriba.
+El código SVG/canvas anterior se conserva para fallback y geometría interactiva.
+
+| Área | Fuente de verdad visual y restricciones |
+|---|---|
+| Campaña | `renderCampaignMission()`, `campaignNext()`: territorio real, paisaje, hito, Confite y Continuar. El atlas completo sigue en `#world-atlas`. |
+| Mochi | `MOCHI_ATLAS_ART`, `mochiLandscapeSVG()`: SVG exacto de Figma; 390×440 en campaña, encuadre 360×210 en vistas compactas. No reemplazar por un placeholder. |
+| Otros territorios | `territoryLandscapeSVG()`, `territoryEmblemSVG()`, `atlasFeeling()`: ocho identidades, restauración y frases ambientales ligadas al progreso. |
+| Cobertura global | Las 22 `.screen` conservan fondo contextual y superficies translúcidas. `title-world-v3-hd.jpg`, `village-cinematic-v18.webp`, las dos arenas y `hex-realm-v18.webp` ambientan; no cambian navegación ni estado. |
+| Aldea | `village-cinematic-v18.webp` ambienta; `buildings-v18.webp` aporta diez edificios pintados y `villageBuildingSVG()` permanece como fallback. `renderVillage()` conserva camino e inspección; construir requiere acción explícita. |
+| Modos y recuerdos | `renderQuickModes()`, `startMode()`, `renderMinigames()`: juego accesible con nombres claros; `echoSceneSVG()` conserva panoramas de cada Eco y los recuerdos van en un apartado secundario. |
+| MOBA / Royale | `minigameArenaArt()`, `minigameDrawUnit()`, `mobaRender()`, `brRender()`: fondos `arena-*-v18.webp` estáticos, atlas `combatants-v18.webp` para Guerra y nueve criaturas de `monsters-t5-v18.webp` para Royale. Las ruinas decorativas no cambian las colisiones. |
+| Supervivencia | Comparte `screen-game`; `goTo('survival')` llama a `startSurvival()` sin pantalla intermedia. `survival-mode`, panorama del Latido y temporizador en segundos; no mostrar los movimientos internos 9999. |
+| HEX CLASH | `hex-realm-v18.webp`, `hex-enemies-a-v18.webp`, `hex-enemies-b-v18.webp` y `candies-v18.webp` llevan la misma materialidad al reino, veinte enemigos y ocho piezas. `dgLandscapeSVG()`, `dgSymbolSVG()` y el dibujo previo son fallbacks. Ruta de 20 hitos, no cuadrícula. |
+| Liga / Diario / Lienzo | Mantener el lenguaje común sin borrar su propósito: rivalidad, regreso diario y recuperación de una ilustración. Reutilizar el tablero compartido y su `data-mode`. |
+
+Referencia Figma de composición:
+[Atlas móvil · nodo 2:40](https://www.figma.com/design/WAa4LmTJ9Cd3ZhS3WIpL3E?node-id=2-40).
+El diseño original muestra Mochi; la app adapta esa composición al progreso real.
+No usar enlaces temporales de assets de Figma en producción. Si Figma no está
+disponible, conservar el SVG y la implementación existente; no bloquear un ajuste local.
+
+## Movimiento, móvil y rendimiento
+
+- Movimiento con significado: respiración de Confite, pétalos, agua, pulso,
+  intercambios, caídas y respuestas a una acción. No animar todos los paneles.
+- Respetar `prefers-reduced-motion`, `.page-hidden`, pantalla activa y visibilidad
+  de escenas. Reutilizar `observeAtlas()` y `syncVisualVisibility()` donde corresponda.
+- No añadir timers o RAF perpetuos para decoración. Reutilizar el loop de combate;
+  conservar la cancelación por `boardRun` de las animaciones del tablero.
+- Los atlas raster cambian únicamente la pintura. No alterar recompensas, balance,
+  hitboxes, vida, colisiones, requisitos, guardado ni frecuencia de los loops.
+- Canvas Retina con DPR máximo 2. `minigameCanvasContext()` configura el buffer;
+  punteros y dibujo usan MOBA_W/H o BR_W/H lógicos, no el tamaño físico del buffer.
+- IDs SVG únicos por contexto y territorio/modo; todos los `url(#id)` deben resolver.
+- Revisar 320×640 y 390×844: sin desbordamiento horizontal, controles alcanzables
+  y fichas completas. Las pantallas HEX necesitan `position:absolute;inset:0`;
+  `position:relative` hace crecer el contenido y puede dejar niveles fuera de alcance.
+
+## Historia y reglas que un rediseño no puede alterar
+
+Corrección funcional aprobada · 17.10: los jefes necesitan las nueve victorias
+anteriores, no tres estrellas por nivel. `campaignUnlockedLevel()` reconcilia
+victorias contiguas con el acceso ya guardado, sin quitarlo ni escribir desde un
+render. `bi-sub` y `bi-access` deben existir en el diálogo; probar la entrada real,
+no llamar `startLevel()` saltándose intro/vidas. Informe: `docs/PLAYTHROUGH_REPORT.md`.
+
+Mejora táctica · 17.10: los ataques de IA de Guerra/Royale muestran una marca fija
+de preparación y comprueban posición/rango al impactar. Esquivar puede evitar daño;
+Pulso interrumpe enemigos cercanos. Mantener visibles las marcas sin tapar unidades
+y conservar mouse/táctil. No confundir estos cambios con balance comercial probado.
+
+Los recuerdos de los Ecos se desbloquean en orden: Latido (300 puntos) → Guerra
+(victoria) → Grieta (podio). Esto no bloquea las partidas de práctica. Consultar
+`MINIGAMES`; no revelar recuerdos bloqueados ni adelantar
+la revelación final de Confite, reservada al epílogo del territorio 8.
+No inventar historia, monedas, progreso o poderes para rellenar una composición.
+
+No cambiar balance, guardados, costes o requisitos bajo la etiqueta «mejora visual».
+Conservar `sugarclash_save_v1`, vidas y anuncios siempre opt-in. Nunca borrar datos
+para actualizar. MOBA/Royale/Liga siguen siendo locales contra IA: no prometer
+multijugador real, ingresos ni anuncios conectados.
+
+**Estado de integración:** el alcance Mundo Vivo 18 está aprobado y sus recursos se
+integran como un único lote visual. No declarar todavía QA completa en todos los
+dispositivos ni publicación confirmada: verificar carga/fallback de cada atlas,
+320×640 y 390×844, cache v18, versión servida y teléfono físico antes de ese cierre.
+
+## Ciclo de trabajo económico
+
+1. Leer esta guía y solo las funciones/referencias relevantes. Reutilizar arte y
+   componentes existentes; no generar imágenes, instalar plugins ni reconstruir
+   Figma si el cambio se resuelve con el código nativo.
+2. Hacer una mejora acotada y verificar el resultado; evitar loops abiertos de
+   rediseño. No cambiar modelo sin avisar a Jose previamente.
+3. Validar sintaxis del script tras cada edición y ejecutar
+   `node --test tests/*.test.cjs`. Base al 17.10: 84 pruebas, no un límite fijo.
+4. Revisar las pantallas afectadas en navegador. Usar progreso de prueba aislado,
+   no sobrescribir el de Jose. Distinguir pruebas de navegador de iPhone físico.
+5. Al publicar cambios de app: actualizar caché cuando corresponda, comprobar
+   Vercel y versión servida. Un push no garantiza despliegue. Documentación sola
+   no requiere desplegar ni cambiar el service worker.
+6. Registrar una decisión visual nueva aquí y enlazar desde los archivos de agente;
+   mantener una sola guía compartida en lugar de instrucciones divergentes.
