@@ -1,7 +1,11 @@
-# Sugar Clash · Renacer
+# Sugar Clash · Renacer — Claude Code
 
-Leer [AGENTS.md](AGENTS.md), [CONCEPT.md](CONCEPT.md) y la única [guía visual compartida](VISUAL_STYLE.md) antes de trabajar.
+@AGENTS.md
+@CONCEPT.md
+@VISUAL_STYLE.md
 
-La decisión nueva de Jose es reconstrucción desde cero conservando concepto y filosofía, con comparación de mercado y mejoras. El runtime nuevo vive en `index.html`; la edición antigua y sus instrucciones están archivadas en `legacy/`. Sus funciones históricas no describen la API de Renacer.
+Trabaja en el `index.html` de esta carpeta: es el juego vigente. `legacy/` conserva otra edición y otra API. No restaures sus instrucciones ni los estilos descartados.
 
-Conservar la clave antigua de guardado sin escribirla; Renacer usa `sugarclash_renacer_v1`. Validar sintaxis tras cada edición y ejecutar las pruebas actuales de `tests/`. No añadir frameworks ni anuncios forzados. No afirmar publicación ni validación comercial sin evidencia.
+Las decisiones nuevas de Jose prevalecen. Última petición: «sigue mejorando, se ve genérico». La iteración de expedición implementa una ruta real y recuperación orgánica del color. Su validación está en docs/EXPEDITION_QA.md; verifica la publicación en los informes de despliegue antes de atribuirle un estado de producción. Conserva el concepto, la dirección dark/descolorido frente al color recuperado y el logo sobrio.
+
+No alteres los datos de Jose ni escribas `sugarclash_save_v1`. Consulta [la guía operativa de colaboración](docs/CLAUDE_HANDOFF.md) cuando necesites arrancar, localizar funciones, probar o publicar. Ese documento y los informes largos son de consulta; no los cargues todos por defecto.

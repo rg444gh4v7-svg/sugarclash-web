@@ -38,3 +38,9 @@ Dirección cerrada: mundo oscuro/descolorido y color que regresa con el progreso
 La pestaña principal de4177 se actualizó a esta versión conservando los recursos visibles. Los avances de QA se hicieron en un origen separado; no son progreso del jugador.
 
 La versión final se publicó en https://sugarclash-web.vercel.app/ por autorización de Jose. El contenido servido coincide con el commit36aba63; despliegue y hashes están en el informe de publicación.
+
+## Continuar el trabajo
+
+La portada de expedición incorpora diez hitos reales, próximo guardián y color que vuelve desde el río. [Cambios y validación](docs/EXPEDITION_QA.md).
+
+Para trabajar con Claude Code, abre esta carpeta y consulta [CLAUDE.md](CLAUDE.md). La [guía de colaboración](docs/CLAUDE_HANDOFF.md) incluye el arranque, mapa de funciones y un prompt listo para usar. Codex y Claude comparten AGENTS, CONCEPT y VISUAL_STYLE; no hay otra guía visual paralela.

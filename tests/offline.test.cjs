@@ -95,7 +95,7 @@ function createWorker(base = 'https://sugarclash.example/') {
 
 test('the Renacer worker has a complete local asset catalog', () => {
   const h = createWorker();
-  assert.equal(h.cacheName, 'sugarclash-renacer-v3');
+  assert.equal(h.cacheName, 'sugarclash-renacer-v4');
   assert.ok(h.assets.includes('./index.html'));
   for (const asset of ['renacer-restoration-v3.webp','renacer-meadow-v2.webp','sugar-clash-logo-v2.webp','candies-toon-v2.webp','icon-sugar-v2.svg','icon-sugar-v2-192.png','icon-sugar-v2-512.png','icon-sugar-v2-180.png']) assert.ok(h.assets.includes('./assets/'+asset), asset+' is available offline');
   assert.ok(h.assets.includes('./legacy/index.html'));

@@ -1,4 +1,4 @@
-const CACHE_NAME = "sugarclash-renacer-v3";
+const CACHE_NAME = "sugarclash-renacer-v4";
 const ASSETS = [
   "./assets/renacer-restoration-v3.webp",
   "./assets/renacer-meadow-v2.webp", "./assets/sugar-clash-logo-v2.webp", "./assets/candies-toon-v2.webp",

@@ -1,0 +1,93 @@
+<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sugar Clash · Color que vuelve</title><style>/* EXPEDITION_STYLE_START — Dulcelandia's route, 22 October 2026. */
+.expedition-home{max-width:1300px;margin:auto;padding:21px 38px 38px}
+.expedition-masthead{display:flex;justify-content:space-between;align-items:center;gap:22px;padding:0 0 17px}
+.expedition-wordmark{display:block;width:145px;height:86px;object-fit:contain;filter:drop-shadow(0 3px 2px #050b1633)}
+.expedition-journal{display:flex;flex-direction:column;align-items:flex-end;gap:6px;color:#e2d4b9;font-size:21px;font-weight:700}
+.expedition-journal>.eyebrow{font-size:9px;letter-spacing:.16em;color:#b8a98f}
+.expedition-journal small{font-size:11px;font-weight:400;color:#9ca8aa}
+.expedition-journal .text-btn{font-size:11px;min-height:25px;gap:8px;color:#b5c0bc}
+.expedition-stage{position:relative;isolation:isolate;height:430px;overflow:hidden;background:#141820}
+.expedition-ash,.expedition-life{position:absolute;inset:0;background:url('../../assets/renacer-restoration-v3.webp') center 58%/cover;pointer-events:none}
+.expedition-ash{filter:grayscale(1) contrast(.95) brightness(.79)}
+.expedition-life{filter:brightness(.94);opacity:var(--life-opacity,0);-webkit-mask-image:radial-gradient(ellipse at 65% 96%,#000 var(--reveal-start,0%),transparent var(--reveal-end,0%));mask-image:radial-gradient(ellipse at 65% 96%,#000 var(--reveal-start,0%),transparent var(--reveal-end,0%))}
+.expedition-stage::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#141820e8,transparent 52%),linear-gradient(0deg,#141820b3,transparent 26%,transparent 84%,#14182033);pointer-events:none}
+.expedition-title{position:absolute;z-index:2;left:0;top:42px;max-width:330px;padding:0 25px 0 0}
+.expedition-title>.eyebrow{color:#d2ba92;font-size:9px;letter-spacing:.19em}
+.expedition-title h1{font:450 46px/1.1 Fraunces,Georgia,serif;letter-spacing:-.045em;color:#eee5d5;margin:12px 0 18px;text-wrap:balance;text-shadow:0 2px 12px #080e1855}
+.expedition-title p{font:400 13px/1.7 Karla,system-ui,sans-serif;max-width:220px;color:#c3c8c2}
+.expedition-route{position:absolute;z-index:3;width:66%;height:88%;right:1%;top:3%}
+.expedition-route-line{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.expedition-route-line path{fill:none;stroke:#c5b59173;stroke-width:1.5;stroke-dasharray:3 7;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.route-mobile{display:none}
+.expedition-point{position:absolute;left:var(--route-x);top:var(--route-y);width:46px;height:46px;display:grid;place-items:center;transform:translate(-50%,-50%);padding:0;background:none;color:#b3beb9;isolation:isolate;border:0;z-index:1}
+.point-stone{width:27px;height:27px;border:1px solid #8c978f;background:#202a30e8;display:grid;place-items:center;rotate:45deg;border-radius:4px;box-shadow:0 2px 5px #070d1899}
+.point-stone>svg{width:13px;height:13px;rotate:-45deg}
+.point-number{position:absolute;top:38px;font:700 9px/1 Karla,system-ui,sans-serif;color:#d6d5c5;text-shadow:0 1px 5px #000;letter-spacing:.06em}
+.is-locked .point-stone{background:#182127ed;border-color:#697571;color:#a8b4ae}
+.is-restored .point-stone{background:#547d70;border-color:#b7ccb1;color:#fff4d8}
+.is-restored .point-number{color:#c9dcbd}
+.is-boss .point-stone{outline:1px solid #c5ac7d;outline-offset:3px}
+.expedition-point.is-next{width:58px;height:58px;z-index:3}
+.is-next .point-stone{width:53px;height:53px;border:1px solid #d8a188;border-radius:50%;rotate:0deg;background:#282d30;box-shadow:0 0 0 4px #111a22c2,0 5px 16px #060d194d}
+.point-guardian{width:51px;height:51px;display:block;filter:grayscale(.35);border-radius:50%}
+.is-next .point-number{top:59px;padding:2px 6px;background:#c98e77;color:#18212a;text-shadow:none;border-radius:2px}
+.expedition-point:focus-visible{outline:2px solid #e3ce9f;outline-offset:5px;border-radius:50%}
+.expedition-dock{position:relative;display:grid;grid-template-columns:75px minmax(0,1fr) 215px;align-items:center;gap:19px;min-height:100px;padding:13px 0;border-top:1px solid #96846b7d;border-bottom:1px solid #414a4d;background:linear-gradient(90deg,#252b2b77,transparent)}
+.dock-guardian{width:70px;height:70px;filter:grayscale(.55) drop-shadow(0 4px 3px #050b1844)}
+.expedition-next>.eyebrow{font-size:9px;letter-spacing:.12em;color:#baa989}
+.expedition-next h2{font:500 23px/1.2 Fraunces,Georgia,serif;color:#e4dfd2;letter-spacing:-.035em;margin:7px 0 0}
+.expedition-start{min-height:53px;border-radius:4px;clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);font-size:15px;padding:12px 18px;gap:12px;background:#cf967d;border-color:#e0b598;box-shadow:none}
+.expedition-start svg{width:17px;height:17px}
+.expedition-restoration{display:flex;align-items:center;gap:25px;padding:18px 0 17px;border-bottom:1px solid #343e44}
+.restoration-label{display:flex;align-items:center;gap:12px;min-width:200px}
+.restoration-label>strong{font:400 29px/1 Fraunces,Georgia,serif;color:#b9c8b4;letter-spacing:-.05em}
+.restoration-label>span{font-size:12px;color:#c1c9bf;line-height:1.4}
+.restoration-label small{display:block;font-size:10px;color:#909f9f}
+.restoration-tally{display:flex;align-items:end;gap:8px;flex:1;max-width:320px;height:25px}
+.restoration-tally i{display:block;height:14px;flex:1;min-width:5px;border-top:1px solid #57615b;border-bottom:1px solid #57615b;transform:skewX(-18deg);background:#28332e}
+.restoration-tally i.lit{background:#94b1a0;border-color:#b7c7ad}
+.expedition-restoration>.text-btn{margin-left:auto;min-height:32px;font-size:12px}
+.expedition-alternatives{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:19px 0 17px;border-bottom:1px solid #343e44}
+.expedition-arena-links{display:grid;grid-template-columns:1fr 1fr;gap:25px;flex:1;max-width:610px}
+.expedition-arena-links>button{display:flex;align-items:center;gap:13px;text-align:left;min-height:54px;color:#e4dbca;background:none}
+.expedition-arena-links>button>svg:first-child{width:30px;height:30px;padding:5px;border:1px solid #6c6452;color:#cdb28a;rotate:-5deg}
+.expedition-arena-links>button:nth-child(2)>svg:first-child{border-color:#506c72;color:#9ebbb8;rotate:5deg}
+.expedition-arena-links>button>span{font-size:17px;font-weight:700;line-height:1.35}
+.expedition-arena-links small{display:block;font-size:10px;font-weight:400;color:#a2afaa}
+.expedition-arena-links>button>svg:last-child{width:16px;height:16px;margin-left:auto;color:#a5b9ad}
+.expedition-quiet-links{display:flex;flex-direction:column;align-items:flex-start;flex-shrink:0;gap:2px}
+.expedition-quiet-links .text-btn{min-height:27px;font-size:11px;gap:7px;color:#aabbb3}
+.expedition-quiet-links svg{width:13px;height:13px}
+.expedition-foot{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:25px 0 0}
+.expedition-companion{display:flex;align-items:center;gap:15px;min-width:0}
+.expedition-companion .confite-art{width:43px;height:43px;flex-shrink:0;filter:saturate(.7)}
+.expedition-companion .eyebrow{font-size:8px;color:#bd9989}
+.expedition-companion p{font-size:12px;line-height:1.5;color:#b2beb9;margin:4px 0}
+.expedition-companion .text-btn{min-height:30px;font-size:10px;text-align:left;gap:6px;color:#a8bcb0}
+.expedition-daily{display:flex;align-items:center;gap:15px;text-align:left;background:none;border-left:1px solid #6a624e;padding:0 0 0 22px;color:#ddd4c1}
+.daily-seal{width:37px;height:37px;border:1px solid #6f644c;display:grid;place-items:center;border-radius:50%;flex-shrink:0}
+.daily-seal svg{width:18px;height:18px;color:#c4aa7a}
+.expedition-daily .eyebrow{display:block;font-size:8px;letter-spacing:.13em}
+.expedition-daily strong{display:block;font:500 20px/1.4 Fraunces,Georgia,serif;color:#e4d5b9}
+.expedition-daily small{display:block;font-size:10px;color:#aab4a9;line-height:1.5}
+.expedition-daily>svg{width:17px;height:17px;margin-left:auto;flex-shrink:0;color:#b6b799}
+.battle-scene h1{font-family:Fraunces,Georgia,serif;font-weight:500;letter-spacing:-.035em}
+.guardian-art{filter:grayscale(calc(1 - var(--guard-color,0))) brightness(calc(.76 + var(--guard-color,0)*.24)) drop-shadow(0 5px 5px #07121e88);transition:filter .22s ease-out}
+@media(hover:hover) and (pointer:fine){.expedition-point:hover .point-stone{border-color:#f0d7a8}.expedition-arena-links>button:hover>span,.expedition-quiet-links .text-btn:hover{color:#ead5ad}.expedition-daily:hover strong{color:#f5e5c7}}
+@media(max-width:1050px){.expedition-home{padding-left:25px;padding-right:25px}.expedition-title{max-width:265px}.expedition-title h1{font-size:38px}.expedition-route{width:64%;right:0}.expedition-stage{height:390px}.expedition-quiet-links{display:none}.expedition-arena-links{max-width:none}}
+@media(max-width:760px){
+ .expedition-home{padding:12px 16px 26px}.expedition-masthead{padding:0 0 11px;gap:12px}.expedition-wordmark{width:121px;height:72px}.expedition-journal{font-size:18px;gap:3px}.expedition-journal>.eyebrow{font-size:7px;letter-spacing:.08em}.expedition-journal small{font-size:9px}.expedition-journal .text-btn{font-size:10px;min-height:26px}
+ .expedition-stage{height:300px;margin:0 -4px;background:#141820}.expedition-ash,.expedition-life{background-position:61% 65%}.expedition-ash{filter:grayscale(1) brightness(.8)}.expedition-stage::after{background:linear-gradient(0deg,#14182099,transparent 35%,transparent 68%,#14182099)}.expedition-title{top:12px;left:12px;padding:0;max-width:260px}.expedition-title>.eyebrow{font-size:8px;letter-spacing:.1em}.expedition-title h1{font-size:29px;line-height:1.06;max-width:245px;margin:8px 0 0;text-shadow:0 2px 8px #0009}.expedition-title p{display:none}
+ .expedition-route{inset:0;width:100%;height:100%}.route-desktop{display:none}.route-mobile{display:block}.expedition-point{left:var(--mobile-x);top:var(--mobile-y);width:44px;height:44px}.point-stone{width:26px;height:26px;background:#202a30ef}.point-number{top:35px;font-size:8px}.expedition-point.is-next{width:53px;height:53px}.is-next .point-stone{width:46px;height:46px}.point-guardian{width:44px;height:44px}.is-next .point-number{top:51px}
+ .expedition-dock{grid-template-columns:48px minmax(0,1fr) 118px;gap:9px;min-height:86px;padding:11px 0;background:linear-gradient(90deg,#252b2b77,transparent)}.dock-guardian{width:48px;height:48px}.expedition-next>.eyebrow{font-size:7px;letter-spacing:.03em}.expedition-next h2{font-family:Karla,system-ui,sans-serif;font-weight:700;font-size:14px;line-height:1.2;letter-spacing:-.02em;margin-top:5px}.expedition-start{min-height:49px;padding:9px 10px;gap:6px;font-size:12px;border-radius:2px}.expedition-start svg{width:13px;height:13px;flex-shrink:0}
+ .expedition-restoration{padding:11px 0;gap:12px}.restoration-label{min-width:0;gap:8px}.restoration-label>strong{font-size:23px}.restoration-label>span{font-size:10px}.restoration-label small{font-size:8px}.restoration-tally{gap:4px;max-width:100px;height:20px}.restoration-tally i{min-width:2px;height:10px}.expedition-restoration>.text-btn{min-height:30px;font-size:10px;gap:5px}.expedition-restoration>.text-btn svg{width:13px;height:13px}
+ .expedition-alternatives{padding:10px 0 12px;gap:0}.expedition-arena-links{gap:17px}.expedition-arena-links>button{min-height:48px;gap:8px}.expedition-arena-links>button>svg:first-child{width:26px;height:26px;flex-shrink:0;padding:4px}.expedition-arena-links>button>span{font-size:14px}.expedition-arena-links small{font-size:8px}.expedition-arena-links>button>svg:last-child{width:13px;height:13px}.expedition-quiet-links{display:none}
+ .expedition-foot{grid-template-columns:1fr;gap:18px;padding-top:19px}.expedition-companion{gap:12px}.expedition-companion .confite-art{width:38px;height:38px}.expedition-companion p{font-size:11px}.expedition-companion .text-btn{min-height:29px;font-size:10px}.expedition-daily{border-left:0;border-top:1px solid #6a624e;padding:17px 0 0;gap:12px}.expedition-daily strong{font-size:21px}.expedition-daily small{font-size:10px}
+}
+@media(max-width:370px){.expedition-home{padding-left:13px;padding-right:13px}.expedition-wordmark{width:108px;height:64px}.expedition-journal{font-size:16px}.expedition-journal>.eyebrow{font-size:6px}.expedition-stage{height:248px}.expedition-title h1{font-size:26px;max-width:210px}.expedition-dock{grid-template-columns:42px minmax(0,1fr) 103px;gap:8px;min-height:81px}.dock-guardian{width:42px;height:42px}.expedition-next h2{font-size:12px}.expedition-start{font-size:11px;padding:9px 7px}.restoration-tally{max-width:69px;gap:3px}.restoration-label>strong{font-size:21px}.restoration-label>span{font-size:9px}.expedition-arena-links{gap:12px}.expedition-arena-links>button>span{font-size:12px}.expedition-arena-links>button>svg:last-child{display:none}}
+@media(max-width:760px) and (max-height:740px){.expedition-stage{height:218px}.expedition-masthead{padding-bottom:9px}.expedition-wordmark{height:64px}.expedition-dock{min-height:79px}.expedition-restoration{padding:8px 0}.expedition-alternatives{padding-top:7px;padding-bottom:8px}}
+@media(prefers-reduced-motion:reduce){.guardian-art{transition:none}.expedition-home *{scroll-behavior:auto}}
+@media(max-width:760px){.expedition-alternatives{display:block}.expedition-quiet-links{display:flex;flex-direction:row;justify-content:flex-start;gap:22px;padding-top:5px}.expedition-quiet-links .text-btn{min-height:44px;font-size:11px}.expedition-quiet-links svg{width:14px;height:14px}}
+@media(max-width:370px){.expedition-journal>.eyebrow{font-size:8px}}
+/* EXPEDITION_STYLE_END */
+*{box-sizing:border-box}body{margin:0;padding:26px;background:#141820;color:#eee7db;font-family:system-ui,sans-serif}h1{font:400 28px Georgia,serif;margin:0 0 9px}p{color:#aab8b0;font-size:13px;margin:0 0 23px;line-height:1.6}.states{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}figure{margin:0;overflow:hidden;border-top:1px solid #92846b}.expedition-stage{height:485px;margin:0}.expedition-stage::after{display:none}figcaption{padding:14px 0;font-size:15px;color:#d6c3a2}figcaption small{display:block;font-size:10px;color:#a4b1ac;margin-top:5px}@media(max-width:700px){.states{grid-template-columns:1fr}.expedition-stage{height:300px}}</style><h1>El color encuentra un camino.</h1><p>La misma escena: el color nace en el río y se extiende con la restauración.<br>Comparación visual estática; estos ejemplos no conceden progreso.</p><main class="states"><figure><figcaption>Sin restaurar<small>Estado ilustrativo: 0/10</small></figcaption><div class="expedition-stage" style="--restored:0;--reveal-start:0%;--reveal-end:0%;--life-opacity:0"><div class="expedition-ash"></div><div class="expedition-life"></div></div></figure><figure><figcaption>A mitad del camino<small>Estado ilustrativo: 5/10</small></figcaption><div class="expedition-stage" style="--restored:0.5;--reveal-start:58.5%;--reveal-end:62.5%;--life-opacity:1"><div class="expedition-ash"></div><div class="expedition-life"></div></div></figure><figure><figcaption>Color recuperado<small>Estado ilustrativo: 10/10</small></figcaption><div class="expedition-stage" style="--restored:1;--reveal-start:121%;--reveal-end:125%;--life-opacity:1"><div class="expedition-ash"></div><div class="expedition-life"></div></div></figure></main></html>

@@ -1,10 +1,12 @@
 # Sugar Clash — guía visual compartida
 
-## Dirección vigente · 21 de octubre de 2026
+## Dirección vigente · 22 de octubre de2026
 
 **Descolorido y oscuro frente al color recuperado; casual para público amplio, «tampoco tan infantil».** Jose corrigió la propuesta clara: «se está saliendo de la línea de lo que es descolorado, lo que era dark y lo que era color. Mantente en esa línea». Esta es la última decisión creativa y prevalece sobre el tema marfil y sobre la presentación histórica de cristal/morado genérico.
 
 Jose confirmó después la base casi monocroma, el regreso progresivo del color y el logo «sobrio». Conservar el logo nuevo, la estructura nueva de entrada al juego y el tono cuidado. La base es carbón y petróleo, con color localizado y una restauración perceptible del paisaje. La referencia conceptual sigue siendo [CONCEPT.md](CONCEPT.md). Esta es la única guía visual vigente para Claude y Codex; [VISUAL_REBOOT.md](docs/VISUAL_REBOOT.md) registra la iteración clara superada y [legacy/VISUAL_STYLE.md](legacy/VISUAL_STYLE.md) conserva el contexto de Atlas y Ecos.
+
+Jose pidió después «sigue mejorando, se ve genérico». La iteración de expedición expresa la identidad mediante cartografía de la ruta real, guardianes y una huella de color que nace en el río. Conserva el logo y el tono sobrio; sustituye el panel central y los accesos como tarjetas iguales. [Implementación y pruebas](docs/EXPEDITION_QA.md).
 
 ### Identidad y tono
 
@@ -18,7 +20,7 @@ El cristal y la niebla pertenecen al lore. No teñir cada pantalla de violeta ni
 
 | Recurso | Uso vigente y geometría |
 |---|---|
-| `assets/renacer-restoration-v3.webp` | Paisaje original de **1536×1024**: puente de confitería, reino descolorido, río teal y flores coral. Fuente vigente de la escena; su saturación muestra restauración real. `renacer-meadow-v2.webp` queda descartado. No determina colisiones. |
+| `assets/renacer-restoration-v3.webp` | Paisaje original de **1536×1024**: puente de confitería, reino descolorido, río teal y flores coral. Fuente vigente de la escena; una capa de color con máscara muestra restauración real. `renacer-meadow-v2.webp` queda descartado. No determina colisiones. |
 | `assets/sugar-clash-logo-v2.webp` | Wordmark **SUGAR CLASH**, transparente, **1100×653**. Lettering ancho crema/coral, contorno petróleo y detalle dorado; sin mascota incorporada. Conservar proporción y aire alrededor con `object-fit:contain`. |
 | `assets/icon-sugar-v2.svg` | Emblema **S**, lienzo **256×256**, petróleo/crema/coral; marca compacta y favicon. |
 | `assets/icon-sugar-v2-192.png`, `-512.png`, `-180.png` | Variantes de **192×192**, **512×512** y **180×180** para manifest y Apple touch icon. Mantener coherencia con el SVG. |
@@ -43,23 +45,24 @@ Paleta coordinada para la capa final dark/color:
 | Acción principal coral | `#cf9279`, texto carbón |
 | Acento oro | `#c8ab7d` |
 | Acento teal | `#7ba9a6` |
-| Títulos, controles y datos | Karla; peso 700 habitual y variantes legibles según función |
+| Nombres del mundo | Fraunces450–500 en territorios y guardián próximo |
+| Controles y datos | Karla; peso700 habitual y variantes legibles según función |
 
 La pizarra del tablero deja que sus piezas conserven color. Acentos localizados, radios de 12–16 px, superficies mates y sombras de contacto. Evitar resplandor generalizado, sobrecarga de cápsulas y bordes de juguete. Un foco principal por vista.
 
-Karla y Fraunces están incrustadas como WOFF2; la interfaz vigente usa Karla también en títulos. Licencias OFL: [Karla](docs/FONT_LICENSE_KARLA.txt) y [Fraunces](docs/FONT_LICENSE_FRAUNCES.txt). No solicitar fuentes a Google en runtime. Todo el motor, HTML y CSS sigue en `index.html`, sin framework ni dependencias nuevas de runtime.
+Karla y Fraunces están incrustadas como WOFF2; los controles usan Karla y los nombres del mundo, Fraunces. Licencias OFL: [Karla](docs/FONT_LICENSE_KARLA.txt) y [Fraunces](docs/FONT_LICENSE_FRAUNCES.txt). No solicitar fuentes a Google en runtime. Todo el motor, HTML y CSS sigue en `index.html`, sin framework ni dependencias nuevas de runtime.
 
 ### Restauración y progreso real
 
-La escena recibe un estado `--restored` entre **0 y 1**, derivado del progreso real: sin restaurar, descolorida; al avanzar, recupera color. Aislar `saturate(var(--restored,0))` y el tratamiento de luz en la capa ilustrada. No filtrar textos, recursos, botones, foco accesible ni piezas del tablero. El jugador debe poder leer y actuar desde el estado inicial.
+La escena recibe un estado `--restored` entre **0 y 1**, derivado del progreso real: sin restaurar, descolorida; al avanzar, recupera color. En la portada, `restorationVisual()` deriva los bordes de una máscara radial que nace en el río y descubre una segunda capa de color. La capa base permanece gris. En atlas/partida se mantienen los filtros ligados a la sesión y al capítulo. No filtrar textos, recursos, botones, foco accesible ni piezas del tablero. El jugador debe poder leer y actuar desde el estado inicial.
 
 En portada y atlas, usar victorias demostradas del capítulo; en partida, el objetivo real de la sesión. Revisar los estados inicial, intermedio y completo. La transición acompaña una diferencia real, no una animación que finge progreso al abrir la página. No escribir guardado ni conceder color permanente desde un render. Un paisaje recuperado puede seguir rodeado de interfaz oscura.
 
 ### Composición de pantallas
 
-- **Portada de juego:** logo, contexto breve del capítulo, escena, siguiente nivel, Jugar/Continuar, progreso real y accesos directos a modos. `.play-home`, `.play-world`, `.play-level`, `.play-progress` y `.play-modes` son la estructura nueva. No volver al titular editorial dominante de una landing. En móvil, comprobar que Jugar, Guerra y Royale sean alcanzables al entrar.
+- **Portada de juego:** logo, contexto breve del capítulo, escena, siguiente nivel, Jugar/Continuar, progreso real y accesos directos a modos. `.expedition-home`, `.expedition-stage`, `.expedition-route`, `.expedition-dock` y `.expedition-restoration` son la estructura vigente. Los diez hitos salen de `starsAt()`/`levelOpen()` y llaman a `requestLevel()`; ningún hito concede progreso por sí mismo. El mapa es la escena, con la acción principal bajo él. No volver al titular editorial dominante de una landing. En móvil, comprobar que Jugar, Guerra y Royale sean alcanzables al entrar.
 - **Fuente de acceso:** `campaignNext()` elige territorio/nivel y `continueCampaign()` entra por `requestLevel()`. Mostrar guardianes, recursos y marcas reales. La campaña reserva una vida al entrar y la devuelve una sola vez al ganar; perder o abandonar la consume. No alterar esa regla para una composición.
-- **Partida:** guardián/nombre, objetivo y cantidad restante, movimientos, tablero y Pulso manual de Confite. Tutorial contextual con combinación de cuatro preparada, sin modal obligatorio. El paisaje acompaña la restauración; las piezas y poderes son el foco visual.
+- **Partida:** guardián/nombre, objetivo y cantidad restante, movimientos, tablero y Pulso manual de Confite. Tutorial contextual con combinación de cuatro preparada, sin modal obligatorio. El paisaje y el guardián acompañan la restauración mediante el objetivo real; las piezas y poderes son el foco visual.
 - **Atlas:** capítulo, paisaje, progreso y ruta de diez guardianes. Próximo/completado/bloqueado distinguibles; los estados bloqueados conservan nombres y requisitos legibles. Ningún render cambia estrellas.
 - **Aldea:** escena y camino de diez edificios interactivos sobre fondo secundario. Seleccionar inspecciona; beneficio, precio y construcción explícita viven en el panel. El resultado conecta miel ganada con la próxima construcción sin obligar a visitarla.
 - **Modos:** Guerra y Royale son locales contra IA. Diario mantiene tablero por fecha local, acceso gratuito y premio limitado a una reclamación. Supervivencia y Zen explican su ritmo. Nombres de juego antes que lore.
