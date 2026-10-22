@@ -21,7 +21,7 @@ La fuente actual es el runtime de la raíz, no `legacy/index.html`. `legacy/` co
 
 Última petición: **«sigue mejorando, se ve genérico»**. La iteración de expedición implementa una ruta real y el regreso orgánico del color; [EXPEDITION_QA.md](EXPEDITION_QA.md) registra su validación. Revisa el estado del código y las indicaciones recientes antes de continuar; no presentes esta iteración como terminada o publicada por el hecho de estar en la carpeta.
 
-La última publicación documentada es el commit **`36aba63f177f1bfaa611930cc7a24188a2ab8f9b`**, servido en [sugarclash-web.vercel.app](https://sugarclash-web.vercel.app/), con despliegue READY y comprobación de archivos byte por byte. Esa evidencia corresponde a esa versión, no a cambios posteriores. Consulta [DEPLOYMENT_RENACER.md](DEPLOYMENT_RENACER.md) solo si necesitas verificar o publicar.
+La última publicación documentada es el commit **`e94f27a7e6e69e702f8e35efe812bb5690b46ed1`**, servido en [sugarclash-web.vercel.app](https://sugarclash-web.vercel.app/), con despliegue READY y archivos comprobados byte por byte. Esa evidencia corresponde a esa versión, no a cambios posteriores. Consulta [DEPLOYMENT_EXPEDITION.md](DEPLOYMENT_EXPEDITION.md) al verificar o publicar; DEPLOYMENT_RENACER conserva la publicación inicial36aba63.
 
 ## Mapa del runtime
 
@@ -91,7 +91,7 @@ Revisa las pantallas afectadas a **320×640**, **390×844** y escritorio: tabler
 2. Usa la cuenta y la herramienta Vercel disponibles para ti. El proyecto existente es **`sugarclash-web`**, organización **`pulsarproyects`**. Confirma ese destino y la vinculación local antes de desplegar; `.vercel/` es configuración local ignorada por Git.
 3. Con Vercel CLI estándar disponible en PATH y el proyecto ya vinculado, una publicación de producción se ejecuta desde esta carpeta con `vercel deploy --prod --scope pulsarproyects`. Si tu entorno requiere vincular o autenticar, usa su flujo normal; no copies credenciales ni dependas de binarios dentro de cachés privadas de Codex. No crees otro proyecto por defecto.
 4. Un push o la salida inicial de un comando no confirman publicación. Comprueba estado READY/production, alias público y versión realmente servida en [la URL existente](https://sugarclash-web.vercel.app/). Verifica HTML, worker, manifest y recursos cambiados; identifica la versión y contrasta contenido o hashes.
-5. Actualiza la evidencia de publicación con el resultado real. No atribuyas a un nuevo cambio las verificaciones del commit `36aba63` ni anuncies pruebas comerciales, ingresos o teléfono físico sin haberlas realizado.
+5. Actualiza la evidencia de publicación con el resultado real. No atribuyas a un nuevo cambio las verificaciones de commits anteriores ni anuncies pruebas comerciales, ingresos o teléfono físico sin haberlas realizado.
 
 Estos pasos no envían mensajes a Claude ni cambian permisos, cuentas o datos privados. Cada herramienta mantiene su autenticación habitual.
 

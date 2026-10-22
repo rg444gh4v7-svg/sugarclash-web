@@ -88,4 +88,4 @@ Las comparaciones y decisiones de producto están en [MARKET_STUDY_RENACER.md](d
 
 ### Publicación verificada
 
-Jose autorizó «Publica». La versión final36aba63 está publicada en https://sugarclash-web.vercel.app/, con despliegueREADY y archivos servidos comprobados byte por byte. [Destino, versión y evidencia](docs/DEPLOYMENT_RENACER.md). Mantener el contraste dark/descolorido frente al color recuperado y el logo sobrio en futuras ediciones.
+Jose autorizó «Publica». La versión de expedicióne94f27a está publicada en https://sugarclash-web.vercel.app/, con despliegueREADY y archivos servidos comprobados byte por byte. [Destino, versión y evidencia](docs/DEPLOYMENT_EXPEDITION.md). La primera publicación36aba63 permanece documentada como historial. Mantener el contraste dark/descolorido frente al color recuperado y el logo sobrio en futuras ediciones.

@@ -37,3 +37,7 @@ El filtro del guardián se comprobó en100% como `grayscale(0) brightness(1)`. Z
 - [Comparación0/5/10](qa/expedition-restoration.html) y [captura](qa/expedition-restoration-states.jpg): fixture visual estático que reutiliza el CSS y la función de presentación. No es progreso de campaña.
 
 La evidencia de publicación se registra por separado con el commit y los archivos realmente servidos. Las pruebas de reglas no demuestran retención, diversión ni éxito comercial.
+
+## Cierre y publicación
+
+Se apagó el servidor4201 y se recargó la portada: diez hitos,10% y la huella de color siguieron disponibles offline. Se restableció el viewport habitual. La mejora está publicada y verificada en el mismo dominio; [commit, despliegue y hashes](DEPLOYMENT_EXPEDITION.md). La captura de producción corresponde al guardado real de ese origen; los avances de pruebas permanecen separados.
