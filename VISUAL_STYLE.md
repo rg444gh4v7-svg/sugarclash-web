@@ -1,12 +1,26 @@
 # Sugar Clash — guía visual compartida
 
-## Dirección vigente · 22 de octubre de2026
+## Dirección vigente · 23 de octubre de2026
 
 **Descolorido y oscuro frente al color recuperado; casual para público amplio, «tampoco tan infantil».** Jose corrigió la propuesta clara: «se está saliendo de la línea de lo que es descolorado, lo que era dark y lo que era color. Mantente en esa línea». Esta es la última decisión creativa y prevalece sobre el tema marfil y sobre la presentación histórica de cristal/morado genérico.
 
 Jose confirmó después la base casi monocroma, el regreso progresivo del color y el logo «sobrio». Conservar el logo nuevo, la estructura nueva de entrada al juego y el tono cuidado. La base es carbón y petróleo, con color localizado y una restauración perceptible del paisaje. La referencia conceptual sigue siendo [CONCEPT.md](CONCEPT.md). Esta es la única guía visual vigente para Claude y Codex; [VISUAL_REBOOT.md](docs/VISUAL_REBOOT.md) registra la iteración clara superada y [legacy/VISUAL_STYLE.md](legacy/VISUAL_STYLE.md) conserva el contexto de Atlas y Ecos.
 
 Jose pidió después «sigue mejorando, se ve genérico». La iteración de expedición expresa la identidad mediante cartografía de la ruta real, guardianes y una huella de color que nace en el río. Conserva el logo y el tono sobrio; sustituye el panel central y los accesos como tarjetas iguales. [Implementación y pruebas](docs/EXPEDITION_QA.md).
+
+### Nueva etapa autorizada · 23 de octubre · en validación
+
+Jose autorizó cuatro mejoras conectadas: **coherencia visual, restauración táctica del tablero, guardianes con condiciones propias y consecuencias concretas al ganar**, priorizando los primeros diez niveles. Esta autorización permite cambiar esas reglas de juego; no debe confundirse con una mera capa cosmética. No añade pagos, monedas, cobros de vida o premios nuevos. La implementación, el equilibrio y la experiencia humana de esta etapa siguen en validación; las publicaciones e informes anteriores no la acreditan.
+
+La identidad dark/descolorido frente al color recuperado y el logo sobrio se mantienen. En el tablero, las marcas son **casillas del suelo**: permanecen en su sitio, no bloquean intercambios y no caen con las piezas. Capas restantes, casilla ordenada y fila activa deben distinguirse de caramelos, hielo y selección. La regla del guardián se comunica con una instrucción breve y una señal visible, sin un tutorial modal obligatorio.
+
+Hay seis condiciones: **direct** (limpiar encima), **adjacent** (encima o vecino ortogonal), **power** (poder o Pulso activo que alcance la casilla), **ordered** (primera pendiente, una etapa por cascada), **color** (dorado 3 encima/adyacente; poderes o Pulso también cuentan) y **tide** (marcas de la fila activa; T1 alterna dos filas tras jugadas válidas). Cada casilla agotada libera un brote que limpia vecinos y puede activar poderes. Como máximo una condición nueva por encuentro; la diferencia debe cambiar decisiones, no limitarse a pedir más puntos. Datos y textos: [RESTORATION_ENCOUNTERS.json](docs/RESTORATION_ENCOUNTERS.json).
+
+La campaña exige **cumplir su meta y restaurar todas las zonas**; `campaignWon(g)` valida ambas. Mostrar cantidades separadas y evitar que una barra llena parezca victoria si falta la otra condición. Los estados del guardián y del paisaje dependen del progreso real, nunca de una animación de entrada. El resultado muestra lugar, cambio y frase de Confite; la portada/atlas/aldea pueden recordar lugares ganados, sin conceder construcciones ni alterar el guardado por renderizar.
+
+El atlas `assets/candies-restoration-v1.svg` está **en preparación**, con el contrato lógico de 4×2 del atlas vigente. Aún no se afirma que esté terminado, integrado, cacheado o probado; ese cierre necesita revisar siluetas, colores, geometría, carga y fallback. No generar o anunciar nuevos recursos por el solo hecho de que el nombre esté previsto aquí.
+
+La prueba humana propuesta está en [RESTORATION_PLAYTEST.md](docs/RESTORATION_PLAYTEST.md): cinco personas, diez minutos iniciales, comprensión de reglas, intentos sin salir, aburrimiento y ganas de otra partida. Es un protocolo sin jugadores ni resultados registrados. La validación automática, el recorrido real y las comprobaciones móviles/offline de esta etapa necesitan su evidencia propia.
 
 ### Identidad y tono
 

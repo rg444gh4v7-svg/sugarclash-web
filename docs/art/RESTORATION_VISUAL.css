@@ -1,0 +1,217 @@
+/* Sugar Clash · the board is a place being repaired · 23 October 2026.
+   Integration source: append to the final inline <style> in index.html.
+   No external image, font, timer or runtime dependency is added here.
+   Cell contract: --c/--r/--size; data-restored="0|1" or "false|true";
+   kind path|water|garden|home, with river/flora/shelter aliases. */
+
+/* Keep the six colors and silhouettes, soften the baked specular highlights. */
+.piece .candy,.piece[data-power="prism"] .candy{
+  background-image:url('assets/candies-restoration-v1.svg');
+  filter:saturate(.9) contrast(.94) brightness(.98) drop-shadow(0 2px 1px #07131d80);
+}
+.cell-key i{background-image:url('assets/candies-restoration-v1.svg');filter:saturate(.9) contrast(.94) brightness(.98)}
+.piece.selected{background:#d1b88722;outline-color:#e2c99c}
+.piece[data-power="row"]::after,.piece[data-power="col"]::after,
+.piece[data-power="bomb"]::after{filter:drop-shadow(0 1px 1px #15232c);box-shadow:none}
+
+/* Quiet worked stone, a restrained survey line, no commercial checkerboard. */
+.board-frame{
+  padding:9px;border:1px solid #706e60;border-radius:12px;
+  background:linear-gradient(135deg,#4c504b,#303a3e 60%,#4b5149);
+  box-shadow:inset 0 0 0 3px #202b2f,0 8px 22px #07121b33;
+}
+.board-frame::before{
+  content:"";position:absolute;inset:4px;border:1px solid #c5baa03b;
+  border-radius:8px;pointer-events:none;z-index:5;
+}
+.board{
+  isolation:isolate;border-radius:5px;background-color:#263136;
+  background-image:linear-gradient(116deg,#7b81760a,transparent 45%),
+    repeating-linear-gradient(8deg,transparent 0 8px,#c6c4a504 8px 9px,transparent 9px 18px);
+}
+
+/* This layer is attached to the place, not to the falling candy. */
+.restoration-layer{position:absolute;inset:0;z-index:auto;pointer-events:none}
+.restoration-cell{
+  --cell-pigment:#52645a;--cell-line:#a8b599;
+  position:absolute;z-index:auto;pointer-events:none;
+  left:calc(var(--c) * 100% / var(--size));top:calc(var(--r) * 100% / var(--size));
+  width:calc(100% / var(--size));height:calc(100% / var(--size));
+  border:1px solid #18272b9c;border-radius:3px;overflow:visible;
+  background:linear-gradient(145deg,#4a5150,#343f42 72%);
+  box-shadow:inset 0 1px 0 #c2c6b216,inset 1px 0 0 #c2c6b20a;
+  transition:background-color .28s ease,border-color .28s ease;
+}
+.restoration-cell::before,.restoration-cell::after{
+  content:"";position:absolute;pointer-events:none;opacity:.28;
+}
+.restoration-cell::before{
+  inset:0;background:linear-gradient(138deg,transparent 37%,#c6c9b212 38% 39%,transparent 40%),
+    linear-gradient(23deg,transparent 63%,#0e202424 64% 65%,transparent 66%);
+}
+.restoration-cell::after{
+  width:32%;height:1px;left:12%;bottom:18%;background:#bac5b844;
+  transform:rotate(-18deg);transform-origin:left center;
+}
+.restoration-cell:is([data-restored="1"],[data-restored="true"]){
+  background-color:var(--cell-pigment);
+  background-image:linear-gradient(145deg,#e0d8b20b,#10252c16 72%);
+  border-color:#2033329c;
+  box-shadow:inset 0 1px 0 #d9dfbe2e,inset 1px 0 0 #d9dfbe0d;
+}
+.restoration-cell:is([data-restored="1"],[data-restored="true"])::after{
+  background:var(--cell-line);opacity:.55;
+}
+.restoration-cell>b{display:none}
+.restoration-cell[data-active="1"]>b{
+  position:absolute;display:grid;place-items:center;right:2px;bottom:2px;z-index:3;
+  width:14px;height:14px;border:1px solid #b3ba9c99;border-radius:4px;
+  background:#263c3eed;color:#e8e2ca;font:700 9px/1 Karla,system-ui,sans-serif;
+  text-shadow:none;pointer-events:none;box-shadow:0 1px 2px #07141c55;
+}
+.restoration-cell[data-active="1"][data-hp="2"]>b{background:#514939f2;border-color:#b3a078;color:#f0dfba}
+.restoration-cell[data-active="1"]:is([data-restored="1"],[data-restored="true"])>b{
+  background:#36463bf2;border-color:#879b7e;color:#d4e0bf;
+}
+
+/* Material identities remain distinguishable by their marks, not just hue. */
+.restoration-cell[data-kind="path"]{--cell-pigment:#645b49;--cell-line:#c2b18a}
+.restoration-cell[data-kind="path"]::before{
+  inset:2px;background:linear-gradient(91deg,transparent 47%,#15252966 48% 50%,transparent 51%),
+    linear-gradient(1deg,transparent 62%,#15252966 63% 65%,transparent 66%);
+  opacity:.5;
+}
+.restoration-cell[data-kind="path"]::after{bottom:11%;left:13%;width:19%;transform:rotate(0)}
+.restoration-cell:is([data-kind="water"],[data-kind="river"]){--cell-pigment:#3f6262;--cell-line:#9ebeb7}
+.restoration-cell:is([data-kind="water"],[data-kind="river"])::after{
+  width:88%;height:25%;left:2%;bottom:18%;border-top:1px solid #c1ceca66;
+  border-radius:50%;background:none;transform:rotate(-18deg);
+  box-shadow:0 -7px 0 -6px #c1ceca55;
+}
+.restoration-cell:is([data-kind="water"],[data-kind="river"]):is([data-restored="1"],[data-restored="true"])::after{
+  border-color:#a8cbc188;background:none;opacity:.85;
+}
+.restoration-cell:is([data-kind="garden"],[data-kind="flora"]){--cell-pigment:#52634a;--cell-line:#b8bf85}
+.restoration-cell:is([data-kind="garden"],[data-kind="flora"])::after{
+  width:13%;height:24%;left:16%;bottom:9%;border-radius:0 80% 0 80%;
+  background:#8e9b804d;transform:rotate(-26deg);
+}
+.restoration-cell:is([data-kind="home"],[data-kind="shelter"]){--cell-pigment:#69584d;--cell-line:#c9ab7a}
+.restoration-cell:is([data-kind="home"],[data-kind="shelter"])::after{
+  width:13%;height:14%;left:16%;bottom:12%;border-radius:1px;background:#92917b44;
+  border:1px solid #c5c3a044;transform:none;
+}
+.restoration-cell:is([data-kind="home"],[data-kind="shelter"]):is([data-restored="1"],[data-restored="true"])::after{
+  background:#c4a575b3;border-color:#d7c19899;opacity:.85;
+}
+
+/* Use the existing title area / objective slot rather than add a new panel. */
+.encounter-brief{
+  display:flex;flex-direction:column;gap:4px;
+  align-items:flex-start;width:100%;margin:0 0 12px;padding:9px 0;
+  border-top:1px solid #c3b49038;border-bottom:1px solid #c3b49024;
+  color:#bec5ba;text-align:left;
+}
+.encounter-brief>div,.encounter-copy{min-width:0}
+.encounter-brief .eyebrow,.encounter-kicker{
+  font:700 9px/1.4 Karla,system-ui,sans-serif;letter-spacing:.11em;
+  text-transform:uppercase;color:#c8b28d;
+}
+.encounter-brief strong,.encounter-place{
+  display:block;font:500 18px/1.2 Fraunces,Georgia,serif;
+  letter-spacing:-.02em;color:#e7e3d5;margin:3px 0;
+}
+.encounter-brief p,.encounter-purpose{margin:0;font-size:12px;line-height:1.45;color:#b1beb8}
+.encounter-state{font-size:10px;line-height:1.4;color:#b5c5b3;text-align:right;max-width:110px}
+.encounter-emblem{width:35px;height:35px;color:#b9ad88;flex:none}
+.battle-scene .encounter-brief{max-width:360px;margin:12px auto 0}
+
+.restoration-meter{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 14px;
+  align-items:center;width:100%;margin:0 0 10px;color:#bdc8b7;
+  font-size:11px;line-height:1.4;text-align:left;
+}
+.restoration-meter .meter-label{min-width:0;color:#b5c0b6}
+.restoration-meter .meter-value,.restoration-meter>strong{
+  color:#d9d5bf;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.restoration-meter .progress-track,.restoration-meter>progress{
+  grid-column:1/-1;width:100%;height:4px;margin:0;background:#3b4946;
+  border:0;border-radius:3px;overflow:hidden;box-shadow:none;
+}
+.restoration-meter .progress-track i{background:#9db5a0;box-shadow:none;border-radius:inherit}
+.restoration-meter>progress{appearance:none;accent-color:#9db5a0}
+.restoration-meter>progress::-webkit-progress-bar{background:#3b4946;border-radius:3px}
+.restoration-meter>progress::-webkit-progress-value{background:#9db5a0;border-radius:3px}
+.restoration-meter>progress::-moz-progress-bar{background:#9db5a0;border-radius:3px}
+.restoration-meter .cell-key{justify-content:flex-start}
+
+/* A place returned to the world is the evidence of victory. */
+.restoration-receipt{
+  display:grid;gap:12px;margin:17px 0 12px;padding:0 0 14px;text-align:left;
+  border-top:1px solid #c6b18c55;border-bottom:1px solid #c6b18c38;
+  color:#c1cabd;
+}
+.restoration-receipt>.eyebrow{margin-top:13px;font-size:9px;color:#c8b28d}
+.restoration-receipt>strong,.restoration-receipt>h3,.receipt-place-title{
+  font:500 25px/1.15 Fraunces,Georgia,serif;letter-spacing:-.025em;color:#ece4d3;
+}
+.restoration-receipt p{margin:0;font-size:12px;line-height:1.6;color:#bac6bc}
+.restoration-receipt dl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 12px;margin:0;font-size:11px;line-height:1.5}
+.restoration-receipt dt{color:#a9b8b1}.restoration-receipt dd{margin:0;color:#d5cead;font-variant-numeric:tabular-nums}
+.restored-place{
+  position:relative;display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;
+  aspect-ratio:auto;overflow:visible;border:0;border-radius:0;background:none;
+}
+.restored-place::after{display:none}
+.restored-place>div{
+  display:flex;flex-direction:column;gap:5px;padding:9px 8px 7px;
+  border:1px solid #77857444;border-radius:6px;background:#1b282b;
+}
+.restored-place>div>span{color:#b7c5b8;font:700 9px/1.4 Karla,system-ui,sans-serif;letter-spacing:.07em;text-transform:uppercase}
+.restored-place>div:first-child{border-color:#66757744;background:#222d30}
+.restored-place>div:first-child>span{color:#a1afb1}
+.restored-place>div>svg{display:block;width:100%;height:auto;max-height:120px;overflow:visible}
+.restored-place>div:first-child>svg{filter:grayscale(1);opacity:.74}
+.restored-place img{display:block;width:100%;height:100%;object-fit:cover}
+.restored-place-caption,.restored-place .place-caption{
+  position:absolute;left:9px;right:9px;bottom:8px;display:flex;justify-content:space-between;
+  gap:8px;font:700 9px/1.4 Karla,system-ui,sans-serif;color:#ede7d4;
+  text-shadow:0 1px 3px #0b2023;
+}
+.receipt-note{padding-left:11px;border-left:2px solid #7f9981;color:#b6c4b9;font-size:12px;line-height:1.6}
+.restoration-receipt>blockquote{margin:1px 0 0;padding:0 0 0 11px;border-left:2px solid #7f9981;color:#b6c4b9;font:400 12px/1.6 Karla,system-ui,sans-serif}
+
+@media(max-width:760px){
+  .board-frame{padding:6px;border-radius:11px}
+  .board-frame::before{inset:3px;border-radius:7px}
+  .board{border-radius:4px}
+  .restoration-cell{border-radius:2px}
+  .encounter-brief{margin-bottom:7px;padding:6px 0;gap:3px 9px}
+  .encounter-brief strong,.encounter-place{font-size:16px;line-height:1.15;margin:2px 0}
+  .encounter-brief .eyebrow,.encounter-kicker{font-size:8px}
+  .encounter-brief p,.encounter-purpose{font-size:10px;line-height:1.35}
+  .encounter-state{font-size:9px;max-width:83px}
+  .encounter-emblem{width:28px;height:28px}
+  .battle-scene .encounter-brief{grid-column:2;grid-row:auto;width:100%;max-width:none;margin:0;padding:0;border:0}
+  .restoration-meter{gap:4px 9px;font-size:10px;line-height:1.3;margin-bottom:7px}
+  .restoration-meter .progress-track,.restoration-meter>progress{height:3px}
+  .restoration-receipt{gap:10px;margin-top:14px;padding-bottom:11px}
+  .restoration-receipt>strong,.restoration-receipt>h3,.receipt-place-title{font-size:22px}
+  .restoration-receipt p,.receipt-note{font-size:11px;line-height:1.55}
+  .restoration-receipt dl{font-size:10px}
+  .restored-place-caption,.restored-place .place-caption{font-size:8px;bottom:6px}
+  .restored-place{gap:8px}
+  .restored-place>div{padding:7px 6px 5px;gap:3px}
+  .restored-place>div>span{font-size:8px}
+  .restored-place>div>svg{max-height:101px}
+  .restoration-receipt>blockquote{font-size:11px;line-height:1.5}
+}
+@media(max-width:370px){
+  .encounter-brief strong,.encounter-place{font-size:15px}
+  .encounter-brief p,.encounter-purpose{font-size:9px}
+  .restoration-meter{font-size:9px;gap:3px 8px;margin-bottom:6px}
+}
+@media(prefers-reduced-motion:reduce){
+  .restoration-cell{transition:none}
+}

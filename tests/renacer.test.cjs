@@ -410,6 +410,8 @@ test('a campaign victory refunds its reserved life once while failures and aband
   assert.equal(a.tryStartLevel(1, 1), true);
   assert.equal(a.getSave().lives, 2, 'entry reserves one life');
   const won = a.state.game; won.progress = won.goal; won.score = won.goal;
+  for (const mark of won.restoration.cells) { mark.hp = 0; mark.restored = true; }
+  won.restoration.restored = won.restoration.total;
   a.finishBoard(true);
   assert.equal(a.getSave().lives, 3, 'victory returns the reserved life');
   assert.equal(won.lifeRefunded, true);
@@ -435,7 +437,10 @@ test('victory life refunds respect the normal and dock caps after regeneration d
     const cap = a.livesMax(); a.getSave().lives = cap;
     assert.equal(a.tryStartLevel(1, 1), true); assert.equal(a.getSave().lives, cap - 1);
     a.setNow(a.now() + a.constants.LIFE_MS); a.syncLives(); assert.equal(a.getSave().lives, cap);
-    const g = a.state.game; g.progress = g.goal; g.score = g.goal; a.finishBoard(true);
+    const g = a.state.game; g.progress = g.goal; g.score = g.goal;
+    for (const mark of g.restoration.cells) { mark.hp = 0; mark.restored = true; }
+    g.restoration.restored = g.restoration.total;
+    a.finishBoard(true);
     assert.equal(a.getSave().lives, cap);
     assert.equal(a.getSave().livesAt, a.now());
     assert.equal(g.lifeRefunded, true);

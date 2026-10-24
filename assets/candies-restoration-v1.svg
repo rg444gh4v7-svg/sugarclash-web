@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" fill="none">
+<title>Sugar Clash · confitería de restauración</title>
+<desc>Atlas original de ocho piezas en cuatro columnas y dos filas. Bombón rosa, oso verde, rombo azul, piruleta dorada, espiral violeta, corazón coral, estrella crema y chocolate.</desc>
+<defs>
+  <linearGradient id="sc-r-pink" x1=".15" y1="0" x2=".8" y2="1"><stop stop-color="#e6a8b8"/><stop offset=".55" stop-color="#cf8da3"/><stop offset="1" stop-color="#ba748e"/></linearGradient>
+  <linearGradient id="sc-r-green" x1=".2" y1="0" x2=".8" y2="1"><stop stop-color="#b4c78a"/><stop offset=".5" stop-color="#91aa6b"/><stop offset="1" stop-color="#748c58"/></linearGradient>
+  <linearGradient id="sc-r-blue" x1=".15" y1="0" x2=".9" y2="1"><stop stop-color="#b4cfd6"/><stop offset=".5" stop-color="#83afbf"/><stop offset="1" stop-color="#608fa4"/></linearGradient>
+  <linearGradient id="sc-r-gold" x1=".15" y1="0" x2=".8" y2="1"><stop stop-color="#ead19c"/><stop offset=".5" stop-color="#d6b371"/><stop offset="1" stop-color="#b99552"/></linearGradient>
+  <linearGradient id="sc-r-violet" x1=".15" y1="0" x2=".9" y2="1"><stop stop-color="#c2b1cb"/><stop offset=".5" stop-color="#a08aaf"/><stop offset="1" stop-color="#806c91"/></linearGradient>
+  <linearGradient id="sc-r-coral" x1=".15" y1="0" x2=".8" y2="1"><stop stop-color="#e6aa95"/><stop offset=".5" stop-color="#ce846f"/><stop offset="1" stop-color="#b66a59"/></linearGradient>
+  <linearGradient id="sc-r-cream" x1=".15" y1="0" x2=".85" y2="1"><stop stop-color="#eee0bb"/><stop offset=".5" stop-color="#dcc99e"/><stop offset="1" stop-color="#bfa978"/></linearGradient>
+  <linearGradient id="sc-r-teal" x1=".1" y1="0" x2=".9" y2="1"><stop stop-color="#9cbbb0"/><stop offset="1" stop-color="#598b87"/></linearGradient>
+  <linearGradient id="sc-r-cocoa" x1=".1" y1="0" x2=".9" y2="1"><stop stop-color="#ac8a6d"/><stop offset=".45" stop-color="#8a654f"/><stop offset="1" stop-color="#674935"/></linearGradient>
+  <pattern id="sc-r-sugar" width="17" height="19" patternUnits="userSpaceOnUse">
+    <path d="m3 4 2-1m7 8 1 2m-10 4 2 1" stroke="#fff1d3" stroke-opacity=".17" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="m10 2 1 1M6 12h1" stroke="#473f3b" stroke-opacity=".1" stroke-width="1" stroke-linecap="round"/>
+  </pattern>
+  <path id="sc-r-bonbon" d="M-77-43C-48-70 41-71 76-42C101-20 99 24 75 46C42 74-44 73-77 45C-101 25-103-20-77-43Z"/>
+  <clipPath id="sc-r-bonbon-clip"><use href="#sc-r-bonbon"/></clipPath>
+  <clipPath id="sc-r-lolly-clip"><circle cx="160" cy="126" r="103"/></clipPath>
+  <path id="sc-r-diamond" d="M145 40Q160 24 175 40L280 145Q296 160 280 175L175 280Q160 296 145 280L40 175Q24 160 40 145Z"/>
+  <path id="sc-r-heart" d="M160 280C140 261 62 218 40 161C16 103 53 54 98 58C126 60 144 75 160 96C176 75 194 60 222 58C267 54 304 103 280 161C258 218 180 261 160 280Z"/>
+  <path id="sc-r-star" d="M160 31Q166 31 170 44L196 110L271 118Q288 119 275 133L218 184L235 259Q239 276 224 268L160 229L96 268Q81 276 85 259L102 184L45 133Q32 119 49 118L124 110L150 44Q154 31 160 31Z"/>
+  <path id="sc-r-coil" d="M160 48C224 48 272 98 272 160C272 226 219 273 155 271C90 269 49 223 50 160C51 102 95 70 149 72C199 74 231 110 228 158C226 201 194 231 155 227C121 224 101 199 105 169C108 143 128 126 151 130C174 134 185 150 181 169C178 184 166 190 156 181"/>
+</defs>
+
+<!-- 0 · un bombón envuelto, pliegues y azúcar cortada -->
+<g transform="translate(160 160) rotate(-17)" stroke="#7c4e62" stroke-width="3" stroke-linejoin="round">
+  <path d="M-76-34L-133-60Q-151-28-135 55L-77 31" fill="#b97991"/>
+  <path d="M76-34L134-57Q149-16 134 57L77 32" fill="#c38b9f"/>
+  <path d="m-128-44 37 28m-40 10 39 4m-36 35 38-22M128-41 91-15m40 12-39 3m35 38-37-22" stroke="#f1c4cd" stroke-opacity=".55" stroke-width="2"/>
+  <use href="#sc-r-bonbon" transform="translate(0 4)" fill="#754659" stroke="#57384b"/>
+  <use href="#sc-r-bonbon" fill="url(#sc-r-pink)"/>
+  <g clip-path="url(#sc-r-bonbon-clip)" stroke="none">
+    <path d="M-83 46Q-65-24-28-61L-4-68Q-45-7-55 61ZM-7 69Q1 8 44-59L67-51Q30 11 22 70Z" fill="#f0bac6" fill-opacity=".5"/>
+    <path d="M-24 66Q-18 2 21-67M51 62Q54 11 84-24" stroke="#895269" stroke-opacity=".28" stroke-width="2"/>
+    <path d="M-100-80H105V85H-100Z" fill="url(#sc-r-sugar)"/>
+  </g>
+  <path d="M-70-37Q-38-61 11-58" stroke="#f6d8db" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"/>
+</g>
+
+<!-- 1 · oso de gominola prensada, sin reflejos plásticos -->
+<g transform="translate(320)" stroke="#4d6546" stroke-width="3" stroke-linejoin="round">
+  <circle cx="111" cy="63" r="26" fill="#8fa96c"/><circle cx="209" cy="63" r="26" fill="#8fa96c"/>
+  <circle cx="111" cy="63" r="15" fill="#b9ca8e" stroke-width="1.5"/><circle cx="209" cy="63" r="15" fill="#b9ca8e" stroke-width="1.5"/>
+  <path d="M108 150C89 155 78 175 80 201C82 218 94 226 110 218L107 252C99 273 113 285 132 283C149 281 155 270 160 255C165 270 171 281 188 283C207 285 221 273 213 252L210 218C226 226 238 218 240 201C242 175 231 155 212 150Z" fill="url(#sc-r-green)"/>
+  <ellipse cx="160" cy="115" rx="62" ry="59" fill="url(#sc-r-green)"/>
+  <path d="M115 161Q160 185 205 161M98 180Q88 191 95 207M222 180Q232 191 225 207" stroke="#bfd398" stroke-opacity=".65" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="160" cy="211" rx="37" ry="43" fill="#b2c582" fill-opacity=".35" stroke="#688052" stroke-width="1.5"/>
+  <ellipse cx="135" cy="110" rx="5" ry="7" fill="#43523e" stroke="none"/><ellipse cx="185" cy="110" rx="5" ry="7" fill="#43523e" stroke="none"/>
+  <path d="M150 129Q160 122 170 129Q168 140 160 141Q152 140 150 129Z" fill="#607451" stroke-width="1.5"/>
+  <path d="M160 141v9m-13-2q13 13 26 0" stroke="#536948" stroke-width="2" stroke-linecap="round"/>
+  <path d="M112 270q15 6 25-1m46 0q10 7 25 1" stroke="#c2d39a" stroke-width="2" stroke-opacity=".6" stroke-linecap="round"/>
+  <path d="m128 84 4-1m50 67 3 2m-49 41 2-2m52 51 2 1m-69-13 2 1m31-27 2-1" stroke="#f3ebbd" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>
+</g>
+
+<!-- 2 · rombo de azúcar opaca, cortes suaves -->
+<g transform="translate(640)" stroke-linejoin="round">
+  <use href="#sc-r-diamond" transform="translate(0 4)" fill="#4c6e7d" stroke="#354f5c" stroke-width="3"/>
+  <use href="#sc-r-diamond" fill="url(#sc-r-blue)" stroke="#456775" stroke-width="3"/>
+  <path d="M58 154 160 51 262 154 160 264Z" fill="#b5cdd1" fill-opacity=".14" stroke="#d7e4df" stroke-opacity=".42" stroke-width="2"/>
+  <path d="m58 154 102 110 102-110M82 187l41 43m-29-57 44 47" stroke="#527b8b" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"/>
+  <use href="#sc-r-diamond" fill="url(#sc-r-sugar)"/>
+  <path d="m87 122 53-54m38 182 42-42" stroke="#d8e6e0" stroke-opacity=".52" stroke-width="2" stroke-linecap="round"/>
+</g>
+
+<!-- 3 · piruleta dorada con surcos de confitería -->
+<g transform="translate(960) rotate(18 160 160)" stroke-linejoin="round">
+  <path d="M150 197H170V287Q160 299 150 287Z" fill="#d5c4a0" stroke="#8d7956" stroke-width="3"/>
+  <path d="M157 216v66" stroke="#eee1bd" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="160" cy="130" r="104" fill="#8d6c3c" stroke="#755d37" stroke-width="3"/>
+  <circle cx="160" cy="126" r="103" fill="url(#sc-r-gold)" stroke="#8e7040" stroke-width="3"/>
+  <g clip-path="url(#sc-r-lolly-clip)">
+    <path d="M65 66Q180 71 260 155M55 113Q160 117 236 206" stroke="#efd8a5" stroke-opacity=".58" stroke-width="16"/>
+    <path d="M67 80Q180 85 257 166M54 127Q159 132 227 216" stroke="#b08a4d" stroke-opacity=".56" stroke-width="2"/>
+    <rect x="50" y="15" width="220" height="225" fill="url(#sc-r-sugar)"/>
+  </g>
+  <path d="M88 85Q110 49 160 43" stroke="#f5e4bd" stroke-opacity=".65" stroke-width="2" stroke-linecap="round"/>
+</g>
+
+<!-- 4 · espiral enrollada, borde de masa y marcas de corte -->
+<g transform="translate(0 320)" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="160" cy="162" r="128" fill="#725b7e" stroke="#514355" stroke-width="3"/>
+  <circle cx="160" cy="158" r="127" fill="url(#sc-r-violet)" stroke="#695773" stroke-width="3"/>
+  <use href="#sc-r-coil" stroke="#735e80" stroke-width="28"/>
+  <use href="#sc-r-coil" stroke="#c3b1ce" stroke-width="22"/>
+  <use href="#sc-r-coil" transform="translate(-1-2)" stroke="#ddcddb" stroke-opacity=".35" stroke-width="2"/>
+  <circle cx="160" cy="158" r="124" fill="url(#sc-r-sugar)"/>
+  <path d="m73 90 4 7m169 44-7 1m-56 110-1-7m-73-36 6-3" stroke="#7a647f" stroke-width="2" stroke-opacity=".6"/>
+</g>
+
+<!-- 5 · corazón de caramelo cortado, coral cálido -->
+<g transform="translate(320 320)" stroke-linejoin="round">
+  <use href="#sc-r-heart" transform="translate(0 4)" fill="#935a4d" stroke="#684238" stroke-width="3"/>
+  <use href="#sc-r-heart" fill="url(#sc-r-coral)" stroke="#8b5749" stroke-width="3"/>
+  <use href="#sc-r-heart" fill="url(#sc-r-sugar)"/>
+  <path d="M62 138C55 103 74 79 100 80M180 104Q202 75 225 81" stroke="#efc6ae" stroke-opacity=".62" stroke-width="2" stroke-linecap="round"/>
+  <path d="m177 191 42-42m-29 45 38-38M72 177q16 31 52 56" stroke="#a36554" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"/>
+</g>
+
+<!-- 6 · estrella de azúcar con inserto teal, sin gema ni halo -->
+<g transform="translate(640 320)" stroke-linejoin="round">
+  <use href="#sc-r-star" transform="translate(0 4)" fill="#a99167" stroke="#74644a" stroke-width="3"/>
+  <use href="#sc-r-star" fill="url(#sc-r-cream)" stroke="#97835d" stroke-width="3"/>
+  <use href="#sc-r-star" fill="url(#sc-r-sugar)"/>
+  <use href="#sc-r-star" transform="translate(160 158) scale(.48) translate(-160-158)" fill="url(#sc-r-teal)" stroke="#527b76" stroke-width="4"/>
+  <path d="m148 64 9-22m-77 96-22-2m184 10 17-15m-38 105 5 19" stroke="#f4e9ca" stroke-opacity=".67" stroke-width="2" stroke-linecap="round"/>
+  <path d="m98 235 10-22m92 1 8 22" stroke="#9c865e" stroke-opacity=".5" stroke-width="2" stroke-linecap="round"/>
+</g>
+
+<!-- 7 · cacao moulé et quatre carrés, veines de cassure fines -->
+<g transform="translate(960 320)" stroke-linejoin="round">
+  <rect x="35" y="40" width="250" height="250" rx="27" fill="#49362b" stroke="#342b25" stroke-width="3"/>
+  <path d="M62 34H256Q283 34 283 62V251Q283 281 253 281H62Q34 281 34 253V63Q34 34 62 34Z" fill="#75513d" stroke="#4d382c" stroke-width="3"/>
+  <rect x="51" y="51" width="101" height="101" rx="14" fill="url(#sc-r-cocoa)" stroke="#503a2c" stroke-width="3"/>
+  <rect x="167" y="51" width="99" height="101" rx="14" fill="url(#sc-r-cocoa)" stroke="#503a2c" stroke-width="3"/>
+  <rect x="51" y="167" width="101" height="97" rx="14" fill="url(#sc-r-cocoa)" stroke="#503a2c" stroke-width="3"/>
+  <rect x="167" y="167" width="99" height="97" rx="14" fill="url(#sc-r-cocoa)" stroke="#503a2c" stroke-width="3"/>
+  <path d="M63 83V69Q63 63 70 63H129M179 83V69Q179 63 186 63H244M63 199V185Q63 179 70 179H130M179 199V185Q179 179 186 179H244" stroke="#c1a07e" stroke-opacity=".5" stroke-width="2" stroke-linecap="round"/>
+  <path d="m269 234-13 9 4 11-12 12m-97-112 9 8-5 13M95 274l10-7 7 4" stroke="#3b2e27" stroke-opacity=".7" stroke-width="2"/>
+  <path d="m266 233-13 9m4 12-12 11" stroke="#ba9773" stroke-opacity=".4" stroke-width="1.5"/>
+  <path d="M62 35H255Q282 35 282 63V253Q282 281 254 281H63Q35 281 35 254V62Q35 35 62 35Z" fill="url(#sc-r-sugar)"/>
+</g>
+</svg>

@@ -11,6 +11,7 @@ const script = html.slice(html.indexOf('<script>') + 8, html.lastIndexOf('</scri
 assert.ok(script.includes('window.SugarClash='), 'Renacer runtime was not found');
 let seed = Number(process.env.RENACER_SEED || 20261021) >>> 0;
 const initialSeed = seed;
+const generatedAt = new Date().toISOString();
 const random = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296);
 const clockStart = Date.UTC(2026, 9, 21, 12);
 let clock = clockStart;
@@ -31,12 +32,14 @@ showScreen=name=>{state.screen=name;}; renderGame=()=>{}; renderPieces=()=>{};
 updateGameHUD=()=>{}; updateResources=()=>{}; resetHint=()=>{};
 sound=()=>{}; setTip=()=>{}; showCombo=()=>{}; toast=message=>{globalThis.lastToast=message;};
 showModal=config=>{state.modal=true;globalThis.lastModal=config;}; closeModal=()=>{state.modal=false;};
-globalThis.api={state,getSave:()=>save,requestLevel,levelOpen,campaignNext,legalMoves,runGroups,powerCreation,expandEffects,canCombine,attemptSwap,armPulse,pulseNeed,stopBoard,syncLives,constants:{LIFE_MS,SAVE_KEY}};
+globalThis.api={state,getSave:()=>save,requestLevel,levelOpen,campaignNext,campaignWon,legalMoves,runGroups,powerCreation,expandEffects,canCombine,restorationStep,restorationTargets,attemptSwap,armPulse,pulseNeed,stopBoard,syncLives,constants:{LIFE_MS,SAVE_KEY}};
 `, context);
 const a = context.api;
 
 function evaluate(g, pair) {
-  const [i, j] = pair, board = g.board, beforeA = board[i], beforeB = board[j];
+  // Evaluate the visible board only. Do not mutate the game, consume refill RNG,
+  // advance the tide, or preview a future cascade.
+  const [i, j] = pair, board = g.board.slice(), beforeA = board[i], beforeB = board[j];
   const combo = a.canCombine(beforeA, beforeB);
   [board[i], board[j]] = [board[j], board[i]];
   const groups = a.runGroups(board, g.size);
@@ -51,10 +54,24 @@ function evaluate(g, pair) {
     creation = a.powerCreation(board, g.size, groups, [j, i]);
     seeds = [...new Set(groups.flatMap(group => group.cells))];
   }
-  const cells = a.expandEffects(board, g.size, seeds, creation?.index ?? -1, color).cells;
+  const protectedIndex = creation?.index ?? -1;
+  const effect = a.expandEffects(board, g.size, seeds, protectedIndex, color);
+  let cells = effect.cells, restorationValue = 0;
+  if (g.restoration && a.restorationTargets(g.restoration, g.size).length) {
+    const globalPrism = combo && beforeA.color === 6 && beforeB.color === 6;
+    const powered = globalPrism ? effect.cells : effect.triggered.length ? a.expandEffects(board, g.size, effect.triggered, protectedIndex, color).cells : [];
+    const pulse = !!g.pulseArmed || g.pulse >= a.pulseNeed();
+    const step = a.restorationStep(g.restoration, board, g.size, cells, {powered, pulse, protectedIndex});
+    const remainingHp = value => value.cells.reduce((sum, mark) => sum + mark.hp, 0);
+    restorationValue = (remainingHp(g.restoration) - remainingHp(step.state)) * 40 + step.restored.length * 60;
+    if (step.bonus.length) {
+      const burst = a.expandEffects(board, g.size, step.bonus, protectedIndex, color);
+      cells = [...new Set([...cells, ...burst.cells])];
+    }
+  }
   let value = cells.length;
-  if (g.type === 'collect') value += cells.filter(k => board[k]?.color === g.targetColor).length * 12;
-  if (g.type === 'ice') {
+  if (g.progress < g.goal && g.type === 'collect') value += cells.filter(k => board[k]?.color === g.targetColor).length * 12;
+  if (g.progress < g.goal && g.type === 'ice') {
     const damaged = new Set();
     for (const k of cells) for (const near of [k, k % g.size ? k - 1 : -1, k % g.size < g.size - 1 ? k + 1 : -1, k - g.size, k + g.size]) {
       if (near >= 0 && near < board.length && g.ice[near]) damaged.add(near);
@@ -62,8 +79,8 @@ function evaluate(g, pair) {
     value += damaged.size * 10;
   }
   if (creation) value += creation.power === 'prism' ? 12 : creation.power === 'bomb' ? 7 : 5;
-  [board[i], board[j]] = [board[j], board[i]];
-  return value;
+  if (creation && g.restoration?.rule.kind === 'power' && g.restoration.restored < g.restoration.total) value += 20;
+  return value + restorationValue;
 }
 
 async function main() {
@@ -102,8 +119,10 @@ async function main() {
       assert.ok(g.done, `Unfinished level after 100 turns at ${t}-${n}`);
       row.moves += moves;
       row.won = a.getSave().stars[t]?.[n] > 0;
+      assert.ok(!row.won || a.campaignWon(g), 'A recorded victory must meet both campaign objectives');
       if (!row.won) row.losses++;
-      row.attemptsDetail.push({won: row.won, moves, progress: g.progress, goal: g.goal, score: g.score});
+      row.attemptsDetail.push({won: row.won, moves, progress: g.progress, goal: g.goal, score: g.score,
+        restoration: g.restoration ? {rule: g.restoration.rule.kind, restored: g.restoration.restored, total: g.restoration.total} : null});
       a.stopBoard();
     }
     results.push(row);
@@ -111,7 +130,7 @@ async function main() {
     if (!row.won) break campaign;
   }
   const report = {
-    seed: initialSeed, testedLevels: results.length, completedLevels: results.filter(r => r.won).length,
+    generatedAt, seed: initialSeed, testedLevels: results.length, completedLevels: results.filter(r => r.won).length,
     attempts: results.reduce((s, r) => s + r.attempts, 0), losses: results.reduce((s, r) => s + r.losses, 0),
     firstAttemptWins: results.filter(r => r.won && r.attempts === 1).length, waits, waitMinutes: waits * 25,
     pulseUses, invalidMoves, simulatedElapsedMinutes: (clock - clockStart) / 60000,
@@ -122,7 +141,7 @@ async function main() {
     const rows = results.filter(r => r.t === i + 1), attempts = rows.reduce((s, r) => s + r.attempts, 0);
     return `| ${i + 1} | ${rows.filter(r => r.won).length}/10 | ${attempts} | ${rows.filter(r => r.won && r.attempts === 1).length}/10 | ${rows.reduce((s, r) => s + r.losses, 0)} |`;
   });
-  const markdown = `# Renacer · recorrido automatizado del motor\n\nFecha: 21 de octubre de 2026. Semilla reproducible: \`${initialSeed}\`. Ejecutar \`node scripts/renacer-playthrough.cjs\`. Solo usa módulos incluidos en Node.\n\nEl script carga el JavaScript real de \`index.html\` en una VM y sustituye únicamente pintura, audio, ventanas y esperas de animación. Entra por \`requestLevel()\`, confirma el diálogo real de cada jefe (también prueba doble toque), y juega mediante \`attemptSwap()\`. Las victorias, estrellas, recursos y accesos los concede \`finishBoard()\`; no se modifica el guardado para avanzar.\n\nEl bot elige la jugada con mayor efecto inmediato sobre la meta y el valor aproximado de un poder creado. No anticipa caramelos nuevos ni cascadas. Usa el Pulso de Confite al cargarlo. No usa martillos, barajados manuales, construcciones, gemas, continuaciones ni ayudas externas. La entrada reserva una vida; ganar la devuelve una sola vez y perder o abandonar la consume. Cuando no quedan vidas, avanza el reloj simulado 25 minutos y ejecuta la regeneración real. Cada nivel admite hasta diez intentos.\n\nResultado: **${report.completedLevels}/80 niveles**, ${report.attempts} intentos y ${report.losses} derrotas. ${report.firstAttemptWins}/80 victorias al primer intento. ${waits} esperas simuladas de 25 minutos (${report.waitMinutes} minutos), ${pulseUses} Pulsos y ${invalidMoves} jugadas rechazadas. Guardado antiguo escrito: ${report.legacyKeyWritten ? 'sí' : 'no'}.\n\n| Territorio | Victorias | Intentos | Primer intento | Derrotas |\n|---|---:|---:|---:|---:|\n${territories.join('\n')}\n\nEsto verifica que el motor y sus puertas permiten recorrer la campaña con estas decisiones y esta semilla. No es una prueba manual ni una medida de dificultad humana, retención, calidad comercial o rendimiento en un teléfono. La pintura y los controles reales requieren sus propias comprobaciones en navegador. El detalle de cada intento está en [RENACER_PLAYTHROUGH.json](RENACER_PLAYTHROUGH.json).\n`;
+  const markdown = `# Renacer · recorrido automatizado del motor\n\nFecha de generación UTC: ${generatedAt}. Semilla reproducible: \`${initialSeed}\`. Ejecutar \`node scripts/renacer-playthrough.cjs\`. Solo usa módulos incluidos en Node.\n\nEl script carga el JavaScript real de \`index.html\` en una VM y sustituye únicamente pintura, audio, ventanas y esperas de animación. Entra por \`requestLevel()\`, confirma el diálogo real de cada jefe (también prueba doble toque), y juega mediante \`attemptSwap()\`. Las victorias, estrellas, recursos y accesos los concede \`finishBoard()\`; no se modifica el guardado para avanzar.\n\nEl bot elige la jugada con mayor efecto inmediato visible: meta pendiente, 40 puntos de valoración por capa de restauración retirada y 60 por marca completada, más el valor aproximado de un poder creado (20 adicionales si quedan sellos de poder). Usa las reglas reales de restauración y la extensión de los brotes; considera el Pulso si está disponible. No muta la partida durante la evaluación ni anticipa caramelos nuevos o cascadas de relleno. Usa el Pulso de Confite al cargarlo. No usa martillos, barajados manuales, construcciones, gemas, continuaciones ni ayudas externas. La entrada reserva una vida; ganar la devuelve una sola vez y perder o abandonar la consume. Cuando no quedan vidas, avanza el reloj simulado 25 minutos y ejecuta la regeneración real. Cada nivel admite hasta diez intentos.\n\nResultado: **${report.completedLevels}/80 niveles**, ${report.attempts} intentos y ${report.losses} derrotas. ${report.firstAttemptWins}/80 victorias al primer intento. ${waits} esperas simuladas de 25 minutos (${report.waitMinutes} minutos), ${pulseUses} Pulsos y ${invalidMoves} jugadas rechazadas. Guardado antiguo escrito: ${report.legacyKeyWritten ? 'sí' : 'no'}.\n\n| Territorio | Victorias | Intentos | Primer intento | Derrotas |\n|---|---:|---:|---:|---:|\n${territories.join('\n')}\n\nEsto verifica que el motor y sus puertas permiten recorrer la campaña con estas decisiones y esta semilla. No es una prueba manual ni una medida de dificultad humana, retención, calidad comercial o rendimiento en un teléfono. La pintura y los controles reales requieren sus propias comprobaciones en navegador. El detalle de cada intento está en [RENACER_PLAYTHROUGH.json](RENACER_PLAYTHROUGH.json).\n`;
   fs.writeFileSync(path.join(root, 'docs', 'RENACER_PLAYTHROUGH.md'), markdown);
   console.log(JSON.stringify({...report, results: undefined}, null, 2));
   assert.equal(report.completedLevels, 80, 'The bot did not complete all 80 levels');

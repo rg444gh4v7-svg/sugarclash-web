@@ -1,0 +1,222 @@
+{
+  "schemaVersion": 1,
+  "territory": 1,
+  "size": 7,
+  "status": "Especificación de encuentros; su presencia no acredita integración ni pruebas del motor.",
+  "contract": {
+    "cells": "Índices de tablero plano, de 0 a 48. En ordered, el orden del array es el orden de apertura.",
+    "surface": "Las marcas pertenecen al suelo: no bloquean intercambios ni caen con los caramelos.",
+    "hp": "Cada impacto válido quita una capa. Una casilla agotada libera un brote que limpia sus vecinos ortogonales y puede activar poderes.",
+    "progress": "Sólo se restaura mediante impactos validados del motor; renderizar, esperar o abrir una pantalla no cuenta.",
+    "economy": "Usar vidas, premios, ayudas y guardado ya existentes. No añadir costes, monedas, compras ni recompensas a estos encuentros.",
+    "presentation": "Una condición de restauración visible por encuentro. Mostrar marcas, capas restantes y, cuando corresponda, casilla o fila activa antes de jugar.",
+    "consequences": "place, change y confiteWin describen una victoria ganada. No construyen edificios ni conceden desbloqueos por sí solos.",
+    "rules": {
+      "direct": "Una limpieza debe alcanzar la casilla marcada.",
+      "adjacent": "Cuenta limpiar encima o en una casilla vecina ortogonal.",
+      "power": "Un rayo, una bomba, una estrella o una limpieza con Pulso activo debe alcanzar la casilla marcada.",
+      "ordered": "Sólo recibe daño la primera casilla pendiente del array; como máximo se abre una etapa por cascada.",
+      "color": "Cuenta un caramelo dorado, color 3, limpiado encima o en un vecino ortogonal. Poderes y Pulso también cuentan.",
+      "tide": "Sólo reciben daño las marcas de la fila activa. Las dos filas alternan tras cada jugada válida; los errores no cambian la fila. Empieza la primera fila presente en cells."
+    }
+  },
+  "encounters": [
+    {
+      "n": 1,
+      "name": "La Pradera Dulce",
+      "title": "Tres huellas bajo el gris",
+      "brief": "Libera las tres huellas de la pradera haciendo combinaciones sobre ellas.",
+      "hint": "Empieza por las dos piezas señaladas. Las marcas están en el suelo: los caramelos pueden moverse sobre ellas.",
+      "confiteStart": "Ahí debajo sigue estando el camino. Probemos a devolverle un primer color.",
+      "place": "El claro de la pradera",
+      "change": "Tres huellas de caramelo vuelven a verse entre la hierba. El primer tramo hacia la aldea sale del gris.",
+      "confiteWin": "Ya podemos ver dónde pisamos. Antes sólo había niebla.",
+      "pattern": { "id": "t1-pradera-huellas", "kind": "garden", "cells": [17, 24, 25], "hp": 1 },
+      "rule": { "kind": "direct" }
+    },
+    {
+      "n": 2,
+      "name": "El Sendero de Caramelo",
+      "title": "El borde que despierta",
+      "brief": "Devuelve el color a las cuatro losas. También responden a combinaciones junto a su borde.",
+      "hint": "Limpia una marca o una casilla pegada a ella por arriba, abajo, izquierda o derecha.",
+      "confiteStart": "Estas losas sienten lo que pasa a su lado. No hace falta acertar siempre en el centro.",
+      "place": "La curva del sendero",
+      "change": "Las cuatro losas recuperan su tono rojizo. La curva que llevaba al bosque vuelve a distinguirse.",
+      "confiteWin": "Ahora el camino dobla hacia el bosque. Ya no tenemos que adivinarlo.",
+      "pattern": { "id": "t1-sendero-bordes", "kind": "path", "cells": [9, 18, 30, 39], "hp": 1 },
+      "rule": { "kind": "adjacent" }
+    },
+    {
+      "n": 3,
+      "name": "El Bosque de Caramelo",
+      "title": "Lo que las raíces reconocen",
+      "brief": "Las tres raíces reconocen el dorado. Combínalo sobre ellas o a su lado para despertarlas.",
+      "hint": "Busca caramelos dorados junto a una raíz. Rayos, bombas, estrellas y Pulso también pueden abrirla.",
+      "confiteStart": "Mira ese reflejo entre las raíces. El dorado todavía encuentra una respuesta.",
+      "place": "El paso entre las raíces",
+      "change": "Las raíces recuperan vetas de miel y dejan visible el paso que desciende hasta el río.",
+      "confiteWin": "Las raíces ya no se confunden con la niebla. Por ahí se oye correr el agua.",
+      "pattern": { "id": "t1-bosque-raices-doradas", "kind": "garden", "cells": [15, 24, 33], "hp": 1 },
+      "rule": { "kind": "color", "color": 3 }
+    },
+    {
+      "n": 4,
+      "name": "El Río de Miel",
+      "title": "Dos capas de silencio",
+      "brief": "La costra del cauce tiene dos capas. Limpia cada marca dos veces para devolverle el paso al agua.",
+      "hint": "Cada marca muestra las capas que le quedan. Una limpieza sobre ella retira una capa.",
+      "confiteStart": "No está vacío. El río sigue aquí, debajo de esa costra. Vamos por capas.",
+      "place": "El cauce junto al vado",
+      "change": "El cauce deja atrás su costra gris. La miel vuelve a reflejar las dos orillas y a señalar el vado.",
+      "confiteWin": "Ahí está el reflejo. Por fin podemos reconocer la otra orilla.",
+      "pattern": { "id": "t1-rio-costra", "kind": "water", "cells": [17, 23, 25, 31], "hp": 2 },
+      "rule": { "kind": "direct" }
+    },
+    {
+      "n": 5,
+      "name": "La Aldea Carmesí",
+      "title": "Tres faroles sin llama",
+      "brief": "Despierta los tres faroles con un poder o una combinación bajo el Pulso de Confite.",
+      "hint": "Haz que un rayo, bomba o estrella alcance una marca. También cuenta limpiarla con el Pulso activo.",
+      "confiteStart": "Los faroles necesitan un poco más de luz. Guarda un poder o espera a que mi Pulso esté listo.",
+      "place": "La entrada de la aldea",
+      "change": "Tres faroles recuperan su luz cálida. La plaza y el camino de entrada vuelven a separarse de la niebla.",
+      "confiteWin": "Ésa es la entrada. Ya podemos regresar a casa sin perdernos en el gris.",
+      "pattern": { "id": "t1-aldea-faroles", "kind": "home", "cells": [16, 24, 32], "hp": 1 },
+      "rule": { "kind": "power" }
+    },
+    {
+      "n": 6,
+      "name": "El Puente Quebrado",
+      "title": "Una tabla después de otra",
+      "brief": "Recupera los tres apoyos en el orden señalado para unir las orillas.",
+      "hint": "Sólo cuenta la marca iluminada. El siguiente apoyo se abre después, como máximo una etapa por cascada.",
+      "confiteStart": "El puente pide un orden. Sigamos la luz de un apoyo al siguiente.",
+      "place": "El puente sobre el río",
+      "change": "Los apoyos recuperan color desde la orilla cercana hasta la lejana. El puente vuelve a dibujar una sola ruta.",
+      "confiteWin": "Las dos orillas vuelven a estar unidas. La torre ya no parece tan lejos.",
+      "pattern": { "id": "t1-puente-apoyos", "kind": "path", "cells": [29, 24, 19], "hp": 1 },
+      "rule": { "kind": "ordered" }
+    },
+    {
+      "n": 7,
+      "name": "La Torre Vigía",
+      "title": "El barrido del farol",
+      "brief": "El farol ilumina dos franjas por turnos. Restaura las marcas de la fila que está encendida.",
+      "hint": "La fila activa cambia después de cada jugada válida. Mira dónde estará la luz antes de preparar un poder.",
+      "confiteStart": "El farol aún gira. Aprovechemos cada pasada para recuperar lo que alcanza su luz.",
+      "place": "El mirador de la torre",
+      "change": "El mirador y sus señales recuperan color. Un haz de luz vuelve a mostrar el acceso al Cañón de Azúcar.",
+      "confiteWin": "Desde aquí se ve el siguiente paso. La torre vuelve a servir de guía.",
+      "pattern": { "id": "t1-torre-dos-franjas", "kind": "home", "cells": [15, 19, 29, 33], "hp": 1 },
+      "rule": { "kind": "tide" }
+    },
+    {
+      "n": 8,
+      "name": "El Cañón de Azúcar",
+      "title": "El paso entre las paredes",
+      "brief": "Abre las cuatro marcas del desfiladero. Cada una tiene dos capas y responde a golpes cercanos.",
+      "hint": "Limpia encima o en un vecino ortogonal. Los bordes indican qué marcas todavía conservan dos capas.",
+      "confiteStart": "Aquí el gris se ha pegado a los bordes. Podemos aflojarlo desde cualquiera de sus lados.",
+      "place": "El paso del desfiladero",
+      "change": "Los bordes de azúcar recuperan su relieve cálido. El paso estrecho vuelve a conducir hasta las puertas.",
+      "confiteWin": "El cañón ya tiene salida. Al fondo están las Puertas Carmesí.",
+      "pattern": { "id": "t1-canon-bordes", "kind": "path", "cells": [9, 19, 29, 39], "hp": 2 },
+      "rule": { "kind": "adjacent" }
+    },
+    {
+      "n": 9,
+      "name": "Las Puertas Carmesí",
+      "title": "Los cierres de la entrada",
+      "brief": "Libera los cuatro cierres con poderes o con el Pulso activo para despejar el umbral.",
+      "hint": "Hay pares de marcas en la misma fila. Un rayo bien colocado puede alcanzar las dos juntas.",
+      "confiteStart": "Ya conocemos esta luz. Podemos guardar un poder donde alcance más de un cierre.",
+      "place": "El umbral carmesí",
+      "change": "Los cuatro cierres recuperan su brillo rojizo. El umbral deja ver el último tramo y al guardián que lo protege.",
+      "confiteWin": "Las puertas ya no esconden el camino. Ahora podemos llegar hasta quien lo guarda.",
+      "pattern": { "id": "t1-puertas-cuatro-cierres", "kind": "home", "cells": [9, 11, 37, 39], "hp": 1 },
+      "rule": { "kind": "power" }
+    },
+    {
+      "n": 10,
+      "name": "El Último Carmesí",
+      "title": "El guardián de los cuatro sellos",
+      "brief": "El guardián protege cuatro sellos. Libéralos en el orden que su luz revela.",
+      "hint": "Sólo recibe daño el sello iluminado. Puedes abrir una etapa por cascada; conserva poderes para el siguiente.",
+      "confiteStart": "No hace falta golpear más fuerte. Mira qué sello está pidiendo paso.",
+      "place": "El último paso de las Tierras Carmesí",
+      "change": "El guardián recupera su color carmesí. El camino de la aldea queda visible y se abre la ruta hacia los Jardines de Mochi.",
+      "confiteWin": "Ya encontramos el camino a casa. Espera... desde los jardines llega una canción.",
+      "pattern": { "id": "t1-guardian-cuatro-sellos", "kind": "path", "cells": [38, 24, 16, 10], "hp": 1 },
+      "rule": { "kind": "ordered" }
+    }
+  ],
+  "chapterConsequences": {
+    "use": "Cuatro líneas por capítulo, para mostrar después de victorias ganadas en los hitos indicados. No añaden reglas ni premios y no sustituyen el epílogo.",
+    "milestones": [1, 4, 7, 10],
+    "2": {
+      "name": "Los Jardines de Mochi",
+      "lines": [
+        "Los primeros pétalos recuperan el rosa. La entrada del jardín vuelve a distinguirse entre la niebla.",
+        "El estanque vuelve a reflejar los pabellones y deja visible el paso que bordea el agua.",
+        "Los faroles cálidos enlazan los senderos de los cerezos. La pagoda deja de ser una silueta gris.",
+        "El jardín florece y su melodía vuelve a recorrer los puentes. Al fondo brillan las Torres de Tanghulu."
+      ]
+    },
+    "3": {
+      "name": "Las Torres de Tanghulu",
+      "lines": [
+        "La base de las torres recupera su rojo de fruta y vuelve a marcar el comienzo del ascenso.",
+        "Los arcos caramelizados reflejan la luz. Las terrazas dejan ver por dónde continuaba la antigua defensa.",
+        "Los andamios y las señales recuperan color. El paso hacia la plataforma alta vuelve a ser reconocible.",
+        "La Aguja del Cielo vuelve a reflejar el sol. Desde su cima se distingue la ruta hacia los Alpes de Cacao."
+      ]
+    },
+    "4": {
+      "name": "Los Alpes de Cacao",
+      "lines": [
+        "La primera ladera recupera su tono de cacao y deja ver el sendero bajo la escarcha.",
+        "La catarata vuelve a reflejar luz cálida. El cauce dibuja otra vez el camino entre las cuevas.",
+        "El chocolate de los pasos altos pierde su gris helado. Las dos vertientes vuelven a distinguirse.",
+        "El calor regresa al corazón de la montaña. El deshielo descubre la bajada hacia el Bosque de Gominolas."
+      ]
+    },
+    "5": {
+      "name": "El Bosque de Gominolas",
+      "lines": [
+        "El primer claro recupera el verde translúcido y deja de confundirse con las sombras del bosque.",
+        "Los hongos y las raíces vuelven a señalar los senderos. La luz alcanza la base del árbol central.",
+        "Los pasillos de gelatina recuperan sus reflejos. Las voces del bosque encuentran de nuevo un camino.",
+        "El árbol ancestral recupera su color y el bosque vuelve a susurrar. Entre las raíces aparece la salida hacia las praderas."
+      ]
+    },
+    "6": {
+      "name": "Las Praderas de Malvavisco",
+      "lines": [
+        "La pradera recupera el color de sus nubes bajas. El primer refugio vuelve a tener un lugar en el paisaje.",
+        "El maple refleja el cielo y conecta visualmente los pequeños campamentos separados por la niebla.",
+        "Las brasas recuperan su luz ámbar. Los refugios vuelven a reconocerse unos a otros en la oscuridad.",
+        "La última fogata vuelve a iluminar la pradera. Su resplandor señala el camino al Valle del Dulce de Leche."
+      ]
+    },
+    "7": {
+      "name": "El Valle del Dulce de Leche",
+      "lines": [
+        "El primer altar recupera sus colores y vuelve a recibir la luz de las flores de cempasúchil.",
+        "Las flores enlazan el camino de los ancestros. Las ofrendas dejan de perderse contra la piedra gris.",
+        "Las velas recuperan su luz cálida y el memorial vuelve a distinguir cada lugar de recuerdo.",
+        "El valle vuelve a honrar a sus ausentes con color. Más allá del último altar se reconoce el acceso a la Capital."
+      ]
+    },
+    "8": {
+      "name": "La Capital de Cristal",
+      "lines": [
+        "Las ruinas recuperan sus primeros reflejos y dejan visible la entrada de la ciudad detenida.",
+        "La plaza y los espejos vuelven a reflejar el cielo. Sus calles dejan de ser formas sin profundidad.",
+        "La luz alcanza los prismas y fragmentos suspendidos. El trayecto hacia el centro vuelve a reconocerse.",
+        "La Capital recupera su color y sus caminos vuelven a respirar. En la plaza central queda tiempo para escuchar a Confite."
+      ]
+    }
+  }
+}

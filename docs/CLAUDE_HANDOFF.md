@@ -1,6 +1,6 @@
 # Trabajar en Sugar Clash con Claude Code
 
-Guía operativa, actualizada el 22 de octubre de 2026. `CLAUDE.md` carga las instrucciones del proyecto, su concepto y la única guía visual vigente. Este documento y los informes enlazados se consultan según la tarea.
+Guía operativa, actualizada el 23 de octubre de 2026. `CLAUDE.md` carga las instrucciones del proyecto, su concepto y la única guía visual vigente. Este documento y los informes enlazados se consultan según la tarea.
 
 ## Empezar en la carpeta correcta
 
@@ -19,7 +19,7 @@ Antes de editar, revisa `git status --short` y los cambios existentes. Coordina 
 
 La fuente actual es el runtime de la raíz, no `legacy/index.html`. `legacy/` conserva la edición anterior, sus instrucciones, pruebas e informes; su API histórica no describe Renacer. Tampoco son instrucciones vigentes los comentarios o documentos históricos de la etapa marfil/clara. La autoridad visual está en [VISUAL_STYLE.md](../VISUAL_STYLE.md): mundo dark/descolorido, color recuperado por progreso real y logo sobrio. Las decisiones nuevas de Jose prevalecen.
 
-Última petición: **«sigue mejorando, se ve genérico»**. La iteración de expedición implementa una ruta real y el regreso orgánico del color; [EXPEDITION_QA.md](EXPEDITION_QA.md) registra su validación. Revisa el estado del código y las indicaciones recientes antes de continuar; no presentes esta iteración como terminada o publicada por el hecho de estar en la carpeta.
+El 23 de octubre Jose autorizó cuatro mejoras: **coherencia visual, restauración táctica en el tablero, guardianes con reglas propias y consecuencias concretas al ganar**, con foco en los primeros diez niveles. La implementación de esta etapa está en validación: no extrapoles las pruebas anteriores ni la declares publicada. La expedición previa, con ruta real y regreso orgánico del color, tiene su evidencia en [EXPEDITION_QA.md](EXPEDITION_QA.md).
 
 La última publicación documentada es el commit **`e94f27a7e6e69e702f8e35efe812bb5690b46ed1`**, servido en [sugarclash-web.vercel.app](https://sugarclash-web.vercel.app/), con despliegue READY y archivos comprobados byte por byte. Esa evidencia corresponde a esa versión, no a cambios posteriores. Consulta [DEPLOYMENT_EXPEDITION.md](DEPLOYMENT_EXPEDITION.md) al verificar o publicar; DEPLOYMENT_RENACER conserva la publicación inicial36aba63.
 
@@ -33,6 +33,8 @@ Busca las funciones por nombre con `rg`; los números de línea cambian.
 | Portada y ruta | `renderHome()`, `expeditionRoute()`, `restorationVisual()`, `renderWorld()`, `campaignNext()`, `continueCampaign()`, `TERRITORIES`, `LEVEL_NAMES_ALL`, `CAMPAIGN_ARCS`. |
 | Entrada de campaña | `requestLevel()` → diálogo de jefe → `tryStartLevel()` → `spendLife()` → `startBoard()`. No saltarse esta cadena desde la UI o las pruebas. |
 | Reglas puras | `newPiece()`, `runGroups()`, `legalMoves()`, `powerCreation()`, `expandEffects()`, `gravity()`, `reshuffle()`. Tablero plano con piezas `{id,color,power}`; hielo fijo en `g.ice`. |
+| Encuentros y restauración | Bloque `RESTORATION_START` / `RESTORATION_END`: `RESTORATION_ENCOUNTERS`, `RESTORATION_CHAPTERS`, `encounterConfig()`, `makeRestoration()`, `restorationTargets()`, `restorationStep()`, `restoreWave()` y `campaignWon()`. |
+| Comunicación de restauración | `renderRestoration()`, `restorationHint()`, `restorationRatio()`, `restoredPlaceArt()`, `restorationReceipt()` y `restoredPlaces()`. Marcas, regla activa, progreso doble y consecuencias derivadas de victorias. |
 | Partida | `startBoard()`, `renderGame()`, `renderPieces()`, `bindBoard()`, `attemptSwap()`, `resolveBoard()`, `finishBoard()`. `state.run` e `isActive(g)` invalidan esperas antiguas. |
 | Poderes y ayudas | `armPulse()`, `pulseNeed()`, `armHammer()`, `useHammer()`, `shuffleGame()`. La pieza y su poder conservan identidad al caer. |
 | Diario, Latido y Zen | `dailyConfig()`, `dailySeed()`, `seededRandom()`, `startDaily()`, `launchMode()`. El diario usa fecha local y premio limitado a una vez por fecha. |
@@ -42,6 +44,22 @@ Busca las funciones por nombre con `rg`; los números de línea cambian.
 | Persistencia | `defaultSave()`, `normalizeSave()`, `loadSave()`, `persistSave()`, `syncLives()`, `livesMax()`. |
 
 Reglas que conviene comprobar antes de tocar la progresión: ocho capítulos de diez niveles; nueve victorias de una estrella abren al jefe. Una vida se reserva al entrar en campaña y vuelve una sola vez al ganar; perder o abandonar la consume. Los otros modos no gastan vidas. Los renders no conceden progreso y una celebración no concede premios.
+
+## Restauración en validación
+
+La especificación legible está en [RESTORATION_ENCOUNTERS.json](RESTORATION_ENCOUNTERS.json): diez encuentros T1 y cuatro líneas de consecuencias por capítulo T2–T8. El runtime empaqueta sus datos en `RESTORATION_ENCOUNTERS` y `RESTORATION_CHAPTERS` dentro del único HTML; no los descarga durante la partida. Si cambias datos, mantén sincronizados la especificación y el runtime y valida el comportamiento real.
+
+`g.restoration` contiene casillas del **suelo** con índice, capas y estado: no se intercambian ni caen con los caramelos. No son obstáculos nuevos al movimiento. `restorationStep(rest,board,size,cleared,{powered,pulse,protectedIndex})` calcula el nuevo estado y los brotes; `restoreWave()` lo aplica a la cascada y permite encadenar poderes. La protección de un especial recién creado debe seguir respetándose.
+
+Las seis condiciones son `direct` (limpiar encima), `adjacent` (encima o vecino ortogonal), `power` (alcanzar con poder o Pulso activo), `ordered` (primera casilla pendiente, una etapa por cascada), `color` (dorado 3 encima/adyacente; poderes o Pulso también cuentan) y `tide` (fila activa que cambia tras una jugada válida; T1 usa dos filas). Cada encuentro introduce como máximo una condición nueva; no sustituir diferencias tácticas por metas más altas.
+
+La victoria de campaña requiere **meta habitual y todas las zonas restauradas**. Usa `campaignWon(g)` tanto al terminar turnos/ayudas como en `finishBoard()`; comprobar sólo puntos permite victorias incompletas. `restorationRatio()` comunica ambas dimensiones, pero una proporción visual no concede victoria. El diario y los otros modos conservan su acceso/economía y no reciben zonas de campaña por defecto.
+
+Los lugares recuperados se derivan de las victorias existentes con `restoredPlaces()`. `restorationReceipt()` comunica lugar, cambio y frase de Confite al ganar; no concede construcciones ni un premio adicional. No persistas progreso por dibujar escenas o mostrar consecuencias.
+
+El recurso `assets/candies-restoration-v1.svg` está **en preparación** para coherencia visual. No asumas que está terminado, integrado, cacheado o probado: revisa su existencia, geometría, referencia CSS y fallback. El contrato lógico sigue siendo el atlas de 4×2, los colores 0–5, la estrella y la celda de chocolate. La guía visual compartida registrará el cierre confirmado.
+
+[RESTORATION_PLAYTEST.md](RESTORATION_PLAYTEST.md) contiene el protocolo humano de cinco personas y diez minutos iniciales. Es un plan sin resultados; las reglas que los participantes no alcancen no se consideran probadas.
 
 ## Guardados y pruebas sin tocar los datos de Jose
 
@@ -81,7 +99,7 @@ Para cambios de reglas, metas, acceso, economía o guardado, ejecuta además:
 node scripts/renacer-playthrough.cjs
 ```
 
-El cierre histórico de la versión publicada registró **69 pruebas aprobadas y 80/80 niveles**, 108 intentos y 28 derrotas, sin escribir la clave antigua. Es una referencia reproducible, no una garantía sobre modificaciones posteriores. Usa el resultado de la ejecución actual al informar. [Método y límites](RENACER_PLAYTHROUGH.md).
+El cierre histórico previo a las reglas tácticas registró **69 pruebas aprobadas y 80/80 niveles**, 108 intentos y 28 derrotas, sin escribir la clave antigua. Es una referencia reproducible, no una validación de la restauración nueva. Vuelve a ejecutar suite y recorrido sobre el runtime actual, incluyendo la meta doble y las seis reglas, y usa su resultado real al informar. [Método y límites anteriores](RENACER_PLAYTHROUGH.md).
 
 Revisa las pantallas afectadas a **320×640**, **390×844** y escritorio: tablero y controles completos, foco de teclado, restauración real a 0/intermedia/1 y ausencia de scroll horizontal. En arenas, prueba pausa, regreso y limpieza; con efectos, movimiento reducido, ocultación y silencio. Los cambios de recursos o PWA necesitan comprobar carga, manifest, catálogo de caché y recarga offline en QA. [Evidencia anterior](DARK_COLOR_QA.md) solo cuando resulte pertinente; emular móvil no equivale a probar un teléfono físico.
 
@@ -102,9 +120,9 @@ Después de abrir esta carpeta en Claude Code, pega esto y sustituye la última 
 ```text
 Trabaja en este proyecto Sugar Clash · Renacer. Lee CLAUDE.md y sus instrucciones importadas. Consulta docs/CLAUDE_HANDOFF.md solo para localizar el arranque, las funciones, las pruebas o la publicación que necesites.
 
-Conserva Dulcelandia, Confite, el logo sobrio y la dirección actual dark/descolorido frente al color que vuelve por progreso real. El juego vigente es index.html de la raíz; no uses legacy ni la etapa marfil como base. No cambies reglas o economía como parte de un ajuste visual.
+Conserva Dulcelandia, Confite, el logo sobrio y la dirección actual dark/descolorido frente al color que vuelve por progreso real. El juego vigente es index.html de la raíz; no uses legacy ni la etapa marfil como base. La restauración táctica del 23 de octubre está en validación: revisa sus datos y usa campaignWon() para la meta doble. No cambies reglas o economía como parte de un ajuste visual.
 
-Revisa git status y respeta cambios existentes de Codex. Prueba en un origen aislado distinto del puerto4177 y de producción; no alteres mis guardados. Implementa y valida mi encargo, indica qué comprobaste y no afirmes que está publicado sin verificar un despliegue de esa versión.
+Revisa git status y respeta cambios existentes de Codex. Prueba en un origen aislado distinto del puerto 4177 y de producción; no alteres mis guardados. Implementa y valida mi encargo, indica qué comprobaste y no afirmes que está publicado sin verificar un despliegue de esa versión.
 
 Mi encargo: [escribe aquí el cambio que quieres].
 ```
