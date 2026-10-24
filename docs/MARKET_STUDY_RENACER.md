@@ -148,3 +148,10 @@ El acabado es casual cuidado para público amplio. La base coordinada es carbón
 Las referencias Royal Match, Toon Blast y Match Factory sirven para estudiar claridad, respuesta y propósito de las acciones. No justifican copiar su estilo, perder la identidad de Dulcelandia ni equiparar «americano» con infantil o con una etnia. La marca y la relación descolorido/color son decisiones originales que aún necesitan prueba con jugadores.
 
 La validación visual debe mostrar los estados sin restaurar, intermedio y completo, con el mismo guardado y encuadre: comprobar que se entiende qué cambió y por qué. Probar después que se sigue leyendo el objetivo y encontrando Jugar en el estado oscuro. La QA final del nuevo tema y arte sigue pendiente; no se afirma mejora de retención, aceptación comercial ni ingresos por cambiar su apariencia.
+
+
+## Cierre de la iteración de restauración · 24 de octubre de2026
+
+La crítica de Jose sobre el carácter genérico se abordó con una diferencia jugable: suelo que responde a seis condiciones, brotes que abren el tablero y guardianes iniciales que requieren decisiones distintas. La campaña, Confite y los lugares recuperados concentran esta iteración; los modos gratuitos siguen disponibles. El atlas de piezas y los estados Antes/Recuperado tienen dibujo propio y un acabado sobrio, conservando el mundo oscuro frente al color que vuelve.
+
+[Implementación verificada](RESTORATION_QA.md) y [publicación](DEPLOYMENT_RESTORATION.md). El recorrido automatizado comprueba acceso y reglas, no respuesta de mercado. No se registraron jugadores ni métricas comerciales: [protocolo humano pendiente](RESTORATION_PLAYTEST.md).

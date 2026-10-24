@@ -39,4 +39,4 @@ No se reclutaron jugadores ni se inventaron métricas. [Protocolo de cinco perso
 
 ## Offline y publicación
 
-Offline comprobado el24 de octubre: el servidor4203 ya estaba apagado (sin proceso escuchando); la página recargó desde caché y Zen abrió el atlas SVG nuevo. Una combinación real concedió60 puntos y rellenó49 piezas. [Evidencia](qa/restoration-offline-320.jpg). La publicación de esta iteración se documentará en DEPLOYMENT_RESTORATION.md cuando el destino y la versión servida estén verificados; DEPLOYMENT_EXPEDITION.md conserva la anterior.
+Offline comprobado el24 de octubre: el servidor4203 ya estaba apagado (sin proceso escuchando); la página recargó desde caché y Zen abrió el atlas SVG nuevo. Una combinación real concedió60 puntos y rellenó49 piezas. [Evidencia](qa/restoration-offline-320.jpg). La versión fb9388f está publicada y su destino comprobado: [DEPLOYMENT_RESTORATION.md](DEPLOYMENT_RESTORATION.md). DEPLOYMENT_EXPEDITION.md conserva la anterior.

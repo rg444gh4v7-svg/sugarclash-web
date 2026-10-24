@@ -128,3 +128,7 @@ Mi encargo: [escribe aquí el cambio que quieres].
 ```
 
 El combo global de dos estrellas se comunica explícitamente mediante `globalPrism` en `resolveBoard()`/`restoreWave()`; no inferirlo por el número de casillas limpiadas. El callback de continuar cobra gemas una sola vez y rechaza sesiones obsoletas. Hay regresiones para ambos casos.
+
+## Publicación actual confirmada · 24 de octubre de2026
+
+El runtime de restauración está publicado como `fb9388f` en https://sugarclash-web.vercel.app/. EstadoREADY, raíz y ocho archivos críticos comprobados (la raíz se verifica aparte);40 recursos de precachéHTTP200. [Informe](DEPLOYMENT_RESTORATION.md). La guía y los informes pueden tener commits documentales posteriores sin cambiar el runtime publicado. Las comprobaciones humanas siguen pendientes. No volver a desplegar sólo para repetir la evidencia.
