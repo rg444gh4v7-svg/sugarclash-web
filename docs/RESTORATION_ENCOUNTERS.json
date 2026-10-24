@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "territory": 1,
   "size": 7,
-  "status": "Especificación de encuentros; su presencia no acredita integración ni pruebas del motor.",
+  "status": "Integrado en el runtime;97 pruebas y recorrido80/80. La validación humana de diversión y dificultad sigue pendiente.",
   "contract": {
     "cells": "Índices de tablero plano, de 0 a 48. En ordered, el orden del array es el orden de apertura.",
     "surface": "Las marcas pertenecen al suelo: no bloquean intercambios ni caen con los caramelos.",

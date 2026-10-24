@@ -19,7 +19,7 @@ Antes de editar, revisa `git status --short` y los cambios existentes. Coordina 
 
 La fuente actual es el runtime de la raíz, no `legacy/index.html`. `legacy/` conserva la edición anterior, sus instrucciones, pruebas e informes; su API histórica no describe Renacer. Tampoco son instrucciones vigentes los comentarios o documentos históricos de la etapa marfil/clara. La autoridad visual está en [VISUAL_STYLE.md](../VISUAL_STYLE.md): mundo dark/descolorido, color recuperado por progreso real y logo sobrio. Las decisiones nuevas de Jose prevalecen.
 
-El 23 de octubre Jose autorizó cuatro mejoras: **coherencia visual, restauración táctica en el tablero, guardianes con reglas propias y consecuencias concretas al ganar**, con foco en los primeros diez niveles. La implementación de esta etapa está en validación: no extrapoles las pruebas anteriores ni la declares publicada. La expedición previa, con ruta real y regreso orgánico del color, tiene su evidencia en [EXPEDITION_QA.md](EXPEDITION_QA.md).
+El 23 de octubre Jose autorizó cuatro mejoras: **coherencia visual, restauración táctica en el tablero, guardianes con reglas propias y consecuencias concretas al ganar**, con foco en los primeros diez niveles. La implementación de esta etapa pasó97 pruebas y un recorrido80/80. La evidencia actual está en [RESTORATION_QA.md](RESTORATION_QA.md); no extrapoles las pruebas anteriores ni declares publicación sin su informe. La expedición previa, con ruta real y regreso orgánico del color, tiene su evidencia en [EXPEDITION_QA.md](EXPEDITION_QA.md).
 
 La última publicación documentada es el commit **`e94f27a7e6e69e702f8e35efe812bb5690b46ed1`**, servido en [sugarclash-web.vercel.app](https://sugarclash-web.vercel.app/), con despliegue READY y archivos comprobados byte por byte. Esa evidencia corresponde a esa versión, no a cambios posteriores. Consulta [DEPLOYMENT_EXPEDITION.md](DEPLOYMENT_EXPEDITION.md) al verificar o publicar; DEPLOYMENT_RENACER conserva la publicación inicial36aba63.
 
@@ -45,7 +45,7 @@ Busca las funciones por nombre con `rg`; los números de línea cambian.
 
 Reglas que conviene comprobar antes de tocar la progresión: ocho capítulos de diez niveles; nueve victorias de una estrella abren al jefe. Una vida se reserva al entrar en campaña y vuelve una sola vez al ganar; perder o abandonar la consume. Los otros modos no gastan vidas. Los renders no conceden progreso y una celebración no concede premios.
 
-## Restauración en validación
+## Restauración integrada
 
 La especificación legible está en [RESTORATION_ENCOUNTERS.json](RESTORATION_ENCOUNTERS.json): diez encuentros T1 y cuatro líneas de consecuencias por capítulo T2–T8. El runtime empaqueta sus datos en `RESTORATION_ENCOUNTERS` y `RESTORATION_CHAPTERS` dentro del único HTML; no los descarga durante la partida. Si cambias datos, mantén sincronizados la especificación y el runtime y valida el comportamiento real.
 
@@ -57,7 +57,7 @@ La victoria de campaña requiere **meta habitual y todas las zonas restauradas**
 
 Los lugares recuperados se derivan de las victorias existentes con `restoredPlaces()`. `restorationReceipt()` comunica lugar, cambio y frase de Confite al ganar; no concede construcciones ni un premio adicional. No persistas progreso por dibujar escenas o mostrar consecuencias.
 
-El recurso `assets/candies-restoration-v1.svg` está **en preparación** para coherencia visual. No asumas que está terminado, integrado, cacheado o probado: revisa su existencia, geometría, referencia CSS y fallback. El contrato lógico sigue siendo el atlas de 4×2, los colores 0–5, la estrella y la celda de chocolate. La guía visual compartida registrará el cierre confirmado.
+El recurso `assets/candies-restoration-v1.svg` está integrado y cacheado en renacer-v5: atlas original1280×640/4×2, colores0–5, estrella y chocolate. Revisado en320×640/390×844 y después de apagar el servidor. Las escenas Antes/Recuperado usan geometrías distintas, no sólo otro filtro de color.
 
 [RESTORATION_PLAYTEST.md](RESTORATION_PLAYTEST.md) contiene el protocolo humano de cinco personas y diez minutos iniciales. Es un plan sin resultados; las reglas que los participantes no alcancen no se consideran probadas.
 
@@ -120,9 +120,11 @@ Después de abrir esta carpeta en Claude Code, pega esto y sustituye la última 
 ```text
 Trabaja en este proyecto Sugar Clash · Renacer. Lee CLAUDE.md y sus instrucciones importadas. Consulta docs/CLAUDE_HANDOFF.md solo para localizar el arranque, las funciones, las pruebas o la publicación que necesites.
 
-Conserva Dulcelandia, Confite, el logo sobrio y la dirección actual dark/descolorido frente al color que vuelve por progreso real. El juego vigente es index.html de la raíz; no uses legacy ni la etapa marfil como base. La restauración táctica del 23 de octubre está en validación: revisa sus datos y usa campaignWon() para la meta doble. No cambies reglas o economía como parte de un ajuste visual.
+Conserva Dulcelandia, Confite, el logo sobrio y la dirección actual dark/descolorido frente al color que vuelve por progreso real. El juego vigente es index.html de la raíz; no uses legacy ni la etapa marfil como base. La restauración táctica del23 de octubre está integrada y validada técnicamente: revisa RESTORATION_QA.md y sus límites; usa campaignWon() para la meta doble. No cambies reglas o economía como parte de un ajuste visual.
 
 Revisa git status y respeta cambios existentes de Codex. Prueba en un origen aislado distinto del puerto 4177 y de producción; no alteres mis guardados. Implementa y valida mi encargo, indica qué comprobaste y no afirmes que está publicado sin verificar un despliegue de esa versión.
 
 Mi encargo: [escribe aquí el cambio que quieres].
 ```
+
+El combo global de dos estrellas se comunica explícitamente mediante `globalPrism` en `resolveBoard()`/`restoreWave()`; no inferirlo por el número de casillas limpiadas. El callback de continuar cobra gemas una sola vez y rechaza sesiones obsoletas. Hay regresiones para ambos casos.

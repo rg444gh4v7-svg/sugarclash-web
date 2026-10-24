@@ -8,9 +8,9 @@ Jose confirmó después la base casi monocroma, el regreso progresivo del color 
 
 Jose pidió después «sigue mejorando, se ve genérico». La iteración de expedición expresa la identidad mediante cartografía de la ruta real, guardianes y una huella de color que nace en el río. Conserva el logo y el tono sobrio; sustituye el panel central y los accesos como tarjetas iguales. [Implementación y pruebas](docs/EXPEDITION_QA.md).
 
-### Nueva etapa autorizada · 23 de octubre · en validación
+### Restauración integrada · 23–24 de octubre de 2026
 
-Jose autorizó cuatro mejoras conectadas: **coherencia visual, restauración táctica del tablero, guardianes con condiciones propias y consecuencias concretas al ganar**, priorizando los primeros diez niveles. Esta autorización permite cambiar esas reglas de juego; no debe confundirse con una mera capa cosmética. No añade pagos, monedas, cobros de vida o premios nuevos. La implementación, el equilibrio y la experiencia humana de esta etapa siguen en validación; las publicaciones e informes anteriores no la acreditan.
+Jose autorizó cuatro mejoras conectadas: **coherencia visual, restauración táctica del tablero, guardianes con condiciones propias y consecuencias concretas al ganar**, priorizando los primeros diez niveles. Esta autorización permite cambiar esas reglas de juego; no debe confundirse con una mera capa cosmética. No añade pagos, monedas, cobros de vida o premios nuevos. La implementación técnica pasó97 pruebas y un recorrido real de80/80 niveles. El equilibrio y la experiencia humana requieren el protocolo de jugadores; no se deducen de las pruebas del motor. [Evidencia y límites](docs/RESTORATION_QA.md).
 
 La identidad dark/descolorido frente al color recuperado y el logo sobrio se mantienen. En el tablero, las marcas son **casillas del suelo**: permanecen en su sitio, no bloquean intercambios y no caen con las piezas. Capas restantes, casilla ordenada y fila activa deben distinguirse de caramelos, hielo y selección. La regla del guardián se comunica con una instrucción breve y una señal visible, sin un tutorial modal obligatorio.
 
@@ -18,9 +18,9 @@ Hay seis condiciones: **direct** (limpiar encima), **adjacent** (encima o vecino
 
 La campaña exige **cumplir su meta y restaurar todas las zonas**; `campaignWon(g)` valida ambas. Mostrar cantidades separadas y evitar que una barra llena parezca victoria si falta la otra condición. Los estados del guardián y del paisaje dependen del progreso real, nunca de una animación de entrada. El resultado muestra lugar, cambio y frase de Confite; la portada/atlas/aldea pueden recordar lugares ganados, sin conceder construcciones ni alterar el guardado por renderizar.
 
-El atlas `assets/candies-restoration-v1.svg` está **en preparación**, con el contrato lógico de 4×2 del atlas vigente. Aún no se afirma que esté terminado, integrado, cacheado o probado; ese cierre necesita revisar siluetas, colores, geometría, carga y fallback. No generar o anunciar nuevos recursos por el solo hecho de que el nombre esté previsto aquí.
+El atlas `assets/candies-restoration-v1.svg` está integrado: SVG original1280×640,4×2, con ocho siluetas de confitería mate. Geometría, carga en navegador y uso sin conexión comprobados. El orden lógico permanece igual. El atlas anterior queda como recurso histórico; no confundirlo con el vigente. Los lugares recuperados tienen geometrías distintas antes y después: puente roto/unido, cauce bloqueado/libre, raíces secas/florecidas y casa tapiada/habitable.
 
-La prueba humana propuesta está en [RESTORATION_PLAYTEST.md](docs/RESTORATION_PLAYTEST.md): cinco personas, diez minutos iniciales, comprensión de reglas, intentos sin salir, aburrimiento y ganas de otra partida. Es un protocolo sin jugadores ni resultados registrados. La validación automática, el recorrido real y las comprobaciones móviles/offline de esta etapa necesitan su evidencia propia.
+La prueba humana propuesta está en [RESTORATION_PLAYTEST.md](docs/RESTORATION_PLAYTEST.md): cinco personas, diez minutos iniciales, comprensión de reglas, intentos sin salir, aburrimiento y ganas de otra partida. Es un protocolo sin jugadores ni resultados registrados. La validación automática, el recorrido real y las comprobaciones móviles/offline constan en [RESTORATION_QA.md](docs/RESTORATION_QA.md).
 
 ### Identidad y tono
 
@@ -38,7 +38,7 @@ El cristal y la niebla pertenecen al lore. No teñir cada pantalla de violeta ni
 | `assets/sugar-clash-logo-v2.webp` | Wordmark **SUGAR CLASH**, transparente, **1100×653**. Lettering ancho crema/coral, contorno petróleo y detalle dorado; sin mascota incorporada. Conservar proporción y aire alrededor con `object-fit:contain`. |
 | `assets/icon-sugar-v2.svg` | Emblema **S**, lienzo **256×256**, petróleo/crema/coral; marca compacta y favicon. |
 | `assets/icon-sugar-v2-192.png`, `-512.png`, `-180.png` | Variantes de **192×192**, **512×512** y **180×180** para manifest y Apple touch icon. Mantener coherencia con el SVG. |
-| `assets/candies-toon-v2.webp` | Atlas RGBA **1280×640**, **4×2**, celdas **320×320**. Orden lógico: rosa, verde, azul, dorado, violeta, coral, especial y chocolate. Mantener colores/siluetas distinguibles y la correspondencia del motor. |
+| `assets/candies-restoration-v1.svg` | Atlas SVG original **1280×640**, **4×2**, celdas **320×320**. Orden lógico: rosa, verde, azul, dorado, violeta, coral, especial y chocolate. Mantener colores/siluetas distinguibles y la correspondencia del motor. |
 | `monsters-t1-v18.webp` … `monsters-t8-v18.webp` | Ochenta guardianes, atlas **5×2**, celdas **320×320**. Nivel `n` usa `n-1`; jefe usa la celda 9. Nombre y número permanecen legibles. |
 | `combatants-v18.webp`, `buildings-v18.webp` | Atlas **5×2** de combatientes y diez edificios, con su orden existente. La pintura y los marcos no cambian hitboxes, estados o premios. |
 

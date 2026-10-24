@@ -27,8 +27,8 @@ Se ganaron mediante controles reales los encuentros1,2 y3: tutorial, bordes y co
 
 Para inspeccionar encuentros posteriores se importó, mediante Ajustes/Revisar/Importar, una copia anónima producida por el recorrido completo del motor; no se inyectó progreso en el navegador. Se revisaron sellos de poder, puente por etapas, fila alterna y presentación de jefe. La fila cambió de3 a5 tras una jugada real. Abrir la introducción del jefe mantuvo2 vidas; la confirmación y doble confirmación también están cubiertas por pruebas.
 
--320×640: sin desbordamiento horizontal; tablero termina en539px, herramientas en594px e instrucciones en623px. Guerra/Royale terminan en554px, antes de navegación. Resultado de victoria538px de alto dentro del viewport, sin scroll interno necesario en el ejemplo comprobado.
--390×844: tablero termina en651px y herramientas en708px. Regla del encuentro visible antes del tablero.
+- 320×640: sin desbordamiento horizontal; tablero termina en539px, herramientas en594px e instrucciones en623px. Guerra/Royale terminan en554px, antes de navegación. Resultado de victoria538px de alto dentro del viewport, sin scroll interno necesario en el ejemplo comprobado.
+- 390×844: tablero termina en651px y herramientas en708px. Regla del encuentro visible antes del tablero.
 - El texto de cada marca informa zona, capas y estado activo/en espera. `aria-busy` refleja las cascadas; las piezas conservan teclado y foco.
 
 Evidencia en `docs/qa/restoration-*.jpg`: tablero320/390, portada320, victorias320/390 y farol alterno390. Las imágenes con avance pertenecen al guardado aislado deQA.
@@ -39,4 +39,4 @@ No se reclutaron jugadores ni se inventaron métricas. [Protocolo de cinco perso
 
 ## Offline y publicación
 
-Pendiente de la comprobación final de esta iteración. La última publicación anterior permanece documentada en DEPLOYMENT_EXPEDITION.md; un commit o push no acredita despliegue.
+Offline comprobado el24 de octubre: el servidor4203 ya estaba apagado (sin proceso escuchando); la página recargó desde caché y Zen abrió el atlas SVG nuevo. Una combinación real concedió60 puntos y rellenó49 piezas. [Evidencia](qa/restoration-offline-320.jpg). La publicación de esta iteración se documentará en DEPLOYMENT_RESTORATION.md cuando el destino y la versión servida estén verificados; DEPLOYMENT_EXPEDITION.md conserva la anterior.
