@@ -1,0 +1,10 @@
+.git/
+.vercel/
+.claude/
+.codex/
+.agents/
+.aws/
+.env
+.env.*
+.DS_Store
+*.log
