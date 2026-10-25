@@ -1,0 +1,14 @@
+/* Finite responses to actual moves. No ambient animation or layout shift. */
+.sc-beam{width:var(--beam-w);height:var(--beam-h);border-radius:50%;background:#fff0d1;box-shadow:0 0 9px 3px #d4ab6b88;animation:scBeam .3s ease-out both}
+.sc-power-ring{border-width:3px;animation-duration:.4s}
+.sc-restoration-thread{background:#9bc9ae;box-shadow:0 0 6px #80b49c66;animation-duration:.65s}
+#turn-note{display:block;min-height:13px;color:#b6c6bb;font-size:9px}
+.board-tip[data-speaker="Confite"]{font-family:Fraunces,Georgia,serif;font-size:12px;font-weight:450;line-height:1.35;color:#d5d4bf}
+.board-tip[data-speaker="Confite"]::before{content:'CONFITE  ';font:700 8px/1 Karla,system-ui,sans-serif;color:#bba28b;letter-spacing:.09em}
+.sc-companion-react{animation:scCompanionReact .65s ease-out}
+@keyframes scBeam{0%{opacity:0;scale:.15}20%{opacity:1;scale:1}100%{opacity:0;scale:1.03}}
+@keyframes scCompanionReact{30%{transform:translateY(-3px) rotate(-5deg)}65%{transform:translateY(0) rotate(2deg)}100%{transform:none}}
+@media(max-width:370px){.board-tip[data-speaker="Confite"]{font-size:11px}#turn-note{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.sc-companion-react{animation:none!important}.sc-beam,.sc-restoration-thread{display:none}}
+
+@media(max-width:370px) and (max-height:740px){.game-page:has(.has-play-scene){padding-top:2px;padding-bottom:3px}.game-layout:has(.has-play-scene){gap:3px}.has-play-scene+.board-side .board-tools{margin-top:5px}}

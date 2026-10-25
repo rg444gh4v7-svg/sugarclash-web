@@ -1,0 +1,175 @@
+{
+  "_meta": {
+    "schemaVersion": 1,
+    "status": "Propuesta de voz; no implica integración ni prueba con jugadores.",
+    "voice": "Confite observa cosas pequeñas del lugar. Humor seco y cálido; habla como compañero, sin aplaudir cada movimiento ni burlarse del jugador.",
+    "scope": "Campaña. Reacciones a hechos reales, sin reglas, premios ni campos de guardado nuevos.",
+    "delivery": {
+      "default": "Silencio en una combinación corriente. No usar el catálogo para llenar tiempos de espera.",
+      "maxAsidesPerAttempt": 2,
+      "maxAsidesPerCompletedTurn": 1,
+      "minValidTurnsBetweenAsides": 3,
+      "openingAndResultExcludedFromAsideLimit": true,
+      "selection": "Orden estable: primera frase no dicha en la sesión de página para esa clave. Si se agotaron, guardar silencio. No consumir RNG del motor ni persistir frases vistas.",
+      "timing": "Recoger hechos durante las cascadas y elegir una sola reacción cuando la jugada termine. Descartar las demás; no ponerlas en cola para turnos posteriores.",
+      "priority": ["place_complete", "power_chain", "created_prism", "created_bomb", "created_row", "created_col", "last_moves", "garden", "path", "water", "home", "cascade", "pulse_ready"],
+      "instruction": "La regla y los dos objetivos permanecen legibles. El aparte no sustituye restorationHint ni el tutorial inicial; usar el espacio de Confite disponible sin tapar el tablero.",
+      "lifetime": "Estado transitorio asociado a state.run. Descartar eventos al navegar, stopBoard, ocultar la página, pausar o abrir un modal. Sin temporizadores ni RAF nuevos.",
+      "noPressure": "Sin urgencia artificial, culpa, rachas, anuncios, promesas de premio ni invitaciones insistentes a reintentar. Últimos movimientos no significa límite de tiempo."
+    },
+    "triggers": {
+      "garden": "Una o más marcas de jardín pasan de hp positivo a cero; no sólo reciben daño.",
+      "path": "Una o más marcas de camino pasan de hp positivo a cero.",
+      "water": "Una o más marcas de cauce pasan de hp positivo a cero.",
+      "home": "Una o más marcas de hogar pasan de hp positivo a cero.",
+      "place_complete": "La restauración pasa de pendiente a completa, pero la meta normal aún falta. Si ambas están completas, mostrar el resultado ganado en su lugar.",
+      "created_row": "powerCreation devuelve power row. Creación, no una activación posterior.",
+      "created_col": "powerCreation devuelve power col. Creación, no una activación posterior.",
+      "created_bomb": "powerCreation devuelve power bomb.",
+      "created_prism": "powerCreation devuelve power prism.",
+      "power_chain": "Al menos dos poderes distintos se activaron realmente durante la misma jugada. No contar una pieza creada y protegida como activada.",
+      "cascade": "La jugada alcanzó al menos tres oleadas de cascada. Comentar una vez al terminar, nunca por cada oleada.",
+      "pulse_ready": "El Pulso pasa de no disponible a disponible. No por renderizar un botón ya cargado ni en cada turno mientras siga listo.",
+      "last_moves": "Los movimientos cruzan a tres o menos, con al menos uno restante y sin victoria. Una vez por intento; sólo campaña sin reloj.",
+      "failure": "Derrota confirmada. Elegir una frase para el resultado existente; no sumarla a otros apartes."
+    },
+    "audit": [
+      "El final de attemptSwap vuelve a escribir restorationHint y borra la observación del brote de resolveBoard. Resolver la voz después de la jugada evita ese sobrescrito.",
+      "En campaña, la introducción de Confite vive en board-tip y su presencia habitual queda reducida al Pulso. Una reacción breve debe sentirse suya y dejar visible la instrucción.",
+      "Los títulos actuales de combo describen intensidad, pero no lugar ni carácter. Conservar el dato de cascada y añadir sólo una observación ocasional evita convertir cada jugada en un comentario."
+    ]
+  },
+  "garden": [
+    "Una hoja. Parece poco, hasta que falta.",
+    "Eso era una raíz. Yo le había echado la culpa a una piedra.",
+    "Vuelve el verde. No pienso discutirle el sitio."
+  ],
+  "path": [
+    "Ahí se podía pasar. Era una sospecha.",
+    "Un tramo menos para andar de puntillas.",
+    "El camino vuelve a tener argumentos."
+  ],
+  "water": [
+    "Ya corre. Le llevaba ventaja hasta una piedra.",
+    "Ese ruido es el río. Lo había echado de menos.",
+    "Por fin se mueve algo sin que lo empujemos."
+  ],
+  "home": [
+    "Se está pareciendo a un sitio al que volver.",
+    "Un poco de luz cambia bastante las cosas.",
+    "Aquí ya apetece quedarse un momento."
+  ],
+  "place_complete": [
+    "El suelo ya está. Queda la otra parte del trabajo.",
+    "Aquí vuelve a haber color. Ahora, la meta pendiente.",
+    "El lugar está listo. Nosotros aún tenemos algo que resolver."
+  ],
+  "created_row": [
+    "Tenemos un atajo. Bastante recto.",
+    "Ése tiene la fila muy clara.",
+    "Una raya. La niebla no entiende las indirectas."
+  ],
+  "created_col": [
+    "Ése ha decidido ir al fondo del asunto.",
+    "De arriba abajo. Sin rodeos.",
+    "Una columna con planes."
+  ],
+  "created_bomb": [
+    "Los de al lado van a enterarse.",
+    "Conviene avisar a los vecinos.",
+    "Tan pequeño, y pidiendo tanto espacio."
+  ],
+  "created_prism": [
+    "Una estrella. Ésta sí nos queda a mano.",
+    "Mírala. Discreta no ha salido.",
+    "Bueno. Ahora tenemos algo que guardar."
+  ],
+  "power_chain": [
+    "Se han puesto de acuerdo sin consultarnos.",
+    "Un poder encontró al otro. Se conocen, por lo visto.",
+    "Eso explica por qué estaban tan juntos."
+  ],
+  "cascade": [
+    "El tablero ha decidido colaborar.",
+    "Voy a fingir que conté todos esos.",
+    "Yo iba a señalar ése. Ya no está."
+  ],
+  "pulse_ready": [
+    "Tengo el Pulso listo. Tú eliges dónde.",
+    "Ya puedo ayudar. Me guardo la prisa.",
+    "Listo por aquí. Cuando te venga bien."
+  ],
+  "last_moves": [
+    "Movimientos pocos. Tiempo, el que haga falta.",
+    "No se cae nada por pensarlo un momento.",
+    "Queda poco margen. Me quedo aquí contigo."
+  ],
+  "failure": [
+    "El camino sigue ahí. Podemos volver cuando quieras.",
+    "Hoy quedó algo de gris. El camino no se ha ido.",
+    "No salió esta vez. Yo me quedo contigo."
+  ],
+  "openingsT1": [
+    {
+      "n": 1,
+      "name": "La Pradera Dulce",
+      "detail": "Hierba escondida por el gris.",
+      "text": "Hay hierba bajo el gris. La he pisado. Puedo confirmarlo.",
+      "note": "El tutorial de las dos piezas marcadas tiene prioridad. No añadir una segunda instrucción."
+    },
+    {
+      "n": 2,
+      "name": "El Sendero de Caramelo",
+      "detail": "Caramelo que se pega a los pies.",
+      "text": "Este sendero se pega a los pies. Tiene una forma muy suya de pedir visitas."
+    },
+    {
+      "n": 3,
+      "name": "El Bosque de Caramelo",
+      "detail": "Olor a miel entre las raíces.",
+      "text": "Las raíces huelen a miel. Yo seguía el olor. Podemos llamarlo orientación."
+    },
+    {
+      "n": 4,
+      "name": "El Río de Miel",
+      "detail": "El olor permanece aunque el cauce esté bloqueado.",
+      "text": "El río sigue ahí. Se nota por el olor. Por la corriente, todavía no."
+    },
+    {
+      "n": 5,
+      "name": "La Aldea Carmesí",
+      "detail": "Faroles apagados y alineados.",
+      "text": "Los faroles siguen en su sitio. Apagados, pero muy formales."
+    },
+    {
+      "n": 6,
+      "name": "El Puente Quebrado",
+      "detail": "Una tabla ausente del puente.",
+      "text": "Falta una tabla. Prefiero encontrarla antes de comprobar cuánto salto."
+    },
+    {
+      "n": 7,
+      "name": "La Torre Vigía",
+      "detail": "El farol gira entre dos franjas.",
+      "text": "El farol gira. Mi orientación también, pero con menos orden."
+    },
+    {
+      "n": 8,
+      "name": "El Cañón de Azúcar",
+      "detail": "El eco entre las paredes del cañón.",
+      "text": "Probé el eco. Mucha voz; pocas indicaciones."
+    },
+    {
+      "n": 9,
+      "name": "Las Puertas Carmesí",
+      "detail": "Bisagras que conservan su sitio.",
+      "text": "Las bisagras siguen ahí. Les vendrá bien tener algo que hacer."
+    },
+    {
+      "n": 10,
+      "name": "El Último Carmesí",
+      "detail": "Polvo en los cuatro sellos del guardián.",
+      "text": "Hay polvo en los cuatro sellos. El guardián parece llevar la cuenta hasta dormido."
+    }
+  ]
+}

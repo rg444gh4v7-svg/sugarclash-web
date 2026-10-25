@@ -1,0 +1,100 @@
+/* Append after existing game/short-screen CSS. Only campaign headers with a
+   real restoration scene opt in; other game modes retain their composition. */
+.battle-scene.has-play-scene{
+ position:relative;isolation:isolate;min-height:380px;padding:24px 26px;
+ justify-content:flex-start;overflow:hidden;background:#1c252e;border:1px solid #34423f;
+ border-radius:14px;text-align:left;
+}
+.battle-scene.has-play-scene::after{
+ inset:0;z-index:-1;border-radius:inherit;pointer-events:none;
+ background:linear-gradient(180deg,#18212a 0%,#18212af0 24%,#18212a00 54%);
+}
+.battle-scene.has-play-scene .battle-backdrop{display:none}
+.play-scene{
+ position:absolute;inset:0;z-index:-2;overflow:hidden;pointer-events:none;
+ background:#1c252e;border-radius:inherit;
+}
+.play-scene-art{display:block;width:160%;height:100%;margin-left:-30%;overflow:hidden;max-width:none}
+.battle-scene.has-play-scene>.eyebrow{
+ position:relative;align-self:flex-start;font-size:9px;color:#c8ab7d;
+}
+.battle-scene.has-play-scene h1{
+ position:relative;align-self:flex-start;max-width:80%;margin:8px 0 0;
+ color:#eee7db;text-shadow:0 1px 3px #101a22;
+}
+.battle-scene.has-play-scene .encounter-brief{
+ position:relative;align-self:flex-start;margin:8px 0 0;max-width:82%;padding:0;
+ border:0;text-align:left;
+}
+.battle-scene.has-play-scene .encounter-brief strong{display:none}
+.battle-scene.has-play-scene .encounter-brief p{color:#c0c9c2;font-size:12px;line-height:1.4}
+.battle-scene.has-play-scene .guardian-art{
+ position:absolute;right:-8px;bottom:39px;width:155px;height:175px;
+ filter:grayscale(calc(1 - var(--guard-color,0))) drop-shadow(0 6px 3px #101a2255);
+}
+.battle-scene.has-play-scene .guardian-health{
+ position:absolute;left:25px;right:25px;bottom:15px;width:auto;max-width:none;
+}
+.battle-scene.has-play-scene .guardian-health .progress-track{height:3px;background:#46534b}
+.battle-scene.has-play-scene .guardian-status{margin-top:5px;color:#bac3bc;font-size:9px}
+.play-confite{
+ position:absolute;left:12px;bottom:42px;width:53px;height:53px;pointer-events:none;
+ filter:drop-shadow(0 4px 2px #14211f55);
+}
+.play-confite>svg{display:block;width:100%;height:100%}
+
+/* A single response requested by the existing feedback lifecycle after an
+   actual restored-cell increment. No looping ambience and no extra timer. */
+.play-scene.sc-place-awake .scene-repair{animation:sceneReturn .7s ease-out both}
+@keyframes sceneReturn{
+ 0%{opacity:.5;filter:brightness(1.35)}
+ 45%{opacity:1;filter:brightness(1.13)}
+ 100%{opacity:1;filter:brightness(1)}
+}
+
+@media(max-width:760px){
+ .battle-scene.has-play-scene{
+  display:block;flex:none;width:100%;height:132px;min-height:132px;
+  padding:9px 10px 0;border-radius:12px;overflow:hidden;
+ }
+ .battle-scene.has-play-scene::after{
+  background:linear-gradient(180deg,#18212afc 0%,#18212af2 21%,#18212a77 39%,#18212a00 60%);
+ }
+ .battle-scene.has-play-scene>.eyebrow{display:none}
+ .battle-scene.has-play-scene h1{
+  width:calc(100% - 80px);max-width:none;font-size:19px;line-height:1.08;margin:0;
+ }
+ .battle-scene.has-play-scene .encounter-brief{
+  display:block;width:calc(100% - 80px);max-width:none;margin:4px 0 0;
+ }
+ .battle-scene.has-play-scene .encounter-brief p{
+  font-size:10px;line-height:1.25;margin:0;color:#c2cbc4;
+ }
+ .battle-scene.has-play-scene .guardian-art{
+  right:-4px;bottom:13px;width:91px;height:103px;
+ }
+ .battle-scene.has-play-scene .guardian-health{
+  left:10px;right:10px;bottom:5px;max-width:none;width:auto;
+ }
+ .battle-scene.has-play-scene .guardian-status{font-size:8px;margin-top:3px;line-height:1.15}
+ .battle-scene.has-play-scene .guardian-health .progress-track{height:2px}
+ .play-confite{left:5px;bottom:16px;width:43px;height:43px}
+ .play-scene-art{width:100%;height:calc(100% - 12px);margin:0}
+}
+@media(max-width:370px) and (max-height:740px){
+ .battle-scene.has-play-scene{
+  height:99px;min-height:99px;padding:7px 8px 0;border-radius:10px;
+ }
+ .battle-scene.has-play-scene h1{font-size:17px;width:calc(100% - 67px);line-height:1.05}
+ .battle-scene.has-play-scene .encounter-brief{width:calc(100% - 65px);margin-top:3px}
+ .battle-scene.has-play-scene .encounter-brief p{font-size:9px;line-height:1.2}
+ .battle-scene.has-play-scene .guardian-art{width:75px;height:85px;right:-5px;bottom:12px}
+ .battle-scene.has-play-scene .guardian-health{left:8px;right:8px;bottom:4px}
+ .battle-scene.has-play-scene .guardian-status{font-size:7.5px;line-height:1.1;margin-top:2px}
+ .play-confite{width:35px;height:35px;left:3px;bottom:15px}
+ .play-scene-art{height:calc(100% - 11px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .play-scene.sc-place-awake .scene-repair{animation:none;filter:none}
+}
+.page-hidden .play-scene .scene-repair{animation:none}

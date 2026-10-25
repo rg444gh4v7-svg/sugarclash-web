@@ -1439,6 +1439,125 @@ button:focus-visible,a:focus-visible{outline:3px solid #a8cbc4;outline-offset:4p
 .restoration-cell[data-active="0"][data-restored="0"]{opacity:1;outline:1px dashed #9caa9b66;outline-offset:-2px}
 .restoration-cell[data-active="0"][data-restored="0"]>b{position:absolute;display:grid;place-items:center;right:2px;bottom:2px;z-index:3;width:14px;height:14px;border:1px solid #879b8a66;border-radius:4px;background:#283638f2;color:#a9b6ae;font:700 9px/1 Karla;pointer-events:none}
 
+
+/* PLAY_CHARM_STYLE_START */
+/* Append after existing game/short-screen CSS. Only campaign headers with a
+   real restoration scene opt in; other game modes retain their composition. */
+.battle-scene.has-play-scene{
+ position:relative;isolation:isolate;min-height:380px;padding:24px 26px;
+ justify-content:flex-start;overflow:hidden;background:#1c252e;border:1px solid #34423f;
+ border-radius:14px;text-align:left;
+}
+.battle-scene.has-play-scene::after{
+ inset:0;z-index:-1;border-radius:inherit;pointer-events:none;
+ background:linear-gradient(180deg,#18212a 0%,#18212af0 24%,#18212a00 54%);
+}
+.battle-scene.has-play-scene .battle-backdrop{display:none}
+.play-scene{
+ position:absolute;inset:0;z-index:-2;overflow:hidden;pointer-events:none;
+ background:#1c252e;border-radius:inherit;
+}
+.play-scene-art{display:block;width:160%;height:100%;margin-left:-30%;overflow:hidden;max-width:none}
+.battle-scene.has-play-scene>.eyebrow{
+ position:relative;align-self:flex-start;font-size:9px;color:#c8ab7d;
+}
+.battle-scene.has-play-scene h1{
+ position:relative;align-self:flex-start;max-width:80%;margin:8px 0 0;
+ color:#eee7db;text-shadow:0 1px 3px #101a22;
+}
+.battle-scene.has-play-scene .encounter-brief{
+ position:relative;align-self:flex-start;margin:8px 0 0;max-width:82%;padding:0;
+ border:0;text-align:left;
+}
+.battle-scene.has-play-scene .encounter-brief strong{display:none}
+.battle-scene.has-play-scene .encounter-brief p{color:#c0c9c2;font-size:12px;line-height:1.4}
+.battle-scene.has-play-scene .guardian-art{
+ position:absolute;right:-8px;bottom:39px;width:155px;height:175px;
+ filter:grayscale(calc(1 - var(--guard-color,0))) drop-shadow(0 6px 3px #101a2255);
+}
+.battle-scene.has-play-scene .guardian-health{
+ position:absolute;left:25px;right:25px;bottom:15px;width:auto;max-width:none;
+}
+.battle-scene.has-play-scene .guardian-health .progress-track{height:3px;background:#46534b}
+.battle-scene.has-play-scene .guardian-status{margin-top:5px;color:#bac3bc;font-size:9px}
+.play-confite{
+ position:absolute;left:12px;bottom:42px;width:53px;height:53px;pointer-events:none;
+ filter:drop-shadow(0 4px 2px #14211f55);
+}
+.play-confite>svg{display:block;width:100%;height:100%}
+
+/* A single response requested by the existing feedback lifecycle after an
+   actual restored-cell increment. No looping ambience and no extra timer. */
+.play-scene.sc-place-awake .scene-repair{animation:sceneReturn .7s ease-out both}
+@keyframes sceneReturn{
+ 0%{opacity:.5;filter:brightness(1.35)}
+ 45%{opacity:1;filter:brightness(1.13)}
+ 100%{opacity:1;filter:brightness(1)}
+}
+
+@media(max-width:760px){
+ .battle-scene.has-play-scene{
+  display:block;flex:none;width:100%;height:132px;min-height:132px;
+  padding:9px 10px 0;border-radius:12px;overflow:hidden;
+ }
+ .battle-scene.has-play-scene::after{
+  background:linear-gradient(180deg,#18212afc 0%,#18212af2 21%,#18212a77 39%,#18212a00 60%);
+ }
+ .battle-scene.has-play-scene>.eyebrow{display:none}
+ .battle-scene.has-play-scene h1{
+  width:calc(100% - 80px);max-width:none;font-size:19px;line-height:1.08;margin:0;
+ }
+ .battle-scene.has-play-scene .encounter-brief{
+  display:block;width:calc(100% - 80px);max-width:none;margin:4px 0 0;
+ }
+ .battle-scene.has-play-scene .encounter-brief p{
+  font-size:10px;line-height:1.25;margin:0;color:#c2cbc4;
+ }
+ .battle-scene.has-play-scene .guardian-art{
+  right:-4px;bottom:13px;width:91px;height:103px;
+ }
+ .battle-scene.has-play-scene .guardian-health{
+  left:10px;right:10px;bottom:5px;max-width:none;width:auto;
+ }
+ .battle-scene.has-play-scene .guardian-status{font-size:8px;margin-top:3px;line-height:1.15}
+ .battle-scene.has-play-scene .guardian-health .progress-track{height:2px}
+ .play-confite{left:5px;bottom:16px;width:43px;height:43px}
+ .play-scene-art{width:100%;height:calc(100% - 12px);margin:0}
+}
+@media(max-width:370px) and (max-height:740px){
+ .battle-scene.has-play-scene{
+  height:99px;min-height:99px;padding:7px 8px 0;border-radius:10px;
+ }
+ .battle-scene.has-play-scene h1{font-size:17px;width:calc(100% - 67px);line-height:1.05}
+ .battle-scene.has-play-scene .encounter-brief{width:calc(100% - 65px);margin-top:3px}
+ .battle-scene.has-play-scene .encounter-brief p{font-size:9px;line-height:1.2}
+ .battle-scene.has-play-scene .guardian-art{width:75px;height:85px;right:-5px;bottom:12px}
+ .battle-scene.has-play-scene .guardian-health{left:8px;right:8px;bottom:4px}
+ .battle-scene.has-play-scene .guardian-status{font-size:7.5px;line-height:1.1;margin-top:2px}
+ .play-confite{width:35px;height:35px;left:3px;bottom:15px}
+ .play-scene-art{height:calc(100% - 11px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .play-scene.sc-place-awake .scene-repair{animation:none;filter:none}
+}
+.page-hidden .play-scene .scene-repair{animation:none}
+
+/* Finite responses to actual moves. No ambient animation or layout shift. */
+.sc-beam{width:var(--beam-w);height:var(--beam-h);border-radius:50%;background:#fff0d1;box-shadow:0 0 9px 3px #d4ab6b88;animation:scBeam .3s ease-out both}
+.sc-power-ring{border-width:3px;animation-duration:.4s}
+.sc-restoration-thread{background:#9bc9ae;box-shadow:0 0 6px #80b49c66;animation-duration:.65s}
+#turn-note{display:block;min-height:13px;color:#b6c6bb;font-size:9px}
+.board-tip[data-speaker="Confite"]{font-family:Fraunces,Georgia,serif;font-size:12px;font-weight:450;line-height:1.35;color:#d5d4bf}
+.board-tip[data-speaker="Confite"]::before{content:'CONFITE  ';font:700 8px/1 Karla,system-ui,sans-serif;color:#bba28b;letter-spacing:.09em}
+.sc-companion-react{animation:scCompanionReact .65s ease-out}
+@keyframes scBeam{0%{opacity:0;scale:.15}20%{opacity:1;scale:1}100%{opacity:0;scale:1.03}}
+@keyframes scCompanionReact{30%{transform:translateY(-3px) rotate(-5deg)}65%{transform:translateY(0) rotate(2deg)}100%{transform:none}}
+@media(max-width:370px){.board-tip[data-speaker="Confite"]{font-size:11px}#turn-note{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.sc-companion-react{animation:none!important}.sc-beam,.sc-restoration-thread{display:none}}
+
+
+@media(max-width:370px) and (max-height:740px){.game-page:has(.has-play-scene){padding-top:2px;padding-bottom:3px}.game-layout:has(.has-play-scene){gap:3px}.has-play-scene+.board-side .board-tools{margin-top:5px}}
+/* PLAY_CHARM_STYLE_END */
 </style>
 </head>
 <body>
@@ -1658,7 +1777,7 @@ function buildStructure(id){const b=BUILDINGS.find(x=>x.id===id);if(!b||save.bui
 function nextBuildingNote(){const b=BUILDINGS.find(x=>!save.buildings[x.id]&&buildingOpen(x.id));if(!b)return '<div class="result-next">Tu aldea ya tiene sus diez lugares recuperados.</div>';const missing=Math.max(0,b.cost-save.coins);return `<div class="result-next"><div><small>Próximo hogar</small><b>${b.name}</b><span>${missing?'Faltan '+missing+' de miel.':'Ya puedes construirlo.'}</span></div><button class="text-btn" onclick="stopBoard();closeModal();state.villageSelected='${b.id}';navigate('village')">Ver aldea ${icon('arrow')}</button></div>`;}
 
 function renderMemories(){$('screen-memories').innerHTML=`<div class="page-content"><div class="page-head"><div><div class="eyebrow">Lo que el mundo recuerda</div><h1>Los colores también cuentan.</h1><p>Los recuerdos aparecen al restaurar cada territorio. Confite guarda los que aún no estamos listos para escuchar.</p></div></div>${TERRITORIES.map(t=>{const done=completed(t.id)===10;return `<article class="memory-item"><div class="memory-number">${String(t.id).padStart(2,'0')}</div><div><div class="eyebrow">${t.short}</div><h3>${done?CAMPAIGN_ARCS[t.id].title:'Un recuerdo entre la niebla'}</h3><p>${done?CAMPAIGN_ARCS[t.id].resolution:'Restaura los diez senderos de este territorio para escuchar su historia.'}</p></div></article>`;}).join('')}${completed(8)===10?`<button class="btn" onclick="showEpilogue()" style="margin-top:24px">Escuchar a Confite</button>`:''}${companion('Hay cosas que no he olvidado. Solo… todavía no sé cómo contarlas.')}</div>`;}
-function renderSettings(){$('screen-settings').innerHTML=`<div class="page-content"><div class="page-head"><div><div class="eyebrow">Tu viaje</div><h1>A tu manera.</h1><p>El progreso se guarda en este navegador. Puedes llevar una copia contigo.</p></div></div><div class="settings-grid"><div class="settings-panel"><h2>Preferencias</h2><div class="setting-row"><span>Sonido</span><button class="btn secondary" onclick="toggleSound();renderSettings()" style="margin:0;min-height:38px;padding:8px 14px">${save.muted?'Apagado':'Encendido'}</button></div><div class="setting-row"><span>Movimiento</span><b>${matchMedia('(prefers-reduced-motion:reduce)').matches?'Reducido por tu dispositivo':'Adaptado a tu dispositivo'}</b></div><div class="setting-row"><span>Edición</span><b>Renacer · Restauración</b></div><p style="margin-top:14px">Sin pagos reales ni anuncios conectados. Las ayudas se compran con recursos ganados jugando.</p><button class="text-btn" onclick="showHelp()">Cómo jugar ${icon('arrow')}</button></div><div class="settings-panel"><h2>Tu progreso</h2><div class="setting-row"><span>Guardianes liberados</span><b>${totalReleased()} / 80</b></div><div class="setting-row"><span>Jugadas válidas</span><b>${save.stats.moves}</b></div><div class="setting-row"><span>Mejor Latido</span><b>${save.records.survival} puntos</b></div><div class="setting-row"><span>Guerra / Royale ganados</span><b>${save.records.warWins} / ${save.records.royaleWins}</b></div><button class="btn secondary" onclick="exportSave()">Exportar mi viaje</button> <button class="text-btn" onclick="importSave()">Importar copia</button></div><div class="settings-panel"><h2>Un pequeño regalo diario</h2><p>Una vez al día, Confite reúne 20 de miel y 5 gemas para el camino.</p><button class="btn" onclick="claimDaily()" ${save.dailyClaim===dayKey()?'disabled':''}>${save.dailyClaim===dayKey()?'Nos vemos mañana':'Recoger el regalo'}</button></div><div class="settings-panel"><h2>El mismo corazón.</h2><p>Renacer se ha construido desde cero. Conserva Dulcelandia, sus guardianes, sus recuerdos y a Confite. Tu guardado anterior sigue intacto${save.legacyImported?'; su progreso de campaña se ha recuperado aquí':''}.</p><a class="text-btn" href="legacy/index.html">Abrir la edición anterior ${icon('arrow')}</a></div></div></div>`;}
+function renderSettings(){$('screen-settings').innerHTML=`<div class="page-content"><div class="page-head"><div><div class="eyebrow">Tu viaje</div><h1>A tu manera.</h1><p>El progreso se guarda en este navegador. Puedes llevar una copia contigo.</p></div></div><div class="settings-grid"><div class="settings-panel"><h2>Preferencias</h2><div class="setting-row"><span>Sonido</span><button class="btn secondary" onclick="toggleSound();renderSettings()" style="margin:0;min-height:38px;padding:8px 14px">${save.muted?'Apagado':'Encendido'}</button></div><div class="setting-row"><span>Movimiento</span><b>${matchMedia('(prefers-reduced-motion:reduce)').matches?'Reducido por tu dispositivo':'Adaptado a tu dispositivo'}</b></div><div class="setting-row"><span>Edición</span><b>Renacer · El mundo responde</b></div><p style="margin-top:14px">Sin pagos reales ni anuncios conectados. Las ayudas se compran con recursos ganados jugando.</p><button class="text-btn" onclick="showHelp()">Cómo jugar ${icon('arrow')}</button></div><div class="settings-panel"><h2>Tu progreso</h2><div class="setting-row"><span>Guardianes liberados</span><b>${totalReleased()} / 80</b></div><div class="setting-row"><span>Jugadas válidas</span><b>${save.stats.moves}</b></div><div class="setting-row"><span>Mejor Latido</span><b>${save.records.survival} puntos</b></div><div class="setting-row"><span>Guerra / Royale ganados</span><b>${save.records.warWins} / ${save.records.royaleWins}</b></div><button class="btn secondary" onclick="exportSave()">Exportar mi viaje</button> <button class="text-btn" onclick="importSave()">Importar copia</button></div><div class="settings-panel"><h2>Un pequeño regalo diario</h2><p>Una vez al día, Confite reúne 20 de miel y 5 gemas para el camino.</p><button class="btn" onclick="claimDaily()" ${save.dailyClaim===dayKey()?'disabled':''}>${save.dailyClaim===dayKey()?'Nos vemos mañana':'Recoger el regalo'}</button></div><div class="settings-panel"><h2>El mismo corazón.</h2><p>Renacer se ha construido desde cero. Conserva Dulcelandia, sus guardianes, sus recuerdos y a Confite. Tu guardado anterior sigue intacto${save.legacyImported?'; su progreso de campaña se ha recuperado aquí':''}.</p><a class="text-btn" href="legacy/index.html">Abrir la edición anterior ${icon('arrow')}</a></div></div></div>`;}
 let modalRestore=null;
 function showModal({eyebrow='',title,body='',art='',actions=[],restored=false}){if(typeof arenaState!=='undefined'&&arenaState&&!arenaState.finished&&!arenaState.paused)pauseArena(true);closeModal();state.modal=true;modalRestore=document.activeElement;const root=$('modal-root');root.innerHTML=`<div class="modal-shade"><section class="modal${restored?' modal-restored':''}" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="eyebrow">${escapeHTML(eyebrow)}</div>${art?`<div class="modal-art">${art}</div>`:''}<h2 id="modal-title">${escapeHTML(title)}</h2><div class="modal-body">${body}</div><div class="modal-actions">${actions.map((a,i)=>`<button class="btn ${a.primary?'':'secondary'}" data-modal-action="${i}">${escapeHTML(a.label)}</button>`).join('')}</div></section></div>`;actions.forEach((a,i)=>root.querySelector(`[data-modal-action="${i}"]`).onclick=()=>a.onClick());root.querySelector('.modal')?.focus({preventScroll:true});$('announcer').textContent=title;}
 function closeModal(){if(!$('modal-root'))return;const was=state.modal;$('modal-root').innerHTML='';state.modal=false;if(was&&modalRestore?.isConnected)modalRestore.focus();}
@@ -1849,6 +1968,117 @@ function restorationReceipt(g,first){
 }
 function restoredPlaces(t){return Array.from({length:10},(_,i)=>i+1).filter(n=>starsAt(t,n)>0).map(n=>({...encounterConfig(t,n),n}));}
 /* RESTORATION_END */
+/* PLAY_SCENE_START */
+/* Original native diorama. Copy into the single-file runtime; no IDs, assets,
+ * timers, RNG, persistent fields or gameplay dependencies.
+ *
+ * Integration:
+ * 1. Campaign .battle-scene receives class has-play-scene.
+ * 2. Replace .battle-backdrop with playScene(g), preserving title, guardian,
+ *    encounter brief and guardian-health IDs. Confite may be placed separately
+ *    inside .play-confite (decorative, small, lower left).
+ * 3. Call updatePlayScene(g) from the existing HUD update. Its return value
+ *    `.advanced` allows feedbackClass(host,'sc-place-awake',700), guarded by the
+ *    existing feedbackCurrent(g). No celebration on first render or repaint.
+ */
+function playSceneState(g){
+ const r=g&&g.restoration;
+ const total=r&&Number.isFinite(r.total)&&r.total>0?r.total:0;
+ const restored=total&&Number.isFinite(r.restored)?Math.max(0,Math.min(total,r.restored)):0;
+ const progress=total?restored/total:0;
+ const aliases={river:'water',flora:'garden',shelter:'home'};
+ const raw=r&&r.kind;
+ const kind=['path','water','garden','home'].includes(raw)?raw:aliases[raw]||'path';
+ return {kind,total,restored,progress,phase:progress>=1?3:progress>=2/3?2:progress>0?1:0};
+}
+
+function playSceneArt(kind,progress=0){
+ const p=Number.isFinite(progress)?Math.max(0,Math.min(1,progress)):0;
+ const phase=p>=1?3:p>=2/3?2:p>0?1:0;
+ const one=phase>=1,two=phase>=2,full=phase>=3;
+ const known=['path','water','garden','home'].includes(kind)?kind:'path';
+ const C={ink:'#202b33',soil:'#35423f',stone:'#697371',edge:'#8a9388',
+  cream:'#c3b28e',warm:'#d8bd85',teal:'#79aaa2',deep:'#477b79',
+  coral:'#c58c77',leaf:'#829e87',dry:'#707c73'};
+ const repair=(s)=>`<g class="scene-repair">${s}</g>`;
+ const reed=(x,y,alive=false)=>`<path d="M${x} ${y}v-11m0 8-5-6m5 4 5-8" fill="none" stroke="${alive?C.leaf:C.dry}" stroke-width="1.4" stroke-linecap="round"/>`;
+ const flower=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><path d="M0 4v10m0-3-5-3m5 0 4-5" fill="none" stroke="${C.leaf}" stroke-width="1.5"/><path d="M0-1c-7-7-12 1-6 5-1 7 8 8 9 2 8-2 4-10-3-7Z" fill="${C.coral}"/><circle cy="3" r="2" fill="${C.warm}"/></g>`;
+ const distant=known==='home'?
+  '<path d="m58 66 13-16 12 16v18H58Zm29-4 10-12 11 12v21H87Zm155 1 13-16 15 16v22h-28Z" fill="#303c43"/><path d="M70 50V39m184 9V37" stroke="#3b474b" stroke-width="2"/>':
+  known==='garden'?'<path d="M20 77q-7-23 3-30 12 8 2 31m280-5q-12-29-2-39 15 11 5 39" fill="#303e42"/><path d="M23 61v20m282-28v27" stroke="#414c4c" stroke-width="2"/>':
+  '<path d="m40 72 29-23 21 20 31-25 32 24 20-12 31 19 26-17 29 16 19-20 30 23" fill="#303c43"/>';
+ const common=`
+  <path d="M0 0h360v120H0Z" fill="#1c252e"/>
+  <path d="M0 66q32-13 63-5t57 0 64-6 65 3 58-8 53 12v58H0Z" fill="#28343d"/>
+  ${distant}
+  <path d="M0 87q38-15 79-6t72-1 69-4 71 6 69-5v43H0Z" fill="#3a4644"/>
+  <path d="M0 105q50-14 91-3t75-1 95-1 99 2v18H0Z" fill="#303d3b"/>
+  <path d="m10 99 14-3 20 2m242-6 22 1 21-3m-276 21 21-1m191 6 18-2" fill="none" stroke="#56615a" stroke-width="1.1" stroke-linecap="round"/>
+  <path d="M0 120h360" stroke="#47524c"/>
+ `;
+ const scenes={
+  path:`
+   <path d="M181 70q-24 13-13 26t-13 24h73q-14-15-25-21t7-29Z" fill="${one?C.deep:'#4e5e5e'}"/>
+   ${one?repair(`<path d="M187 75q-20 11-9 20m18 11 9 9m-31-14-7 9" fill="none" stroke="${C.teal}" stroke-width="2.3" stroke-linecap="round"/>`):''}
+   <path d="m67 101 27-10 20-6m123-2 24 8 19 13" fill="none" stroke="#8a8b77" stroke-width="7"/>
+   <path d="M105 99q15-29 46-29l3 5-11 4 3 5-11-1q-11 6-18 18Zm106-29q28 1 45 29l-13 2q-10-17-31-18l6-7-12-1Z" fill="${C.stone}"/>
+   <path d="M105 85q17-26 42-27m70 1q23 4 39 27m-135-14v14m118-13v14" fill="none" stroke="${C.edge}" stroke-width="2.6"/>
+   ${two?repair(`<path d="M140 81q39-22 77 0l-4 10q-35-20-69 0Z" fill="${C.cream}"/><path d="M147 77q31-15 62 0m-47-4 2 11m18-15v12m19-8-3 12" fill="none" stroke="#e0cda6" stroke-width="1.6"/>`):'<path d="m160 88 11 8m15-13 10 10" stroke="#7b8073" stroke-width="4"/><path d="m166 102 6 5m28-8 7 7" stroke="#586664" stroke-width="2"/>'}
+   ${full?repair(`<path d="M115 81q64-47 132 0m-109-14v14m25-27v15m26-18v15m26-8v15m22 0v12" fill="none" stroke="${C.cream}" stroke-width="2.6"/>${flower(115,96,.58)}${flower(246,102,.65)}<path d="m211 109 13-2m-41 8 14-1" stroke="${C.teal}" stroke-width="1.4" stroke-linecap="round"/>`):''}
+   ${reed(229,111,full)}${reed(138,112,one)}
+  `,
+  water:`
+   <path d="M209 62q-51 10-33 25t-28 33h90q-43-12-35-27t27-31Z" fill="${one?C.deep:'#4a595b'}"/>
+   ${one?repair(`<path d="M210 69q-42 6-27 19t-14 25" fill="none" stroke="${C.teal}" stroke-width="4"/><path d="m209 71-8 2m-15 22 4 5m-18 13-11 4" stroke="#b0c8b8" stroke-width="1.4" stroke-linecap="round"/>`):'<path d="m168 81 11-16 17 2 10 16-16 13-20-2Z" fill="#687572" stroke="#37494b" stroke-width="2"/>'}
+   <path d="m110 89 20-6h24v9h-23l-19 5m97-14h22l24 10-4 7-22-9h-20Z" fill="${C.stone}"/>
+   ${two?repair(`<path d="M146 83h70v10h-70Z" fill="${C.cream}"/><path d="m151 84 1 8m10-8 1 8m10-8 1 8m10-8 1 8m10-8 1 8m10-8 1 8" stroke="#6b7367" stroke-width="1.3"/><path d="M140 79h80m-75-5v23m69-23v23" stroke="${C.cream}" stroke-width="2"/>`):'<path d="m179 87 16-11 18 9-4 16-22 3-13-8Z" fill="#76807a" stroke="#37494b" stroke-width="2"/><path d="m181 85 7-4 9 3" fill="none" stroke="#9a9f8e" stroke-width="1.3"/>'}
+   <path d="m119 107 10-8 13 5-1 9m83-38 7-7 12 4 5 9" fill="#67736a"/>
+   ${full?repair(`${flower(142,103,.65)}${reed(223,104,true)}${reed(242,110,true)}<path d="m206 107 12-2m-43 12 15-1m33-45 8-1" stroke="${C.teal}" stroke-width="2" stroke-linecap="round"/><path d="m102 96 12-1m138 11 15 2" stroke="${C.cream}" stroke-width="2.5" stroke-linecap="round"/>`):reed(236,110)}
+  `,
+  garden:`
+   <path d="m99 106 19-10 91 1 31 9-22 11H120Z" fill="#4b5146" stroke="#727a67" stroke-width="2"/>
+   <path d="M133 106V80m34 29V67m34 42V78m23 26-1-18m-90 10-9-11m43 1 9-9m25 19-9-9" fill="none" stroke="${C.dry}" stroke-width="2.1" stroke-linecap="round"/>
+   ${one?repair(`<path d="M133 107V87m34 22V82m34 27V92m-69 10q-11-1-10-9 10-1 11 9m34-5q-1-12 10-12 1 9-10 12m34 6q8-11 13-5-4 8-13 5" fill="${C.leaf}" stroke="${C.leaf}" stroke-width="1.6"/>`):'<path d="m133 107-8 6m10-7 7 8m24-5-7 7m10-7 10 6m22-6-5 7m5-7 9 6" stroke="#7b8070" stroke-width="1.5"/>'}
+   ${two?repair(`<path d="M133 106V77m34 32V64m34 45V80m23 24V87" fill="none" stroke="${C.leaf}" stroke-width="2"/><path d="M133 94q-15 0-13-11 11 0 13 11m34-14q14-16 19-5-4 10-19 13m33 9q-13-2-11-11 11-2 11 11m24-2q13-9 13-1-4 6-13 7" fill="${C.leaf}"/><path d="m131 77 2-4 3 4m28-12 3-5 4 5m27 16 3-4 4 4" fill="${C.coral}" stroke="${C.coral}" stroke-width="2.5" stroke-linejoin="round"/>`):''}
+   ${full?repair(`${flower(133,72,.92)}${flower(167,58,1.05)}${flower(201,76,.82)}${flower(224,83,.58)}<path d="m105 112 10-1m98 3 11-1m-68 0 11-1" stroke="${C.cream}" stroke-width="2" stroke-linecap="round"/>`):''}
+   <path d="M92 106q-10-5-8-16m159 18q11-8 8-17" fill="none" stroke="#627067" stroke-width="2"/>
+   ${full?repair(`${flower(83,84,.45)}${flower(251,85,.5)}`):''}
+  `,
+  home:`
+   <path d="m130 115 16-11h66l18 11Z" fill="#777f6f"/>
+   <path d="M139 72h72v37h-72Z" fill="${one?C.cream:'#747c72'}"/>
+   <path d="M195 62V47h8v21" fill="${C.stone}"/>
+   ${one?repair(`<path d="m129 74 46-29 47 29Z" fill="${C.coral}"/><path d="M143 65h64m-71 7h79m-55-13 5 12m16-18 9 12m0 0 6 7" fill="none" stroke="#825f54" stroke-width="1.4"/>`):'<path d="m129 74 35-23-2 10 8 8-13 1-9 4m41-22 33 22h-26l-6-8-10-1Z" fill="#7e7e6e"/><path d="m173 68 5-8 9 3" fill="none" stroke="#485855" stroke-width="3"/>'}
+   <path d="M164 110V89q11-10 22 0v21Z" fill="#334343"/>
+   <path d="M146 81h12v13h-12Zm47 0h12v13h-12Z" fill="${two?C.warm:'#3c494c'}"/>
+   ${two?repair(`<path d="M152 81v13m-6-6h12m41-7v13m-6-6h12" stroke="#8f805e" stroke-width="1.3"/><path d="m165 109 2-21m10-2v23" stroke="#5b655a" stroke-width="1.4"/><circle cx="180" cy="99" r="1.3" fill="${C.warm}"/><path d="M135 110h81" stroke="${C.cream}" stroke-width="3"/>`):'<path d="m145 80 14 15m-14-1 13-12m34-2 14 15m-14-1 13-12m-39 7 20 9m-20 2 20 8" stroke="#939884" stroke-width="2.7"/>'}
+   ${full?repair(`<path d="M198 43c-8-7 7-7 1-13m6 13c8-5-5-8 1-13" fill="none" stroke="#a9bbb1" stroke-opacity=".65" stroke-width="2" stroke-linecap="round"/>${flower(128,101,.55)}${flower(221,102,.6)}<path d="m163 117 13-2 9 2m-2-6 9 1" fill="none" stroke="${C.cream}" stroke-width="1.4" stroke-linecap="round"/>`):''}
+   ${reed(113,110,two)}${reed(237,113,full)}
+  `
+ };
+ return `<svg class="play-scene-art" viewBox="0 0 360 120" preserveAspectRatio="xMidYMax meet" data-kind="${known}" data-phase="${phase}" aria-hidden="true" focusable="false">${common}${scenes[known]}<path d="M0 118q37-7 76 0m204 1q41-9 80-1" fill="none" stroke="#23332f" stroke-width="5"/></svg>`;
+}
+
+function playScene(g){
+ if(!g||!g.restoration)return '';
+ const s=playSceneState(g);
+ return `<div class="play-scene" data-kind="${s.kind}" data-phase="${s.phase}" data-restored="${s.restored}" style="--scene-progress:${s.progress}" aria-hidden="true">${playSceneArt(s.kind,s.progress)}</div>`;
+}
+
+function updatePlayScene(g,host){
+ if(!g||!g.restoration)return {changed:false,advanced:false,host:null};
+ if(!host&&typeof document!=='undefined')host=document.querySelector?.('#screen-game .play-scene');
+ if(!host)return {changed:false,advanced:false,host:null};
+ const s=playSceneState(g),previous=Number(host.dataset.restored);
+ const changed=host.dataset.kind!==s.kind||Number(host.dataset.phase)!==s.phase;
+ if(changed)host.innerHTML=playSceneArt(s.kind,s.progress);
+ const advanced=Number.isFinite(previous)&&s.restored>previous;
+ host.dataset.kind=s.kind;host.dataset.phase=String(s.phase);host.dataset.restored=String(s.restored);
+ host.style.setProperty('--scene-progress',String(s.progress));
+ return {changed,advanced,host,phase:s.phase};
+}
+
+/* PLAY_SCENE_END */
 
 function levelConfig(t,n){const boss=n===10,colors=t<3?5:6;let type=n%3===2?'collect':n%3===0&&t>=2?'ice':'rescue';if(boss)type='rescue';const base=type==='rescue'?680+t*85+n*42:type==='collect'?12+t+Math.floor(n/3):8+Math.floor(n/2)+t;return {mode:'campaign',t,n,size:7,colors,type,goal:Math.round(base*(boss?1.3:1)),moves:Math.min(30,22-Math.min(4,Math.floor((t-1)/2))+(boss?5:0)+(['power','ordered'].includes(encounterConfig(t,n).rule.kind)?6:2)),targetColor:(t+n)%colors,encounter:encounterConfig(t,n)};}
 function continueCampaign(){const next=campaignNext();requestLevel(next.t,next.n);}
@@ -1858,36 +2088,36 @@ const delay=ms=>new Promise(resolve=>setTimeout(resolve,matchMedia('(prefers-red
 function stopBoard(){feedbackCancel();state.run++;if(state.game){clearInterval(state.game.clock);clearTimeout(state.game.hintTimer);state.game=null;}}
 function startBoard(config){showScreen('game');stopBoard();const mode=config.mode,base=mode==='campaign'||mode==='daily'?config:{...config,size:7,colors:5,type:'rescue',goal:Infinity,moves:Infinity,targetColor:0};const rng=mode==='daily'?seededRandom(base.seed):Math.random;const g={...base,rng,board:mode==='campaign'&&base.t===1&&base.n===1&&!save.tutorialSeen?teachingBoard(base.size,base.colors):makeBoard(base.size,base.colors,rng),ice:Array(base.size*base.size).fill(0),moves:base.moves+(mode==='campaign'?(save.buildings.dojo?1:0)+(save.buildings.faro?1:0):0),score:0,progress:0,pulse:0,pulseArmed:false,selection:null,busy:false,done:false,paused:false,hammer:false,seconds:60,chain:0,continued:false,start:Date.now(),run:state.run,clock:null,hintTimer:null,announced:0};if(g.type==='ice'){const order=Array.from({length:g.board.length},(_,i)=>i);for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}for(const i of order.slice(0,g.goal))g.ice[i]=g.t>=6?2:1;}
  if(mode==='campaign'){g.encounter=base.encounter||encounterConfig(g.t,g.n);g.restoration=makeRestoration(g.encounter,g.size);}
- state.game=g;renderGame();if(mode==='campaign'&&g.t===1&&g.n===1&&!save.tutorialSeen){for(const i of [17,24])$('board')?.querySelector(`[data-index="${i}"]`)?.classList.add('hint');setTip('Prueba las dos piezas marcadas. Cuatro iguales crean un rayo.');}else if(g.encounter)setTip('Confite: «'+g.encounter.confiteStart+'»');resetHint();if(mode==='survival'){g.lastTick=performance.now();g.clock=setInterval(()=>{const now=performance.now();if(!g.paused&&!state.modal&&!document.hidden&&!g.done){g.seconds=Math.max(0,g.seconds-(now-g.lastTick)/1000);updateGameHUD();if(g.seconds<=0&&!g.busy)finishBoard(false);}g.lastTick=now;},150);}sound();}
-function renderGame(){const g=state.game;if(!g)return;const t=TERRITORIES[g.t-1],special=g.mode!=='campaign'&&g.mode!=='daily';$('screen-game').innerHTML=`<div class="game-page"><div class="game-topline"><button class="text-btn" onclick="pauseBoard(true)">${icon('back')} Salir</button><span class="eyebrow">${g.mode==='daily'?'El encargo de Confite · '+g.dailyKey:special?g.mode==='zen'?'Jardín en calma · Sin límites':'El Latido · Contrarreloj':`Capítulo ${g.t} · ${t.short} · Ruta ${g.n}/10`}</span><button class="utility" onclick="pauseBoard()" aria-label="Pausa">${icon('pause')}</button></div><div class="game-layout"><div class="battle-scene"><div class="battle-backdrop" id="battle-backdrop" style="--grey:${special?0:1}"><div class="battle-landscape" style="${panoramaStyle(g.t)}"></div></div><div class="eyebrow">${special?'Cada combinación cuenta':'Libera al guardián'}</div><h1>${special?g.mode==='zen'?'Respira. Combina.':'Sigue tu propio ritmo.':LEVEL_NAMES_ALL[g.t][g.n]}</h1>${sprite(special?'combatants-v18.webp':`monsters-t${g.t}-v18.webp`,special?0:g.n-1,5,'guardian-art')}<div class="guardian-health"><div class="progress-track"><i id="guardian-progress" style="width:0%"></i></div><div class="guardian-status"><span id="guardian-status-label">${special?'Tu mejor luz':'Niebla disipada'}</span><span id="guardian-percent">0%</span></div></div>${g.encounter?`<div class="encounter-brief"><div><strong>${escapeHTML(g.encounter.title)}</strong><p>${escapeHTML(g.encounter.brief)}</p></div></div>`:companion('Estoy aquí. Vamos a devolverle su color.')}</div><div class="board-side"><div class="board-hud"><div class="moves-stat"><strong id="moves-value"></strong><span id="moves-label"></span></div><div class="score-stat"><strong id="score-value">0</strong><small>Luz recuperada</small></div></div><div class="mini-objective" id="mini-objective"></div><div class="board-frame"><div class="board" id="board" role="grid" aria-label="Tablero de caramelos. Usa las flechas para moverte y Espacio para elegir." style="--size:${g.size}"></div><div class="board-flash" id="board-flash" aria-live="polite"></div></div><div class="board-tools"><button id="pulse-button" onclick="armPulse()">${confite('happy')}<span class="pulse-label"></span></button><button id="hammer-button" onclick="armHammer()">${icon('hammer')}<span></span></button><button onclick="shuffleGame()">${icon('shuffle')}<span>Barajar</span></button><button onclick="showGameHint()" aria-label="Mostrar pista">${icon('hint')}</button></div><p class="board-tip ${!save.tutorialSeen?'tutorial-tip':''}" id="board-tip">${!save.tutorialSeen?'Desliza una pieza, o toca dos vecinas. Une 3 del mismo color.':'4 en línea: rayo · 5: estrella · L o T: bomba'}</p></div></div></div>`;renderPieces();updateGameHUD();bindBoard();}
+ state.game=g;renderGame();if(mode==='campaign'&&g.t===1&&g.n===1&&!save.tutorialSeen){for(const i of [17,24])$('board')?.querySelector(`[data-index="${i}"]`)?.classList.add('hint');setTip('Prueba las dos piezas marcadas. Cuatro iguales crean un rayo.');}else if(g.encounter)feedbackSay(g,PLAY_OPENINGS[g.t===1?g.n:0]||g.encounter.confiteStart);resetHint();if(mode==='survival'){g.lastTick=performance.now();g.clock=setInterval(()=>{const now=performance.now();if(!g.paused&&!state.modal&&!document.hidden&&!g.done){g.seconds=Math.max(0,g.seconds-(now-g.lastTick)/1000);updateGameHUD();if(g.seconds<=0&&!g.busy)finishBoard(false);}g.lastTick=now;},150);}sound();}
+function renderGame(){const g=state.game;if(!g)return;const t=TERRITORIES[g.t-1],special=g.mode!=='campaign'&&g.mode!=='daily';$('screen-game').innerHTML=`<div class="game-page"><div class="game-topline"><button class="text-btn" onclick="pauseBoard(true)">${icon('back')} Salir</button><span class="eyebrow">${g.mode==='daily'?'El encargo de Confite · '+g.dailyKey:special?g.mode==='zen'?'Jardín en calma · Sin límites':'El Latido · Contrarreloj':`Capítulo ${g.t} · ${t.short} · Ruta ${g.n}/10`}</span><button class="utility" onclick="pauseBoard()" aria-label="Pausa">${icon('pause')}</button></div><div class="game-layout"><div class="battle-scene${g.encounter?' has-play-scene':''}">${g.encounter?`<div class="play-scene" id="play-scene" aria-hidden="true">${playSceneArt(g.restoration.kind,g.restoration.restored/g.restoration.total)}</div><div class="play-confite" id="play-confite" aria-hidden="true">${confite('happy')}</div>`:''}<div class="battle-backdrop" id="battle-backdrop" style="--grey:${special?0:1}"><div class="battle-landscape" style="${panoramaStyle(g.t)}"></div></div><div class="eyebrow">${special?'Cada combinación cuenta':'Libera al guardián'}</div><h1>${special?g.mode==='zen'?'Respira. Combina.':'Sigue tu propio ritmo.':LEVEL_NAMES_ALL[g.t][g.n]}</h1>${sprite(special?'combatants-v18.webp':`monsters-t${g.t}-v18.webp`,special?0:g.n-1,5,'guardian-art')}<div class="guardian-health"><div class="progress-track"><i id="guardian-progress" style="width:0%"></i></div><div class="guardian-status"><span id="guardian-status-label">${special?'Tu mejor luz':'Niebla disipada'}</span><span id="guardian-percent">0%</span></div></div>${g.encounter?`<div class="encounter-brief"><div><strong>${escapeHTML(g.encounter.title)}</strong><p>${escapeHTML(g.encounter.brief)}</p></div></div>`:companion('Estoy aquí. Vamos a devolverle su color.')}</div><div class="board-side"><div class="board-hud"><div class="moves-stat"><strong id="moves-value"></strong><span id="moves-label"></span></div><div class="score-stat"><strong id="score-value">0</strong><small id="turn-note">Luz recuperada</small></div></div><div class="mini-objective" id="mini-objective"></div><div class="board-frame"><div class="board" id="board" role="grid" aria-label="Tablero de caramelos. Usa las flechas para moverte y Espacio para elegir." style="--size:${g.size}"></div><div class="board-flash" id="board-flash" aria-live="polite"></div></div><div class="board-tools"><button id="pulse-button" onclick="armPulse()">${confite('happy')}<span class="pulse-label"></span></button><button id="hammer-button" onclick="armHammer()">${icon('hammer')}<span></span></button><button onclick="shuffleGame()">${icon('shuffle')}<span>Barajar</span></button><button onclick="showGameHint()" aria-label="Mostrar pista">${icon('hint')}</button></div><p class="board-tip ${!save.tutorialSeen?'tutorial-tip':''}" id="board-tip">${!save.tutorialSeen?'Desliza una pieza, o toca dos vecinas. Une 3 del mismo color.':'4 en línea: rayo · 5: estrella · L o T: bomba'}</p></div></div></div>`;renderPieces();updateGameHUD();bindBoard();}
 function candyStyle(color){return `--sx:${color%4/3*100}%;--sy:${Math.floor(color/4)*100}%`;}
 const COLOR_PLURALS=['caramelos rosas','ositos verdes','diamantes azules','piruletas doradas','espirales violetas','corazones coral','estrellas'];
 const COLOR_NAMES=['caramelo rosa','osito verde','diamante azul','piruleta dorada','espiral violeta','corazón coral','estrella'];
 function renderPieces(fresh=[]){const g=state.game,el=$('board');if(!g||!el)return;el.setAttribute('aria-busy',String(g.busy));const focused=el.contains(document.activeElement)?document.activeElement.closest?.('.piece'):null;const focusIndex=focused?Number(focused.dataset.index):null;const live=new Set(g.board.filter(Boolean).map(p=>String(p.id)));el.querySelectorAll('.piece').forEach(node=>{if(!live.has(node.dataset.id))node.remove();});el.querySelectorAll('.ice').forEach(n=>n.remove());g.ice.forEach((hp,i)=>{if(hp){const x=document.createElement('span');x.className='ice';x.dataset.hp=hp;x.style.cssText=`--c:${i%g.size};--r:${Math.floor(i/g.size)}`;el.appendChild(x);}});g.board.forEach((p,i)=>{if(!p)return;let node=el.querySelector(`[data-id="${p.id}"]`);if(!node){node=document.createElement('button');node.className='piece';node.dataset.id=p.id;node.innerHTML='<span class="candy"></span>';node.setAttribute('role','gridcell');el.appendChild(node);}node.dataset.index=i;node.dataset.color=p.color;node.dataset.power=p.power||'';node.style.cssText=`--c:${i%g.size};--r:${Math.floor(i/g.size)};${candyStyle(p.color)}`;node.classList.toggle('selected',g.selection===i);node.classList.remove('clearing','hint');node.classList.toggle('fresh',fresh.includes(p.id));node.setAttribute('aria-label',`${COLOR_NAMES[p.color]}, fila ${Math.floor(i/g.size)+1}, columna ${i%g.size+1}${p.power?', poder '+p.power:''}${g.ice[i]?', con hielo':''}${g.restoration?.cells.some(c=>c.index===i&&!c.restored)?', zona '+(g.restoration.cells.findIndex(c=>c.index===i)+1)+', '+(restorationTargets(g.restoration,g.size).includes(i)?'activa':'en espera')+', '+g.restoration.cells.find(c=>c.index===i).hp+' capas':''}`);node.setAttribute('aria-selected',String(g.selection===i));node.tabIndex=i===(focusIndex??0)?0:-1;});if(focusIndex!==null)el.querySelector(`[data-index="${focusIndex}"]`)?.focus({preventScroll:true});renderRestoration(g);}
-function updateGameHUD(){const g=state.game;if(!g||!$('moves-value'))return;$('board')?.setAttribute('aria-busy',String(g.busy));const timed=g.mode==='survival',zen=g.mode==='zen';$('moves-value').textContent=timed?Math.ceil(g.seconds):zen?'∞':g.moves;$('moves-value').classList.toggle('timer-low',timed?g.seconds<10:g.moves<5);$('moves-label').innerHTML=timed?'segundos<br>de latido':zen?'sin<br>prisa':'movimientos<br>restantes';$('score-value').textContent=g.score.toLocaleString('es');const ratio=restorationRatio(g);$('guardian-progress').style.width=ratio*100+'%';$('guardian-percent').textContent=Number.isFinite(g.goal)?`${Math.round(ratio*100)}%`:`${Math.max(save.records[g.mode]||0,g.score).toLocaleString('es')} pts`;if($('battle-backdrop'))$('battle-backdrop').style.setProperty('--grey',1-ratio);$('screen-game').style.setProperty('--guard-color',zen||timed?1:ratio);$('mini-objective').innerHTML=Number.isFinite(g.goal)?(g.type==='collect'?`<span class="cell-key" style="justify-content:center"><i style="${candyStyle(g.targetColor)}"></i> Reúne ${Math.min(g.progress,g.goal)} / ${g.goal} ${COLOR_PLURALS[g.targetColor]}</span>`:g.type==='ice'?`Rompe el hielo · ${g.progress} / ${g.goal} casillas`:`Disipa la niebla · ${Math.min(g.progress,g.goal).toLocaleString('es')} / ${g.goal.toLocaleString('es')} de luz`):zen?'Practica poderes y combinaciones a tu ritmo.':'Una buena cascada cambia todo.';if(g.restoration){const old=$('mini-objective').innerHTML;$('mini-objective').innerHTML=`<div class="restoration-meter"><span class="meter-label">Zonas ${g.restoration.restored} / ${g.restoration.total}</span><span class="meter-value">${old}</span><div class="progress-track"><i style="width:${g.restoration.restored/g.restoration.total*100}%"></i></div></div>`;renderRestoration(g);if(g.restoration.rule.kind==='tide'){const rows=[...new Set(g.restoration.cells.map(c=>Math.floor(c.index/g.size)))].sort((a,b)=>a-b);const brief=$('screen-game').querySelector('.encounter-brief p');if(brief)brief.textContent=`Fila ${rows[g.restoration.turn%rows.length]+1} activa; después, fila ${rows[(g.restoration.turn+1)%rows.length]+1}. Restaura sólo las marcas iluminadas.`;}}const need=pulseNeed();$('pulse-button').classList.toggle('ready',g.pulse>=need);$('pulse-button').classList.toggle('armed',g.pulseArmed);$('pulse-button').querySelector('.pulse-label').textContent=g.pulseArmed?'Pulso activo':g.pulse>=need?'Pulso listo':`Pulso ${g.pulse}/${need}`;$('hammer-button').classList.toggle('armed',g.hammer);$('hammer-button').querySelector('span').textContent=g.hammer?'Elige pieza':`Martillo ${save.boosters.hammer}`;}
+function updateGameHUD(){const g=state.game;if(!g||!$('moves-value'))return;$('board')?.setAttribute('aria-busy',String(g.busy));const timed=g.mode==='survival',zen=g.mode==='zen';$('moves-value').textContent=timed?Math.ceil(g.seconds):zen?'∞':g.moves;$('moves-value').classList.toggle('timer-low',timed?g.seconds<10:g.moves<5);$('moves-label').innerHTML=timed?'segundos<br>de latido':zen?'sin<br>prisa':'movimientos<br>restantes';$('score-value').textContent=g.score.toLocaleString('es');const ratio=restorationRatio(g);$('guardian-progress').style.width=ratio*100+'%';$('guardian-percent').textContent=Number.isFinite(g.goal)?`${Math.round(ratio*100)}%`:`${Math.max(save.records[g.mode]||0,g.score).toLocaleString('es')} pts`;if($('battle-backdrop'))$('battle-backdrop').style.setProperty('--grey',1-ratio);$('screen-game').style.setProperty('--guard-color',zen||timed?1:ratio);updatePlayScene(g);$('mini-objective').innerHTML=Number.isFinite(g.goal)?(g.type==='collect'?`<span class="cell-key" style="justify-content:center"><i style="${candyStyle(g.targetColor)}"></i> Reúne ${Math.min(g.progress,g.goal)} / ${g.goal} ${COLOR_PLURALS[g.targetColor]}</span>`:g.type==='ice'?`Rompe el hielo · ${g.progress} / ${g.goal} casillas`:`Disipa la niebla · ${Math.min(g.progress,g.goal).toLocaleString('es')} / ${g.goal.toLocaleString('es')} de luz`):zen?'Practica poderes y combinaciones a tu ritmo.':'Una buena cascada cambia todo.';if(g.restoration){const old=$('mini-objective').innerHTML;$('mini-objective').innerHTML=`<div class="restoration-meter"><span class="meter-label">Zonas ${g.restoration.restored} / ${g.restoration.total}</span><span class="meter-value">${old}</span><div class="progress-track"><i style="width:${g.restoration.restored/g.restoration.total*100}%"></i></div></div>`;renderRestoration(g);if(g.restoration.rule.kind==='tide'){const rows=[...new Set(g.restoration.cells.map(c=>Math.floor(c.index/g.size)))].sort((a,b)=>a-b);const brief=$('screen-game').querySelector('.encounter-brief p');if(brief)brief.textContent=`Fila ${rows[g.restoration.turn%rows.length]+1} activa; después, fila ${rows[(g.restoration.turn+1)%rows.length]+1}. Restaura sólo las marcas iluminadas.`;}}const need=pulseNeed();$('pulse-button').classList.toggle('ready',g.pulse>=need);$('pulse-button').classList.toggle('armed',g.pulseArmed);$('pulse-button').querySelector('.pulse-label').textContent=g.pulseArmed?'Pulso activo':g.pulse>=need?'Pulso listo':`Pulso ${g.pulse}/${need}`;$('hammer-button').classList.toggle('armed',g.hammer);$('hammer-button').querySelector('span').textContent=g.hammer?'Elige pieza':`Martillo ${save.boosters.hammer}`;}
 function bindBoard(){const el=$('board');let down=null;el.addEventListener('pointerdown',e=>{if(e.button!==0)return;const node=e.target.closest('.piece');if(!node)return;down={index:Number(node.dataset.index),x:e.clientX,y:e.clientY,id:e.pointerId};el.setPointerCapture(e.pointerId);e.preventDefault();});el.addEventListener('pointerup',e=>{if(!down)return;const g=state.game;if(!g){down=null;return;}const d=down;down=null;const dx=e.clientX-d.x,dy=e.clientY-d.y;if(Math.hypot(dx,dy)>18){const dc=Math.abs(dx)>Math.abs(dy)?Math.sign(dx):0,dr=dc?0:Math.sign(dy),r=Math.floor(d.index/g.size),c=d.index%g.size;if(r+dr>=0&&r+dr<g.size&&c+dc>=0&&c+dc<g.size)attemptSwap(d.index,(r+dr)*g.size+c+dc);}else chooseCell(d.index);});el.addEventListener('pointercancel',()=>down=null);el.addEventListener('click',e=>{if(e.detail===0){const node=e.target.closest('.piece');if(node)chooseCell(Number(node.dataset.index));}});el.addEventListener('keydown',e=>{const node=e.target.closest('.piece');if(!node)return;const g=state.game,i=Number(node.dataset.index),r=Math.floor(i/g.size),c=i%g.size;let j=null;if(e.key==='ArrowLeft'&&c>0)j=i-1;if(e.key==='ArrowRight'&&c<g.size-1)j=i+1;if(e.key==='ArrowUp'&&r>0)j=i-g.size;if(e.key==='ArrowDown'&&r<g.size-1)j=i+g.size;if(j!==null){e.preventDefault();el.querySelector(`[data-index="${j}"]`)?.focus();}});}
 function isActive(g){return state.game===g&&g.run===state.run&&state.screen==='game'&&!g.done;}
 function chooseCell(i){const g=state.game;if(!g||g.busy||g.paused||g.done)return;save.tutorialSeen=true;resetHint();if(g.hammer){useHammer(i);return;}if(g.selection===null){g.selection=i;renderPieces();return;}const a=g.selection;g.selection=null;const adjacent=Math.abs(Math.floor(a/g.size)-Math.floor(i/g.size))+Math.abs(a%g.size-i%g.size)===1;if(adjacent)attemptSwap(a,i);else{g.selection=i;renderPieces();}}
 async function attemptSwap(a,b){const g=state.game;if(!g||g.busy||g.paused||g.done||!Number.isInteger(a)||!Number.isInteger(b)||a<0||b<0||a>=g.board.length||b>=g.board.length)return false;const distance=Math.abs(Math.floor(a/g.size)-Math.floor(b/g.size))+Math.abs(a%g.size-b%g.size);if(distance!==1)return false;g.busy=true;g.selection=null;clearTimeout(g.hintTimer);const beforeA=g.board[a],beforeB=g.board[b],combo=canCombine(beforeA,beforeB);[g.board[a],g.board[b]]=[g.board[b],g.board[a]];renderPieces();await delay(185);if(!isActive(g))return false;const groups=runGroups(g.board,g.size);if(!combo&&!groups.some(x=>x.cells.includes(a)||x.cells.includes(b))){[g.board[a],g.board[b]]=[g.board[b],g.board[a]];renderPieces();await delay(170);if(!isActive(g))return false;g.busy=false;setTip('Prueba con otras dos piezas vecinas.');resetHint();return false;}
- if(Number.isFinite(g.moves))g.moves--;save.stats.moves++;save.tutorialSeen=true;g.chain=0;g.restoredThisTurn=0;g.turnDouble=g.pulseArmed;g.pulseArmed=false;
+ if(Number.isFinite(g.moves))g.moves--;save.stats.moves++;save.tutorialSeen=true;g.chain=0;g.restoredThisTurn=0;g.turnDouble=g.pulseArmed;g.pulseArmed=false;feedbackBeginTurn(g);
  let seeds=null,prismColor=null;if(combo){if(beforeA.color===6&&beforeB.color===6)seeds=g.board.map((_,i)=>i);else if(beforeA.color===6||beforeB.color===6){prismColor=beforeA.color===6?beforeB.color:beforeA.color;seeds=[a,b,...g.board.flatMap((p,i)=>p.color===prismColor?[i]:[])];}else seeds=[a,b];}
- await resolveBoard(g,groups,[b,a],seeds,prismColor,combo&&beforeA.color===6&&beforeB.color===6);if(!isActive(g))return true;if(g.restoration)g.restoration.turn++;g.pulse=Math.min(pulseNeed(),g.pulse+1);g.busy=false;g.turnDouble=false;persistSave();updateGameHUD();if(campaignWon(g))finishBoard(true);else if(Number.isFinite(g.moves)&&g.moves<=0)finishBoard(false);else if(g.mode==='survival'&&g.seconds<=0)finishBoard(false);else{if(!legalMoves(g.board,g.size).length){if(!reshuffle(g.board,g.size,g.rng)){g.board=makeBoard(g.size,g.colors,g.rng);}renderPieces();setTip('La niebla cambió el tablero. Todos tus poderes siguen contigo.');}if(g.pausePending){g.pausePending=false;pauseBoard();}else{setTip(restorationHint(g));resetHint();}}return true;}
+ await resolveBoard(g,groups,[b,a],seeds,prismColor,combo&&beforeA.color===6&&beforeB.color===6);if(!isActive(g))return true;if(g.restoration)g.restoration.turn++;g.pulse=Math.min(pulseNeed(),g.pulse+1);g.busy=false;g.turnDouble=false;persistSave();updateGameHUD();if(campaignWon(g))finishBoard(true);else if(Number.isFinite(g.moves)&&g.moves<=0)finishBoard(false);else if(g.mode==='survival'&&g.seconds<=0)finishBoard(false);else{if(!legalMoves(g.board,g.size).length){if(!reshuffle(g.board,g.size,g.rng)){g.board=makeBoard(g.size,g.colors,g.rng);}renderPieces();setTip('La niebla cambió el tablero. Todos tus poderes siguen contigo.');}if(g.pausePending){g.pausePending=false;pauseBoard();}else{setTip(restorationHint(g));feedbackTurn(g);resetHint();}}return true;}
 async function resolveBoard(g,groups,preferred=[],initialSeeds=null,prismColor=null,globalPrism=false){let seeds=initialSeeds;for(let wave=0;wave<60;wave++){if(!isActive(g))return;if(!seeds&&!groups.length)break;g.chain++;const creation=!seeds&&g.chain===1?powerCreation(g.board,g.size,groups,preferred):null;if(creation){const p=g.board[creation.index];p.color=creation.color;p.power=creation.power;sound('power');}
  const initialEffect=expandEffects(g.board,g.size,seeds||[...new Set(groups.flatMap(x=>x.cells))],creation?.index??-1,prismColor),effect=restoreWave(g,initialEffect,creation?.index??-1,prismColor,globalPrism&&wave===0),cells=effect.cells;if(!cells.length)break;const points=Math.round(cells.length*20*(1+(g.chain-1)*.3)*(g.turnDouble?2:1));g.score+=points;let gathered=0,iceBroken=0;const damaged=new Set();for(const i of cells){if(g.board[i]?.color===g.targetColor)gathered++;const near=[i,i%g.size>0?i-1:-1,i%g.size<g.size-1?i+1:-1,i-g.size,i+g.size];for(const j of near)if(j>=0&&j<g.ice.length&&g.ice[j]>0&&!damaged.has(j)){damaged.add(j);g.ice[j]=Math.max(0,g.ice[j]-(save.buildings.forja?2:1));if(!g.ice[j])iceBroken++;}const p=g.board[i];if(p)$('board')?.querySelector(`[data-id="${p.id}"]`)?.classList.add('clearing');}
- feedbackHit(g,cells,{power:effect.triggered.length>0,created:creation,points});
- g.progress+=g.type==='collect'?gathered:g.type==='ice'?iceBroken:points;if(g.chain>1)save.stats.cascades++;if(g.chain>=2||effect.triggered.length)showCombo(g.chain>=3?'¡El mundo despierta!':effect.triggered.length?'¡Luz liberada!':`Cascada ×${g.chain}`);sound(effect.triggered.length?'power':'pop');$('screen-game').querySelector('.guardian-art')?.classList.add('hit');updateGameHUD();await delay(185);if(!isActive(g))return;for(const i of cells)g.board[i]=null;const fresh=gravity(g.board,g.size,g.colors,g.rng);renderPieces(fresh);await delay(220);if(!isActive(g))return;$('screen-game').querySelector('.guardian-art')?.classList.remove('hit');groups=runGroups(g.board,g.size);seeds=null;prismColor=null;}
+ feedbackHit(g,cells,{power:effect.triggered.length>0,created:creation,points,triggered:effect.triggered});
+ g.progress+=g.type==='collect'?gathered:g.type==='ice'?iceBroken:points;if(g.chain>1)save.stats.cascades++;if(g.chain>=2||effect.triggered.length||creation||scFeedback.lastWave?.restored?.length)showCombo(g.chain>=3?'¡El mundo despierta!':effect.triggered.length?'¡Luz liberada!':`Cascada ×${g.chain}`);sound(effect.triggered.length?'power':'pop');$('screen-game').querySelector('.guardian-art')?.classList.add('hit');updateGameHUD();await delay(185);if(!isActive(g))return;for(const i of cells)g.board[i]=null;const fresh=gravity(g.board,g.size,g.colors,g.rng);renderPieces(fresh);await delay(220);if(!isActive(g))return;$('screen-game').querySelector('.guardian-art')?.classList.remove('hit');groups=runGroups(g.board,g.size);seeds=null;prismColor=null;}
  setTip(g.restoration?(g.restoredThisTurn?'Un brote abrió espacio. '+restorationHint(g):restorationHint(g)):g.chain>=3?'Eso… eso sonó como el viejo corazón de Dulcelandia.':g.moves<=5?'Respira. Aún queda una buena combinación.':'4 en línea: rayo · 5: estrella · L o T: bomba');}
-function setTip(text){if($('board-tip')){$('board-tip').textContent=text;$('board-tip').classList.remove('tutorial-tip');}}
+function setTip(text){if($('board-tip')){$('board-tip').textContent=text;delete $('board-tip').dataset.speaker;$('board-tip').classList.remove('tutorial-tip');}}
 function showCombo(msg){feedbackCombo(state.game,{label:msg});}
 function pulseNeed(){return save.buildings.jardin?3:4;}
 function armPulse(){const g=state.game;if(!g||g.busy||g.done||g.paused)return;if(g.pulse<pulseNeed()){setTip(`El Pulso carga con ${pulseNeed()} jugadas válidas. Duplica la luz de la siguiente y permite abrir sellos.`);return;}if(g.pulseArmed)return;g.pulse=0;g.pulseArmed=true;sound('power');updateGameHUD();setTip('Confite está contigo. Tu próxima jugada dará el doble de luz y podrá abrir sellos.');}
 function resetHint(){const g=state.game;if(!g)return;clearTimeout(g.hintTimer);g.hintTimer=setTimeout(()=>{if(isActive(g)&&!g.busy&&!g.paused&&!document.hidden)showGameHint();},save.buildings.torre?4500:8000);}
 function showGameHint(){const g=state.game;if(!g||g.busy||g.done||g.paused)return;const move=legalMoves(g.board,g.size)[0];if(move)for(const i of move)$('board')?.querySelector(`[data-index="${i}"]`)?.classList.add('hint');setTip('Dos piezas que podrían cambiar el camino.');}
 function armHammer(){const g=state.game;if(!g||g.busy||g.done||g.paused)return;if(!save.boosters.hammer){showModal({eyebrow:'Una pequeña ayuda',title:'Martillo de azúcar',body:'Rompe una pieza sin gastar movimiento y libera sus efectos. Puedes preparar uno con 30 de miel.',actions:[{label:'Preparar · 30 de miel',primary:true,onClick:()=>{if(save.coins<30){toast('Te faltan '+(30-save.coins)+' de miel.');return;}save.coins-=30;save.boosters.hammer++;persistSave();closeModal();updateGameHUD();}},{label:'Volver',onClick:closeModal}]});return;}g.hammer=!g.hammer;updateGameHUD();setTip(g.hammer?'Toca la pieza que quieres romper. No gastará movimiento.':'4 en línea: rayo · 5: estrella · L o T: bomba');}
-async function useHammer(i){const g=state.game;if(!g||g.busy||g.done||!save.boosters.hammer)return;g.hammer=false;g.busy=true;save.boosters.hammer--;g.chain=0;await resolveBoard(g,[],[],[i]);if(!isActive(g))return;g.busy=false;persistSave();updateGameHUD();if(campaignWon(g))finishBoard(true);else if(g.pausePending){g.pausePending=false;pauseBoard();}else resetHint();}
+async function useHammer(i){const g=state.game;if(!g||g.busy||g.done||!save.boosters.hammer)return;g.hammer=false;g.busy=true;save.boosters.hammer--;g.chain=0;g.restoredThisTurn=0;feedbackBeginTurn(g);await resolveBoard(g,[],[],[i]);if(!isActive(g))return;g.busy=false;persistSave();updateGameHUD();if(campaignWon(g))finishBoard(true);else if(g.pausePending){g.pausePending=false;pauseBoard();}else{feedbackTurn(g);resetHint();}}
 function shuffleGame(){const g=state.game;if(!g||g.busy||g.done||g.paused)return;if(!save.boosters.shuffle){showModal({eyebrow:'Otra forma de mirar',title:'Barajar el tablero',body:'Conserva tus caramelos y poderes, cambia sus lugares y abre nuevas jugadas. Cuesta 20 de miel.',actions:[{label:'Preparar · 20 de miel',primary:true,onClick:()=>{if(save.coins<20){toast('Necesitas 20 de miel.');return;}save.coins-=20;save.boosters.shuffle++;persistSave();closeModal();}},{label:'Volver',onClick:closeModal}]});return;}if(!reshuffle(g.board,g.size,g.rng)){toast('Este tablero ya tiene una jugada posible.');return;}save.boosters.shuffle--;persistSave();renderPieces();sound('power');setTip('Nuevos caminos. Los mismos poderes.');resetHint();}
 function pauseBoard(leaving=false,destination='home'){const g=state.game;if(!g||g.done){navigate(destination);return;}if(g.busy){toast('Espera a que termine la cascada.');return;}g.paused=true;clearTimeout(g.hintTimer);const zen=g.mode==='zen';showModal({eyebrow:'Confite te espera',title:leaving?'¿Volvemos al camino?':'Un momento de calma',art:confite('happy'),body:zen?'Puedes guardar tu marca y cerrar esta sesión cuando quieras.':g.mode==='campaign'?'Tu vida se reserva al entrar y vuelve al ganar. Si sales, la partida terminará y esa vida se consumirá.':'El reloj descansa contigo. Vuelve cuando estés listo.',actions:[{label:'Seguir jugando',primary:true,onClick:()=>{g.paused=false;g.lastTick=performance.now();closeModal();resetHint();}},{label:zen?'Terminar y guardar marca':'Salir de la partida',onClick:()=>{if(zen){finishBoard(false);return;}stopBoard();closeModal();navigate(destination);}}]});}
-function finishBoard(won){const g=state.game;if(!g||g.done)return;if(Number.isFinite(g.goal)&&won&&!campaignWon(g))return;g.done=true;g.busy=false;clearInterval(g.clock);clearTimeout(g.hintTimer);let title,body,art,actions=[];if(g.mode==='daily'){
+function finishBoard(won){const g=state.game;if(!g||g.done)return;if(Number.isFinite(g.goal)&&won&&!campaignWon(g))return;feedbackTurn(g,true);g.done=true;g.busy=false;clearInterval(g.clock);clearTimeout(g.hintTimer);let title,body,art,actions=[];if(g.mode==='daily'){
  const same=save.dailyChallenge.key===g.dailyKey,already=same&&save.dailyChallenge.won;save.dailyChallenge={key:g.dailyKey,won:won||already,best:Math.max(same?save.dailyChallenge.best:0,g.score)};if(won&&!already){save.coins+=40;save.gems+=5;}title=won?'Hoy también hubo luz.':'Mañana también sale el sol.';body=`<div class="reward">${g.score.toLocaleString('es')} / ${g.goal.toLocaleString('es')} de luz</div>${won?already?'Ya recibiste la recompensa de hoy. Tu nueva marca queda guardada.':'+40 de miel · +5 gemas<br>El encargo de hoy está completo.':'Puedes volver a intentarlo sin gastar vidas. El tablero de hoy seguirá esperándote.'}`;art=confite(won?'celebrate':'worried');actions=[{label:won?'Volver a mi viaje':'Volver a intentarlo',primary:true,onClick:()=>{stopBoard();closeModal();if(won)navigate('home');else startBoard(dailyConfig(g.dailyKey));}},{label:'Ver todos los modos',onClick:()=>{stopBoard();closeModal();navigate('modes');}}];
  }else if(g.mode==='campaign'){
   const first=!starsAt(g.t,g.n),earned=won?clamp(1+Math.floor(g.moves/5),1,3):0,reward=won?Math.round((20+g.t*3+earned*5)*(save.buildings.puesto?1.1:1)*(save.buildings.faro?1.1:1))+(save.buildings.fuente?5:0):0;
@@ -2166,7 +2396,9 @@ function arenaDraw(s){
 /* ARENA_END */
 /* FEEDBACK_START */
 /* Sugar Clash: finite, cosmetic feedback. No engine RNG, rewards or persistent fields. */
-const scFeedback={run:-1,layer:null,timers:new Set(),classes:new Set(),voices:new Set(),audio:null,lastSound:{},lastWave:null};
+const PLAY_OPENINGS={"1":"Hay hierba bajo el gris. La he pisado. Puedo confirmarlo.","2":"Este sendero se pega a los pies. Tiene una forma muy suya de pedir visitas.","3":"Las raíces huelen a miel. Yo seguía el olor. Podemos llamarlo orientación.","4":"El río sigue ahí. Se nota por el olor. Por la corriente, todavía no.","5":"Los faroles siguen en su sitio. Apagados, pero muy formales.","6":"Falta una tabla. Prefiero encontrarla antes de comprobar cuánto salto.","7":"El farol gira. Mi orientación también, pero con menos orden.","8":"Probé el eco. Mucha voz; pocas indicaciones.","9":"Las bisagras siguen ahí. Les vendrá bien tener algo que hacer.","10":"Hay polvo en los cuatro sellos. El guardián parece llevar la cuenta hasta dormido."};
+const PLAY_LINES={"garden":["Una hoja. Parece poco, hasta que falta.","Eso era una raíz. Yo le había echado la culpa a una piedra.","Vuelve el verde. No pienso discutirle el sitio."],"path":["Ahí se podía pasar. Era una sospecha.","Un tramo menos para andar de puntillas.","El camino vuelve a tener argumentos."],"water":["Ya corre. Le llevaba ventaja hasta una piedra.","Ese ruido es el río. Lo había echado de menos.","Por fin se mueve algo sin que lo empujemos."],"home":["Se está pareciendo a un sitio al que volver.","Un poco de luz cambia bastante las cosas.","Aquí ya apetece quedarse un momento."],"place_complete":["El suelo ya está. Queda la otra parte del trabajo.","Aquí vuelve a haber color. Ahora, la meta pendiente.","El lugar está listo. Nosotros aún tenemos algo que resolver."],"created_row":["Tenemos un atajo. Bastante recto.","Ése tiene la fila muy clara.","Una raya. La niebla no entiende las indirectas."],"created_col":["Ése ha decidido ir al fondo del asunto.","De arriba abajo. Sin rodeos.","Una columna con planes."],"created_bomb":["Los de al lado van a enterarse.","Conviene avisar a los vecinos.","Tan pequeño, y pidiendo tanto espacio."],"created_prism":["Una estrella. Ésta sí nos queda a mano.","Mírala. Discreta no ha salido.","Bueno. Ahora tenemos algo que guardar."],"power_chain":["Se han puesto de acuerdo sin consultarnos.","Un poder encontró al otro. Se conocen, por lo visto.","Eso explica por qué estaban tan juntos."],"cascade":["El tablero ha decidido colaborar.","Voy a fingir que conté todos esos.","Yo iba a señalar ése. Ya no está."],"pulse_ready":["Tengo el Pulso listo. Tú eliges dónde.","Ya puedo ayudar. Me guardo la prisa.","Listo por aquí. Cuando te venga bien."],"last_moves":["Movimientos pocos. Tiempo, el que haga falta.","No se cae nada por pensarlo un momento.","Queda poco margen. Me quedo aquí contigo."],"failure":["El camino sigue ahí. Podemos volver cuando quieras.","Hoy quedó algo de gris. El camino no se ha ido.","No salió esta vez. Yo me quedo contigo."]};
+const scFeedback={turn:null,history:null,run:-1,layer:null,timers:new Set(),classes:new Set(),voices:new Set(),audio:null,lastSound:{},lastWave:null};
 function feedbackReduced(){try{return matchMedia('(prefers-reduced-motion:reduce)').matches;}catch{return false;}}
 function feedbackCurrent(g,finished=false){return !!(g&&state.game===g&&g.run===state.run&&state.screen==='game'&&!document.hidden&&(finished||!g.done)&&!g.paused);}
 function feedbackLater(fn,ms){const id=setTimeout(()=>{scFeedback.timers.delete(id);fn();},ms);scFeedback.timers.add(id);return id;}
@@ -2181,7 +2413,7 @@ function feedbackCancel(){
   for(const {node,name} of scFeedback.classes)node.classList.remove(name);scFeedback.classes.clear();
   if(scFeedback.layer)scFeedback.layer.remove();scFeedback.layer=null;
   for(const voice of scFeedback.voices){try{voice.stop();voice.disconnect();}catch{}}scFeedback.voices.clear();
-  scFeedback.run=-1;scFeedback.lastWave=null;
+  scFeedback.run=-1;scFeedback.lastWave=null;scFeedback.turn=null;scFeedback.history=null;
 }
 function feedbackLayer(g){
   if(scFeedback.run!==g.run){if(scFeedback.run!==-1)feedbackCancel();scFeedback.run=g.run;}
@@ -2199,14 +2431,86 @@ function feedbackParticle(group,kind,x,y,style){
   for(const [name,value] of Object.entries(style||{}))el.style.setProperty(name,String(value));group.appendChild(el);return el;
 }
 function feedbackCenter(node){if(!node)return null;const r=node.getBoundingClientRect();return r.width&&r.height?{x:r.left+r.width/2,y:r.top+r.height/2,w:r.width}:null;}
+/* Cosmetic turn memory belongs to feedback, never to the save or engine RNG. */
+function feedbackBeginTurn(g){
+  if(!feedbackCurrent(g))return;
+  if(scFeedback.run!==g.run){if(scFeedback.run!==-1)feedbackCancel();scFeedback.run=g.run;}
+  if(!scFeedback.history)scFeedback.history={turn:0,spoken:-3,asides:0,counts:{},low:false,ready:false};
+  scFeedback.history.turn++;
+  const restored=g.restoration?.cells.filter(c=>c.restored).map(c=>c.index)||[];
+  scFeedback.turn={game:g,score:g.score,restored:new Set(restored),seen:new Set(restored),created:null,powers:0,waves:0,done:false};
+  const actor=$('play-confite');if(actor)actor.dataset.mood='watching';
+}
+function feedbackSay(g,text,mood='happy'){
+  if(!feedbackCurrent(g)||!text)return;
+  setTip('«'+text+'»');
+  const tip=$('board-tip');if(tip)tip.dataset.speaker='Confite';
+  const actor=$('play-confite');if(actor){actor.innerHTML=confite(mood);actor.dataset.mood=mood;feedbackClass(actor,'sc-companion-react',650);}
+}
+function feedbackTurn(g,quiet=false){
+  const turn=scFeedback.turn,history=scFeedback.history;
+  if(!feedbackCurrent(g)||!turn||turn.game!==g||turn.done||!history)return;
+  turn.done=true;
+  const points=Math.max(0,g.score-turn.score),restored=(g.restoration?.restored||0)-turn.restored.size;
+  const note=$('turn-note');if(note)note.textContent='+'+points.toLocaleString('es')+' de luz'+(restored?' · '+restored+' '+(restored===1?'zona':'zonas'):turn.waves>1?' · '+turn.waves+' cascadas':'');
+  if(quiet)return;
+  const candidates=[];
+  if(restored>0)candidates.push(g.restoration.restored===g.restoration.total?'place_complete':g.restoration.kind);
+  if(turn.created)candidates.push('created_'+turn.created);
+  if(turn.powers>=2)candidates.push('power_chain');
+  if(turn.waves>=3)candidates.push('cascade');
+  if(g.pulse>=pulseNeed()&&!history.ready)candidates.push('pulse_ready');
+  if(g.mode==='campaign'&&g.moves>0&&g.moves<=3&&!history.low)candidates.push('last_moves');
+  if(g.pulse<pulseNeed())history.ready=false;
+  const key=candidates.find(k=>(PLAY_LINES[k]?.length||0)>(history.counts[k]||0)&&(k==='place_complete'||(history.asides<3&&history.turn-history.spoken>=2)));
+  if(!key)return;
+  const lines=PLAY_LINES[key];
+  const count=history.counts[key]||0;
+  // Each line is heard once per attempt. Quiet is better than a looping cheer.
+  if(count>=lines.length)return;
+  history.counts[key]=count+1;history.spoken=history.turn;
+  if(key!=='place_complete')history.asides++;
+  if(key==='pulse_ready')history.ready=true;
+  if(key==='last_moves')history.low=true;
+  feedbackSay(g,lines[count],key==='last_moves'?'worried':restored?'celebrate':'excited');
+}
+function feedbackPower(g,triggered,group){
+  if(!feedbackCurrent(g)||feedbackReduced()||!group)return;
+  const board=$('board'),rect=board?.getBoundingClientRect();if(!rect?.width)return;
+  const cell=rect.width/g.size;
+  for(const i of (triggered||[]).slice(0,3)){
+    const power=g.board[i]?.power,x=rect.left+(i%g.size+.5)*cell,y=rect.top+(Math.floor(i/g.size)+.5)*cell;
+    if(power==='row'||power==='col')feedbackParticle(group,'sc-beam',power==='row'?rect.left+rect.width/2:x,power==='col'?rect.top+rect.height/2:y,{'--beam-w':(power==='row'?rect.width:5)+'px','--beam-h':(power==='col'?rect.height:5)+'px'});
+    else if(power==='bomb')feedbackParticle(group,'sc-ring sc-power-ring',x,y,{'--fx-size':cell*2.7+'px','--fx-color':'#dfbd87'});
+    else if(power==='prism')feedbackParticle(group,'sc-ring sc-power-ring',x,y,{'--fx-size':cell*2+'px','--fx-color':'#aacdc6'});
+  }
+}
+function feedbackRestoration(g,indices,group){
+  if(!feedbackCurrent(g)||!indices.length)return;
+  feedbackSound('restore');
+  const scene=$('play-scene');feedbackClass(scene,'sc-place-awake',700);
+  if(feedbackReduced()||!group)return;
+  const board=$('board'),rect=board?.getBoundingClientRect(),destination=feedbackCenter(scene);
+  if(!rect?.width||!destination)return;
+  const cell=rect.width/g.size;
+  for(const i of indices.slice(0,3)){
+    const x=rect.left+(i%g.size+.5)*cell,y=rect.top+(Math.floor(i/g.size)+.5)*cell,dx=destination.x-x,dy=destination.y-y;
+    feedbackParticle(group,'sc-light sc-restoration-thread',x,y,{'--fx-x':dx+'px','--fx-y':dy+'px','--fx-mid-x':dx*.3+'px','--fx-mid-y':dy*.6+'px','--fx-delay':'0ms'});
+  }
+}
+
 function feedbackHit(g,cells,detail={}){
   if(!feedbackCurrent(g)||!cells.length)return;
   if(scFeedback.run!==g.run){if(scFeedback.run!==-1)feedbackCancel();scFeedback.run=g.run;}
   // Keep this actual wave for the readable combo caption immediately after it.
-  scFeedback.lastWave={game:g,run:g.run,chain:g.chain,points:detail.points||0,power:!!detail.power};
+  const turn=scFeedback.turn?.game===g&&!scFeedback.turn.done?scFeedback.turn:null;
+  const restored=turn?(g.restoration?.cells||[]).filter(c=>c.restored&&!turn.seen.has(c.index)).map(c=>c.index):[];
+  if(turn){restored.forEach(i=>turn.seen.add(i));turn.waves++;turn.powers+=(detail.triggered||[]).length;if(detail.created)turn.created=detail.created.power;}
+  scFeedback.lastWave={game:g,run:g.run,chain:g.chain,points:detail.points||0,power:!!detail.power,created:detail.created?.power,restored};
   const board=$('board');if(!board)return;
-  if(feedbackReduced()){feedbackClass(board,'sc-hit-still',160);return;}
+  if(feedbackReduced()){feedbackClass(board,'sc-hit-still',160);feedbackRestoration(g,restored,null);return;}
   const group=feedbackGroup(g),colors=['#ff758a','#54bf92','#56bfd0','#ffc45c','#b98be8','#ff9b70','#fff2b0'];
+  feedbackPower(g,detail.triggered,group);feedbackRestoration(g,restored,group);
   // Deterministic sampling: at most three candy centers, three small fragments each.
   const count=Math.min(3,cells.length),centers=[];
   for(let j=0;j<count;j++){
@@ -2235,7 +2539,8 @@ function feedbackCombo(g,detail={}){
   if(!feedbackCurrent(g))return;const el=$('board-flash');if(!el)return;
   const wave=scFeedback.lastWave?.game===g&&scFeedback.lastWave.chain===g.chain?scFeedback.lastWave:null;
   const chain=detail.chain??g.chain??1,power=detail.power??wave?.power??false,points=detail.points??wave?.points??0;
-  const label=chain>=5?'Cascada excelente':chain===4?'Gran cascada':chain===3?'En cadena':chain===2?'Buena combinación':power?'Poder activado':detail.label||'Luz recuperada';
+  const names={row:'Rayo horizontal',col:'Rayo vertical',bomb:'Bomba',prism:'Estrella'};
+  const label=wave?.restored?.length?({garden:'Un brote de color',path:'El camino vuelve',water:'El agua encuentra paso',home:'Una luz encendida'}[g.restoration?.kind]||'El lugar despierta'):wave?.created?names[wave.created]+' '+(wave.created==='bomb'||wave.created==='prism'?'creada':'creado'):chain>=4?'El mundo responde':chain>=2?'En cadena':power?'Luz liberada':detail.label||'Luz recuperada';
   const title=document.createElement('strong'),sub=document.createElement('small');title.className='sc-combo-title';title.textContent=label;
   sub.className='sc-combo-sub';sub.textContent=(chain>1?'Cascada '+chain:power?'Poder activado':'Luz recuperada')+(points>0?' · +'+points.toLocaleString('es')+' de luz':'');
   el.replaceChildren(title,sub);el.dataset.tier=power?'power':Math.min(5,chain);
@@ -2272,7 +2577,10 @@ function feedbackSound(kind='pop',chain){
       o.connect(gain);gain.connect(ctx.destination);scFeedback.voices.add(o);
       o.onended=()=>{scFeedback.voices.delete(o);o.disconnect();gain.disconnect();};o.start(at);o.stop(at+duration+.015);
     };
-    if(kind==='win'){
+    if(kind==='restore'){
+      [293.66,440,587.33].forEach((f,i)=>note(f,i*.09,.32,.024,'sine'));
+      note(146.83,0,.42,.014,'triangle');
+    }else if(kind==='win'){
       [523.25,659.25,783.99,659.25,783.99,1046.5].forEach((f,i)=>note(f,i*.105,i===5?.38:.2,.026));
       [261.63,329.63,392].forEach(f=>note(f,.48,.5,.009,'sine'));
     }else if(kind==='lose'){
