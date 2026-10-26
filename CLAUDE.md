@@ -15,3 +15,5 @@ La iteración posterior «El mundo responde» añade dioramas de restauración, 
 No alteres los datos de Jose ni escribas `sugarclash_save_v1`. Consulta [la guía operativa de colaboración](docs/CLAUDE_HANDOFF.md) cuando necesites arrancar, localizar funciones, probar o publicar. Ese documento y los informes largos son de consulta; no los cargues todos por defecto.
 
 La etapa posterior de navegación sustituye el mapa de Inicio por una sola acción principal y cuatro destinos: Inicio/Campaña/Modos/Aldea. Hay 125 pruebas, recorrido 80/80 y QA móvil/escritorio/offline. Caché actual renacer-v7. Consulta docs/NAVIGATION_QA.md y docs/DEPLOYMENT_NAVIGATION.md; e484ffb es la publicación anterior de personalidad. No restaures los nombres Atlas/Territorios/Jugar para estos destinos.
+
+Publicación vigente de navegación: d759a05 en https://sugarclash-web.vercel.app/, READY/production, HTML y recursos verificados byte por byte. Evidencia en docs/DEPLOYMENT_NAVIGATION.md. Los commits documentales posteriores no cambian ese runtime.

@@ -114,6 +114,10 @@ Las comparaciones y decisiones de producto están en [MARKET_STUDY_RENACER.md](d
 
 La restauración jugable `fb9388f` está publicada en https://sugarclash-web.vercel.app/: despliegueREADY, raíz y ocho archivos críticos comprobados byte por byte,40 recursos disponibles y caché renacer-v5. [Destino, versión y evidencia](docs/DEPLOYMENT_RESTORATION.md). La expedición e94f27a y la primera publicación36aba63 permanecen documentadas como historial. Mantener el contraste dark/descolorido frente al color recuperado y el logo sobrio. La validación con jugadores sigue pendiente.
 
-### Publicación vigente · El mundo responde
+### Publicación anterior · El mundo responde
 
 El runtime e484ffb está publicado y verificado en https://sugarclash-web.vercel.app/, con caché renacer-v6, 110 pruebas y revisión móvil/escritorio/offline. Raíz y ocho archivos críticos coinciden byte por byte;40 recursos disponibles. [Versión y evidencia](docs/DEPLOYMENT_PLAY_CHARM.md).
+
+### Publicación vigente · Navegación e interfaz
+
+El runtime d759a05 está publicado y verificado en https://sugarclash-web.vercel.app/. Cuatro destinos y portada sin hitos clicables, caché renacer-v7, 125 pruebas y recorrido 80/80 actualizados. [Versión y evidencia](docs/DEPLOYMENT_NAVIGATION.md).

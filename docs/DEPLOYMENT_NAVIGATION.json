@@ -1,0 +1,238 @@
+{
+  "checkedAt": "2026-10-26T14:31:59.274Z",
+  "publicUrl": "https://sugarclash-web.vercel.app/",
+  "commit": "d759a053a0b186099aad90672cd48687cc583b23",
+  "previousReleaseCommit": "e484ffb2c57402bfa32ff0c35edc04b2252fd4d9",
+  "deploymentId": "dpl_D5osG7NCGL5L9T4STXxgM1pvL71G",
+  "deploymentUrl": "https://sugarclash-dg1nlw1z1-pulsarproyects.vercel.app",
+  "readyState": "READY",
+  "target": "production",
+  "rootMatches": true,
+  "cache": "sugarclash-renacer-v7",
+  "checks": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "identical": true,
+      "sha256": "de024e2c2ee11956e9c0e4a9c542ab0da3c3aed5dcc36f76f8f08946c21db5fc"
+    },
+    {
+      "path": "service-worker.js",
+      "status": 200,
+      "identical": true,
+      "sha256": "1941937384edc702cd6be9454c56bee9f460646529897054f40169c9e756e500"
+    },
+    {
+      "path": "manifest.json",
+      "status": 200,
+      "identical": true,
+      "sha256": "5df1a491059139482ff2745d18db98639f065bcd74e556b877cc1b356dce824e"
+    },
+    {
+      "path": "assets/candies-restoration-v1.svg",
+      "status": 200,
+      "identical": true,
+      "sha256": "d8ae1c6c1318da20add7767740ad895987c7cf8fbdb1e0793a50c0df48fc7b1c"
+    },
+    {
+      "path": "assets/sugar-clash-logo-v2.webp",
+      "status": 200,
+      "identical": true,
+      "sha256": "818e38f212dd10836e2b2e9834532bb56c2437e0718064f36dc1e340b37cc3c3"
+    },
+    {
+      "path": "assets/renacer-restoration-v3.webp",
+      "status": 200,
+      "identical": true,
+      "sha256": "0322312dd39b4d1e375e9e936264ced52f5ebec4b1acc9da6443741f48fc2868"
+    },
+    {
+      "path": "monsters-t1-v18.webp",
+      "status": 200,
+      "identical": true,
+      "sha256": "117402d8d380eb9d8dcd92dfb52176264c31210ad04c565540b9a3822bda819b"
+    },
+    {
+      "path": "worlds-cinematic-v1.webp",
+      "status": 200,
+      "identical": true,
+      "sha256": "94f075cf9036ca3fb103b8cf6279433148ca4f646bb326f270a27089846027e6"
+    }
+  ],
+  "catalog": [
+    {
+      "path": "./assets/candies-restoration-v1.svg",
+      "status": 200
+    },
+    {
+      "path": "./assets/renacer-restoration-v3.webp",
+      "status": 200
+    },
+    {
+      "path": "./assets/renacer-meadow-v2.webp",
+      "status": 200
+    },
+    {
+      "path": "./assets/sugar-clash-logo-v2.webp",
+      "status": 200
+    },
+    {
+      "path": "./assets/candies-toon-v2.webp",
+      "status": 200
+    },
+    {
+      "path": "./assets/icon-sugar-v2.svg",
+      "status": 200
+    },
+    {
+      "path": "./assets/icon-sugar-v2-192.png",
+      "status": 200
+    },
+    {
+      "path": "./assets/icon-sugar-v2-512.png",
+      "status": 200
+    },
+    {
+      "path": "./assets/icon-sugar-v2-180.png",
+      "status": 200
+    },
+    {
+      "path": "./",
+      "status": 200
+    },
+    {
+      "path": "./index.html",
+      "status": 200
+    },
+    {
+      "path": "./legacy/index.html",
+      "status": 200
+    },
+    {
+      "path": "./manifest.json",
+      "status": 200
+    },
+    {
+      "path": "./icon.svg",
+      "status": 200
+    },
+    {
+      "path": "./icon-192.png",
+      "status": 200
+    },
+    {
+      "path": "./icon-512.png",
+      "status": 200
+    },
+    {
+      "path": "./icon-ios-180.png",
+      "status": 200
+    },
+    {
+      "path": "./title-world-v3-hd.jpg",
+      "status": 200
+    },
+    {
+      "path": "./icon-crystal-192.png",
+      "status": 200
+    },
+    {
+      "path": "./icon-crystal-512.png",
+      "status": 200
+    },
+    {
+      "path": "./icon-crystal-ios-180.png",
+      "status": 200
+    },
+    {
+      "path": "./guardians-cinematic-v1.webp",
+      "status": 200
+    },
+    {
+      "path": "./worlds-cinematic-v1.webp",
+      "status": 200
+    },
+    {
+      "path": "./arena-war-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./arena-royale-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./combatants-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./monsters-t1-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./monsters-t2-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./monsters-t3-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./monsters-t4-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./monsters-t5-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./monsters-t6-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./monsters-t7-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./monsters-t8-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./village-cinematic-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./hex-realm-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./hex-enemies-a-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./hex-enemies-b-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./buildings-v18.webp",
+      "status": 200
+    },
+    {
+      "path": "./candies-v18.webp",
+      "status": 200
+    }
+  ],
+  "excludedLocalSettings": [
+    {
+      "path": ".claude/settings.local.json",
+      "status": 404
+    },
+    {
+      "path": ".claude/launch.json",
+      "status": 404
+    },
+    {
+      "path": ".git/config",
+      "status": 404
+    }
+  ]
+}

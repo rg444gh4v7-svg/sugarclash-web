@@ -33,4 +33,4 @@ Se probó emulación de tamaños, no un teléfono físico. El test automatizado 
 - [Campaña 320](qa/nav-campaign-320.png) · [Modos 390](qa/nav-modes-390.png) · [Aldea 390](qa/nav-village-390.png).
 - [Partida 320](qa/nav-game-320.png) · [Modos con el servidor apagado](qa/nav-offline-320.png).
 
-La versión pública y su comprobación se registran en `DEPLOYMENT_NAVIGATION.md/.json` después del despliegue.
+Publicación verificada: d759a05, READY/production, raíz y ocho archivos críticos idénticos, 40 recursos disponibles. [Informe de publicación](DEPLOYMENT_NAVIGATION.md) y su JSON.

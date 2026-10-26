@@ -157,3 +157,5 @@ Campaña usa renderWorld con selector chapter-select y niveles del capítulo mos
 pauseBoard y arenaExit rechazan callbacks de sesiones reemplazadas. Arena pide confirmación al navegar; cancelar respeta su pausa anterior. Salir de Zen guarda la marca y llega al destino solicitado. Los modales dejan #app inerte y su trap contempla foco inicial o externo. Mantener limpieza de sesiones, validación de entrada y cobro de vidas existentes.
 
 125 pruebas, incluidas 15 de navegación, y recorrido 80/80 actualizados. Worker renacer-v7, mismos 40 recursos. No cambiar reglas, costes o premios como parte de estas pantallas. El servidor QA usado fue 4205; no toca 4177 ni producción.
+
+La navegación está publicada como d759a05 en la URL existente, READY/production. Raíz y ocho archivos críticos idénticos, 40 recursos disponibles. DEPLOYMENT_NAVIGATION.md y su JSON son la evidencia vigente; los informes anteriores mantienen su alcance histórico.
