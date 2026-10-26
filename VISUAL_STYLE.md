@@ -24,7 +24,7 @@ La prueba humana propuesta está en [RESTORATION_PLAYTEST.md](docs/RESTORATION_P
 
 ### Identidad y tono
 
-La iteración posterior **El mundo responde** incorpora cuatro dioramas originales dentro de la cabecera de campaña. Puente, cauce, jardín y hogar reparan su geometría según zonas realmente recuperadas; Confite comparte el lugar con el guardián y reacciona a jugadas concretas. Mantener la regla visible y el silencio entre apartes. Impactos direccionales, motivo sonoro de restauración y resumen de última jugada acompañan resultados reales. [Implementación y evidencia](docs/PLAY_CHARM_QA.md):110 pruebas, móvil/escritorio y recarga offline con caché renacer-v6. La publicación de esta iteración se identifica en [su informe](docs/DEPLOYMENT_PLAY_CHARM.md).
+La iteración posterior **El mundo responde** incorpora cuatro dioramas originales dentro de la cabecera de campaña. Puente, cauce, jardín y hogar reparan su geometría según zonas realmente recuperadas; Confite comparte el lugar con el guardián y reacciona a jugadas concretas. Mantener la regla visible y el silencio entre apartes. Impactos direccionales, motivo sonoro de restauración y resumen de última jugada acompañan resultados reales. [Implementación y evidencia](docs/PLAY_CHARM_QA.md): 110 pruebas, móvil/escritorio y recarga offline con caché renacer-v6. La publicación de esta iteración se identifica en [su informe](docs/DEPLOYMENT_PLAY_CHARM.md).
 
 Dulcelandia es un reino de confitería que perdió su color. Dulce Roja y Confite restauran guardianes, caminos y un hogar. La escena oscura o descolorida muestra lo perdido; el color que vuelve es una consecuencia de jugar. El misterio, la memoria y la revelación final de Confite conservan su lugar en la historia.
 
@@ -102,6 +102,10 @@ Validar especialmente restauración a 0, intermedia y 1 sin teñir la interfaz n
 
 Las comparaciones y decisiones de producto están en [MARKET_STUDY_RENACER.md](docs/MARKET_STUDY_RENACER.md). Los recorridos automatizados comprueban reglas y acceso; no miden diversión, retención ni éxito comercial.
 
-### Publicación verificada
+### Publicación anterior de restauración
 
 La restauración jugable `fb9388f` está publicada en https://sugarclash-web.vercel.app/: despliegueREADY, raíz y ocho archivos críticos comprobados byte por byte,40 recursos disponibles y caché renacer-v5. [Destino, versión y evidencia](docs/DEPLOYMENT_RESTORATION.md). La expedición e94f27a y la primera publicación36aba63 permanecen documentadas como historial. Mantener el contraste dark/descolorido frente al color recuperado y el logo sobrio. La validación con jugadores sigue pendiente.
+
+### Publicación vigente · El mundo responde
+
+El runtime e484ffb está publicado y verificado en https://sugarclash-web.vercel.app/, con caché renacer-v6, 110 pruebas y revisión móvil/escritorio/offline. Raíz y ocho archivos críticos coinciden byte por byte;40 recursos disponibles. [Versión y evidencia](docs/DEPLOYMENT_PLAY_CHARM.md).

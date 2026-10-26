@@ -129,7 +129,7 @@ Mi encargo: [escribe aquí el cambio que quieres].
 
 El combo global de dos estrellas se comunica explícitamente mediante `globalPrism` en `resolveBoard()`/`restoreWave()`; no inferirlo por el número de casillas limpiadas. El callback de continuar cobra gemas una sola vez y rechaza sesiones obsoletas. Hay regresiones para ambos casos.
 
-## Publicación actual confirmada · 24 de octubre de2026
+## Publicación anterior de restauración · 24 de octubre de2026
 
 El runtime de restauración está publicado como `fb9388f` en https://sugarclash-web.vercel.app/. EstadoREADY, raíz y ocho archivos críticos comprobados (la raíz se verifica aparte);40 recursos de precachéHTTP200. [Informe](DEPLOYMENT_RESTORATION.md). La guía y los informes pueden tener commits documentales posteriores sin cambiar el runtime publicado. Las comprobaciones humanas siguen pendientes. No volver a desplegar sólo para repetir la evidencia.
 
@@ -144,3 +144,5 @@ Jose pidió más gracia y cerrar la mejora. Está integrada en el runtime con110
 - Los archivos `docs/art/PLAY_*` conservan arte, CSS y texto de integración. El runtime no los solicita por red. El worker usa **renacer-v6**; se conserva el catálogo anterior de40 recursos. No se añadieron dependencias, reglas, premios ni campos del guardado.
 
 Mantén el reinicio de `g.restoredThisTurn` al empezar martillo; evita atribuir al intento actual el brote de una jugada anterior. Las13 pruebas nuevas en `tests/feedback.test.cjs` cubren separación de creación/activación, HP parcial, resumen quiet, categorías agotadas, silencio, movimiento reducido y limpieza. El recorrido80/80 anterior valida sus reglas y su versión; no se ha repetido ni presentado como una nueva prueba de diversión para esta capa.
+
+La etapa El mundo responde está publicada como e484ffb en la URL existente, READY/production, con raíz y ocho archivos críticos idénticos y 40 recursos disponibles. Consulta DEPLOYMENT_PLAY_CHARM.md y su JSON. Los commits posteriores de documentación no requieren otro despliegue si no cambian el runtime.

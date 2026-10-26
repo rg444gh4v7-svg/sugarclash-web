@@ -29,4 +29,4 @@ No se ha repetido el recorrido 80/80 para esta capa de presentación. El informe
 - [Escritorio](qa/play-charm-desktop.png).
 - [Recarga con servidor apagado](qa/play-charm-offline.png).
 
-La publicación de esta versión se registra separadamente en `DEPLOYMENT_PLAY_CHARM.md` y su informe JSON una vez comprobado el despliegue.
+Publicación confirmada: e484ffb, READY/production, raíz y ocho archivos críticos idénticos y 40 recursos disponibles. Evidencia en [DEPLOYMENT_PLAY_CHARM.md](DEPLOYMENT_PLAY_CHARM.md) y su informe JSON.
