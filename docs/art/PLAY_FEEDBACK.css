@@ -12,3 +12,5 @@
 @media(prefers-reduced-motion:reduce){.sc-companion-react{animation:none!important}.sc-beam,.sc-restoration-thread{display:none}}
 
 @media(max-width:370px) and (max-height:740px){.game-page:has(.has-play-scene){padding-top:2px;padding-bottom:3px}.game-layout:has(.has-play-scene){gap:3px}.has-play-scene+.board-side .board-tools{margin-top:5px}}
+
+@media(min-width:761px) and (max-height:850px){.game-page{padding-top:8px}.board-side{max-width:clamp(280px,calc(100dvh - 320px),470px)}}

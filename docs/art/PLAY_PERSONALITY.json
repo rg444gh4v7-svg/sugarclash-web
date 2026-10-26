@@ -1,21 +1,36 @@
 {
   "_meta": {
     "schemaVersion": 1,
-    "status": "Propuesta de voz; no implica integración ni prueba con jugadores.",
+    "status": "Integrado en index.html; validación técnica en docs/PLAY_CHARM_QA.md. Prueba con jugadores pendiente.",
     "voice": "Confite observa cosas pequeñas del lugar. Humor seco y cálido; habla como compañero, sin aplaudir cada movimiento ni burlarse del jugador.",
-    "scope": "Campaña. Reacciones a hechos reales, sin reglas, premios ni campos de guardado nuevos.",
+    "scope": "Reacciones de poderes/cascadas disponibles en match-3; lugares y últimos movimientos sólo campaña. Sin reglas, premios ni campos de guardado nuevos.",
     "delivery": {
       "default": "Silencio en una combinación corriente. No usar el catálogo para llenar tiempos de espera.",
-      "maxAsidesPerAttempt": 2,
+      "maxAsidesPerAttempt": 3,
       "maxAsidesPerCompletedTurn": 1,
-      "minValidTurnsBetweenAsides": 3,
+      "minValidTurnsBetweenAsides": 2,
       "openingAndResultExcludedFromAsideLimit": true,
-      "selection": "Orden estable: primera frase no dicha en la sesión de página para esa clave. Si se agotaron, guardar silencio. No consumir RNG del motor ni persistir frases vistas.",
+      "selection": "Orden estable por clave, una frase de cada índice por tramo activo. Estado scFeedback transitorio; se reinicia también al ocultar la página. Sin RNG del motor ni persistencia.",
       "timing": "Recoger hechos durante las cascadas y elegir una sola reacción cuando la jugada termine. Descartar las demás; no ponerlas en cola para turnos posteriores.",
-      "priority": ["place_complete", "power_chain", "created_prism", "created_bomb", "created_row", "created_col", "last_moves", "garden", "path", "water", "home", "cascade", "pulse_ready"],
-      "instruction": "La regla y los dos objetivos permanecen legibles. El aparte no sustituye restorationHint ni el tutorial inicial; usar el espacio de Confite disponible sin tapar el tablero.",
-      "lifetime": "Estado transitorio asociado a state.run. Descartar eventos al navegar, stopBoard, ocultar la página, pausar o abrir un modal. Sin temporizadores ni RAF nuevos.",
-      "noPressure": "Sin urgencia artificial, culpa, rachas, anuncios, promesas de premio ni invitaciones insistentes a reintentar. Últimos movimientos no significa límite de tiempo."
+      "priority": [
+        "place_complete",
+        "garden",
+        "path",
+        "water",
+        "home",
+        "created_prism",
+        "created_bomb",
+        "created_row",
+        "created_col",
+        "power_chain",
+        "cascade",
+        "pulse_ready",
+        "last_moves"
+      ],
+      "instruction": "El aparte ocupa board-tip después de la regla contextual. La regla y ambas metas permanecen visibles en cabecera/HUD; una pista explícita o automática posterior sustituye el aparte.",
+      "lifetime": "scFeedback captura jugadas con feedbackBeginTurn y resuelve con feedbackTurn. feedbackCancel descarta eventos e historial al cambiar, detener u ocultar. feedbackCurrent suprime efectos nuevos si hay pausa o sesión obsoleta. Se usan los timers finitos existentes de feedback.",
+      "noPressure": "Sin urgencia artificial, culpa, rachas, anuncios, promesas de premio ni invitaciones insistentes a reintentar. Últimos movimientos no significa límite de tiempo.",
+      "completionExcludedFromAsideLimit": true
     },
     "triggers": {
       "garden": "Una o más marcas de jardín pasan de hp positivo a cero; no sólo reciben daño.",
@@ -37,6 +52,9 @@
       "El final de attemptSwap vuelve a escribir restorationHint y borra la observación del brote de resolveBoard. Resolver la voz después de la jugada evita ese sobrescrito.",
       "En campaña, la introducción de Confite vive en board-tip y su presencia habitual queda reducida al Pulso. Una reacción breve debe sentirse suya y dejar visible la instrucción.",
       "Los títulos actuales de combo describen intensidad, pero no lugar ni carácter. Conservar el dato de cascada y añadir sólo una observación ocasional evita convertir cada jugada en un comentario."
+    ],
+    "notIntegrated": [
+      "failure: se conservan los resultados de derrota existentes"
     ]
   },
   "garden": [

@@ -24,6 +24,8 @@ La prueba humana propuesta está en [RESTORATION_PLAYTEST.md](docs/RESTORATION_P
 
 ### Identidad y tono
 
+La iteración posterior **El mundo responde** incorpora cuatro dioramas originales dentro de la cabecera de campaña. Puente, cauce, jardín y hogar reparan su geometría según zonas realmente recuperadas; Confite comparte el lugar con el guardián y reacciona a jugadas concretas. Mantener la regla visible y el silencio entre apartes. Impactos direccionales, motivo sonoro de restauración y resumen de última jugada acompañan resultados reales. [Implementación y evidencia](docs/PLAY_CHARM_QA.md):110 pruebas, móvil/escritorio y recarga offline con caché renacer-v6. La publicación de esta iteración se identifica en [su informe](docs/DEPLOYMENT_PLAY_CHARM.md).
+
 Dulcelandia es un reino de confitería que perdió su color. Dulce Roja y Confite restauran guardianes, caminos y un hogar. La escena oscura o descolorida muestra lo perdido; el color que vuelve es una consecuencia de jugar. El misterio, la memoria y la revelación final de Confite conservan su lugar en la historia.
 
 Un acabado casual cuidado significa formas legibles, ilustración con intención, respuesta clara y una siguiente acción comprensible. El tono es expresivo sin lenguaje de bebé ni apariencia general de juguete. Confite mantiene su SVG y emociones como compañero pequeño dentro del juego; el logo se sostiene por sus letras. No incorporar mascotas, letras de burbuja o glaseado inflado a la marca.

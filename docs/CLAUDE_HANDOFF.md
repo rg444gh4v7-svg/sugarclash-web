@@ -132,3 +132,15 @@ El combo global de dos estrellas se comunica explícitamente mediante `globalPri
 ## Publicación actual confirmada · 24 de octubre de2026
 
 El runtime de restauración está publicado como `fb9388f` en https://sugarclash-web.vercel.app/. EstadoREADY, raíz y ocho archivos críticos comprobados (la raíz se verifica aparte);40 recursos de precachéHTTP200. [Informe](DEPLOYMENT_RESTORATION.md). La guía y los informes pueden tener commits documentales posteriores sin cambiar el runtime publicado. Las comprobaciones humanas siguen pendientes. No volver a desplegar sólo para repetir la evidencia.
+
+## Iteración posterior · El mundo responde
+
+Jose pidió más gracia y cerrar la mejora. Está integrada en el runtime con110 pruebas aprobadas. El informe [PLAY_CHARM_QA.md](PLAY_CHARM_QA.md) distingue las partidas reales de QA, las medidas de320×640/390×844/1280×720 y la recarga sin servidor. [DEPLOYMENT_PLAY_CHARM.md](DEPLOYMENT_PLAY_CHARM.md) identifica la publicación de esta etapa; fb9388f y su informe anterior permanecen como historial.
+
+- `PLAY_SCENE_START/END`: `playSceneState(g)`, `playSceneArt(kind,progress)`, `playScene(g)` y `updatePlayScene(g,host?)`. Geometría por restauración real; el host conserva identidad y sólo reemplaza SVG cuando cambia fase o tipo. `renderGame()` coloca escena/Confite y `updateGameHUD()` actualiza su estado. Sin guardar ni conceder progreso.
+- `FEEDBACK_START/END`: `feedbackBeginTurn(g)` captura la jugada válida o martillo; `feedbackHit()` recoge hechos antes de la caída; `feedbackTurn(g,quiet=false)` genera un único resumen y una reacción elegible al terminar. `finishBoard()` llama a la variante quiet después de validar y antes de cerrar. `feedbackPower()` y `feedbackRestoration()` dibujan efectos finitos; `feedbackCancel()` descarta turno, historial, clases, partículas, timers y voces al abandonar/cambiar/ocultar.
+- `PLAY_LINES` contiene39 reacciones y `PLAY_OPENINGS` diez aperturas de T1. Selección determinista sin RNG; tres apartes por tramo activo y separación de dos jugadas. Completar el lugar puede añadir una observación si falta la otra meta. No se integró el catálogo propuesto de frases de derrota.
+- La voz se muestra en `board-tip` y se identifica con `data-speaker`. `setTip()` lo limpia para instrucciones/pistas posteriores; la regla del encuentro permanece en la cabecera. Ocultar la página descarta también el historial efímero. No persistir frases vistas.
+- Los archivos `docs/art/PLAY_*` conservan arte, CSS y texto de integración. El runtime no los solicita por red. El worker usa **renacer-v6**; se conserva el catálogo anterior de40 recursos. No se añadieron dependencias, reglas, premios ni campos del guardado.
+
+Mantén el reinicio de `g.restoredThisTurn` al empezar martillo; evita atribuir al intento actual el brote de una jugada anterior. Las13 pruebas nuevas en `tests/feedback.test.cjs` cubren separación de creación/activación, HP parcial, resumen quiet, categorías agotadas, silencio, movimiento reducido y limpieza. El recorrido80/80 anterior valida sus reglas y su versión; no se ha repetido ni presentado como una nueva prueba de diversión para esta capa.
