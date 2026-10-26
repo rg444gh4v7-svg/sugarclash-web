@@ -146,3 +146,14 @@ Jose pidió más gracia y cerrar la mejora. Está integrada en el runtime con110
 Mantén el reinicio de `g.restoredThisTurn` al empezar martillo; evita atribuir al intento actual el brote de una jugada anterior. Las13 pruebas nuevas en `tests/feedback.test.cjs` cubren separación de creación/activación, HP parcial, resumen quiet, categorías agotadas, silencio, movimiento reducido y limpieza. El recorrido80/80 anterior valida sus reglas y su versión; no se ha repetido ni presentado como una nueva prueba de diversión para esta capa.
 
 La etapa El mundo responde está publicada como e484ffb en la URL existente, READY/production, con raíz y ocho archivos críticos idénticos y 40 recursos disponibles. Consulta DEPLOYMENT_PLAY_CHARM.md y su JSON. Los commits posteriores de documentación no requieren otro despliegue si no cambian el runtime.
+
+
+## Etapa posterior · Navegación e interfaz
+
+La composición vigente es Inicio/Campaña/Modos/Aldea. Consulta NAVIGATION_QA.md y DEPLOYMENT_NAVIGATION.md para evidencia y publicación; e484ffb queda como la publicación anterior. NAV_ITEMS/SCREEN_LABELS/renderNav definen nombres y contexto. navigate valida destinos propios, protege sesiones activas y enfoca/anuncia la vista tras renderizar. navigationOrigin captura la vista de entrada; g.returnTo y arenaState.returnTo son transitorios, nunca campos de save. Reintentar y seguir campaña conservan el origen.
+
+Campaña usa renderWorld con selector chapter-select y niveles del capítulo mostrado. Inicio usa NAV_HOME.js integrado, sin diez hitos clicables. Modos y Aldea se han reconstruido en la capa inline; docs/art/NAV_* guarda las fuentes y decisiones. El primer detalle de Aldea selecciona la siguiente construcción disponible, sin comprarla. settingsReturn es sólo estado de UI.
+
+pauseBoard y arenaExit rechazan callbacks de sesiones reemplazadas. Arena pide confirmación al navegar; cancelar respeta su pausa anterior. Salir de Zen guarda la marca y llega al destino solicitado. Los modales dejan #app inerte y su trap contempla foco inicial o externo. Mantener limpieza de sesiones, validación de entrada y cobro de vidas existentes.
+
+125 pruebas, incluidas 15 de navegación, y recorrido 80/80 actualizados. Worker renacer-v7, mismos 40 recursos. No cambiar reglas, costes o premios como parte de estas pantallas. El servidor QA usado fue 4205; no toca 4177 ni producción.

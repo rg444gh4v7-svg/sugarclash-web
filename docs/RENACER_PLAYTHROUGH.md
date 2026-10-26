@@ -1,6 +1,6 @@
 # Renacer · recorrido automatizado del motor
 
-Fecha de generación UTC: 2026-10-24T02:19:50.354Z. Semilla reproducible: `20261021`. Ejecutar `node scripts/renacer-playthrough.cjs`. Solo usa módulos incluidos en Node.
+Fecha de generación UTC: 2026-10-26T14:19:27.123Z. Semilla reproducible: `20261021`. Ejecutar `node scripts/renacer-playthrough.cjs`. Solo usa módulos incluidos en Node.
 
 El script carga el JavaScript real de `index.html` en una VM y sustituye únicamente pintura, audio, ventanas y esperas de animación. Entra por `requestLevel()`, confirma el diálogo real de cada jefe (también prueba doble toque), y juega mediante `attemptSwap()`. Las victorias, estrellas, recursos y accesos los concede `finishBoard()`; no se modifica el guardado para avanzar.
 

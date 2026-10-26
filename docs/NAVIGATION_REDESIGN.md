@@ -109,3 +109,7 @@ Sin alterar guardados personales: usar origen de QA aislado distinto de4177 y de
 - La arena no desaparece por tocar Ajustes o una pestaña sin confirmar. Cancelar conserva posiciones/tiempo y requiere continuar explícitamente.
 - Probar selección de capítulo, niveles bloqueados y jefe, regreso de Historia y recuerdos, y navegación por teclado con foco visible. Los nombres accesibles coinciden con las etiquetas visibles.
 - Ejecutar sintaxis y pruebas pertinentes después de que el root edite el runtime. Este documento no atribuye a la navegación nueva las110 pruebas ni el despliegue de la versión anterior.
+
+## Integración realizada
+
+La propuesta está integrada. Los nombres visibles finales son Inicio, Campaña, Modos y Aldea; el título del hub es Otros modos. Fuentes finales y alcance en [NAVIGATION_QA.md](NAVIGATION_QA.md). La selección inicial de Aldea usa la siguiente construcción disponible.

@@ -1,12 +1,20 @@
 # Sugar Clash — guía visual compartida
 
-## Dirección vigente · 23 de octubre de2026
+## Dirección vigente · navegación revisada el 26 de octubre de 2026
 
 **Descolorido y oscuro frente al color recuperado; casual para público amplio, «tampoco tan infantil».** Jose corrigió la propuesta clara: «se está saliendo de la línea de lo que es descolorado, lo que era dark y lo que era color. Mantente en esa línea». Esta es la última decisión creativa y prevalece sobre el tema marfil y sobre la presentación histórica de cristal/morado genérico.
 
 Jose confirmó después la base casi monocroma, el regreso progresivo del color y el logo «sobrio». Conservar el logo nuevo, la estructura nueva de entrada al juego y el tono cuidado. La base es carbón y petróleo, con color localizado y una restauración perceptible del paisaje. La referencia conceptual sigue siendo [CONCEPT.md](CONCEPT.md). Esta es la única guía visual vigente para Claude y Codex; [VISUAL_REBOOT.md](docs/VISUAL_REBOOT.md) registra la iteración clara superada y [legacy/VISUAL_STYLE.md](legacy/VISUAL_STYLE.md) conserva el contexto de Atlas y Ecos.
 
 Jose pidió después «sigue mejorando, se ve genérico». La iteración de expedición expresa la identidad mediante cartografía de la ruta real, guardianes y una huella de color que nace en el río. Conserva el logo y el tono sobrio; sustituye el panel central y los accesos como tarjetas iguales. [Implementación y pruebas](docs/EXPEDITION_QA.md).
+
+### Navegación e interfaz · decisión posterior de Jose
+
+Jose pidió mejorar la parte visual porque «la navegación es terrible, no se entiende». La composición vigente usa **Inicio, Campaña, Modos y Aldea**: texto e iconos, orden fijo, estado activo visible y foco en la vista que se abre. Esta decisión sustituye la portada de expedición con diez hitos y la navegación anterior de cinco destinos. Mantener el logo sobrio, la paleta dark/color y el progreso real.
+
+Inicio tiene una sola acción dominante para jugar el siguiente nivel. La escena no es un menú; los niveles viven en Campaña. Recursos etiquetados, fuentes legibles y acciones de al menos 44 px donde el espacio lo permite. Historia y recuerdos es secundaria dentro de Campaña; Ajustes permanece en la cabecera y tiene regreso explícito. No volver a llamar «Jugar» al hub de modos ni usar «Atlas», «Territorios» y «Campaña» como destinos distintos.
+
+[Implementación y pruebas](docs/NAVIGATION_QA.md): 125 pruebas, recorrido real 80/80, revisión 320×640/390×844/escritorio y recarga offline con caché renacer-v7. Publicación en docs/DEPLOYMENT_NAVIGATION.md. Los informes anteriores permanecen como historial.
 
 ### Restauración integrada · 23–24 de octubre de 2026
 
@@ -76,12 +84,12 @@ En portada y atlas, usar victorias demostradas del capítulo; en partida, el obj
 
 ### Composición de pantallas
 
-- **Portada de juego:** logo, contexto breve del capítulo, escena, siguiente nivel, Jugar/Continuar, progreso real y accesos directos a modos. `.expedition-home`, `.expedition-stage`, `.expedition-route`, `.expedition-dock` y `.expedition-restoration` son la estructura vigente. Los diez hitos salen de `starsAt()`/`levelOpen()` y llaman a `requestLevel()`; ningún hito concede progreso por sí mismo. El mapa es la escena, con la acción principal bajo él. No volver al titular editorial dominante de una landing. En móvil, comprobar que Jugar, Guerra y Royale sean alcanzables al entrar.
+- **Inicio:** .nav-home, .home-journey, .home-next y .home-play. Escena v3 sin hitos clicables, próximo nivel con nombre/regla breve, Jugar nivel N, progreso y Ver niveles. Guerra/Royale son secundarios directos; reto diario y Confite completan la pantalla. Logo aprobado sólo en cabecera. Jugar y ambos modos rápidos deben quedar visibles al entrar en 320×640.
 - **Fuente de acceso:** `campaignNext()` elige territorio/nivel y `continueCampaign()` entra por `requestLevel()`. Mostrar guardianes, recursos y marcas reales. La campaña reserva una vida al entrar y la devuelve una sola vez al ganar; perder o abandonar la consume. No alterar esa regla para una composición.
 - **Partida:** guardián/nombre, objetivo y cantidad restante, movimientos, tablero y Pulso manual de Confite. Tutorial contextual con combinación de cuatro preparada, sin modal obligatorio. El paisaje y el guardián acompañan la restauración mediante el objetivo real; las piezas y poderes son el foco visual.
-- **Atlas:** capítulo, paisaje, progreso y ruta de diez guardianes. Próximo/completado/bloqueado distinguibles; los estados bloqueados conservan nombres y requisitos legibles. Ningún render cambia estrellas.
-- **Aldea:** escena y camino de diez edificios interactivos sobre fondo secundario. Seleccionar inspecciona; beneficio, precio y construcción explícita viven en el panel. El resultado conecta miel ganada con la próxima construcción sin obligar a visitarla.
-- **Modos:** Guerra y Royale son locales contra IA. Diario mantiene tablero por fecha local, acceso gratuito y premio limitado a una reclamación. Supervivencia y Zen explican su ritmo. Nombres de juego antes que lore.
+- **Campaña:** selector nativo con nombres de los ocho capítulos, requisito visible si está bloqueado, progreso y lista de diez niveles. Primera fila visible al abrir en móvil. Las acciones entran al capítulo mostrado; evitar un Continuar global que cambie de capítulo sin explicarlo.
+- **Aldea:** lista legible de edificios y detalle de la selección. Al entrar por primera vez, muestra la siguiente construcción disponible con beneficio, precio y requisito; inspeccionar nunca compra. En móvil el detalle va antes de la lista. No restaurar el zigzag de pequeños botones como única navegación.
+- **Modos:** separar Combina caramelos (Reto diario, Sin prisa, Contrarreloj) de Muévete y combate (Guerra 5v5 y Royale). Usar el mismo nombre dentro de cada partida. Todos gratuitos; Guerra/Royale contra IA. Descripciones concretas antes del lore.
 - **Recursos y modales:** cabecera compacta y navegación clara; superficies carbón/petróleo con texto hueso. Cerrar un modal de recursos conserva la arena pausada hasta continuar. Recursos, costes y controles deben seguir legibles en las tres fases de restauración.
 
 La capa visual no cambia balance, guardados, costes, requisitos, premios ni acceso a modos. Los anuncios seguirían siendo voluntarios; no hay SDK publicitario ni pagos reales conectados. No prometer multijugador online.

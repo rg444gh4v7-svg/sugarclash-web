@@ -1560,16 +1560,345 @@ button:focus-visible,a:focus-visible{outline:3px solid #a8cbc4;outline-offset:4p
 
 @media(min-width:761px) and (max-height:850px){.game-page{padding-top:8px}.board-side{max-width:clamp(280px,calc(100dvh - 320px),470px)}}
 /* PLAY_CHARM_STYLE_END */
+
+/* NAVIGATION_STYLE_START */
+/* Navigation and home replacement. Append after the existing styles.
+   renderNav must output four destinations: Inicio, Campaña, Otros modos, Aldea.
+   No layout or visibility changes to the board, arena or their controls. */
+:root{--rail:190px}
+.app{background:#141820}
+.rail{
+ width:190px;padding:24px 12px 18px;align-items:stretch;gap:8px;
+ background:#181f27;border-right:1px solid #35414a;
+}
+.rail-logo{display:none}
+.rail .nav-item{
+ position:relative;display:flex;flex-direction:row;justify-content:flex-start;
+ align-items:center;width:100%;min-height:56px;height:auto;padding:12px 15px;
+ gap:13px;border:1px solid transparent;border-radius:12px;
+ color:#b6c0c1;font:700 15px/1.2 Karla,system-ui,sans-serif;letter-spacing:0;
+ background:transparent;text-align:left;
+}
+.rail .nav-item svg{width:24px;height:24px;flex:none;stroke-width:1.7}
+.rail .nav-item.active{
+ background:#2a373d;color:#f0e5d1;border-color:#52625e;box-shadow:none;
+}
+.rail .nav-item.active::after{display:none}
+.rail .nav-item.active::before{
+ content:'';position:absolute;left:-13px;top:14px;bottom:14px;width:3px;
+ border-radius:0 3px 3px 0;background:#d3a185;
+}
+.rail .nav-item span{white-space:normal}
+.rail .nav-help{
+ margin-top:auto;padding:20px 12px 0;border-top:1px solid #35414a;
+ color:#a6b5b5;font-size:12px;line-height:1.55;
+}
+.rail .nav-help strong{display:block;color:#d4d9cc;font-weight:700;margin-bottom:5px}
+.topbar{
+ height:76px;padding:0 30px;gap:14px;background:#181f27;
+ border-bottom:1px solid #35414a;
+}
+.topbar .brand{min-width:0}
+.topbar .brand .brand-mark{width:34px;height:34px;object-fit:contain}
+.topbar .brand>span{font-size:20px}
+.topbar .brand small{font-size:9px;letter-spacing:.1em}
+.topbar .shell-wordmark{display:block;width:104px;height:62px;object-fit:contain}
+.resources{gap:8px}
+.resources .resource{
+ min-height:44px;padding:8px 10px;font-size:13px;border-radius:10px;
+ border:1px solid #3b4850;background:#222c34;color:#e8e6d9;
+}
+.resources .resource svg{width:17px;height:17px;flex:none}
+.resources .utility{width:44px;height:44px;border-radius:10px;color:#c1ccca}
+.resources .utility.mobile-settings{display:grid}
+.rail .nav-item:focus-visible,.topbar button:focus-visible,
+.nav-home button:focus-visible{
+ outline:3px solid #dfc18d;outline-offset:3px;
+}
+
+/* One illustrated next step, then two secondary entries with different weight. */
+.nav-home{
+ max-width:1180px;margin:0 auto;padding:30px 32px 36px;
+ color:#eee7db;
+}
+.home-heading{margin:0 0 22px}
+.home-heading h1{
+ font:500 28px/1.15 Fraunces,Georgia,serif;letter-spacing:-.035em;
+ margin:0;color:#eee7db;
+}
+.home-heading p{font:400 14px/1.45 Karla,system-ui,sans-serif;color:#b7c2c1;margin:7px 0 0}
+.home-journey{
+ display:block;
+ overflow:hidden;border:1px solid #46534f;border-radius:16px;
+ background:#202a31;box-shadow:0 12px 24px #080f162e;
+}
+.home-scene{position:relative;isolation:isolate;height:365px;min-height:365px;overflow:hidden;background:#20282d}
+.home-scene-ash,.home-scene-life{
+ position:absolute;inset:0;background:url('assets/renacer-restoration-v3.webp') 58% 62%/cover;
+ pointer-events:none;
+}
+.home-scene-ash{filter:grayscale(1) contrast(.94) brightness(.81)}
+.home-scene-life{
+ filter:brightness(.96);opacity:var(--life-opacity,0);
+ -webkit-mask-image:radial-gradient(ellipse at 65% 96%,#000 var(--reveal-start,0%),transparent var(--reveal-end,0%));
+ mask-image:radial-gradient(ellipse at 65% 96%,#000 var(--reveal-start,0%),transparent var(--reveal-end,0%));
+}
+.home-scene::after{
+ content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+ background:linear-gradient(180deg,#172129d9 0%,#17212925 34%,#17212900 43%,#172129dd 72%,#172129fa 100%);
+}
+.home-territory{position:relative;z-index:1;padding:22px 23px;max-width:340px}
+.home-territory>span{
+ font-size:12px;font-weight:700;color:#dbc7a4;letter-spacing:.04em;
+}
+.home-territory h2{
+ font:500 22px/1.1 Fraunces,Georgia,serif;letter-spacing:-.03em;
+ color:#f0e8da;margin:8px 0 0;text-shadow:0 2px 4px #10192180;
+}
+.home-place{position:absolute;z-index:1;left:23px;right:23px;bottom:21px}
+.home-place span{display:block;color:#b7c9c3;font-size:12px;line-height:1.4}
+.home-place strong{display:block;color:#eee5d0;font-size:15px;line-height:1.3;margin-top:5px;font-weight:700}
+.home-next{position:absolute;z-index:1;left:23px;right:23px;bottom:20px;max-width:700px;padding:0;min-width:0}
+.home-next-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.home-next-head>div{min-width:0}
+.home-level{display:block;color:#d4b28e;font:700 12px/1.4 Karla,system-ui,sans-serif}
+.home-next-head h2{
+ font:500 30px/1.14 Fraunces,Georgia,serif;letter-spacing:-.03em;
+ color:#f0e8d9;margin:7px 0 0;
+}
+.home-guardian{width:85px;height:95px;filter:grayscale(.55) drop-shadow(0 5px 3px #08151a55)}
+.home-rule{font:400 14px/1.45 Karla,system-ui,sans-serif;color:#d2dbd3;margin:8px 0 0;max-width:590px}
+.home-footer{display:grid;grid-template-columns:minmax(260px,390px) minmax(0,1fr);align-items:center;gap:32px;padding:18px 23px}
+.home-actions{display:flex;align-items:center;gap:10px}
+.home-play{
+ width:100%;min-height:56px;border:1px solid #e5b79a;border-radius:12px;
+ background:#d39b80;box-shadow:0 3px 0 #8b6253;color:#17242a;
+ font:800 17px/1.15 Karla,system-ui,sans-serif;letter-spacing:0;padding:14px 17px;
+ display:flex;justify-content:flex-start;gap:10px;clip-path:none;
+}
+.home-play>svg{width:19px;height:19px;flex:none;stroke-width:2}
+.home-play>svg:last-child{margin-left:auto}
+.home-progress{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:9px}
+.home-progress>span{font-size:12px;line-height:1.4;color:#acbfb8}
+.home-progress strong{color:#d2dfcc;font-weight:700}
+.home-progress .text-btn{font-size:13px;min-height:44px;gap:6px;color:#ddc39c;flex:none}
+.home-progress svg{width:15px;height:15px}
+.home-companion{display:flex;align-items:center;gap:9px;border-top:1px solid #3b4a4b;padding-top:10px;margin-top:3px}
+.home-companion .confite-art{width:32px;height:31px;flex:none;filter:none}
+.home-companion p{font-size:12px;line-height:1.4;color:#aebfba;margin:0}
+.home-secondary{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:center;gap:30px;margin-top:22px}
+.home-daily{display:flex;align-items:center;gap:13px;min-height:76px;padding:10px 0 10px 15px;border-left:3px solid #b69f72}
+.home-daily-icon{display:grid;place-items:center;width:30px;height:30px;flex:none;color:#ccb386}
+.home-daily-icon svg{width:25px;height:25px}
+.home-daily>div{min-width:0;flex:1}
+.home-daily h2{font:700 16px/1.2 Karla,system-ui,sans-serif;color:#e8ddc6;margin:0}
+.home-daily p{font-size:12px;line-height:1.4;color:#b5c0bc;margin:5px 0 0}
+.home-daily .text-btn{flex:none;min-height:44px;font-size:13px;color:#d4b489;gap:6px;padding:6px 10px}
+.home-daily .text-btn svg{width:16px;height:16px}
+.home-modes-link{
+ min-height:76px;display:flex;align-items:center;gap:13px;background:none;
+ padding:12px 0;color:#b3c7c7;border-bottom:1px solid #46534f;text-align:left;
+}
+.home-modes-link>svg:first-child{width:28px;height:28px;flex:none;stroke-width:1.7}
+.home-modes-link>span{flex:1;min-width:0}
+.home-modes-link strong{display:block;font-size:16px;line-height:1.2;color:#d7e0da;font-weight:700}
+.home-modes-link small{display:block;font-size:12px;line-height:1.4;margin-top:5px;color:#aebfbc}
+.home-modes-link>svg:last-child{width:18px;height:18px;flex:none}
+.home-quick{margin-top:20px}
+.home-quick>header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.home-quick h2{font:700 16px/1.3 Karla,system-ui,sans-serif;color:#d6dfd7;margin:0}
+.home-quick h2 span{font-size:12px;color:#b7c6bd;font-weight:400;margin-left:8px}
+.home-quick>header .text-btn{min-height:44px;font-size:13px;gap:6px}
+.home-quick>header .text-btn svg{width:15px;height:15px}
+.home-quick-links{display:grid;grid-template-columns:1fr 1fr;gap:24px;border-top:1px solid #3b4949;border-bottom:1px solid #3b4949}
+.home-quick-links>button{display:flex;align-items:center;min-width:0;gap:12px;min-height:70px;background:none;text-align:left;color:#b6c6c3;padding:8px 0}
+.home-quick-links>button>svg:first-child{width:26px;height:26px;flex:none;color:#c9b18b}
+.home-quick-links>button:nth-child(2)>svg:first-child{color:#9abdb6}
+.home-quick-links>button>span{flex:1;min-width:0}
+.home-quick-links strong{display:block;font-size:16px;line-height:1.25;font-weight:700;color:#e4ddcc}
+.home-quick-links small{display:block;font-size:12px;line-height:1.3;margin-top:4px;color:#aebfba}
+.home-quick-links>button>svg:last-child{width:16px;height:16px;flex:none}
+
+@media(hover:hover) and (pointer:fine){
+ .rail .nav-item:not(.active):hover{background:#243139;color:#eee7db;border-color:#46554f}
+ .home-play:hover{background:#e0ac8f;border-color:#f0caac}
+ .home-modes-link:hover strong,.home-progress .text-btn:hover{color:#f0dbb4}
+}
+@media(max-width:1050px){
+ .nav-home{padding:25px 24px 30px}
+ .home-next{padding:0}.home-territory{padding:20px}
+ .home-next-head h2{font-size:28px}.home-guardian{width:78px;height:84px}
+ .home-secondary{gap:22px}
+}
+@media(max-width:760px){
+ :root{--rail:0px}
+ .app{padding-left:0;padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+ .rail{
+  inset:auto 0 0;left:0;right:0;width:100%;height:calc(72px + env(safe-area-inset-bottom));
+  padding:5px 7px calc(5px + env(safe-area-inset-bottom));display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;align-items:stretch;
+  border:0;border-top:1px solid #435049;background:#19222afc;backdrop-filter:none;
+ }
+ .rail .nav-item{
+  min-width:0;min-height:60px;width:100%;height:60px;flex-direction:column;
+  justify-content:center;gap:5px;padding:5px 1px;border-radius:10px;font-size:11px;
+  line-height:1.1;letter-spacing:0;text-align:center;white-space:nowrap;
+ }
+ .rail .nav-item svg{width:24px;height:24px}
+ .rail .nav-item span{white-space:nowrap}
+ .rail .nav-item.active{border-color:#687267;background:#303d40;color:#f1e4cb}
+ .rail .nav-item.active::before{display:none}
+ .rail .nav-item:focus-visible{outline-offset:-3px}
+ .rail .nav-help,.rail .rail-logo,.rail .rail-bottom{display:none}
+ .topbar{height:64px;padding:0 13px;gap:7px;background:#181f27}
+ .topbar .brand .brand-mark{width:29px;height:29px}
+ .topbar .brand>span{font-size:17px}
+ .topbar .brand small{display:none}
+ .resources{gap:3px;min-width:0}
+ .resources .resource{padding:6px 7px;border:0;background:none;font-size:12px;gap:5px;min-height:44px}
+ .resources .resource svg{width:16px;height:16px}
+ .resources .utility{width:40px;height:44px;flex:none}
+ .resources .utility:not(.mobile-settings){display:none}
+ .nav-home{padding:18px 16px 25px}
+ .home-heading{margin-bottom:13px}
+ .home-heading h1{font-size:27px;line-height:1.15;letter-spacing:-.035em}
+ .home-heading p{font-size:14px;line-height:1.35;margin-top:6px}
+ .home-journey{display:block;border-radius:14px}
+ .home-scene{height:220px;min-height:220px}
+ .home-scene-ash,.home-scene-life{background-position:61% 64%}
+ .home-territory{padding:17px 17px 0;max-width:280px}
+ .home-territory>span{font-size:11px;letter-spacing:.02em}
+ .home-territory h2{font:700 15px/1.15 Karla,system-ui,sans-serif;letter-spacing:0;margin-top:4px;max-width:310px}
+ .home-place{left:17px;right:17px;bottom:16px}
+ .home-place span{font-size:11px}.home-place strong{font-size:14px;margin-top:4px}
+ .home-next{left:17px;right:17px;bottom:14px;padding:0}
+ .home-next-head{gap:10px;min-height:49px}
+ .home-next-head h2{font-size:24px;line-height:1.1;margin-top:5px}
+ .home-level{font-size:12px;line-height:1.25}
+ .home-guardian{width:55px;height:59px}
+ .home-rule{font-size:14px;line-height:1.3;margin:7px 0 0}
+ .home-footer{display:block;padding:12px 15px 0}
+ .home-play{min-height:54px;font-size:17px;border-radius:11px;padding:13px 15px}
+ .home-progress{margin-top:3px;gap:10px}
+ .home-progress>span{font-size:12px;line-height:1.25;max-width:170px}
+ .home-progress .text-btn{font-size:12px;min-height:44px}
+ .home-companion{padding-top:8px;margin-top:0}
+ .home-companion p{font-size:12px}.home-companion .confite-art{width:29px;height:28px}
+ .home-secondary{display:flex;flex-direction:column;align-items:stretch;gap:7px;margin-top:15px}
+ .home-daily{min-height:66px;gap:10px;padding:6px 0 6px 11px}
+ .home-daily-icon{width:25px}.home-daily-icon svg{width:23px;height:23px}
+ .home-daily h2,.home-modes-link strong{font-size:15px}
+ .home-daily p,.home-modes-link small{font-size:12px;line-height:1.3;margin-top:4px}
+ .home-daily .text-btn{padding:6px 3px;font-size:12px;gap:5px}
+ .home-modes-link{min-height:65px;padding:10px 1px;gap:12px}
+ .home-modes-link>svg:first-child{width:25px;height:25px}
+ .home-quick{margin-top:12px}
+ .home-quick h2{font-size:14px}
+ .home-quick h2 span{font-size:11px;margin-left:6px}
+ .home-quick>header .text-btn{min-height:40px;font-size:12px;gap:5px}
+ .home-quick-links{gap:18px}
+ .home-quick-links>button{min-height:61px;gap:8px;padding:7px 0}
+ .home-quick-links>button>svg:first-child{width:23px;height:23px}
+ .home-quick-links strong{font-size:14px}
+ .home-quick-links small{font-size:11px;line-height:1.25;margin-top:3px}
+ .home-quick-links>button>svg:last-child{width:14px;height:14px}
+ .in-game .app{padding-bottom:0}.in-game .rail{display:none}
+ .in-game .topbar{height:49px}
+}
+@media(max-width:370px){
+ .topbar{padding:0 10px;gap:4px}.topbar .brand>span{font-size:15px}
+ .topbar .brand .brand-mark{width:26px;height:26px}
+ .resources .resource{font-size:12px;padding:6px 4px;gap:4px}
+ .resources .utility{width:36px}.resources .resource small{display:none}
+ .nav-home{padding:14px 12px 22px}
+ .home-heading{margin-bottom:12px}.home-heading h1{font-size:25px}
+ .home-heading p{font-size:13px;line-height:1.35;max-width:280px}
+ .home-scene{height:180px;min-height:180px}
+ .home-territory{padding:12px 13px 0}.home-territory h2{font-size:14px;max-width:260px}
+ .home-place{left:14px;right:14px;bottom:12px}.home-place span{font-size:11px}
+ .home-next{left:13px;right:13px;bottom:12px;padding:0}.home-next-head{min-height:44px;gap:8px}
+ .home-next-head h2{font-size:22px}.home-guardian{width:44px;height:49px}
+ .home-rule{font-size:14px;margin:6px 0 0;line-height:1.25}
+ .home-footer{padding:11px 12px 0}
+ .home-play{min-height:52px;font-size:16px;padding:12px 13px}
+ .home-progress>span{max-width:150px;font-size:11px}.home-progress .text-btn{font-size:12px;gap:4px}
+ .home-companion{display:none}
+ .home-secondary{margin-top:13px;gap:5px}
+ .home-daily{gap:8px;padding-left:8px}.home-daily-icon{width:22px}
+ .home-daily p,.home-modes-link small{font-size:11px}
+ .home-quick-links{gap:12px}.home-quick-links>button{gap:7px}
+ .home-quick-links>button>svg:last-child{display:none}
+}
+@media(prefers-reduced-motion:reduce){.nav-home *{scroll-behavior:auto;transition:none}}
+
+/* Consistent location, labels, and readable controls across the four destinations. */
+.nav-caption{padding:12px 15px 18px;color:#96aaa9;font-size:12px;text-transform:uppercase;letter-spacing:.13em}
+.topbar .brand .shell-wordmark{width:110px;height:64px;object-fit:contain}.topbar .brand .brand-mark{display:none}
+.current-location{margin-right:auto;border-left:1px solid #43514f;padding-left:22px;font-size:15px;color:#d4ded5;font-weight:700}
+.resource-copy{display:flex;flex-direction:column;gap:3px;line-height:1.1;text-align:left}.resource-copy b{font-size:13px;font-weight:700}.resource-copy small{display:block!important;font-size:10px!important;color:#b7c5c1!important;letter-spacing:0}
+.resource-copy .regen{font-size:9px!important}.resources .resource.honey{white-space:nowrap}
+.resources .utility.mobile-settings{border:1px solid #4d5d5b;background:#26343a}
+.resources .utility[aria-current]{outline:2px solid #cf9279;outline-offset:2px}
+.page-head h1{font-size:34px;color:#eee7db}.page-head p{font-size:15px;line-height:1.5;color:#b7c5c1;margin-top:8px}.page-head .text-btn{font-size:13px}
+.page-content{max-width:1180px;padding:0 32px 40px}
+.campaign-select{display:flex;align-items:center;gap:14px;padding:0 0 22px}.campaign-select label{font-size:14px;color:#b7c5c1;font-weight:700}
+.campaign-select select{width:100%;max-width:490px;min-height:49px;padding:11px 38px 11px 14px;border:1px solid #5a6a66;border-radius:9px;background:#24323a;color:#eee7db;font:700 14px/1.3 Karla,system-ui,sans-serif;cursor:pointer}
+.campaign-layout{display:grid;grid-template-columns:minmax(250px,.9fr) minmax(0,1.1fr);gap:28px;align-items:start}
+.campaign-overview{position:sticky;top:20px;border:1px solid #465650;border-radius:14px;overflow:hidden;background:#202b32}
+.campaign-overview>.world-panorama{height:195px}.campaign-overview>div:last-child{padding:22px}
+.campaign-overview h2{font-size:29px;line-height:1.15;margin:9px 0 12px;letter-spacing:-.03em}
+.campaign-overview p{font-size:14px;line-height:1.5;color:#b6c6bf;margin-bottom:16px}.campaign-overview .eyebrow{font-size:11px;letter-spacing:.1em}
+.campaign-count{display:block;font-size:13px;color:#b8caba;margin-top:11px}.campaign-overview .btn{width:100%;font-size:15px;margin-top:22px;min-height:50px}
+.campaign-overview .chapter-locked,.campaign-overview .chapter-complete{display:flex;align-items:center;gap:9px;margin:18px 0 0;color:#d7c7a9}
+.level-list-title{display:flex;align-items:center;justify-content:space-between;padding:0 0 12px}.level-list-title h2{font:700 17px Karla,system-ui,sans-serif}.level-list-title>span{font-size:13px;color:#adbfba}
+.campaign-levels{min-width:0}.campaign-level{display:flex;align-items:center;gap:11px;width:100%;min-height:81px;padding:9px 13px;text-align:left;border:1px solid #38494b;border-radius:10px;background:#1c282f;margin-bottom:8px}
+.campaign-level.is-next{border-color:#ce9b80;background:#34332f;box-shadow:inset 3px 0 #cf9279}
+.campaign-level.is-complete{border-color:#4c655b}.campaign-level:disabled{opacity:1;background:#182128;color:#9aa8a8;border-color:#303d43;cursor:default}
+.level-number{font-size:12px;font-weight:700;color:#c2ad8c;min-width:22px}.level-portrait{width:47px;height:52px;filter:grayscale(.7)}
+.is-complete .level-portrait{filter:none}.level-name{flex:1;min-width:0}.level-name strong{display:block;font-size:14px;line-height:1.25;color:#e7e2d4}.level-name small{display:block;margin-top:6px;font-size:12px;color:#adbfb9;line-height:1.25}.campaign-level:disabled .level-name strong{color:#aebbb8}.campaign-level>svg{width:19px;height:19px;color:#c5ad88}
+.modes-page .page-head{padding-bottom:16px}.mode-group{margin:12px 0 30px}.mode-group>h2{font:700 18px Karla,system-ui,sans-serif;color:#d8dcca;margin:0 0 15px}
+.mode-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.mode-card{display:flex;min-width:0;overflow:hidden;border:1px solid #45534e;border-radius:13px;background:#202b32}
+.mode-card-art{position:relative;min-width:100px;width:28%;background:linear-gradient(#17212977,#172129bb),var(--mode-art) center/cover;display:grid;place-items:center}
+.mode-card-art .sprite{width:100px;height:110px;filter:saturate(.7)}.mode-card-copy{min-width:0;flex:1;padding:20px}.mode-card-copy>span{font-size:11px;color:#c7b18c;font-weight:700}.mode-card h3{font-size:25px;margin:7px 0 9px;line-height:1.1}.mode-card p{font-size:14px;line-height:1.45;color:#becac3}.mode-card small{display:block;font-size:12px;color:#adc0b6;margin:12px 0}.mode-card .btn{font-size:14px;min-height:45px;width:100%}
+.settings-grid .setting-row{font-size:14px}.settings-panel p{font-size:14px;line-height:1.5}.settings-panel h2{font-size:25px}.memory-item p{font-size:14px;line-height:1.5}
+.village-balance{display:flex;align-items:center;gap:8px;color:#d9c08e;font-size:14px;font-weight:700}.village-clear{grid-template-columns:1fr 1fr;align-items:start;gap:28px}.village-buildings h2{font:700 17px Karla,system-ui,sans-serif;margin-bottom:16px}.building-row{width:100%;display:flex;align-items:center;gap:13px;min-height:79px;border:1px solid #3d4c4e;border-radius:10px;background:#1d2931;padding:8px 12px;margin-bottom:8px;text-align:left}.building-row.selected{border-color:#c5a887;box-shadow:inset 3px 0 #c5a887;background:#2c3436}.building-mini{width:53px;height:57px}.building-row>span:nth-child(2){flex:1;min-width:0}.building-row strong{font-size:14px;line-height:1.2;display:block;color:#e7e2d4}.building-row small{font-size:12px;color:#b2c2b9;display:block;line-height:1.3;margin-top:6px}.building-row>svg{width:18px;color:#c6b18a}.village-clear .village-detail{padding:25px;border:1px solid #526259;border-radius:14px;background:#233038}.village-clear .village-detail p{font-size:14px;line-height:1.5}.village-clear .village-detail h2{font-size:29px}.village-clear .village-detail .ability{font-size:14px}.village-clear .village-detail .btn{width:100%;font-size:15px}.village-clear .village-detail .building-missing{margin-top:13px;color:#d1c8ae}.building-missing .text-btn{display:flex;font-size:13px;margin:7px 0 0}.village-clear .companion-copy{font-size:13px}
+@media(max-width:1050px){.mode-cards{grid-template-columns:1fr}.campaign-layout{gap:20px;grid-template-columns:minmax(220px,.8fr) minmax(0,1.2fr)}.page-content{padding-left:24px;padding-right:24px}.current-location{padding-left:14px}}
+@media(max-width:760px){
+ .nav-caption{display:none}.current-location{display:none}.topbar .brand .shell-wordmark{width:92px;height:55px}.topbar .brand{flex:none}
+ .resource-copy b{font-size:13px}.resource-copy small{font-size:10px!important}.resources .resource{gap:5px}.resources .gems{display:none!important}
+ .resources .utility.mobile-settings{width:37px;height:40px}.resources .resource{padding:4px 5px}.resources .utility svg{width:20px;height:20px}
+ .page-content{padding:0 16px 25px}.page-head{padding:23px 0 20px;align-items:flex-start;flex-direction:column;gap:10px}.page-head h1{font-size:29px;margin:0}.page-head p{font-size:14px;line-height:1.4}.page-head>.text-btn{min-height:44px;padding:0;font-size:13px}
+ .campaign-select{align-items:flex-start;flex-direction:column;gap:8px;padding-bottom:16px}.campaign-select select{max-width:none;min-height:48px;font-size:14px;padding-left:12px}.campaign-select label{font-size:13px}
+ .campaign-layout{display:flex;flex-direction:column;gap:24px}.campaign-overview{position:relative;top:0;width:100%}.campaign-overview>.world-panorama{height:110px}.campaign-overview>div:last-child{padding:17px}.campaign-overview h2{font-size:25px;margin:6px 0 8px}.campaign-overview p{font-size:14px;margin-bottom:12px}.campaign-overview .btn{margin-top:16px;min-height:49px}.campaign-overview .eyebrow{font-size:10px}
+ .campaign-levels{width:100%}.campaign-level{min-height:77px;padding:8px 10px;gap:8px}.level-portrait{width:41px;height:46px}.level-number{min-width:19px;font-size:11px}.level-name strong{font-size:14px}.level-name small{font-size:12px}.campaign-level>svg{width:16px;height:16px}
+ .mode-cards{gap:14px}.mode-group{margin-bottom:26px}.mode-card-art{min-width:77px;width:25%}.mode-card-art .sprite{width:78px;height:85px}.mode-card-copy{padding:17px 14px}.mode-card h3{font-size:24px}.mode-card p{font-size:14px}.mode-card small{font-size:11px}.mode-card .btn{min-height:45px}
+ .village-clear{display:flex;flex-direction:column;gap:22px}.village-buildings{width:100%;order:2}.village-clear .village-detail{order:1;width:100%;padding:20px;scroll-margin-top:16px}.village-clear .village-detail h2{font-size:25px}.village-balance{font-size:13px}.village-clear .village-detail .building-missing{grid-column:1/-1}
+ .in-game .topbar .brand .shell-wordmark{display:none}.in-game .topbar .brand .brand-mark{display:block;width:27px;height:27px}.in-game .resources .resource-copy small{display:none!important}.in-game .resources .resource-copy b{font-size:12px}.in-game .resources .resource{min-height:36px}.in-game .resources .utility.mobile-settings{width:35px;height:35px}
+}
+@media(max-width:370px){.topbar .brand .shell-wordmark{width:84px}.resources{gap:2px}.resources .resource{padding:4px}.resources .resource svg{width:15px;height:15px}.page-content{padding-left:12px;padding-right:12px}.mode-card-art{min-width:62px}.mode-card-art .sprite{width:68px;height:75px}.mode-card-copy{padding:15px 12px}.campaign-level{gap:7px}.level-portrait{width:35px;height:42px}}
+
+
+@media(max-width:760px){
+ .campaign-page .page-head{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start}.campaign-page .page-head>.text-btn{font-size:12px}
+ .campaign-overview>.world-panorama,.campaign-overview h2,.campaign-overview .eyebrow,.campaign-overview p:not(.chapter-locked):not(.chapter-complete){display:none}
+ .campaign-overview>div:last-child{padding:14px}.campaign-overview .campaign-count{margin-top:9px}.campaign-layout{gap:18px}
+ .campaign-overview .btn{margin-top:12px}
+}
+
+.arena-topline .arena-back{width:auto;min-width:72px;padding:0 10px;border-radius:9px;font-size:12px;font-weight:700;white-space:nowrap}
+.arena-halt .arena-back{width:auto;min-width:110px;border-radius:9px;font-size:14px}
+@media(max-width:760px){.game-topline .eyebrow{font-size:10px;letter-spacing:.025em}.arena-kicker{letter-spacing:.04em;font-size:9px}}
+/* NAVIGATION_STYLE_END */
 </style>
 </head>
 <body>
 <svg class="defs" aria-hidden="true"><defs><radialGradient id="confiteBody" cx="38%" cy="32%" r="85%"><stop offset="0" stop-color="#FF93B3"/><stop offset=".6" stop-color="#FF5C8A"/><stop offset="1" stop-color="#E33D6F"/></radialGradient></defs></svg>
 <div class="app" id="app">
 <nav class="rail" aria-label="Navegación principal" id="navigation"></nav>
-<header class="topbar"><button class="brand" onclick="navigate('home')" aria-label="Sugar Clash, inicio"><img class="brand-mark" src="assets/icon-sugar-v2.svg" alt=""><span>Sugar Clash<small>Dulcelandia · Renacer</small></span></button><div class="resources" id="resources"></div></header>
+<header class="topbar"><button class="brand" onclick="navigate('home')" aria-label="Sugar Clash, inicio"><img class="brand-mark" src="assets/icon-sugar-v2.svg" alt=""><img class="shell-wordmark" src="assets/sugar-clash-logo-v2.webp" alt="Sugar Clash"></button><div class="current-location" id="current-location">Inicio</div><div class="resources" id="resources"></div></header>
 <main id="main">
 <section class="screen active" id="screen-home" aria-label="Inicio"></section>
-<section class="screen" id="screen-world" aria-label="Territorios"></section>
+<section class="screen" id="screen-world" aria-label="Campaña"></section>
 <section class="screen" id="screen-modes" aria-label="Modos de juego"></section>
 <section class="screen" id="screen-village" aria-label="Mi aldea"></section>
 <section class="screen" id="screen-memories" aria-label="Recuerdos"></section>
@@ -1715,7 +2044,7 @@ function loadSave(){
  return defaultSave();
 }
 let save=loadSave();
-const state={screen:'home',territory:1,villageSelected:'casa',game:null,run:0,modal:false};
+const state={screen:'home',territory:1,villageSelected:null,settingsReturn:'home',game:null,run:0,modal:false};
 function persistSave(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(save));}catch{toast('No hay espacio para guardar. Exporta tu viaje desde Ajustes.');}updateResources();}
 function livesMax(){return save.buildings.muelle?6:5;}
 function syncLives(now=Date.now()){
@@ -1734,16 +2063,56 @@ function sprite(file,index,cols=5,extraClass=''){return `<span class="sprite ${e
 function confite(mood='happy'){return `<span class="confite-art"><svg viewBox="0 0 100 90" aria-hidden="true">${confiteSVG(mood)}</svg></span>`;}
 function companion(quote,mood='happy'){return `<div class="hero-companion">${confite(mood)}<div class="companion-copy"><b>CONFITE</b>${escapeHTML(quote)}</div></div>`;}
 function panoramaStyle(t){const i=t-1;return `--px:${i%2*100}%;--py:${Math.floor(i/2)*100/3}%`;}
-function updateResources(){if(!$('resources'))return;const full=save.lives>=livesMax();$('resources').innerHTML=`<button class="resource" onclick="showLives()" aria-label="Vidas: ${save.lives} de ${livesMax()}">${icon('heart')}<span>${save.lives}<small> / ${livesMax()}</small></span>${full?'':'<small>'+lifeCountdown()+'</small>'}</button><span class="resource honey" title="Miel ganada">${icon('honey')} ${save.coins.toLocaleString('es')}</span><button class="resource gems" onclick="showGemInfo()" aria-label="${save.gems} gemas">${icon('gem')} ${save.gems}</button><button class="utility" onclick="toggleSound()" aria-label="${save.muted?'Activar':'Silenciar'} sonido">${icon(save.muted?'mute':'volume')}</button><button class="utility mobile-settings" onclick="navigate('settings')" aria-label="Ajustes">${icon('settings')}</button>`;}
+function updateResources(){
+ if(!$('resources'))return;
+ const compact=n=>new Intl.NumberFormat('es',{notation:n>=10000?'compact':'standard',maximumFractionDigits:1}).format(n);
+ $('resources').innerHTML=`<button class="resource" onclick="showLives()" aria-label="Vidas: ${save.lives} de ${livesMax()}">${icon('heart')}<span class="resource-copy"><b>${save.lives}<small class="sr-only"> de ${livesMax()}</small></b><small>Vidas</small></span></button><span class="resource honey" title="${save.coins.toLocaleString('es')} de miel" aria-label="Miel ganada: ${save.coins.toLocaleString('es')}">${icon('honey')}<span class="resource-copy"><b>${compact(save.coins)}</b><small>Miel</small></span></span><button class="resource gems" onclick="showGemInfo()" aria-label="${save.gems} gemas">${icon('gem')}<span class="resource-copy"><b>${compact(save.gems)}</b><small>Gemas</small></span></button><button class="utility mobile-settings" data-settings onclick="navigate('settings')" ${state.screen==='settings'?'aria-current="page"':''} aria-label="Ajustes">${icon('settings')}</button>`;
+}
 function lifeCountdown(){const ms=Math.max(0,LIFE_MS-(Date.now()-save.livesAt));return `${Math.floor(ms/60000)}:${String(Math.floor(ms/1000)%60).padStart(2,'0')}`;}
-function renderNav(){const navs=[['home','Inicio'],['world','Territorios'],['modes','Jugar'],['village','Mi aldea'],['memories','Recuerdos']];$('navigation').innerHTML=`<button class="rail-logo" onclick="navigate('home')" aria-label="Inicio"><img src="assets/icon-sugar-v2-192.png" alt=""></button>`+navs.map(([id,title])=>`<button class="nav-item ${state.screen===id?'active':''}" ${state.screen===id?'aria-current="page"':''} onclick="navigate('${id}')">${icon(id)}<span>${title}</span></button>`).join('')+`<button class="nav-item rail-bottom ${state.screen==='settings'?'active':''}" onclick="navigate('settings')">${icon('settings')}<span>Ajustes</span></button>`;}
+const NAV_ITEMS=[['home','Inicio'],['world','Campaña'],['modes','Modos'],['village','Aldea']];
+const SCREEN_LABELS={home:'Inicio',world:'Campaña',modes:'Modos',village:'Aldea',memories:'Historia y recuerdos',settings:'Ajustes',game:'Partida',arena:'Combate'};
+function navigationOrigin(){
+ if(state.screen==='game')return state.game?.returnTo||'modes';
+ if(state.screen==='arena')return typeof arenaState!=='undefined'&&arenaState?.returnTo||'modes';
+ return ['home','world','modes','village','memories','settings'].includes(state.screen)?state.screen:'home';
+}
+function updateLocation(){
+ const el=$('current-location');if(el)el.textContent=SCREEN_LABELS[state.screen]||'Inicio';
+ const settings=$('resources')?.querySelector('[data-settings]');
+ if(settings){if(state.screen==='settings')settings.setAttribute('aria-current','page');else settings.removeAttribute('aria-current');}
+}
+function renderNav(){
+ if(!$('navigation'))return;
+ const current=state.screen==='memories'?'world':state.screen==='arena'?'modes':state.screen==='game'?(state.game?.mode==='campaign'?'world':'modes'):state.screen;
+ $('navigation').innerHTML='<div class="nav-caption">Tu viaje</div>'+NAV_ITEMS.map(([id,title])=>`<button class="nav-item ${current===id?'active':''}" data-destination="${id}" ${current===id?'aria-current="page"':''} onclick="navigate('${id}')">${icon(id)}<span>${title}</span></button>`).join('')+'<div class="nav-help"><strong>Un color a la vez.</strong>Combina, restaura y sigue el camino.<button class="text-btn" onclick="showHelp()">Cómo jugar</button></div>';
+ updateLocation();
+}
+function focusScreen(name){
+ const page=$('screen-'+name),heading=page?.querySelector('h1');
+ if(heading){heading.setAttribute('tabindex','-1');heading.focus({preventScroll:true});}
+ if($('announcer'))$('announcer').textContent=SCREEN_LABELS[name]||'';
+ updateLocation();
+}
+
 function showScreen(name){
  feedbackCancel();
  if(typeof stopArena==='function')stopArena();
  if(name!=='game')stopBoard();
  closeModal();state.screen=name;document.querySelectorAll('.screen').forEach(el=>el.classList.toggle('active',el.id==='screen-'+name));document.body.classList.toggle('in-game',name==='game'||name==='arena');renderNav();syncLives();updateResources();window.scrollTo({top:0,behavior:'instant'});
 }
-function navigate(name){if(state.game&&!state.game.done&&state.screen==='game'){pauseBoard(true,name);return;}showScreen(name);const render={home:renderHome,world:renderWorld,modes:renderModes,village:renderVillage,memories:renderMemories,settings:renderSettings};render[name]?.();}
+function navigate(name){
+ const renders={home:renderHome,world:renderWorld,modes:renderModes,village:renderVillage,memories:renderMemories,settings:renderSettings};
+ if(!Object.hasOwn(renders,name))return false;
+ if(name==='settings'&&state.screen!=='settings'){
+  if(state.game?.returnTo)state.settingsReturn=state.game.returnTo;
+  else if(typeof arenaState!=='undefined'&&arenaState?.returnTo)state.settingsReturn=arenaState.returnTo;
+  else if(['home','world','modes','village','memories'].includes(state.screen))state.settingsReturn=state.screen;
+ }
+ if(state.game&&!state.game.done&&state.screen==='game'){pauseBoard(true,name);return false;}
+ if(typeof arenaState!=='undefined'&&arenaState&&!arenaState.finished&&state.screen==='arena'){arenaExit(name);return false;}
+ showScreen(name);renders[name]();focusScreen(name);return true;
+}
+
 /* EXPEDITION_HOME_START — presentation only; all entry guards remain in requestLevel(). */
 function restorationVisual(recovered,total=10){
  const ratio=Math.max(0,Math.min(1,recovered/total));
@@ -1758,32 +2127,112 @@ function expeditionRoute(tid,next){
  return `<button class="expedition-point ${star?'is-restored':current?'is-next':open?'is-open':'is-locked'} ${n===10?'is-boss':''}" style="--route-x:${x}%;--route-y:${y}%;--mobile-x:${mx}%;--mobile-y:${my}%" onclick="requestLevel(${tid},${n})" aria-label="Ruta ${n}: ${escapeHTML(LEVEL_NAMES_ALL[tid][n])}. ${status}" ${current?'aria-current="step"':''} title="${escapeHTML(LEVEL_NAMES_ALL[tid][n])}"><span class="point-stone">${current?sprite(`monsters-t${tid}-v18.webp`,i,5,'point-guardian'):icon(star?'check':!open?'lock':n===10?'crown':'spark')}</span><span class="point-number">${String(n).padStart(2,'0')}</span></button>`;
  }).join('')}</nav>`;
 }
-function renderHome(){
- const next=campaignNext(),t=TERRITORIES[next.t-1],done=completed(next.t),arc=CAMPAIGN_ARCS[next.t],building=BUILDINGS.find(x=>!save.buildings[x.id]&&buildingOpen(x.id));
- const dailyDone=save.dailyChallenge.key===dayKey()&&save.dailyChallenge.won;
- const places=restoredPlaces(next.t);const quote=places.length?places.at(-1).change:arc.steps[0];
- $('screen-home').innerHTML=`<div class="expedition-home"><header class="expedition-masthead"><img src="assets/sugar-clash-logo-v2.webp" width="1100" height="653" alt="Sugar Clash" class="expedition-wordmark"><div class="expedition-journal"><span class="eyebrow">El viaje de Dulce Roja</span><span>${totalReleased()} <small>/ 80 guardianes</small></span><button class="text-btn" onclick="showPrologue()">La historia ${icon('memories')}</button></div></header><section class="expedition-stage" style="${restorationVisual(done)}" aria-labelledby="expedition-title"><div class="expedition-ash" aria-hidden="true"></div><div class="expedition-life" aria-hidden="true"></div><div class="expedition-title"><div class="eyebrow">Territorio ${String(next.t).padStart(2,'0')} / 08</div><h1 id="expedition-title">${t.name}</h1><p>${escapeHTML(quote)}</p></div>${expeditionRoute(next.t,next)}<div class="expedition-landmarks" aria-label="Lugares recuperados">${places.slice(-4).map(e=>`<div title="${escapeHTML(e.place)}">${restoredPlaceArt(e.pattern.kind)}<span>${escapeHTML(e.place)}</span></div>`).join('')}</div></section><section class="expedition-dock" aria-label="Continuar la campaña">${sprite(`monsters-t${next.t}-v18.webp`,next.n-1,5,'dock-guardian')}<div class="expedition-next"><span class="eyebrow">${next.complete?'Un camino que recuerdas':'Próximo guardián · Ruta '+next.n}</span><h2>${LEVEL_NAMES_ALL[next.t][next.n]}</h2></div><button class="btn expedition-start" onclick="continueCampaign()">${icon('play')}<span>${next.complete?'Volver a jugar':'Jugar nivel '+((next.t-1)*10+next.n)}</span></button></section><div class="expedition-restoration"><div class="restoration-label"><strong>${done*10}%</strong><span>Color recuperado<small>${done} de 10 guardianes</small></span></div><div class="restoration-tally" role="progressbar" aria-label="Color recuperado en este capítulo" aria-valuenow="${done}" aria-valuemin="0" aria-valuemax="10">${Array.from({length:10},(_,i)=>`<i class="${i<done?'lit':''}"></i>`).join('')}</div><button class="text-btn" onclick="state.territory=${next.t};navigate('world')">Atlas ${icon('arrow')}</button></div><section class="expedition-alternatives" aria-label="Otros modos"><div class="expedition-arena-links"><button onclick="launchMode('war')">${icon('spark')}<span>Guerra 5v5<small>Equipo contra IA</small></span>${icon('arrow')}</button><button onclick="launchMode('royale')">${icon('crown')}<span>Royale<small>Sobrevive a la niebla</small></span>${icon('arrow')}</button></div><div class="expedition-quiet-links"><button class="text-btn" onclick="launchMode('survival')">${icon('clock')} El Latido</button><button class="text-btn" onclick="launchMode('zen')">${icon('sun')} Jardín en calma</button></div></section><div class="expedition-foot"><div class="expedition-companion">${confite('happy')}<div><span class="eyebrow">Confite</span><p>${totalReleased()?'El color ya encontró un camino. Sigámoslo.':'Todo empieza con un color.'}</p>${building?`<button class="text-btn" onclick="state.villageSelected='${building.id}';navigate('village')">Próximo hogar: ${building.name} ${icon('arrow')}</button>`:'<button class="text-btn" onclick="navigate(\'village\')">Volver a la aldea</button>'}</div></div><button class="expedition-daily" onclick="startDaily()"><span class="daily-seal">${icon(dailyDone?'check':'sun')}</span><span><span class="eyebrow">El encargo de hoy</span><strong>${dailyDone?'La luz de hoy está a salvo':'Un color para hoy'}</strong><small>${dailyDone?'Vuelve para mejorar tu marca':'Un tablero, una recompensa. Sin gastar vidas.'}</small></span>${icon('arrow')}</button></div></div>`;
+/* Replacement renderHome; presentation only. Existing campaign entry guards,
+   daily reward guards and save source remain unchanged. */
+function homeEncounterSummary(e){
+ const count=e.pattern.cells.length;
+ const summaries={
+  direct:e.pattern.hp===2?`Retira las dos capas de las ${count} marcas.`:`Combina sobre las ${count} marcas para restaurarlas.`,
+  adjacent:`Restaura ${count} marcas combinando encima o a su lado.`,
+  power:`Activa poderes o el Pulso sobre las ${count} marcas.`,
+  ordered:`Restaura ${count} marcas siguiendo el orden iluminado.`,
+  color:`Combina dorados junto a las ${count} marcas, o usa poderes.`,
+  tide:'Restaura las marcas de la fila iluminada. Cambia con cada jugada.'
+ };
+ return summaries[e.rule.kind]||e.brief;
 }
+
+function renderHome(){
+ const next=campaignNext(),t=TERRITORIES[next.t-1];
+ const done=completed(next.t),released=totalReleased();
+ const e=encounterConfig(next.t,next.n);
+ const dailyDone=save.dailyChallenge.key===dayKey()&&save.dailyChallenge.won;
+ const level=(next.t-1)*10+next.n;
+ $('screen-home').innerHTML=`
+  <div class="nav-home">
+   <header class="home-heading">
+    <h1>${released?'Continúa tu viaje':'El color empieza aquí'}</h1>
+   </header>
+   <section class="home-journey" aria-labelledby="home-next-title">
+    <div class="home-scene" style="${restorationVisual(done)}">
+     <div class="home-scene-ash" aria-hidden="true"></div>
+     <div class="home-scene-life" aria-hidden="true"></div>
+     <div class="home-territory">
+      <span>Capítulo ${next.t} de 8</span>
+      <h2>${escapeHTML(t.name)}</h2>
+     </div>
+     <div class="home-next">
+      <div class="home-next-head">
+       <div><span class="home-level">${next.complete?'Campaña completada · Vuelve a jugar':'Tu siguiente partida · Nivel '+level}</span><h2 id="home-next-title">${escapeHTML(LEVEL_NAMES_ALL[next.t][next.n])}</h2></div>
+       ${sprite(`monsters-t${next.t}-v18.webp`,next.n-1,5,'home-guardian')}
+      </div>
+      <p class="home-rule">${escapeHTML(homeEncounterSummary(e))}</p>
+     </div>
+    </div>
+    <div class="home-footer">
+     <div class="home-actions"><button class="btn home-play" onclick="continueCampaign()">${icon('play')}<span>${next.complete?'Volver a jugar nivel '+level:'Jugar nivel '+level}</span>${icon('arrow')}</button></div>
+     <div class="home-progress"><span><strong>${done} de 10</strong> lugares recuperados</span><button class="text-btn" onclick="state.territory=${next.t};navigate('world')">Ver niveles ${icon('arrow')}</button></div>
+    </div>
+   </section>
+   <section class="home-quick" aria-labelledby="home-quick-title">
+    <header><h2 id="home-quick-title">Partidas rápidas <span>Sin vidas</span></h2><button class="text-btn" onclick="navigate('modes')">Ver modos ${icon('arrow')}</button></header>
+    <div class="home-quick-links">
+     <button onclick="launchMode('war')">${icon('spark')}<span><strong>Guerra 5v5</strong><small>Equipo contra IA</small></span>${icon('arrow')}</button>
+     <button onclick="launchMode('royale')">${icon('crown')}<span><strong>Royale</strong><small>Todos contra la niebla</small></span>${icon('arrow')}</button>
+    </div>
+   </section>
+   <div class="home-secondary">
+    <section class="home-daily" aria-labelledby="home-daily-title">
+     <span class="home-daily-icon">${icon(dailyDone?'check':'sun')}</span>
+     <div><h2 id="home-daily-title">Reto diario</h2><p>${dailyDone?'Completado hoy · Puedes mejorar tu marca':'Un tablero nuevo cada día. Sin gastar vidas.'}</p></div>
+     <button class="text-btn" onclick="startDaily()" aria-label="${dailyDone?'Repetir reto diario':'Jugar reto diario'}">${dailyDone?'Repetir':'Jugar'} ${icon('arrow')}</button>
+    </section>
+    <div class="home-companion">${confite('happy')}<p>${released?'Sigamos por donde vuelve el color.':'El primer color está a una jugada.'}</p></div>
+   </div>
+  </div>`;
+}
+
 /* EXPEDITION_HOME_END */
 
 function modeLink(id,name,desc,art,kicker){return `<button class="mode-link" style="--mode-art:url('${art}')" onclick="launchMode('${id}')"><span class="mode-badge">${kicker}</span><b>${name}</b><small>${desc}</small><span class="mode-arrow">${icon('arrow')}</span></button>`;}
-function renderWorld(tid=state.territory){state.territory=tid;const t=TERRITORIES[tid-1],done=completed(tid),arc=CAMPAIGN_ARCS[tid],next=campaignNext();$('screen-world').innerHTML=`<div class="page-content"><div class="page-head"><div><div class="eyebrow">Atlas de Dulcelandia</div><h1>Un color a la vez.</h1><p>${totalReleased()} de 80 guardianes liberados. Cada sendero guarda algo que merece volver.</p></div><button class="text-btn" onclick="continueCampaign()">Continuar ${icon('arrow')}</button></div><div class="world-layout"><div class="territory-preview"><div class="world-panorama" style="${panoramaStyle(tid)};--sat:${.2+done*.08}" role="img" aria-label="Paisaje de ${t.name}"></div><div class="territory-info"><div class="eyebrow">Capítulo ${String(tid).padStart(2,'0')}</div><h2>${t.name}</h2><p>${arc.purpose}</p><div class="progress-track"><i style="width:${done*10}%"></i></div><div class="progress-meta"><span>${done*10}% restaurado</span><span>${done}/10 guardianes</span></div>${companion(done===10?arc.resolution:arc.steps[done<3?0:done<7?1:2],done===10?'celebrate':'happy')}<div class="territory-picker" aria-label="Elegir territorio">${TERRITORIES.map(x=>`<button class="territory-dot ${tid===x.id?'selected':''} ${territoryOpen(x.id)?'':'locked'}" onclick="renderWorld(${x.id})" aria-label="${x.name}${territoryOpen(x.id)?'':', se abre al completar el territorio anterior'}" aria-pressed="${tid===x.id}">${x.id}</button>`).join('')}</div></div></div><div class="route">${Array.from({length:10},(_,i)=>{const n=i+1,open=levelOpen(tid,n),star=starsAt(tid,n),encounter=encounterConfig(tid,n);return `<button class="route-stop ${!open?'locked':next.t===tid&&next.n===n?'current':''}" onclick="requestLevel(${tid},${n})" aria-label="Ruta ${n}, ${LEVEL_NAMES_ALL[tid][n]}, ${star?star+' estrellas':open?'disponible':'bloqueada'}"><span class="route-marker">${sprite(`monsters-t${tid}-v18.webp`,i)}<span>${n===10?'X':String(n).padStart(2,'0')}</span></span><span class="route-label"><strong>${LEVEL_NAMES_ALL[tid][n]}</strong><small>${star?`<span class="stars">${'✦'.repeat(star)}${'·'.repeat(3-star)}</span> ${escapeHTML(encounter.place)}`:n===10?'Guardián del territorio':n===5?'Niebla intensa · Desafío':open?'Sendero por restaurar':`Completa la ruta ${n-1}`}</small></span>${icon(!open?'lock':star?'check':'arrow')}</button>`;}).join('')}</div></div></div>`;}
+function renderWorld(tid=state.territory){
+ if(!Number.isInteger(tid)||tid<1||tid>8)return;
+ state.territory=tid;
+ const t=TERRITORIES[tid-1],done=completed(tid),open=territoryOpen(tid),next=campaignNext();
+ const available=Array.from({length:10},(_,i)=>i+1).find(n=>levelOpen(tid,n)&&!starsAt(tid,n));
+ $('screen-world').innerHTML=`<div class="page-content campaign-page">
+  <div class="page-head"><div><h1>Campaña</h1><p>80 niveles para devolver el color.</p></div><button class="text-btn" aria-label="Historia y recuerdos" onclick="navigate('memories')">${icon('memories')} Historia</button></div>
+  <div class="campaign-select"><label for="chapter-select">Capítulo</label><select id="chapter-select" onchange="renderWorld(Number(this.value));document.getElementById('chapter-select').focus()">${TERRITORIES.map(x=>`<option value="${x.id}" ${x.id===tid?'selected':''}>${x.id}. ${escapeHTML(x.name)}${territoryOpen(x.id)?'':' · Bloqueado'}</option>`).join('')}</select></div>
+  <div class="campaign-layout"><section class="campaign-overview"><div class="world-panorama" style="${panoramaStyle(tid)};filter:grayscale(${1-done/10})" role="img" aria-label="Paisaje de ${escapeHTML(t.name)}"></div><div><span class="eyebrow">Capítulo ${tid} de 8</span><h2>${escapeHTML(t.name)}</h2><p>${escapeHTML(CAMPAIGN_ARCS[tid].steps[done<3?0:done<7?1:2])}</p><div class="progress-track"><i style="width:${done*10}%"></i></div><span class="campaign-count">${done} de 10 niveles completados</span>${!open?`<p class="chapter-locked">${icon('lock')} Completa el capítulo ${tid-1} para jugar aquí.</p>`:available?`<button class="btn" onclick="requestLevel(${tid},${available})">Jugar nivel ${(tid-1)*10+available} ${icon('play')}</button>`:'<p class="chapter-complete">Capítulo restaurado. Puedes repetir cualquier nivel.</p>'}</div></section>
+  <section class="campaign-levels" aria-label="Niveles del capítulo ${tid}"><div class="level-list-title"><h2>Niveles</h2><span>${done} / 10</span></div>${Array.from({length:10},(_,i)=>{const n=i+1,canPlay=levelOpen(tid,n),stars=starsAt(tid,n),isNext=next.t===tid&&next.n===n;return `<button class="campaign-level ${isNext?'is-next':''} ${stars?'is-complete':''}" ${canPlay?'':'disabled'} onclick="requestLevel(${tid},${n})" aria-label="Nivel ${(tid-1)*10+n}: ${escapeHTML(LEVEL_NAMES_ALL[tid][n])}. ${stars?stars+' estrellas. Repetir':canPlay?'Disponible':n===1?'Completa el capítulo anterior':'Completa el nivel '+((tid-1)*10+n-1)}"><span class="level-number">${String((tid-1)*10+n).padStart(2,'0')}</span>${sprite(`monsters-t${tid}-v18.webp`,i,5,'level-portrait')}<span class="level-name"><strong>${escapeHTML(LEVEL_NAMES_ALL[tid][n])}</strong><small>${stars?'✦'.repeat(stars)+' · Completado':isNext?'Siguiente nivel':canPlay?'Disponible':n===1?'Completa el capítulo anterior':'Completa el nivel '+((tid-1)*10+n-1)}</small></span>${icon(!canPlay?'lock':stars?'check':'play')}</button>`;}).join('')}</section></div></div>`;
+}
+
 const MODES=[{id:'daily',name:'Un color para hoy',tag:'El encargo de Confite · Diario',desc:'El mismo tablero para todos hoy. Sin gastar vidas, sin perder rachas. Restaura su luz y llévate una recompensa al completarlo por primera vez.',art:'worlds-cinematic-v1.webp',sheet:'assets/candies-restoration-v1.svg',cell:6,record:()=>save.dailyChallenge.key===dayKey()&&save.dailyChallenge.won?'Encargo de hoy completado':'40 de miel y 5 gemas · Una vez al día'},{id:'war',name:'Guerra 5v5',tag:'Acción y estrategia',desc:'Acompaña a cuatro aliados y destruye el cristal rival. Muévete, esquiva las marcas de ataque y libera tu Pulso.',art:'arena-war-v18.webp',sheet:'combatants-v18.webp',cell:0,record:()=>`${save.records.warWins} victorias · Contra la IA`},{id:'royale',name:'Royale',tag:'La última luz',desc:'Diez combatientes y una niebla que se cierra. Encuentra tu lugar, evita los golpes y sobrevive hasta el final.',art:'arena-royale-v18.webp',sheet:'monsters-t5-v18.webp',cell:7,record:()=>save.records.royaleBest<10?`Mejor puesto: ${save.records.royaleBest} · Contra la IA`:'10 combatientes · Contra la IA'},{id:'survival',name:'El Latido',tag:'Match-3 · 60 segundos',desc:'Haz combinaciones sin detenerte. Cada cascada cuenta. Un minuto para escuchar hasta dónde llega tu propio ritmo.',art:'hex-realm-v18.webp',sheet:'assets/candies-restoration-v1.svg',cell:6,record:()=>`Récord: ${save.records.survival.toLocaleString('es')} puntos · Sin vidas`},{id:'zen',name:'Jardín en calma',tag:'Match-3 · Sin límites',desc:'Practica combinaciones y descubre poderes. Sin reloj ni movimientos contados: solo tú, Confite y el próximo color.',art:'worlds-cinematic-v1.webp',sheet:'assets/candies-restoration-v1.svg',cell:4,record:()=>`Mejor sesión: ${save.records.zen.toLocaleString('es')} puntos · Sin vidas`}];
-function renderModes(){$('screen-modes').innerHTML=`<div class="page-content"><div class="page-head"><div><div class="eyebrow">Elige tu ritmo</div><h1>Entra. Juega. Vuelve.</h1><p>Todos los modos están abiertos desde el principio. Guerra y Royale se juegan localmente contra la IA.</p></div></div><div class="modes-list">${MODES.map(m=>`<article class="mode-feature"><div class="mode-feature-art" style="--mode-art:url('${m.art}')">${sprite(m.sheet,m.cell,m.sheet==='assets/candies-restoration-v1.svg'?4:5)}</div><div class="mode-feature-copy"><div class="eyebrow">${m.tag}</div><h2>${m.name}</h2><p>${m.desc}</p><small>${m.record()}</small></div><button class="btn" onclick="launchMode('${m.id}')">Jugar ${icon('arrow')}</button></article>`).join('')}</div>${companion('A veces seguimos el camino. A veces necesitamos perdernos un ratito.')}</div>`;}
-function launchMode(id){if(id==='daily'){startDaily();return;}if(id==='war'||id==='royale')startArena(id);else if(id==='survival'||id==='zen')startBoard({mode:id,t:1,n:1});}
+function renderModes(){
+ const descriptions={daily:['Reto diario','Match-3 · Tablero del día','Completa el tablero de hoy. La recompensa se recibe una vez al día.'],zen:['Sin prisa','Match-3 · Sin reloj','Practica combinaciones y poderes sin límite de movimientos.'],survival:['Contrarreloj','Match-3 · 60 segundos','Consigue toda la luz que puedas antes de que termine el minuto.'],war:['Guerra 5v5','Combate · Equipo contra IA','Muévete, esquiva y destruye el cristal rival con tu equipo.'],royale:['Royale','Combate · Contra IA','Sobrevive al resto de combatientes y a la niebla que se cierra.']};
+ const group=(title,ids)=>`<section class="mode-group"><h2>${title}</h2><div class="mode-cards">${ids.map(id=>{const m=MODES.find(x=>x.id===id),d=descriptions[id];return `<article class="mode-card"><div class="mode-card-art" style="--mode-art:url('${m.art}')">${sprite(m.sheet,m.cell,m.sheet==='assets/candies-restoration-v1.svg'?4:5)}</div><div class="mode-card-copy"><span>${d[1]}</span><h3>${d[0]}</h3><p>${d[2]}</p><small>${m.record()}</small><button class="btn secondary" onclick="launchMode('${id}')" aria-label="Jugar ${d[0]}">Jugar ${icon('play')}</button></div></article>`;}).join('')}</div></section>`;
+ $('screen-modes').innerHTML=`<div class="page-content modes-page"><div class="page-head"><div><h1>Otros modos</h1><p>Partidas independientes de la campaña. Todas sin gastar vidas.</p></div></div>${group('Combina caramelos',['daily','zen','survival'])}${group('Muévete y combate',['war','royale'])}</div>`;
+}
+
+function launchMode(id){const returnTo=navigationOrigin();if(id==='daily'){startDaily();return;}if(id==='war'||id==='royale')startArena(id,returnTo);else if(id==='survival'||id==='zen')startBoard({mode:id,t:1,n:1,returnTo});}
 const ABILITIES={casa:'El lugar al que siempre puedes volver.',puesto:'+10% de miel al liberar guardianes.',fuente:'+5 de miel por victoria de campaña.',jardin:'El Pulso de Confite carga con una jugada menos.',torre:'Las pistas están disponibles desde el primer movimiento.',taller:'Cada victoria entrega un 5% más de luz en la puntuación final.',muelle:'+1 a tus vidas máximas.',forja:'Tus combinaciones rompen una capa adicional de hielo.',dojo:'+1 movimiento en cada expedición.',faro:'+1 movimiento adicional y +10% de miel.'};
 function buildingOpen(id){const i=BUILDINGS.findIndex(b=>b.id===id);return i>=0&&BUILDINGS.slice(0,i).every(b=>save.buildings[b.id]);}
-function renderVillage(selected=state.villageSelected){state.villageSelected=selected;const b=BUILDINGS.find(x=>x.id===selected)||BUILDINGS[0],i=BUILDINGS.indexOf(b),built=!!save.buildings[b.id],open=buildingOpen(b.id);const pos=[30,70,30,70,30,70,30,70,30,70];$('screen-village').innerHTML=`<div class="page-content"><div class="page-head"><div><div class="eyebrow">Un hogar que despierta</div><h1>La aldea de Confite.</h1><p>${BUILDINGS.filter(x=>save.buildings[x.id]).length} de 10 lugares recuperados. La miel de tus viajes se convierte en hogar.</p></div></div><div class="village-layout"><div class="village-scene"><svg class="path" viewBox="0 0 360 670" preserveAspectRatio="none" aria-hidden="true"><path d="M108 45 ${pos.slice(1).map((x,j)=>`L${x*3.6} ${45+(j+1)*62}`).join(' ')}" fill="none" stroke="#ffe3bb" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" stroke-opacity=".42"/></svg>${BUILDINGS.map((x,j)=>`<button class="village-node ${save.buildings[x.id]?'built':buildingOpen(x.id)?'next':'locked'} ${b.id===x.id?'selected':''}" style="left:${pos[j]}%;top:${7+j*9.4}%" onclick="inspectBuilding('${x.id}')" aria-label="Inspeccionar ${x.name}, ${save.buildings[x.id]?'construido':buildingOpen(x.id)?x.cost+' de miel':'bloqueado'}">${sprite('buildings-v18.webp',j)}<small>${x.name}</small></button>`).join('')}</div><div class="village-detail">${sprite('buildings-v18.webp',i,5,'building-sprite')}<div class="eyebrow">${built?'Ya es parte de tu hogar':open?'El próximo lugar':'Un poco más adelante'}</div><h2>${b.name}</h2><p>${built?b.line:'Cada lugar que recuperas hace más fácil el siguiente viaje.'}${totalReleased()?`<span class="village-journey-note">${escapeHTML(restoredPlaces(campaignNext().t).at(-1)?.change||'Los caminos recuperados vuelven a conectar la aldea con el mundo.')}</span>`:''}</p><div class="ability">${ABILITIES[b.id]}</div>${built?`<button class="btn secondary" onclick="continueCampaign()">Seguir explorando ${icon('arrow')}</button>`:open?`<button class="btn" onclick="buildStructure('${b.id}')" ${save.coins<b.cost?'disabled':''}>Construir · ${b.cost} de miel ${icon('honey')}</button>${save.coins<b.cost?`<p style="grid-column:span 2;text-align:center;margin-top:10px">Te faltan ${b.cost-save.coins} de miel. Sigue la campaña para reunirla.</p>`:''}`:`<button class="btn subtle" disabled>Primero recupera ${BUILDINGS[i-1].name}</button>`}${companion(built?'No es solo lo que construimos. Es con quién lo compartimos.':'¿Lo imaginas? Las ventanas encendidas otra vez.')}</div></div></div>`;}
+function renderVillage(selected=state.villageSelected){
+ const b=BUILDINGS.find(x=>x.id===selected)||BUILDINGS.find(x=>!save.buildings[x.id]&&buildingOpen(x.id))||BUILDINGS[0];state.villageSelected=b.id;
+ const i=BUILDINGS.indexOf(b),built=!!save.buildings[b.id],open=buildingOpen(b.id);
+ $('screen-village').innerHTML=`<div class="page-content village-page"><div class="page-head"><div><h1>Aldea</h1><p>Construye con la miel que ganas en tus partidas.</p></div><span class="village-balance">${icon('honey')} ${save.coins.toLocaleString('es')} de miel</span></div><div class="village-layout village-clear"><section class="village-buildings" aria-label="Edificios de la aldea"><h2>Tu aldea · ${BUILDINGS.filter(x=>save.buildings[x.id]).length} de 10</h2>${BUILDINGS.map((x,j)=>`<button class="building-row ${x.id===b.id?'selected':''}" onclick="inspectBuilding('${x.id}')" aria-pressed="${x.id===b.id}" aria-label="Ver ${x.name}, ${save.buildings[x.id]?'construido':buildingOpen(x.id)?x.cost+' de miel':'requiere '+BUILDINGS[j-1].name}">${sprite('buildings-v18.webp',j,5,'building-mini')}<span><strong>${x.name}</strong><small>${save.buildings[x.id]?'Construido':buildingOpen(x.id)?'Disponible · '+x.cost+' de miel':'Primero '+BUILDINGS[j-1].name}</small></span>${icon(save.buildings[x.id]?'check':buildingOpen(x.id)?'arrow':'lock')}</button>`).join('')}</section><section class="village-detail">${sprite('buildings-v18.webp',i,5,'building-sprite')}<div class="eyebrow">${built?'Construido':open?'Disponible para construir':'Todavía bloqueado'}</div><h2>${b.name}</h2><p>${built?b.line:'Esta construcción mejora tus próximas partidas.'}</p><div class="ability">${ABILITIES[b.id]}</div>${built?`<button class="btn secondary" onclick="continueCampaign()">Jugar siguiente nivel ${icon('play')}</button>`:open?`<button class="btn" onclick="buildStructure('${b.id}')" ${save.coins<b.cost?'disabled':''}>Construir · ${b.cost} de miel ${icon('honey')}</button>${save.coins<b.cost?`<p class="building-missing">Te faltan ${b.cost-save.coins} de miel.<button class="text-btn" onclick="continueCampaign()">Jugar para conseguir miel ${icon('arrow')}</button></p>`:''}`:`<p class="building-missing">Primero construye ${BUILDINGS[i-1].name}.</p>`}${companion(built?'Aquí siempre hay sitio para nosotros.':'Vamos a darle un lugar a ese color.')}</section></div></div>`;
+}
+
 function inspectBuilding(id){renderVillage(id);if(matchMedia('(max-width:760px)').matches)document.querySelector('.village-detail')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth',block:'start'});}
 function buildStructure(id){const b=BUILDINGS.find(x=>x.id===id);if(!b||save.buildings[id]||!buildingOpen(id)||save.coins<b.cost)return;save.coins-=b.cost;save.buildings[id]=true;persistSave();sound('win');renderVillage(id);showModal({eyebrow:'Un nuevo lugar para volver',title:b.name,art:sprite('buildings-v18.webp',BUILDINGS.indexOf(b)),body:`${escapeHTML(b.line)}<div class="reward">${ABILITIES[id]}</div>`,actions:[{label:'Ya estamos en casa',primary:true,onClick:closeModal}]});}
 function nextBuildingNote(){const b=BUILDINGS.find(x=>!save.buildings[x.id]&&buildingOpen(x.id));if(!b)return '<div class="result-next">Tu aldea ya tiene sus diez lugares recuperados.</div>';const missing=Math.max(0,b.cost-save.coins);return `<div class="result-next"><div><small>Próximo hogar</small><b>${b.name}</b><span>${missing?'Faltan '+missing+' de miel.':'Ya puedes construirlo.'}</span></div><button class="text-btn" onclick="stopBoard();closeModal();state.villageSelected='${b.id}';navigate('village')">Ver aldea ${icon('arrow')}</button></div>`;}
 
-function renderMemories(){$('screen-memories').innerHTML=`<div class="page-content"><div class="page-head"><div><div class="eyebrow">Lo que el mundo recuerda</div><h1>Los colores también cuentan.</h1><p>Los recuerdos aparecen al restaurar cada territorio. Confite guarda los que aún no estamos listos para escuchar.</p></div></div>${TERRITORIES.map(t=>{const done=completed(t.id)===10;return `<article class="memory-item"><div class="memory-number">${String(t.id).padStart(2,'0')}</div><div><div class="eyebrow">${t.short}</div><h3>${done?CAMPAIGN_ARCS[t.id].title:'Un recuerdo entre la niebla'}</h3><p>${done?CAMPAIGN_ARCS[t.id].resolution:'Restaura los diez senderos de este territorio para escuchar su historia.'}</p></div></article>`;}).join('')}${completed(8)===10?`<button class="btn" onclick="showEpilogue()" style="margin-top:24px">Escuchar a Confite</button>`:''}${companion('Hay cosas que no he olvidado. Solo… todavía no sé cómo contarlas.')}</div>`;}
-function renderSettings(){$('screen-settings').innerHTML=`<div class="page-content"><div class="page-head"><div><div class="eyebrow">Tu viaje</div><h1>A tu manera.</h1><p>El progreso se guarda en este navegador. Puedes llevar una copia contigo.</p></div></div><div class="settings-grid"><div class="settings-panel"><h2>Preferencias</h2><div class="setting-row"><span>Sonido</span><button class="btn secondary" onclick="toggleSound();renderSettings()" style="margin:0;min-height:38px;padding:8px 14px">${save.muted?'Apagado':'Encendido'}</button></div><div class="setting-row"><span>Movimiento</span><b>${matchMedia('(prefers-reduced-motion:reduce)').matches?'Reducido por tu dispositivo':'Adaptado a tu dispositivo'}</b></div><div class="setting-row"><span>Edición</span><b>Renacer · El mundo responde</b></div><p style="margin-top:14px">Sin pagos reales ni anuncios conectados. Las ayudas se compran con recursos ganados jugando.</p><button class="text-btn" onclick="showHelp()">Cómo jugar ${icon('arrow')}</button></div><div class="settings-panel"><h2>Tu progreso</h2><div class="setting-row"><span>Guardianes liberados</span><b>${totalReleased()} / 80</b></div><div class="setting-row"><span>Jugadas válidas</span><b>${save.stats.moves}</b></div><div class="setting-row"><span>Mejor Latido</span><b>${save.records.survival} puntos</b></div><div class="setting-row"><span>Guerra / Royale ganados</span><b>${save.records.warWins} / ${save.records.royaleWins}</b></div><button class="btn secondary" onclick="exportSave()">Exportar mi viaje</button> <button class="text-btn" onclick="importSave()">Importar copia</button></div><div class="settings-panel"><h2>Un pequeño regalo diario</h2><p>Una vez al día, Confite reúne 20 de miel y 5 gemas para el camino.</p><button class="btn" onclick="claimDaily()" ${save.dailyClaim===dayKey()?'disabled':''}>${save.dailyClaim===dayKey()?'Nos vemos mañana':'Recoger el regalo'}</button></div><div class="settings-panel"><h2>El mismo corazón.</h2><p>Renacer se ha construido desde cero. Conserva Dulcelandia, sus guardianes, sus recuerdos y a Confite. Tu guardado anterior sigue intacto${save.legacyImported?'; su progreso de campaña se ha recuperado aquí':''}.</p><a class="text-btn" href="legacy/index.html">Abrir la edición anterior ${icon('arrow')}</a></div></div></div>`;}
+function renderMemories(){$('screen-memories').innerHTML=`<div class="page-content"><div class="page-head"><div><div class="eyebrow">Lo que el mundo recuerda</div><h1>Historia y recuerdos</h1><p>Completa capítulos para recuperar los recuerdos de Confite.</p><button class="text-btn" onclick="showPrologue()">Escuchar la historia inicial ${icon('memories')}</button></div><button class="text-btn" onclick="navigate('world')">${icon('back')} Volver a Campaña</button></div>${TERRITORIES.map(t=>{const done=completed(t.id)===10;return `<article class="memory-item"><div class="memory-number">${String(t.id).padStart(2,'0')}</div><div><div class="eyebrow">${t.short}</div><h3>${done?CAMPAIGN_ARCS[t.id].title:'Un recuerdo entre la niebla'}</h3><p>${done?CAMPAIGN_ARCS[t.id].resolution:'Restaura los diez senderos de este territorio para escuchar su historia.'}</p></div></article>`;}).join('')}${completed(8)===10?`<button class="btn" onclick="showEpilogue()" style="margin-top:24px">Escuchar a Confite</button>`:''}${companion('Hay cosas que no he olvidado. Solo… todavía no sé cómo contarlas.')}</div>`;}
+function renderSettings(){$('screen-settings').innerHTML=`<div class="page-content"><div class="page-head"><div><div class="eyebrow">Tu viaje</div><h1>Ajustes</h1><p>Sonido, ayuda y copia de tu progreso.</p></div><button class="text-btn" onclick="navigate(state.settingsReturn||'home')">${icon('back')} Volver</button></div><div class="settings-grid"><div class="settings-panel"><h2>Preferencias</h2><div class="setting-row"><span>Sonido</span><button class="btn secondary" onclick="toggleSound();renderSettings()" style="margin:0;min-height:38px;padding:8px 14px">${save.muted?'Apagado':'Encendido'}</button></div><div class="setting-row"><span>Gemas disponibles</span><button class="text-btn" onclick="showGemInfo()">${save.gems.toLocaleString('es')} gemas ${icon('gem')}</button></div><div class="setting-row"><span>Movimiento</span><b>${matchMedia('(prefers-reduced-motion:reduce)').matches?'Reducido por tu dispositivo':'Adaptado a tu dispositivo'}</b></div><div class="setting-row"><span>Edición</span><b>Renacer · El mundo responde</b></div><p style="margin-top:14px">Sin pagos reales ni anuncios conectados. Las ayudas se compran con recursos ganados jugando.</p><button class="text-btn" onclick="showHelp()">Cómo jugar ${icon('arrow')}</button></div><div class="settings-panel"><h2>Tu progreso</h2><div class="setting-row"><span>Guardianes liberados</span><b>${totalReleased()} / 80</b></div><div class="setting-row"><span>Jugadas válidas</span><b>${save.stats.moves}</b></div><div class="setting-row"><span>Mejor Latido</span><b>${save.records.survival} puntos</b></div><div class="setting-row"><span>Guerra / Royale ganados</span><b>${save.records.warWins} / ${save.records.royaleWins}</b></div><button class="btn secondary" onclick="exportSave()">Exportar mi viaje</button> <button class="text-btn" onclick="importSave()">Importar copia</button></div><div class="settings-panel"><h2>Un pequeño regalo diario</h2><p>Una vez al día, Confite reúne 20 de miel y 5 gemas para el camino.</p><button class="btn" onclick="claimDaily()" ${save.dailyClaim===dayKey()?'disabled':''}>${save.dailyClaim===dayKey()?'Nos vemos mañana':'Recoger el regalo'}</button></div><div class="settings-panel"><h2>El mismo corazón.</h2><p>Renacer se ha construido desde cero. Conserva Dulcelandia, sus guardianes, sus recuerdos y a Confite. Tu guardado anterior sigue intacto${save.legacyImported?'; su progreso de campaña se ha recuperado aquí':''}.</p><a class="text-btn" href="legacy/index.html">Abrir la edición anterior ${icon('arrow')}</a></div></div></div>`;}
 let modalRestore=null;
-function showModal({eyebrow='',title,body='',art='',actions=[],restored=false}){if(typeof arenaState!=='undefined'&&arenaState&&!arenaState.finished&&!arenaState.paused)pauseArena(true);closeModal();state.modal=true;modalRestore=document.activeElement;const root=$('modal-root');root.innerHTML=`<div class="modal-shade"><section class="modal${restored?' modal-restored':''}" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="eyebrow">${escapeHTML(eyebrow)}</div>${art?`<div class="modal-art">${art}</div>`:''}<h2 id="modal-title">${escapeHTML(title)}</h2><div class="modal-body">${body}</div><div class="modal-actions">${actions.map((a,i)=>`<button class="btn ${a.primary?'':'secondary'}" data-modal-action="${i}">${escapeHTML(a.label)}</button>`).join('')}</div></section></div>`;actions.forEach((a,i)=>root.querySelector(`[data-modal-action="${i}"]`).onclick=()=>a.onClick());root.querySelector('.modal')?.focus({preventScroll:true});$('announcer').textContent=title;}
-function closeModal(){if(!$('modal-root'))return;const was=state.modal;$('modal-root').innerHTML='';state.modal=false;if(was&&modalRestore?.isConnected)modalRestore.focus();}
-document.addEventListener('keydown',e=>{if(!state.modal)return;if(e.key==='Tab'){const els=[...$('modal-root').querySelectorAll('button,textarea,input,a')].filter(x=>!x.disabled);if(!els.length)return;const first=els[0],last=els.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
+function showModal({eyebrow='',title,body='',art='',actions=[],restored=false}){if(typeof arenaState!=='undefined'&&arenaState&&!arenaState.finished&&!arenaState.paused)pauseArena(true);closeModal();state.modal=true;modalRestore=document.activeElement;const root=$('modal-root');root.innerHTML=`<div class="modal-shade"><section class="modal${restored?' modal-restored':''}" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="eyebrow">${escapeHTML(eyebrow)}</div>${art?`<div class="modal-art">${art}</div>`:''}<h2 id="modal-title">${escapeHTML(title)}</h2><div class="modal-body">${body}</div><div class="modal-actions">${actions.map((a,i)=>`<button class="btn ${a.primary?'':'secondary'}" data-modal-action="${i}">${escapeHTML(a.label)}</button>`).join('')}</div></section></div>`;actions.forEach((a,i)=>root.querySelector(`[data-modal-action="${i}"]`).onclick=()=>a.onClick());if($('app'))$('app').inert=true;root.querySelector('.modal')?.focus({preventScroll:true});$('announcer').textContent=title;}
+function closeModal(){if(!$('modal-root'))return;const was=state.modal;$('modal-root').innerHTML='';state.modal=false;if($('app'))$('app').inert=false;if(was&&modalRestore?.isConnected)modalRestore.focus();}
+document.addEventListener('keydown',e=>{if(!state.modal)return;if(e.key==='Tab'){const els=[...$('modal-root').querySelectorAll('button,textarea,input,a,select')].filter(x=>!x.disabled);if(!els.length)return;const first=els[0],last=els.at(-1);if(e.shiftKey&&(document.activeElement===first||!els.includes(document.activeElement))){e.preventDefault();last.focus();}else if(!e.shiftKey&&(document.activeElement===last||!els.includes(document.activeElement))){e.preventDefault();first.focus();}}});
 let toastTimer;
 function toast(msg){$('toast').textContent=msg;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,3200);}
 function sound(kind='pop'){feedbackSound(kind);}
@@ -2083,15 +2532,15 @@ function updatePlayScene(g,host){
 /* PLAY_SCENE_END */
 
 function levelConfig(t,n){const boss=n===10,colors=t<3?5:6;let type=n%3===2?'collect':n%3===0&&t>=2?'ice':'rescue';if(boss)type='rescue';const base=type==='rescue'?680+t*85+n*42:type==='collect'?12+t+Math.floor(n/3):8+Math.floor(n/2)+t;return {mode:'campaign',t,n,size:7,colors,type,goal:Math.round(base*(boss?1.3:1)),moves:Math.min(30,22-Math.min(4,Math.floor((t-1)/2))+(boss?5:0)+(['power','ordered'].includes(encounterConfig(t,n).rule.kind)?6:2)),targetColor:(t+n)%colors,encounter:encounterConfig(t,n)};}
-function continueCampaign(){const next=campaignNext();requestLevel(next.t,next.n);}
-function requestLevel(t,n){if(!levelOpen(t,n)){toast('Restaura los senderos anteriores para llegar hasta aquí.');return;}syncLives();if(!save.lives){showLives();return;}if(n===10){showModal({eyebrow:`Guardián del capítulo ${t}`,title:BOSS_LEVEL_NAMES[t],art:sprite(`monsters-t${t}-v18.webp`,9),body:`${escapeHTML(encounterConfig(t,n).brief)}<br><br>${escapeHTML(encounterConfig(t,n).hint)}<br><br>Los nueve senderos anteriores abrieron este encuentro.`,actions:[{label:'Entrar · 1 vida',primary:true,onClick:()=>{if(state.screen==='game'&&state.game&&!state.game.done)return;closeModal();tryStartLevel(t,n);}},{label:'Aún no',onClick:closeModal}]});return;}tryStartLevel(t,n);}
-function tryStartLevel(t,n){if(!levelOpen(t,n)||state.game&&!state.game.done&&state.screen==='game')return false;if(!spendLife()){showLives();return false;}startBoard(levelConfig(t,n));return true;}
+function continueCampaign(returnTo=navigationOrigin()){const next=campaignNext();requestLevel(next.t,next.n,returnTo);}
+function requestLevel(t,n,returnTo=navigationOrigin()){if(!levelOpen(t,n)){toast('Restaura los senderos anteriores para llegar hasta aquí.');return;}syncLives();if(!save.lives){showLives();return;}if(n===10){showModal({eyebrow:`Guardián del capítulo ${t}`,title:BOSS_LEVEL_NAMES[t],art:sprite(`monsters-t${t}-v18.webp`,9),body:`${escapeHTML(encounterConfig(t,n).brief)}<br><br>${escapeHTML(encounterConfig(t,n).hint)}<br><br>Los nueve senderos anteriores abrieron este encuentro.`,actions:[{label:'Entrar · 1 vida',primary:true,onClick:()=>{if(state.screen==='game'&&state.game&&!state.game.done)return;closeModal();tryStartLevel(t,n,returnTo);}},{label:'Aún no',onClick:closeModal}]});return;}tryStartLevel(t,n,returnTo);}
+function tryStartLevel(t,n,returnTo=navigationOrigin()){if(!levelOpen(t,n)||state.game&&!state.game.done&&state.screen==='game')return false;if(!spendLife()){showLives();return false;}startBoard({...levelConfig(t,n),returnTo});return true;}
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,matchMedia('(prefers-reduced-motion:reduce)').matches?0:ms));
 function stopBoard(){feedbackCancel();state.run++;if(state.game){clearInterval(state.game.clock);clearTimeout(state.game.hintTimer);state.game=null;}}
-function startBoard(config){showScreen('game');stopBoard();const mode=config.mode,base=mode==='campaign'||mode==='daily'?config:{...config,size:7,colors:5,type:'rescue',goal:Infinity,moves:Infinity,targetColor:0};const rng=mode==='daily'?seededRandom(base.seed):Math.random;const g={...base,rng,board:mode==='campaign'&&base.t===1&&base.n===1&&!save.tutorialSeen?teachingBoard(base.size,base.colors):makeBoard(base.size,base.colors,rng),ice:Array(base.size*base.size).fill(0),moves:base.moves+(mode==='campaign'?(save.buildings.dojo?1:0)+(save.buildings.faro?1:0):0),score:0,progress:0,pulse:0,pulseArmed:false,selection:null,busy:false,done:false,paused:false,hammer:false,seconds:60,chain:0,continued:false,start:Date.now(),run:state.run,clock:null,hintTimer:null,announced:0};if(g.type==='ice'){const order=Array.from({length:g.board.length},(_,i)=>i);for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}for(const i of order.slice(0,g.goal))g.ice[i]=g.t>=6?2:1;}
+function startBoard(config){const returnTo=config.returnTo||navigationOrigin();showScreen('game');stopBoard();const mode=config.mode,base=mode==='campaign'||mode==='daily'?config:{...config,size:7,colors:5,type:'rescue',goal:Infinity,moves:Infinity,targetColor:0};const rng=mode==='daily'?seededRandom(base.seed):Math.random;const g={...base,returnTo,rng,board:mode==='campaign'&&base.t===1&&base.n===1&&!save.tutorialSeen?teachingBoard(base.size,base.colors):makeBoard(base.size,base.colors,rng),ice:Array(base.size*base.size).fill(0),moves:base.moves+(mode==='campaign'?(save.buildings.dojo?1:0)+(save.buildings.faro?1:0):0),score:0,progress:0,pulse:0,pulseArmed:false,selection:null,busy:false,done:false,paused:false,hammer:false,seconds:60,chain:0,continued:false,start:Date.now(),run:state.run,clock:null,hintTimer:null,announced:0};if(g.type==='ice'){const order=Array.from({length:g.board.length},(_,i)=>i);for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}for(const i of order.slice(0,g.goal))g.ice[i]=g.t>=6?2:1;}
  if(mode==='campaign'){g.encounter=base.encounter||encounterConfig(g.t,g.n);g.restoration=makeRestoration(g.encounter,g.size);}
  state.game=g;renderGame();if(mode==='campaign'&&g.t===1&&g.n===1&&!save.tutorialSeen){for(const i of [17,24])$('board')?.querySelector(`[data-index="${i}"]`)?.classList.add('hint');setTip('Prueba las dos piezas marcadas. Cuatro iguales crean un rayo.');}else if(g.encounter)feedbackSay(g,PLAY_OPENINGS[g.t===1?g.n:0]||g.encounter.confiteStart);resetHint();if(mode==='survival'){g.lastTick=performance.now();g.clock=setInterval(()=>{const now=performance.now();if(!g.paused&&!state.modal&&!document.hidden&&!g.done){g.seconds=Math.max(0,g.seconds-(now-g.lastTick)/1000);updateGameHUD();if(g.seconds<=0&&!g.busy)finishBoard(false);}g.lastTick=now;},150);}sound();}
-function renderGame(){const g=state.game;if(!g)return;const t=TERRITORIES[g.t-1],special=g.mode!=='campaign'&&g.mode!=='daily';$('screen-game').innerHTML=`<div class="game-page"><div class="game-topline"><button class="text-btn" onclick="pauseBoard(true)">${icon('back')} Salir</button><span class="eyebrow">${g.mode==='daily'?'El encargo de Confite · '+g.dailyKey:special?g.mode==='zen'?'Jardín en calma · Sin límites':'El Latido · Contrarreloj':`Capítulo ${g.t} · ${t.short} · Ruta ${g.n}/10`}</span><button class="utility" onclick="pauseBoard()" aria-label="Pausa">${icon('pause')}</button></div><div class="game-layout"><div class="battle-scene${g.encounter?' has-play-scene':''}">${g.encounter?`<div class="play-scene" id="play-scene" aria-hidden="true">${playSceneArt(g.restoration.kind,g.restoration.restored/g.restoration.total)}</div><div class="play-confite" id="play-confite" aria-hidden="true">${confite('happy')}</div>`:''}<div class="battle-backdrop" id="battle-backdrop" style="--grey:${special?0:1}"><div class="battle-landscape" style="${panoramaStyle(g.t)}"></div></div><div class="eyebrow">${special?'Cada combinación cuenta':'Libera al guardián'}</div><h1>${special?g.mode==='zen'?'Respira. Combina.':'Sigue tu propio ritmo.':LEVEL_NAMES_ALL[g.t][g.n]}</h1>${sprite(special?'combatants-v18.webp':`monsters-t${g.t}-v18.webp`,special?0:g.n-1,5,'guardian-art')}<div class="guardian-health"><div class="progress-track"><i id="guardian-progress" style="width:0%"></i></div><div class="guardian-status"><span id="guardian-status-label">${special?'Tu mejor luz':'Niebla disipada'}</span><span id="guardian-percent">0%</span></div></div>${g.encounter?`<div class="encounter-brief"><div><strong>${escapeHTML(g.encounter.title)}</strong><p>${escapeHTML(g.encounter.brief)}</p></div></div>`:companion('Estoy aquí. Vamos a devolverle su color.')}</div><div class="board-side"><div class="board-hud"><div class="moves-stat"><strong id="moves-value"></strong><span id="moves-label"></span></div><div class="score-stat"><strong id="score-value">0</strong><small id="turn-note">Luz recuperada</small></div></div><div class="mini-objective" id="mini-objective"></div><div class="board-frame"><div class="board" id="board" role="grid" aria-label="Tablero de caramelos. Usa las flechas para moverte y Espacio para elegir." style="--size:${g.size}"></div><div class="board-flash" id="board-flash" aria-live="polite"></div></div><div class="board-tools"><button id="pulse-button" onclick="armPulse()">${confite('happy')}<span class="pulse-label"></span></button><button id="hammer-button" onclick="armHammer()">${icon('hammer')}<span></span></button><button onclick="shuffleGame()">${icon('shuffle')}<span>Barajar</span></button><button onclick="showGameHint()" aria-label="Mostrar pista">${icon('hint')}</button></div><p class="board-tip ${!save.tutorialSeen?'tutorial-tip':''}" id="board-tip">${!save.tutorialSeen?'Desliza una pieza, o toca dos vecinas. Une 3 del mismo color.':'4 en línea: rayo · 5: estrella · L o T: bomba'}</p></div></div></div>`;renderPieces();updateGameHUD();bindBoard();}
+function renderGame(){const g=state.game;if(!g)return;renderNav();const t=TERRITORIES[g.t-1],special=g.mode!=='campaign'&&g.mode!=='daily';$('screen-game').innerHTML=`<div class="game-page"><div class="game-topline"><button class="text-btn" onclick="pauseBoard(true)">${icon('back')} Volver</button><span class="eyebrow">${g.mode==='daily'?'Reto diario · '+g.dailyKey:special?g.mode==='zen'?'Sin prisa · Sin límites':'Contrarreloj · 60 segundos':`Nivel ${(g.t-1)*10+g.n} · Capítulo ${g.t}`}</span><button class="utility" onclick="pauseBoard()" aria-label="Pausa">${icon('pause')}</button></div><div class="game-layout"><div class="battle-scene${g.encounter?' has-play-scene':''}">${g.encounter?`<div class="play-scene" id="play-scene" aria-hidden="true">${playSceneArt(g.restoration.kind,g.restoration.restored/g.restoration.total)}</div><div class="play-confite" id="play-confite" aria-hidden="true">${confite('happy')}</div>`:''}<div class="battle-backdrop" id="battle-backdrop" style="--grey:${special?0:1}"><div class="battle-landscape" style="${panoramaStyle(g.t)}"></div></div><div class="eyebrow">${special?'Cada combinación cuenta':'Libera al guardián'}</div><h1>${g.mode==='daily'?'Reto diario':special?g.mode==='zen'?'Sin prisa':'Contrarreloj':LEVEL_NAMES_ALL[g.t][g.n]}</h1>${sprite(special?'combatants-v18.webp':`monsters-t${g.t}-v18.webp`,special?0:g.n-1,5,'guardian-art')}<div class="guardian-health"><div class="progress-track"><i id="guardian-progress" style="width:0%"></i></div><div class="guardian-status"><span id="guardian-status-label">${special?'Tu mejor luz':'Niebla disipada'}</span><span id="guardian-percent">0%</span></div></div>${g.encounter?`<div class="encounter-brief"><div><strong>${escapeHTML(g.encounter.title)}</strong><p>${escapeHTML(g.encounter.brief)}</p></div></div>`:companion('Estoy aquí. Vamos a devolverle su color.')}</div><div class="board-side"><div class="board-hud"><div class="moves-stat"><strong id="moves-value"></strong><span id="moves-label"></span></div><div class="score-stat"><strong id="score-value">0</strong><small id="turn-note">Luz recuperada</small></div></div><div class="mini-objective" id="mini-objective"></div><div class="board-frame"><div class="board" id="board" role="grid" aria-label="Tablero de caramelos. Usa las flechas para moverte y Espacio para elegir." style="--size:${g.size}"></div><div class="board-flash" id="board-flash" aria-live="polite"></div></div><div class="board-tools"><button id="pulse-button" onclick="armPulse()">${confite('happy')}<span class="pulse-label"></span></button><button id="hammer-button" onclick="armHammer()">${icon('hammer')}<span></span></button><button onclick="shuffleGame()">${icon('shuffle')}<span>Barajar</span></button><button onclick="showGameHint()" aria-label="Mostrar pista">${icon('hint')}</button></div><p class="board-tip ${!save.tutorialSeen?'tutorial-tip':''}" id="board-tip">${!save.tutorialSeen?'Desliza una pieza, o toca dos vecinas. Une 3 del mismo color.':'4 en línea: rayo · 5: estrella · L o T: bomba'}</p></div></div></div>`;renderPieces();updateGameHUD();bindBoard();}
 function candyStyle(color){return `--sx:${color%4/3*100}%;--sy:${Math.floor(color/4)*100}%`;}
 const COLOR_PLURALS=['caramelos rosas','ositos verdes','diamantes azules','piruletas doradas','espirales violetas','corazones coral','estrellas'];
 const COLOR_NAMES=['caramelo rosa','osito verde','diamante azul','piruleta dorada','espiral violeta','corazón coral','estrella'];
@@ -2118,16 +2567,21 @@ function showGameHint(){const g=state.game;if(!g||g.busy||g.done||g.paused)retur
 function armHammer(){const g=state.game;if(!g||g.busy||g.done||g.paused)return;if(!save.boosters.hammer){showModal({eyebrow:'Una pequeña ayuda',title:'Martillo de azúcar',body:'Rompe una pieza sin gastar movimiento y libera sus efectos. Puedes preparar uno con 30 de miel.',actions:[{label:'Preparar · 30 de miel',primary:true,onClick:()=>{if(save.coins<30){toast('Te faltan '+(30-save.coins)+' de miel.');return;}save.coins-=30;save.boosters.hammer++;persistSave();closeModal();updateGameHUD();}},{label:'Volver',onClick:closeModal}]});return;}g.hammer=!g.hammer;updateGameHUD();setTip(g.hammer?'Toca la pieza que quieres romper. No gastará movimiento.':'4 en línea: rayo · 5: estrella · L o T: bomba');}
 async function useHammer(i){const g=state.game;if(!g||g.busy||g.done||!save.boosters.hammer)return;g.hammer=false;g.busy=true;save.boosters.hammer--;g.chain=0;g.restoredThisTurn=0;feedbackBeginTurn(g);await resolveBoard(g,[],[],[i]);if(!isActive(g))return;g.busy=false;persistSave();updateGameHUD();if(campaignWon(g))finishBoard(true);else if(g.pausePending){g.pausePending=false;pauseBoard();}else{feedbackTurn(g);resetHint();}}
 function shuffleGame(){const g=state.game;if(!g||g.busy||g.done||g.paused)return;if(!save.boosters.shuffle){showModal({eyebrow:'Otra forma de mirar',title:'Barajar el tablero',body:'Conserva tus caramelos y poderes, cambia sus lugares y abre nuevas jugadas. Cuesta 20 de miel.',actions:[{label:'Preparar · 20 de miel',primary:true,onClick:()=>{if(save.coins<20){toast('Necesitas 20 de miel.');return;}save.coins-=20;save.boosters.shuffle++;persistSave();closeModal();}},{label:'Volver',onClick:closeModal}]});return;}if(!reshuffle(g.board,g.size,g.rng)){toast('Este tablero ya tiene una jugada posible.');return;}save.boosters.shuffle--;persistSave();renderPieces();sound('power');setTip('Nuevos caminos. Los mismos poderes.');resetHint();}
-function pauseBoard(leaving=false,destination='home'){const g=state.game;if(!g||g.done){navigate(destination);return;}if(g.busy){toast('Espera a que termine la cascada.');return;}g.paused=true;clearTimeout(g.hintTimer);const zen=g.mode==='zen';showModal({eyebrow:'Confite te espera',title:leaving?'¿Volvemos al camino?':'Un momento de calma',art:confite('happy'),body:zen?'Puedes guardar tu marca y cerrar esta sesión cuando quieras.':g.mode==='campaign'?'Tu vida se reserva al entrar y vuelve al ganar. Si sales, la partida terminará y esa vida se consumirá.':'El reloj descansa contigo. Vuelve cuando estés listo.',actions:[{label:'Seguir jugando',primary:true,onClick:()=>{g.paused=false;g.lastTick=performance.now();closeModal();resetHint();}},{label:zen?'Terminar y guardar marca':'Salir de la partida',onClick:()=>{if(zen){finishBoard(false);return;}stopBoard();closeModal();navigate(destination);}}]});}
+function pauseBoard(leaving=false,destination=state.game?.returnTo||(state.game?.mode==='campaign'?'world':'modes')){
+ const g=state.game;if(!g||g.done){navigate(destination);return;}
+ if(g.busy){toast('Espera a que termine la cascada.');return;}
+ g.paused=true;clearTimeout(g.hintTimer);const zen=g.mode==='zen';
+ showModal({eyebrow:'Partida en pausa',title:leaving?'¿Salir de esta partida?':'Un momento de calma',art:confite('happy'),body:zen?'Tu marca se guardará al terminar.':g.mode==='campaign'?'Si sales ahora, la partida termina y consumes la vida reservada al entrar.':'Si sales ahora, esta partida termina. No se gastan vidas.',actions:[{label:'Seguir jugando',primary:true,onClick:()=>{if(state.game!==g||g.done)return;g.paused=false;g.lastTick=performance.now();closeModal();resetHint();}},{label:zen?'Terminar y guardar marca':'Salir de la partida',onClick:()=>{if(state.game!==g||g.done)return;if(zen){finishBoard(false);if(!leaving)return;}stopBoard();closeModal();navigate(destination);}}]});
+}
 function finishBoard(won){const g=state.game;if(!g||g.done)return;if(Number.isFinite(g.goal)&&won&&!campaignWon(g))return;feedbackTurn(g,true);g.done=true;g.busy=false;clearInterval(g.clock);clearTimeout(g.hintTimer);let title,body,art,actions=[];if(g.mode==='daily'){
- const same=save.dailyChallenge.key===g.dailyKey,already=same&&save.dailyChallenge.won;save.dailyChallenge={key:g.dailyKey,won:won||already,best:Math.max(same?save.dailyChallenge.best:0,g.score)};if(won&&!already){save.coins+=40;save.gems+=5;}title=won?'Hoy también hubo luz.':'Mañana también sale el sol.';body=`<div class="reward">${g.score.toLocaleString('es')} / ${g.goal.toLocaleString('es')} de luz</div>${won?already?'Ya recibiste la recompensa de hoy. Tu nueva marca queda guardada.':'+40 de miel · +5 gemas<br>El encargo de hoy está completo.':'Puedes volver a intentarlo sin gastar vidas. El tablero de hoy seguirá esperándote.'}`;art=confite(won?'celebrate':'worried');actions=[{label:won?'Volver a mi viaje':'Volver a intentarlo',primary:true,onClick:()=>{stopBoard();closeModal();if(won)navigate('home');else startBoard(dailyConfig(g.dailyKey));}},{label:'Ver todos los modos',onClick:()=>{stopBoard();closeModal();navigate('modes');}}];
+ const same=save.dailyChallenge.key===g.dailyKey,already=same&&save.dailyChallenge.won;save.dailyChallenge={key:g.dailyKey,won:won||already,best:Math.max(same?save.dailyChallenge.best:0,g.score)};if(won&&!already){save.coins+=40;save.gems+=5;}title=won?'Hoy también hubo luz.':'Mañana también sale el sol.';body=`<div class="reward">${g.score.toLocaleString('es')} / ${g.goal.toLocaleString('es')} de luz</div>${won?already?'Ya recibiste la recompensa de hoy. Tu nueva marca queda guardada.':'+40 de miel · +5 gemas<br>El encargo de hoy está completo.':'Puedes volver a intentarlo sin gastar vidas. El tablero de hoy seguirá esperándote.'}`;art=confite(won?'celebrate':'worried');actions=[{label:won?'Volver a mi viaje':'Volver a intentarlo',primary:true,onClick:()=>{stopBoard();closeModal();if(won)navigate('home');else startBoard({...dailyConfig(g.dailyKey),returnTo:g.returnTo});}},{label:'Ver todos los modos',onClick:()=>{stopBoard();closeModal();navigate('modes');}}];
  }else if(g.mode==='campaign'){
   const first=!starsAt(g.t,g.n),earned=won?clamp(1+Math.floor(g.moves/5),1,3):0,reward=won?Math.round((20+g.t*3+earned*5)*(save.buildings.puesto?1.1:1)*(save.buildings.faro?1.1:1))+(save.buildings.fuente?5:0):0;
-  if(won){if(!g.lifeRefunded){syncLives();save.lives=Math.min(livesMax(),save.lives+1);if(save.lives===livesMax())save.livesAt=Date.now();g.lifeRefunded=true;}save.stars[g.t]??={};save.stars[g.t][g.n]=Math.max(starsAt(g.t,g.n),earned);save.coins+=reward;save.stats.released+=first?1:0;if(first)save.gems+=g.n===10?10:1;const key=`${g.t}_${g.n}`;save.bestScores[key]=Math.max(save.bestScores[key]||0,Math.round(g.score*(save.buildings.taller?1.05:1)));title=first?(g.encounter||encounterConfig(g.t,g.n)).place:'Un lugar que sigue vivo.';body=`<div class="stars" style="font-size:24px;margin:18px 0">${'✦'.repeat(earned)}${'·'.repeat(3-earned)}</div>${restorationReceipt(g,first)}${g.n===10?`<p>${CAMPAIGN_ARCS[g.t].resolution}</p>`:''}<div class="reward">+${reward} de miel${first?' · +'+(g.n===10?10:1)+' gemas':''}</div><p style="font-size:10px;color:var(--muted);margin-bottom:13px">Vida recuperada · Puedes seguir tu viaje.</p>${nextBuildingNote()}`;actions=[{label:g.t===8&&g.n===10?'Escuchar a Confite':'Seguir el viaje',primary:true,onClick:()=>{stopBoard();closeModal();if(g.t===8&&g.n===10)showEpilogue();else continueCampaign();}},{label:'Volver al atlas',onClick:()=>{stopBoard();closeModal();state.territory=g.t;navigate('world');}}];
-  }else{title='La niebla puede esperar.';body='No todo se recupera en el primer intento. Confite guarda el camino para cuando quieras volver.';actions=[...(!g.continued?[{label:'Continuar · 25 gemas',primary:true,onClick:()=>{if(state.game!==g||g.continued||!g.done)return;if(save.gems<25){toast('Necesitas 25 gemas para continuar.');return;}save.gems-=25;g.continued=true;g.moves+=5;g.done=false;g.busy=false;persistSave();closeModal();updateGameHUD();resetHint();}}]:[]),{label:'Intentar otra vez · 1 vida',onClick:()=>{stopBoard();closeModal();requestLevel(g.t,g.n);}},{label:'Volver al atlas',onClick:()=>{stopBoard();closeModal();state.territory=g.t;navigate('world');}}];}
+  if(won){if(!g.lifeRefunded){syncLives();save.lives=Math.min(livesMax(),save.lives+1);if(save.lives===livesMax())save.livesAt=Date.now();g.lifeRefunded=true;}save.stars[g.t]??={};save.stars[g.t][g.n]=Math.max(starsAt(g.t,g.n),earned);save.coins+=reward;save.stats.released+=first?1:0;if(first)save.gems+=g.n===10?10:1;const key=`${g.t}_${g.n}`;save.bestScores[key]=Math.max(save.bestScores[key]||0,Math.round(g.score*(save.buildings.taller?1.05:1)));title=first?(g.encounter||encounterConfig(g.t,g.n)).place:'Un lugar que sigue vivo.';body=`<div class="stars" style="font-size:24px;margin:18px 0">${'✦'.repeat(earned)}${'·'.repeat(3-earned)}</div>${restorationReceipt(g,first)}${g.n===10?`<p>${CAMPAIGN_ARCS[g.t].resolution}</p>`:''}<div class="reward">+${reward} de miel${first?' · +'+(g.n===10?10:1)+' gemas':''}</div><p style="font-size:10px;color:var(--muted);margin-bottom:13px">Vida recuperada · Puedes seguir tu viaje.</p>${nextBuildingNote()}`;actions=[{label:g.t===8&&g.n===10?'Escuchar a Confite':'Seguir el viaje',primary:true,onClick:()=>{stopBoard();closeModal();if(g.t===8&&g.n===10)showEpilogue();else continueCampaign(g.returnTo);}},{label:'Ver niveles',onClick:()=>{stopBoard();closeModal();state.territory=g.t;navigate('world');}}];
+  }else{title='La niebla puede esperar.';body='No todo se recupera en el primer intento. Confite guarda el camino para cuando quieras volver.';actions=[...(!g.continued?[{label:'Continuar · 25 gemas',primary:true,onClick:()=>{if(state.game!==g||g.continued||!g.done)return;if(save.gems<25){toast('Necesitas 25 gemas para continuar.');return;}save.gems-=25;g.continued=true;g.moves+=5;g.done=false;g.busy=false;persistSave();closeModal();updateGameHUD();resetHint();}}]:[]),{label:'Intentar otra vez · 1 vida',onClick:()=>{stopBoard();closeModal();requestLevel(g.t,g.n,g.returnTo);}},{label:'Ver niveles',onClick:()=>{stopBoard();closeModal();state.territory=g.t;navigate('world');}}];}
   art=won?'':sprite(`monsters-t${g.t}-v18.webp`,g.n-1);
- }else{const record=g.score>(save.records[g.mode]||0);save.records[g.mode]=Math.max(save.records[g.mode]||0,g.score);title=g.mode==='zen'?'Un ratito para ti.':record?'Tu corazón llegó más lejos.':'Cada latido cuenta.';body=`<div class="reward">${g.score.toLocaleString('es')} de luz</div>${record?'Una nueva marca personal.':'Mejor marca: '+save.records[g.mode].toLocaleString('es')+'.'}${g.mode==='survival'?'<br>Un minuto. Muchas pequeñas decisiones.':''}`;art=confite('celebrate');actions=[{label:'Una vez más',primary:true,onClick:()=>{closeModal();startBoard({mode:g.mode,t:1,n:1});}},{label:'Volver a los modos',onClick:()=>{stopBoard();closeModal();navigate('modes');}}];}
- persistSave();sound(won||g.mode!=='campaign'?'win':'lose');showModal({eyebrow:g.mode==='daily'?'El encargo de Confite · '+g.dailyKey:g.mode==='campaign'?`Ruta ${g.n} · ${TERRITORIES[g.t-1].short}`:'Tu propio ritmo',title,body,art,actions,restored:won&&g.mode==='campaign'});if(won)feedbackVictory(g);}
+ }else{const record=g.score>(save.records[g.mode]||0);save.records[g.mode]=Math.max(save.records[g.mode]||0,g.score);title=g.mode==='zen'?'Un ratito para ti.':record?'Tu corazón llegó más lejos.':'Cada latido cuenta.';body=`<div class="reward">${g.score.toLocaleString('es')} de luz</div>${record?'Una nueva marca personal.':'Mejor marca: '+save.records[g.mode].toLocaleString('es')+'.'}${g.mode==='survival'?'<br>Un minuto. Muchas pequeñas decisiones.':''}`;art=confite('celebrate');actions=[{label:'Una vez más',primary:true,onClick:()=>{closeModal();startBoard({mode:g.mode,t:1,n:1,returnTo:g.returnTo});}},{label:'Volver a los modos',onClick:()=>{stopBoard();closeModal();navigate('modes');}}];}
+ persistSave();sound(won||g.mode!=='campaign'?'win':'lose');showModal({eyebrow:g.mode==='daily'?'Reto diario · '+g.dailyKey:g.mode==='campaign'?`Ruta ${g.n} · ${TERRITORIES[g.t-1].short}`:'Tu propio ritmo',title,body,art,actions,restored:won&&g.mode==='campaign'});if(won)feedbackVictory(g);}
 document.addEventListener('visibilitychange',()=>{const g=state.game;if(document.hidden&&g&&!g.done&&!g.paused){if(g.busy)g.pausePending=true;else pauseBoard();}if(g)g.lastTick=performance.now();if(!document.hidden){syncLives();updateResources();}});
 /* ARENA_START */
 /* Renacer: standalone local combat. All world coordinates are 390 × 570. */
@@ -2146,23 +2600,23 @@ function arenaUnit(id,team,x,y,artIndex,player){
     speed:player?116:team==='ally'?66:72,attack:0,skill:1.2+id*.19,stun:0,invulnerable:0,respawn:0,
     angle:id*2.399,damage:player?19:team==='ally'?7.5:9.5,kills:0};
 }
-function startArena(mode){
+function startArena(mode,returnTo='modes'){
   stopArena();
   showScreen('arena');
   mode=mode==='royale'?'royale':'war';
   const war=mode==='war';
   $('arena-root').innerHTML=`<div class="arena-shell">
-    <header class="arena-topline"><button class="arena-back" onclick="arenaExit()" aria-label="Volver al inicio">←</button><div><div class="arena-kicker">Dulcelandia · Combate local</div><h1 class="arena-title">${war?'Guerra 5v5':'Royale'}</h1></div><button id="arena-pause-button" class="arena-pause" onclick="pauseArena()" aria-label="Pausar partida">Ⅱ</button></header>
+    <header class="arena-topline"><button class="arena-back" onclick="arenaExit()" aria-label="Volver">← Volver</button><div><div class="arena-kicker">Dulcelandia · Combate local</div><h1 class="arena-title">${war?'Guerra 5v5':'Royale'}</h1></div><button id="arena-pause-button" class="arena-pause" onclick="pauseArena()" aria-label="Pausar partida">Ⅱ</button></header>
     <p class="arena-objective">${war?'Rompe el cristal rival y protege el tuyo. Tu equipo lucha contigo.':'Diez combatientes. Una última luz. Sobrevive dentro del anillo.'}</p>
     <div class="arena-status" aria-live="off"><span id="arena-health">140 / 140 vida</span><span id="arena-time">${war?'1:30':'1:35'}</span><span id="arena-count">${war?'5 contra 5':'10 en pie'}</span></div>
-    <div class="arena-stage"><canvas id="arena-canvas" class="arena-canvas" width="390" height="570" tabindex="0" aria-label="Arena de ${war?'Guerra 5 contra 5':'Royale'}. Tú llevas el aro dorado. Toca o arrastra para moverte; atacas automáticamente al acercarte."></canvas><div id="arena-hint" class="arena-hint">Tú llevas el aro dorado. Toca o arrastra para moverte.<br>Sal de las marcas rojas antes del impacto.</div><div id="arena-halt" class="arena-halt" hidden><h2>Respira un momento</h2><p>La arena espera. Tu partida está pausada.</p><button class="arena-resume" onclick="pauseArena()">Continuar partida</button><button class="arena-back" onclick="arenaExit()" aria-label="Volver al inicio">←</button></div></div>
+    <div class="arena-stage"><canvas id="arena-canvas" class="arena-canvas" width="390" height="570" tabindex="0" aria-label="Arena de ${war?'Guerra 5 contra 5':'Royale'}. Tú llevas el aro dorado. Toca o arrastra para moverte; atacas automáticamente al acercarte."></canvas><div id="arena-hint" class="arena-hint">Tú llevas el aro dorado. Toca o arrastra para moverte.<br>Sal de las marcas rojas antes del impacto.</div><div id="arena-halt" class="arena-halt" hidden><h2>Respira un momento</h2><p>La arena espera. Tu partida está pausada.</p><button class="arena-resume" onclick="pauseArena()">Continuar partida</button><button class="arena-back" onclick="arenaExit()" aria-label="Salir de la partida">Salir</button></div></div>
     <div class="arena-actions"><button id="arena-pulse" class="arena-ability" onclick="arenaPulse()"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" stroke-dasharray="3 3"/><path d="M12 1v3m0 16v3M1 12h3m16 0h3"/></svg><span>Pulso<small id="arena-pulse-label">${arenaTouch()?'Interrumpe':'Interrumpe · Espacio'}</small></span></button><button id="arena-dash" class="arena-ability" onclick="arenaDash()"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m4 7 6 5-6 5m8-10 6 5-6 5M2 12h15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Impulso<small id="arena-dash-label">${arenaTouch()?'Esquiva':'Esquiva · Mayús'}</small></span></button></div>
     <p class="arena-guide">${arenaTouch()?'Toca o arrastra para moverte · Atacas al acercarte':'Ataque automático al acercarte · WASD o flechas · P para pausar'}</p>
     <div class="arena-companion">${companion(war?'Voy contigo. Acércate para atacar; Pulso corta los golpes cercanos.':'La niebla fuera del anillo te hace daño. Busca espacio y elige cuándo luchar.','worried')}</div>
   </div>`;
   const canvas=$('arena-canvas'),ctx=canvas.getContext('2d');
   const ratio=Math.min(2,window.devicePixelRatio||1);canvas.width=390*ratio;canvas.height=570*ratio;ctx.setTransform(ratio,0,0,ratio,0,0);
-  const state={mode,canvas,ctx,ratio,units:[],marks:[],effects:[],elapsed:0,limit:war?90:95,last:0,raf:0,paused:false,finished:false,
+  const state={mode,returnTo,canvas,ctx,ratio,units:[],marks:[],effects:[],elapsed:0,limit:war?90:95,last:0,raf:0,paused:false,finished:false,
     keys:new Set(),target:null,pointer:null,pulse:0,dash:0,ui:0,damageDealt:0,playerKills:0,coreSkill:2,
     enemyCore:{x:195,y:57,hp:580,maxHp:580,team:'enemy',core:true},allyCore:{x:195,y:513,hp:390,maxHp:390,team:'ally',core:true}};
   arenaState=state;
@@ -2203,7 +2657,13 @@ function stopArena(){
   s.canvas.removeEventListener('pointerdown',s.onPointerDown);s.canvas.removeEventListener('pointermove',s.onPointerMove);s.canvas.removeEventListener('pointerup',s.onPointerUp);s.canvas.removeEventListener('pointercancel',s.onPointerUp);
   window.removeEventListener('keydown',s.onKeyDown);window.removeEventListener('keyup',s.onKeyUp);window.removeEventListener('blur',s.onBlur);document.removeEventListener('visibilitychange',s.onVisibility);arenaState=null;
 }
-function arenaExit(){stopArena();closeModal();navigate('home');}
+function arenaExit(destination){
+ const s=arenaState;if(!s)return;
+ const target=typeof destination==='string'&&['home','world','modes','village','memories','settings'].includes(destination)?destination:s.returnTo||'modes';
+ if(s.finished){stopArena();closeModal();navigate(target);return;}
+ const wasPaused=s.paused;pauseArena(true);
+ showModal({eyebrow:'Partida en pausa',title:'¿Salir de esta partida?',body:'El combate terminará. Puedes empezar otra partida cuando quieras; no se gastan vidas.',actions:[{label:'Seguir jugando',primary:true,onClick:()=>{if(arenaState!==s)return;closeModal();if(!wasPaused)pauseArena();}},{label:'Salir de la partida',onClick:()=>{if(arenaState!==s)return;stopArena();closeModal();navigate(target);}}]});
+}
 function pauseArena(force){
   const s=arenaState;if(!s||s.finished)return;
   s.paused=force===true?true:!s.paused;s.keys.clear();s.pointer=null;s.last=0;
@@ -2343,7 +2803,7 @@ function arenaFinish(won,placement){
   const result=war?(won?'Tu equipo rompió el núcleo enemigo.':s.allyCore.hp<=0?'El rival alcanzó vuestro cristal.':'El cristal rival resistió hasta el final.'):won?'Sobreviviste a los otros nueve combatientes.':'Puesto '+placement+' de 10 · Mejor puesto: '+save.records.royaleBest;
   showModal({eyebrow:war?'Guerra 5v5 · Resultado':'Royale · Resultado',title,
     body:`<div class="arena-result-copy"><p>${result}</p><p><strong>${s.playerKills}</strong> rivales derrotados por ti · <strong>${Math.round(s.elapsed)} s</strong> en la arena</p><p>${won?'Confite: «Tu luz encontró un camino.»':'Confite: «Seguimos aquí. Cuando quieras, lo intentamos juntos.»'}</p></div>`,
-    actions:[{label:'Jugar otra vez',primary:true,onClick:()=>{closeModal();startArena(s.mode);}},{label:'Volver al inicio',onClick:arenaExit}]});
+    actions:[{label:'Jugar otra vez',primary:true,onClick:()=>{closeModal();startArena(s.mode,s.returnTo);}},{label:'Volver',onClick:()=>arenaExit(s.returnTo)}]});
 }
 function arenaDrawBackground(s){
   const c=s.ctx,img=arenaImage('assets/renacer-restoration-v3.webp');

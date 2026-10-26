@@ -168,7 +168,8 @@ test('four primary destinations expose one current page and secondary destinatio
     assert.ok(h.document.querySelectorAll('button').some(button => button.getAttribute('aria-label') === 'Ajustes' && button.closest('header')));
   }
   h.navigate('world');
-  assert.ok(h.node('screen-world').querySelectorAll('button').some(button => /Recuerdos/.test(normalLabel(button))));
+  const memories = h.node('screen-world').querySelectorAll('button').find(button => /recuerdos/i.test(button.getAttribute('aria-label') || normalLabel(button)));
+  assert.ok(memories); h.click(memories); assert.equal(h.state.screen, 'memories');
   h.navigate('settings');
   assert.ok(h.document.querySelectorAll('header button').some(button => button.getAttribute('aria-current') === 'page' && button.getAttribute('aria-label') === 'Ajustes'));
   assert.equal(h.writes.length, 0, 'visiting views cannot award or persist progress');
@@ -193,6 +194,16 @@ test('an unknown destination cannot blank the app, dismiss a modal or mutate pro
   assert.equal(h.state.screen, 'village'); assert.equal(h.node('modal-root').innerHTML, modal);
   assert.equal(h.document.activeElement, active);
   assert.equal(h.snapshot(), before); assert.equal(h.writes.length, 0);
+});
+
+test('prototype property names are not destinations and cannot bypass navigation validation', () => {
+  for (const destination of ['constructor', 'toString', '__proto__']) {
+    const h = harness(); h.navigate('world'); const before = h.snapshot();
+    assert.doesNotThrow(() => h.navigate(destination), destination);
+    assert.equal(h.state.screen, 'world', destination);
+    assert.equal(h.document.querySelector('.screen.active').id, 'screen-world', destination);
+    assert.equal(h.snapshot(), before); assert.equal(h.writes.length, 0);
+  }
 });
 
 test('changing campaign chapter preserves useful focus without granting access or spending lives', () => {
@@ -234,7 +245,7 @@ test('cancelling campaign abandonment keeps the same attempt and confirming leav
   h.click(h.action(/Salir de la partida/));
   assert.equal(h.state.screen, 'village'); assert.equal(h.state.game, null);
   assert.equal(h.snapshot(), before); assert.equal(h.getSave().lives, 4);
-  assert.equal(h.getSave().stars[1][1], undefined);
+  assert.equal(h.getSave().stars[1]?.[1], undefined);
 });
 
 test('a campaign retry keeps its return view and still reserves exactly one new life', () => {
@@ -260,6 +271,17 @@ test('leaving Zen saves its mark once and goes directly to the requested view', 
   assert.equal(h.state.modal, false); assert.equal(h.getSave().records.zen, 475);
   assert.equal(h.getSave().coins, coins); assert.equal(h.getSave().gems, gems); assert.equal(h.getSave().lives, lives);
   const writes = h.writes.length; exit(); assert.equal(h.writes.length, writes);
+});
+
+test('the default back action returns active board and combat modes to their recorded launch view', () => {
+  for (const origin of ['home', 'modes']) for (const mode of ['daily', 'survival', 'zen', 'war', 'royale']) {
+    const h = harness(); h.navigate(origin); h.launchMode(mode);
+    if (mode === 'war' || mode === 'royale') h.arenaExit(); else h.pauseBoard(true);
+    h.click(h.action(mode === 'zen' ? /Terminar y guardar/ : /Salir de la partida/));
+    assert.equal(h.state.screen, origin, origin + ' → ' + mode);
+    assert.equal(h.state.game, null); assert.equal(h.getArena(), null);
+    assert.equal(h.getSave().lives, 5);
+  }
 });
 
 test('stale match-3 leave and resume callbacks cannot dismiss or finish a replacement session', () => {
@@ -291,10 +313,10 @@ test('arena launch origin survives retry and default exit, while stale exit call
   assert.equal(old.returnTo, 'home'); h.run('arenaFinish(false,5)');
   h.click(h.action(/Jugar otra vez/)); const retried = h.getArena();
   assert.notEqual(retried, old); assert.equal(retried.returnTo, 'home');
-  h.arenaExit(); const exit = h.action(/Salir|Abandonar/).onclick;
+  h.arenaExit(); const exit = h.action(/Salir|Abandonar/).onclick, resume = h.action(/Seguir jugando/).onclick;
   h.startArena('war', 'modes'); const replacement = h.getArena();
   h.arenaExit('settings'); const modal = h.node('modal-root').innerHTML;
-  exit(); assert.equal(h.getArena(), replacement); assert.equal(h.node('modal-root').innerHTML, modal);
+  exit(); resume(); assert.equal(h.getArena(), replacement); assert.equal(replacement.paused, true); assert.equal(h.node('modal-root').innerHTML, modal);
   h.click(h.action(/Salir|Abandonar/)); assert.equal(h.state.screen, 'settings');
 });
 
@@ -302,10 +324,11 @@ test('modal keyboard containment covers initial dialog focus and an outside focu
   const h = harness(); h.navigate('home');
   const opener = h.document.querySelectorAll('header button').find(button => button.getAttribute('aria-label') === 'Ajustes'); opener.focus();
   h.run('showGemInfo()'); const modal = h.node('modal-root').querySelector('.modal');
+  assert.equal(h.node('app').inert, true, 'the page behind a modal cannot receive input');
   const actions = h.node('modal-root').querySelectorAll('button,textarea,input,a,select').filter(node => !node.disabled);
   assert.ok(actions.length); modal.focus();
   assert.equal(h.key('Tab', true).prevented, true); assert.equal(h.document.activeElement, actions.at(-1));
   modal.focus(); assert.equal(h.key('Tab').prevented, true); assert.equal(h.document.activeElement, actions[0]);
   opener.focus(); assert.equal(h.key('Tab').prevented, true); assert.equal(h.document.activeElement, actions[0]);
-  h.run('closeModal()'); assert.equal(h.document.activeElement, opener);
+  h.run('closeModal()'); assert.equal(h.node('app').inert, false); assert.equal(h.document.activeElement, opener);
 });

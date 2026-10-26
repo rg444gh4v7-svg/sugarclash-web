@@ -11,6 +11,7 @@ function updateLocation(){
  if(settings){if(state.screen==='settings')settings.setAttribute('aria-current','page');else settings.removeAttribute('aria-current');}
 }
 function renderNav(){
+ if(!$('navigation'))return;
  const current=state.screen==='memories'?'world':state.screen==='arena'?'modes':state.screen==='game'?(state.game?.mode==='campaign'?'world':'modes'):state.screen;
  $('navigation').innerHTML='<div class="nav-caption">Tu viaje</div>'+NAV_ITEMS.map(([id,title])=>`<button class="nav-item ${current===id?'active':''}" data-destination="${id}" ${current===id?'aria-current="page"':''} onclick="navigate('${id}')">${icon(id)}<span>${title}</span></button>`).join('')+'<div class="nav-help"><strong>Un color a la vez.</strong>Combina, restaura y sigue el camino.<button class="text-btn" onclick="showHelp()">Cómo jugar</button></div>';
  updateLocation();
@@ -23,7 +24,7 @@ function focusScreen(name){
 }
 function navigate(name){
  const renders={home:renderHome,world:renderWorld,modes:renderModes,village:renderVillage,memories:renderMemories,settings:renderSettings};
- if(!renders[name])return false;
+ if(!Object.hasOwn(renders,name))return false;
  if(name==='settings'&&state.screen!=='settings'){
   if(state.game?.returnTo)state.settingsReturn=state.game.returnTo;
   else if(typeof arenaState!=='undefined'&&arenaState?.returnTo)state.settingsReturn=arenaState.returnTo;
@@ -39,7 +40,7 @@ function renderWorld(tid=state.territory){
  const t=TERRITORIES[tid-1],done=completed(tid),open=territoryOpen(tid),next=campaignNext();
  const available=Array.from({length:10},(_,i)=>i+1).find(n=>levelOpen(tid,n)&&!starsAt(tid,n));
  $('screen-world').innerHTML=`<div class="page-content campaign-page">
-  <div class="page-head"><div><h1>Campaña</h1><p>Elige un nivel y devuelve el color al mundo.</p></div><button class="text-btn" onclick="navigate('memories')">${icon('memories')} Historia y recuerdos</button></div>
+  <div class="page-head"><div><h1>Campaña</h1><p>80 niveles para devolver el color.</p></div><button class="text-btn" aria-label="Historia y recuerdos" onclick="navigate('memories')">${icon('memories')} Historia</button></div>
   <div class="campaign-select"><label for="chapter-select">Capítulo</label><select id="chapter-select" onchange="renderWorld(Number(this.value));document.getElementById('chapter-select').focus()">${TERRITORIES.map(x=>`<option value="${x.id}" ${x.id===tid?'selected':''}>${x.id}. ${escapeHTML(x.name)}${territoryOpen(x.id)?'':' · Bloqueado'}</option>`).join('')}</select></div>
   <div class="campaign-layout"><section class="campaign-overview"><div class="world-panorama" style="${panoramaStyle(tid)};filter:grayscale(${1-done/10})" role="img" aria-label="Paisaje de ${escapeHTML(t.name)}"></div><div><span class="eyebrow">Capítulo ${tid} de 8</span><h2>${escapeHTML(t.name)}</h2><p>${escapeHTML(CAMPAIGN_ARCS[tid].steps[done<3?0:done<7?1:2])}</p><div class="progress-track"><i style="width:${done*10}%"></i></div><span class="campaign-count">${done} de 10 niveles completados</span>${!open?`<p class="chapter-locked">${icon('lock')} Completa el capítulo ${tid-1} para jugar aquí.</p>`:available?`<button class="btn" onclick="requestLevel(${tid},${available})">Jugar nivel ${(tid-1)*10+available} ${icon('play')}</button>`:'<p class="chapter-complete">Capítulo restaurado. Puedes repetir cualquier nivel.</p>'}</div></section>
   <section class="campaign-levels" aria-label="Niveles del capítulo ${tid}"><div class="level-list-title"><h2>Niveles</h2><span>${done} / 10</span></div>${Array.from({length:10},(_,i)=>{const n=i+1,canPlay=levelOpen(tid,n),stars=starsAt(tid,n),isNext=next.t===tid&&next.n===n;return `<button class="campaign-level ${isNext?'is-next':''} ${stars?'is-complete':''}" ${canPlay?'':'disabled'} onclick="requestLevel(${tid},${n})" aria-label="Nivel ${(tid-1)*10+n}: ${escapeHTML(LEVEL_NAMES_ALL[tid][n])}. ${stars?stars+' estrellas. Repetir':canPlay?'Disponible':n===1?'Completa el capítulo anterior':'Completa el nivel '+((tid-1)*10+n-1)}"><span class="level-number">${String((tid-1)*10+n).padStart(2,'0')}</span>${sprite(`monsters-t${tid}-v18.webp`,i,5,'level-portrait')}<span class="level-name"><strong>${escapeHTML(LEVEL_NAMES_ALL[tid][n])}</strong><small>${stars?'✦'.repeat(stars)+' · Completado':isNext?'Siguiente nivel':canPlay?'Disponible':n===1?'Completa el capítulo anterior':'Completa el nivel '+((tid-1)*10+n-1)}</small></span>${icon(!canPlay?'lock':stars?'check':'play')}</button>`;}).join('')}</section></div></div>`;
