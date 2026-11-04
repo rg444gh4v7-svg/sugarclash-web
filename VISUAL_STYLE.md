@@ -1,6 +1,16 @@
 # Sugar Clash — guía visual compartida
 
-## Dirección vigente · navegación revisada el 26 de octubre de 2026
+## Dirección vigente para el próximo juego · 3 de noviembre de2026
+
+Jose pidió cambiar el juego después de la propuesta de CHISPA, nombre provisional. La nueva dirección jugable se planifica en [CHISPA_PLAN.md](docs/CHISPA_PLAN.md) y su aplicación visual en [CHISPA_VISUAL.md](docs/CHISPA_VISUAL.md). **Oscuro/descolorido frente al color recuperado, sobrio y sin infantilizar** sigue vigente. El color y el movimiento corresponden a lámparas y mecanismos realmente activados; la geometría de colisión manda sobre el dibujo.
+
+La escena del nuevo prototipo es un pequeño mundo de puntería y mecanismos, con Jugar/Continuar, selección discreta y ajustes. No hereda los cuatro destinos de Renacer, aldea, caramelos o Arena. Confite acompaña con presencia contenida y el final narrativo se reserva. El wordmark actual SUGAR CLASH sigue siendo la marca del runtime Renacer: no renombrarlo ni producir un logo comercial nuevo mientras CHISPA sea un nombre de prueba. El prototipo usa rotulación provisional.
+
+Primero doce escenas con SVG/canvas provisional; después de validar la mecánica, seis escenas con acabado. Arte, UI y sonido deben hacer visibles fuente, metas, superficies, actuadores y cambio entre tiros. No hay imágenes nuevas ni una propuesta visual implementada en esta entrega de planificación.
+
+Los apartados siguientes conservan la guía y evidencia del **runtime Renacer**, que aún está publicado. Sus instrucciones sobre logo, atlas, cuatro destinos, Pulso, aldea y80niveles sólo aplican a esa edición. La paleta, tipografía licenciada y principios de lectura pueden reutilizarse en CHISPA; la composición y las reglas nuevas las define su anexo visual.
+
+## Referencia de Renacer · navegación revisada el 26 de octubre de 2026
 
 **Descolorido y oscuro frente al color recuperado; casual para público amplio, «tampoco tan infantil».** Jose corrigió la propuesta clara: «se está saliendo de la línea de lo que es descolorado, lo que era dark y lo que era color. Mantente en esa línea». Esta es la última decisión creativa y prevalece sobre el tema marfil y sobre la presentación histórica de cristal/morado genérico.
 

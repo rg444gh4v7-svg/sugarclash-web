@@ -1,6 +1,14 @@
 # Sugar Clash · El concepto que permanece
 
-## Decisión de Jose
+## Decisión vigente de Jose · 3 de noviembre de2026
+
+Jose quiere cambiar el juego y pidió «planea todo» después de la propuesta de **CHISPA**, nombre provisional. El próximo núcleo a probar es puntería y transformación: una chispa enciende un mecanismo que cambia las posibilidades del siguiente tiro. El plan completo está en [CHISPA_PLAN.md](docs/CHISPA_PLAN.md); aún no se ha implementado ni validado.
+
+Permanecen restauración, memoria, mundo oscuro/descolorido frente al color que vuelve, tono sobrio y Confite. Dulcelandia y sus personajes siguen disponibles como universo. El prototipo no necesita desplegar toda la historia, ocho territorios o80guardianes y no revela el secreto final de Confite. Las vidas, monedas, match-3, aldea y modos de Renacer no definen las reglas de CHISPA.
+
+La siguiente etapa propuesta es un prototipo aislado de doce niveles; motor y una escena primero, prueba humana antes de arte final y campaña. No cambiar la producción ni convertir datos existentes durante esa prueba. Esta entrega deja el plan y el relevo preparados; no inicia la implementación por sí misma.
+
+## Decisión anterior · Renacer
 
 Reconstruir el juego desde cero conservando el concepto y la filosofía. La edición nueva se llama **Renacer**. El código previo queda archivado; su guardado no se elimina ni se sobrescribe.
 
@@ -12,7 +20,9 @@ Dulce en la superficie, melancólico en el fondo. Los enemigos son seres alcanza
 
 El Confitero Oscuro conserva su lugar en el universo: comprende heridas reales y propone la solución equivocada. Los personajes y sistemas históricos que no aparecen en esta primera reconstrucción no se borran del concepto ni se anuncian como implementados.
 
-## La filosofía
+## La filosofía conservada y su aplicación en Renacer
+
+Las referencias concretas a combinaciones, Pulso, modos, campaña y portales de esta lista describen Renacer. Para CHISPA se conserva su intención —claridad, consecuencias visibles, restauración y trato justo— y se aplica el contrato nuevo; no se trasladan esos sistemas como requisitos.
 
 - Entrar rápido, entender una meta y tener una siguiente acción clara.
 - Decisiones pequeñas con consecuencias visibles: combinaciones, poderes que se guardan, Pulso que se activa y paisajes que recuperan color.

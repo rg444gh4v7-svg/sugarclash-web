@@ -1,6 +1,8 @@
 # Trabajar en Sugar Clash con Claude Code
 
-Guía operativa, actualizada el 23 de octubre de 2026. `CLAUDE.md` carga las instrucciones del proyecto, su concepto y la única guía visual vigente. Este documento y los informes enlazados se consultan según la tarea.
+**Cambio de rumbo, 3 de noviembre de2026:** Jose quiere cambiar el juego. Para el próximo desarrollo lee [CHISPA_PLAN.md](CHISPA_PLAN.md) y [CHISPA_HANDOFF.md](CHISPA_HANDOFF.md). CHISPA aún es un plan. No ejecutar el prompt histórico de esta guía para seguir ampliando Renacer por defecto.
+
+Esta guía operativa describe exclusivamente **Renacer**, para mantenimiento y futuro archivo. Sus nombres de funciones, reglas y propuestas anteriores no describen el motor nuevo. Se conserva el contenido histórico y sus actualizaciones de etapa. La publicación de referencia más reciente está al final: d759a05, caché renacer-v7 y DEPLOYMENT_NAVIGATION.md; las referencias a expedición y otros cachés corresponden a etapas anteriores.
 
 ## Empezar en la carpeta correcta
 
