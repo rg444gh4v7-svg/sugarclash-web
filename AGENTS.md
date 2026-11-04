@@ -1,5 +1,25 @@
 # Sugar Clash / CHISPA — instrucciones del proyecto
 
+> ### Location & deletion rules — read before any cleanup (2026-11-04)
+>
+> **This repo lives at `~/Projects/sugarclash-web`. Do not move it.** Two things
+> hardcode that exact path and break *silently* if it changes:
+> `REPOS=()` in `~/Library/Scripts/auto-backup-repos.sh` (the 6-hourly
+> commit+push safety net), and Claude Code's per-project history and memory at
+> `~/.claude/projects/-Users-jose-Projects-sugarclash-web`. If it ever must move,
+> update both in the same change.
+>
+> **Never delete ``node_modules`` without first checking for a live process**
+> (`ps aux | grep sugarclash`). On 2026-11-04 one such deletion landed underneath
+> an active parallel session and left an incomplete `npm install` (missing
+> `@rollup`). These directories are regenerable, but not while something is
+> using them.
+>
+> A Claude Code `PreToolUse` hook (`~/.claude/hooks/protect-projects.py`)
+> now hard-blocks destructive commands aimed at this repo's root or its
+> `.git`, and asks before ones aimed inside it. **That hook does not cover
+> Codex** — for Codex, this section is the only guard.
+
 Jose toma las decisiones creativas; Codex y Claude implementan. **Decisión vigente, 3 de noviembre de 2026:** Jose quiere cambiar el juego y pidió planear todo, tras la propuesta de **CHISPA** (nombre provisional). Leer [CONCEPT.md](CONCEPT.md), [VISUAL_STYLE.md](VISUAL_STYLE.md) y [el plan maestro](docs/CHISPA_PLAN.md). Las decisiones nuevas de Jose prevalecen.
 
 ## Próximo desarrollo · CHISPA
