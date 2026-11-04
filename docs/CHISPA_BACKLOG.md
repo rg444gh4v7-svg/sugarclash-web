@@ -1,6 +1,6 @@
 # CHISPA · backlog de ejecución
 
-**3 de noviembre de 2026.** Todas las tareas de implementación están **pendientes**. Sólo P00 corresponde a la entrega documental actual. El orden y las puertas de inversión se rigen por [CHISPA_PLAN.md](CHISPA_PLAN.md); las estimaciones de ese documento son hipótesis de esfuerzo, no compromisos de calendario.
+**3 de noviembre de 2026.** **Estado actual: P01–P04 implementados y validados técnicamente.** P05 requiere participantes; P06–P09 pendientes. [Evidencia](CHISPA_PROTOTYPE_QA.md). Los criterios siguientes se conservan como contrato de aceptación. El orden y las puertas de inversión se rigen por [CHISPA_PLAN.md](CHISPA_PLAN.md); las estimaciones de ese documento son hipótesis de esfuerzo, no compromisos de calendario.
 
 ## Responsables y forma de trabajar
 
@@ -128,9 +128,11 @@ Los roles pueden ser desempeñados por la misma persona. No se presupone que hay
 
 ## Registro de ejecución
 
-Al iniciar una tarea, añadir fecha, responsable y commit base. Al cerrarla, enlazar commit, comandos/resultados, capturas pertinentes y limitaciones. Este registro empieza vacío porque todavía no se ha implementado CHISPA.
+Al iniciar una tarea, añadir fecha, responsable y commit base. Al cerrarla, enlazar commit, comandos/resultados, capturas pertinentes y limitaciones. El estado actual y la evidencia se registran abajo; no confundir validación técnica con participantes.
 
 | Tarea | Estado inicial | Evidencia |
 |---|---|---|
 | P00 | Documentado | Plan y anexos de esta entrega; sin runtime nuevo. |
-| P01–P09 | Pendientes | Ninguna ejecución ni validación afirmada. |
+| P01–P04 | Completos técnicamente | [Informe](CHISPA_PROTOTYPE_QA.md),154pruebas y12/12 por motor y controles reales. |
+| P05 | Pendiente | Sin participantes ni resultados humanos. |
+| P06–P09 | Pendientes | Dependen de las puertas de validación. |

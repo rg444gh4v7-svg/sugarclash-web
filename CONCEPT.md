@@ -2,11 +2,11 @@
 
 ## Decisión vigente de Jose · 3 de noviembre de2026
 
-Jose quiere cambiar el juego y pidió «planea todo» después de la propuesta de **CHISPA**, nombre provisional. El próximo núcleo a probar es puntería y transformación: una chispa enciende un mecanismo que cambia las posibilidades del siguiente tiro. El plan completo está en [CHISPA_PLAN.md](docs/CHISPA_PLAN.md); aún no se ha implementado ni validado.
+Jose quiere cambiar el juego y pidió «planea todo» después de la propuesta de **CHISPA**, nombre provisional. El próximo núcleo a probar es puntería y transformación: una chispa enciende un mecanismo que cambia las posibilidades del siguiente tiro. El plan completo está en [CHISPA_PLAN.md](docs/CHISPA_PLAN.md); la primera implementación de doce escenas está hecha y validada técnicamente. La validación con jugadores sigue pendiente: [evidencia](docs/CHISPA_PROTOTYPE_QA.md).
 
 Permanecen restauración, memoria, mundo oscuro/descolorido frente al color que vuelve, tono sobrio y Confite. Dulcelandia y sus personajes siguen disponibles como universo. El prototipo no necesita desplegar toda la historia, ocho territorios o80guardianes y no revela el secreto final de Confite. Las vidas, monedas, match-3, aldea y modos de Renacer no definen las reglas de CHISPA.
 
-La siguiente etapa propuesta es un prototipo aislado de doce niveles; motor y una escena primero, prueba humana antes de arte final y campaña. No cambiar la producción ni convertir datos existentes durante esa prueba. Esta entrega deja el plan y el relevo preparados; no inicia la implementación por sí misma.
+El prototipo aislado de doce niveles está implementado. La siguiente etapa es la prueba humana P05 antes de arte final y campaña. No cambiar la producción ni convertir datos existentes durante esa prueba. Jose autorizó después implementar sin consultas rutinarias; el plan, el prototipo y el relevo conservan esa continuidad.
 
 ## Decisión anterior · Renacer
 

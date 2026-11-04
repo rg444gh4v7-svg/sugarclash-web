@@ -1,0 +1,2172 @@
+{
+  "generatedAt": "2026-11-04T04:02:48.866Z",
+  "sourceSHA256": "7ddb40182019c8badb09425c681fff184c487b847cacb0d67c79c568e034e43f",
+  "engine": "actual inline ChispaCore / Session",
+  "storage": "none; isolated in memory",
+  "levels": 12,
+  "completed": 12,
+  "totalShots": 29,
+  "limits": "Authored solutions replayed through the real deterministic rules; not human UI, exhaustive search, optimality, fun or retention evidence.",
+  "records": [
+    {
+      "id": "01",
+      "revision": 1,
+      "title": "La primera ventana",
+      "shots": 1,
+      "reference": 1,
+      "state": {
+        "lit": [
+          "l1"
+        ],
+        "active": [],
+        "shots": 1
+      },
+      "trace": [
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 4.800000000000001,
+            "plus": 4.800000000000001,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 9.6
+          },
+          "trace": {
+            "levelId": "01",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[],\"shots\":0}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 0.75
+                },
+                "length": 89.25,
+                "end": "exit",
+                "id": "y"
+              }
+            ],
+            "events": [
+              {
+                "type": "lamp",
+                "id": "l1",
+                "distance": 45.75
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "y",
+              "point": {
+                "x": 50,
+                "y": 0.75
+              },
+              "distance": 89.25
+            },
+            "distance": 89.25,
+            "bounces": 0,
+            "lamps": [
+              "l1"
+            ],
+            "actuator": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "revision": 1,
+      "title": "El molino gira primero",
+      "shots": 2,
+      "reference": 2,
+      "state": {
+        "lit": [
+          "l1"
+        ],
+        "active": [
+          "a1"
+        ],
+        "shots": 2
+      },
+      "trace": [
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 15,
+            "plus": 15,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 30
+          },
+          "trace": {
+            "levelId": "02",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[],\"shots\":0}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 76.75
+                },
+                "length": 13.25,
+                "end": "actuator",
+                "id": "a1"
+              }
+            ],
+            "events": [
+              {
+                "type": "actuator",
+                "id": "a1",
+                "distance": 13.25
+              }
+            ],
+            "terminal": {
+              "kind": "actuator",
+              "id": "a1",
+              "point": {
+                "x": 50,
+                "y": 76.75
+              },
+              "distance": 13.25
+            },
+            "distance": 13.25,
+            "bounces": 0,
+            "lamps": [],
+            "actuator": "a1"
+          }
+        },
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 1.6,
+            "plus": 4,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 5.6
+          },
+          "trace": {
+            "levelId": "02",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[\"a1\"],\"shots\":1}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 36.76776695296637
+                },
+                "length": 53.23223304703363,
+                "end": "reflect",
+                "id": "m1"
+              },
+              {
+                "from": {
+                  "x": 50,
+                  "y": 36.76776695296637
+                },
+                "to": {
+                  "x": 99.25,
+                  "y": 36.76776695296638
+                },
+                "length": 49.25,
+                "end": "exit",
+                "id": "x"
+              }
+            ],
+            "events": [
+              {
+                "type": "reflect",
+                "id": "m1",
+                "distance": 53.23223304703363
+              },
+              {
+                "type": "lamp",
+                "id": "l1",
+                "distance": 81.36732683859856
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "x",
+              "point": {
+                "x": 99.25,
+                "y": 36.76776695296638
+              },
+              "distance": 102.48223304703363
+            },
+            "distance": 102.48223304703363,
+            "bounces": 1,
+            "lamps": [
+              "l1"
+            ],
+            "actuator": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "03",
+      "revision": 1,
+      "title": "El espejo de la curva",
+      "shots": 1,
+      "reference": 1,
+      "state": {
+        "lit": [
+          "l1"
+        ],
+        "active": [],
+        "shots": 1
+      },
+      "trace": [
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 1.6,
+            "plus": 4,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 5.6
+          },
+          "trace": {
+            "levelId": "03",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[],\"shots\":0}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 36.76776695296637
+                },
+                "length": 53.23223304703363,
+                "end": "reflect",
+                "id": "m1"
+              },
+              {
+                "from": {
+                  "x": 50,
+                  "y": 36.76776695296637
+                },
+                "to": {
+                  "x": 99.25,
+                  "y": 36.76776695296638
+                },
+                "length": 49.25,
+                "end": "exit",
+                "id": "x"
+              }
+            ],
+            "events": [
+              {
+                "type": "reflect",
+                "id": "m1",
+                "distance": 53.23223304703363
+              },
+              {
+                "type": "lamp",
+                "id": "l1",
+                "distance": 81.36732683859856
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "x",
+              "point": {
+                "x": 99.25,
+                "y": 36.76776695296638
+              },
+              "distance": 102.48223304703363
+            },
+            "distance": 102.48223304703363,
+            "bounces": 1,
+            "lamps": [
+              "l1"
+            ],
+            "actuator": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "04",
+      "revision": 1,
+      "title": "La pared devuelve la luz",
+      "shots": 1,
+      "reference": 1,
+      "state": {
+        "lit": [
+          "l1"
+        ],
+        "active": [],
+        "shots": 1
+      },
+      "trace": [
+        {
+          "angle": 45,
+          "successInterval": {
+            "minus": 3.9000000000000004,
+            "plus": 1,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 4.9
+          },
+          "trace": {
+            "levelId": "04",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[],\"shots\":0}",
+            "angle": 45,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 83.25,
+                  "y": 56.74999999999999
+                },
+                "length": 47.02260094890541,
+                "end": "reflect",
+                "id": "w2"
+              },
+              {
+                "from": {
+                  "x": 83.25,
+                  "y": 56.74999999999999
+                },
+                "to": {
+                  "x": 27.250000000000014,
+                  "y": 0.75
+                },
+                "length": 79.19595949289331,
+                "end": "exit",
+                "id": "y"
+              }
+            ],
+            "events": [
+              {
+                "type": "reflect",
+                "id": "w2",
+                "distance": 47.02260094890541
+              },
+              {
+                "type": "lamp",
+                "id": "l1",
+                "distance": 93.06500689169242
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "y",
+              "point": {
+                "x": 27.250000000000014,
+                "y": 0.75
+              },
+              "distance": 126.21856044179873
+            },
+            "distance": 126.21856044179873,
+            "bounces": 1,
+            "lamps": [
+              "l1"
+            ],
+            "actuator": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "05",
+      "revision": 1,
+      "title": "Una compuerta abierta",
+      "shots": 2,
+      "reference": 2,
+      "state": {
+        "lit": [
+          "l1"
+        ],
+        "active": [
+          "a1"
+        ],
+        "shots": 2
+      },
+      "trace": [
+        {
+          "angle": -61.82,
+          "successInterval": {
+            "minus": 8.6,
+            "plus": 8.5,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 17.1
+          },
+          "trace": {
+            "levelId": "05",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[],\"shots\":0}",
+            "angle": -61.81999999999999,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 26.18734372970953,
+                  "y": 77.24246571640738
+                },
+                "length": 27.014760403232252,
+                "end": "actuator",
+                "id": "a1"
+              }
+            ],
+            "events": [
+              {
+                "type": "actuator",
+                "id": "a1",
+                "distance": 27.014760403232252
+              }
+            ],
+            "terminal": {
+              "kind": "actuator",
+              "id": "a1",
+              "point": {
+                "x": 26.18734372970953,
+                "y": 77.24246571640738
+              },
+              "distance": 27.014760403232252
+            },
+            "distance": 27.014760403232252,
+            "bounces": 0,
+            "lamps": [],
+            "actuator": "a1"
+          }
+        },
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 3.4000000000000004,
+            "plus": 3.4000000000000004,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 6.8
+          },
+          "trace": {
+            "levelId": "05",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[\"a1\"],\"shots\":1}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 0.75
+                },
+                "length": 89.25,
+                "end": "exit",
+                "id": "y"
+              }
+            ],
+            "events": [
+              {
+                "type": "lamp",
+                "id": "l1",
+                "distance": 65.75
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "y",
+              "point": {
+                "x": 50,
+                "y": 0.75
+              },
+              "distance": 89.25
+            },
+            "distance": 89.25,
+            "bounces": 0,
+            "lamps": [
+              "l1"
+            ],
+            "actuator": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "06",
+      "revision": 1,
+      "title": "Luz antes del mecanismo",
+      "shots": 2,
+      "reference": 2,
+      "state": {
+        "lit": [
+          "l1",
+          "l2"
+        ],
+        "active": [
+          "a1"
+        ],
+        "shots": 2
+      },
+      "trace": [
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 15,
+            "plus": 15,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 30
+          },
+          "trace": {
+            "levelId": "06",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[],\"shots\":0}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 76.75
+                },
+                "length": 13.25,
+                "end": "actuator",
+                "id": "a1"
+              }
+            ],
+            "events": [
+              {
+                "type": "lamp",
+                "id": "l1",
+                "distance": 3.75
+              },
+              {
+                "type": "actuator",
+                "id": "a1",
+                "distance": 13.25
+              }
+            ],
+            "terminal": {
+              "kind": "actuator",
+              "id": "a1",
+              "point": {
+                "x": 50,
+                "y": 76.75
+              },
+              "distance": 13.25
+            },
+            "distance": 13.25,
+            "bounces": 0,
+            "lamps": [
+              "l1"
+            ],
+            "actuator": "a1"
+          }
+        },
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 1.6,
+            "plus": 4,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 5.6
+          },
+          "trace": {
+            "levelId": "06",
+            "revision": 1,
+            "startKey": "{\"lit\":[\"l1\"],\"active\":[\"a1\"],\"shots\":1}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 36.76776695296637
+                },
+                "length": 53.23223304703363,
+                "end": "reflect",
+                "id": "m1"
+              },
+              {
+                "from": {
+                  "x": 50,
+                  "y": 36.76776695296637
+                },
+                "to": {
+                  "x": 99.25,
+                  "y": 36.76776695296638
+                },
+                "length": 49.25,
+                "end": "exit",
+                "id": "x"
+              }
+            ],
+            "events": [
+              {
+                "type": "reflect",
+                "id": "m1",
+                "distance": 53.23223304703363
+              },
+              {
+                "type": "lamp",
+                "id": "l2",
+                "distance": 81.36732683859856
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "x",
+              "point": {
+                "x": 99.25,
+                "y": 36.76776695296638
+              },
+              "distance": 102.48223304703363
+            },
+            "distance": 102.48223304703363,
+            "bounces": 1,
+            "lamps": [
+              "l2"
+            ],
+            "actuator": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "07",
+      "revision": 1,
+      "title": "Primero esta orilla",
+      "shots": 3,
+      "reference": 3,
+      "state": {
+        "lit": [
+          "l1",
+          "l2"
+        ],
+        "active": [
+          "a1"
+        ],
+        "shots": 3
+      },
+      "trace": [
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 4,
+            "plus": 1.6,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 5.6
+          },
+          "trace": {
+            "levelId": "07",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[],\"shots\":0}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 36.76776695296637
+                },
+                "length": 53.23223304703363,
+                "end": "reflect",
+                "id": "m1"
+              },
+              {
+                "from": {
+                  "x": 50,
+                  "y": 36.76776695296637
+                },
+                "to": {
+                  "x": 0.75,
+                  "y": 36.76776695296638
+                },
+                "length": 49.25,
+                "end": "exit",
+                "id": "x"
+              }
+            ],
+            "events": [
+              {
+                "type": "reflect",
+                "id": "m1",
+                "distance": 53.23223304703363
+              },
+              {
+                "type": "lamp",
+                "id": "l1",
+                "distance": 81.36732683859856
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "x",
+              "point": {
+                "x": 0.75,
+                "y": 36.76776695296638
+              },
+              "distance": 102.48223304703363
+            },
+            "distance": 102.48223304703363,
+            "bounces": 1,
+            "lamps": [
+              "l1"
+            ],
+            "actuator": null
+          }
+        },
+        {
+          "angle": -60.255,
+          "successInterval": {
+            "minus": 8.4,
+            "plus": 8.4,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 16.8
+          },
+          "trace": {
+            "levelId": "07",
+            "revision": 1,
+            "startKey": "{\"lit\":[\"l1\"],\"active\":[],\"shots\":1}",
+            "angle": -60.254999999999995,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 26.12418319050967,
+                  "y": 76.35661049202399
+                },
+                "length": 27.499030993594864,
+                "end": "actuator",
+                "id": "a1"
+              }
+            ],
+            "events": [
+              {
+                "type": "actuator",
+                "id": "a1",
+                "distance": 27.499030993594864
+              }
+            ],
+            "terminal": {
+              "kind": "actuator",
+              "id": "a1",
+              "point": {
+                "x": 26.12418319050967,
+                "y": 76.35661049202399
+              },
+              "distance": 27.499030993594864
+            },
+            "distance": 27.499030993594864,
+            "bounces": 0,
+            "lamps": [],
+            "actuator": "a1"
+          }
+        },
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 1.6,
+            "plus": 4,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 5.6
+          },
+          "trace": {
+            "levelId": "07",
+            "revision": 1,
+            "startKey": "{\"lit\":[\"l1\"],\"active\":[\"a1\"],\"shots\":2}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 36.76776695296637
+                },
+                "length": 53.23223304703363,
+                "end": "reflect",
+                "id": "m1"
+              },
+              {
+                "from": {
+                  "x": 50,
+                  "y": 36.76776695296637
+                },
+                "to": {
+                  "x": 99.25,
+                  "y": 36.76776695296638
+                },
+                "length": 49.25,
+                "end": "exit",
+                "id": "x"
+              }
+            ],
+            "events": [
+              {
+                "type": "reflect",
+                "id": "m1",
+                "distance": 53.23223304703363
+              },
+              {
+                "type": "lamp",
+                "id": "l2",
+                "distance": 81.36732683859856
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "x",
+              "point": {
+                "x": 99.25,
+                "y": 36.76776695296638
+              },
+              "distance": 102.48223304703363
+            },
+            "distance": 102.48223304703363,
+            "bounces": 1,
+            "lamps": [
+              "l2"
+            ],
+            "actuator": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "08",
+      "revision": 1,
+      "title": "Abrir para poder girar",
+      "shots": 3,
+      "reference": 3,
+      "state": {
+        "lit": [
+          "l1"
+        ],
+        "active": [
+          "a1",
+          "a2"
+        ],
+        "shots": 3
+      },
+      "trace": [
+        {
+          "angle": -61.82,
+          "successInterval": {
+            "minus": 8.6,
+            "plus": 8.5,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 17.1
+          },
+          "trace": {
+            "levelId": "08",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[],\"shots\":0}",
+            "angle": -61.81999999999999,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 26.18734372970953,
+                  "y": 77.24246571640738
+                },
+                "length": 27.014760403232252,
+                "end": "actuator",
+                "id": "a1"
+              }
+            ],
+            "events": [
+              {
+                "type": "actuator",
+                "id": "a1",
+                "distance": 27.014760403232252
+              }
+            ],
+            "terminal": {
+              "kind": "actuator",
+              "id": "a1",
+              "point": {
+                "x": 26.18734372970953,
+                "y": 77.24246571640738
+              },
+              "distance": 27.014760403232252
+            },
+            "distance": 27.014760403232252,
+            "bounces": 0,
+            "lamps": [],
+            "actuator": "a1"
+          }
+        },
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 5.800000000000001,
+            "plus": 5.800000000000001,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 11.6
+          },
+          "trace": {
+            "levelId": "08",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[\"a1\"],\"shots\":1}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 47.75
+                },
+                "length": 42.25,
+                "end": "actuator",
+                "id": "a2"
+              }
+            ],
+            "events": [
+              {
+                "type": "actuator",
+                "id": "a2",
+                "distance": 42.25
+              }
+            ],
+            "terminal": {
+              "kind": "actuator",
+              "id": "a2",
+              "point": {
+                "x": 50,
+                "y": 47.75
+              },
+              "distance": 42.25
+            },
+            "distance": 42.25,
+            "bounces": 0,
+            "lamps": [],
+            "actuator": "a2"
+          }
+        },
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 1.4000000000000001,
+            "plus": 3.6,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 5
+          },
+          "trace": {
+            "levelId": "08",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[\"a1\",\"a2\"],\"shots\":2}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 26.76776695296637
+                },
+                "length": 63.23223304703363,
+                "end": "reflect",
+                "id": "m1"
+              },
+              {
+                "from": {
+                  "x": 50,
+                  "y": 26.76776695296637
+                },
+                "to": {
+                  "x": 99.25,
+                  "y": 26.76776695296638
+                },
+                "length": 49.25,
+                "end": "exit",
+                "id": "x"
+              }
+            ],
+            "events": [
+              {
+                "type": "reflect",
+                "id": "m1",
+                "distance": 63.23223304703363
+              },
+              {
+                "type": "lamp",
+                "id": "l1",
+                "distance": 91.36732683859856
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "x",
+              "point": {
+                "x": 99.25,
+                "y": 26.76776695296638
+              },
+              "distance": 112.48223304703363
+            },
+            "distance": 112.48223304703363,
+            "bounces": 1,
+            "lamps": [
+              "l1"
+            ],
+            "actuator": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "09",
+      "revision": 1,
+      "title": "Dos ventanas independientes",
+      "shots": 4,
+      "reference": 4,
+      "state": {
+        "lit": [
+          "l1",
+          "l2"
+        ],
+        "active": [
+          "a1",
+          "a2"
+        ],
+        "shots": 4
+      },
+      "trace": [
+        {
+          "angle": -61.82,
+          "successInterval": {
+            "minus": 8.6,
+            "plus": 8.5,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 17.1
+          },
+          "trace": {
+            "levelId": "09",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[],\"shots\":0}",
+            "angle": -61.81999999999999,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 26.18734372970953,
+                  "y": 77.24246571640738
+                },
+                "length": 27.014760403232252,
+                "end": "actuator",
+                "id": "a1"
+              }
+            ],
+            "events": [
+              {
+                "type": "actuator",
+                "id": "a1",
+                "distance": 27.014760403232252
+              }
+            ],
+            "terminal": {
+              "kind": "actuator",
+              "id": "a1",
+              "point": {
+                "x": 26.18734372970953,
+                "y": 77.24246571640738
+              },
+              "distance": 27.014760403232252
+            },
+            "distance": 27.014760403232252,
+            "bounces": 0,
+            "lamps": [],
+            "actuator": "a1"
+          }
+        },
+        {
+          "angle": -23.199,
+          "successInterval": {
+            "minus": 3.1,
+            "plus": 3.1,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 6.2
+          },
+          "trace": {
+            "levelId": "09",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[\"a1\"],\"shots\":1}",
+            "angle": -23.19900000000007,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 11.749244980327632,
+                  "y": 0.75
+                },
+                "length": 97.10140451906446,
+                "end": "exit",
+                "id": "y"
+              }
+            ],
+            "events": [
+              {
+                "type": "lamp",
+                "id": "l1",
+                "distance": 71.90773109154762
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "y",
+              "point": {
+                "x": 11.749244980327632,
+                "y": 0.75
+              },
+              "distance": 97.10140451906446
+            },
+            "distance": 97.10140451906446,
+            "bounces": 0,
+            "lamps": [
+              "l1"
+            ],
+            "actuator": null
+          }
+        },
+        {
+          "angle": 61.82,
+          "successInterval": {
+            "minus": 8.5,
+            "plus": 8.6,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 17.1
+          },
+          "trace": {
+            "levelId": "09",
+            "revision": 1,
+            "startKey": "{\"lit\":[\"l1\"],\"active\":[\"a1\"],\"shots\":2}",
+            "angle": 61.819999999999936,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 73.81265627029047,
+                  "y": 77.24246571640734
+                },
+                "length": 27.014760403232273,
+                "end": "actuator",
+                "id": "a2"
+              }
+            ],
+            "events": [
+              {
+                "type": "actuator",
+                "id": "a2",
+                "distance": 27.014760403232273
+              }
+            ],
+            "terminal": {
+              "kind": "actuator",
+              "id": "a2",
+              "point": {
+                "x": 73.81265627029047,
+                "y": 77.24246571640734
+              },
+              "distance": 27.014760403232273
+            },
+            "distance": 27.014760403232273,
+            "bounces": 0,
+            "lamps": [],
+            "actuator": "a2"
+          }
+        },
+        {
+          "angle": 23.199,
+          "successInterval": {
+            "minus": 3.1,
+            "plus": 3.1,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 6.2
+          },
+          "trace": {
+            "levelId": "09",
+            "revision": 1,
+            "startKey": "{\"lit\":[\"l1\"],\"active\":[\"a1\",\"a2\"],\"shots\":3}",
+            "angle": 23.19900000000007,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 88.25075501967237,
+                  "y": 0.75
+                },
+                "length": 97.10140451906446,
+                "end": "exit",
+                "id": "y"
+              }
+            ],
+            "events": [
+              {
+                "type": "lamp",
+                "id": "l2",
+                "distance": 71.90773109154762
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "y",
+              "point": {
+                "x": 88.25075501967237,
+                "y": 0.75
+              },
+              "distance": 97.10140451906446
+            },
+            "distance": 97.10140451906446,
+            "bounces": 0,
+            "lamps": [
+              "l2"
+            ],
+            "actuator": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "revision": 1,
+      "title": "La rueda deja pasar",
+      "shots": 3,
+      "reference": 3,
+      "state": {
+        "lit": [
+          "l1",
+          "l2"
+        ],
+        "active": [
+          "a1"
+        ],
+        "shots": 3
+      },
+      "trace": [
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 2.1,
+            "plus": 4.5,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 6.6
+          },
+          "trace": {
+            "levelId": "10",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[],\"shots\":0}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 36.76776695296637
+                },
+                "length": 53.23223304703363,
+                "end": "reflect",
+                "id": "m1"
+              },
+              {
+                "from": {
+                  "x": 50,
+                  "y": 36.76776695296637
+                },
+                "to": {
+                  "x": 73.59120197786291,
+                  "y": 36.767766952966376
+                },
+                "length": 23.5912019778629,
+                "end": "actuator",
+                "id": "a1"
+              }
+            ],
+            "events": [
+              {
+                "type": "reflect",
+                "id": "m1",
+                "distance": 53.23223304703363
+              },
+              {
+                "type": "actuator",
+                "id": "a1",
+                "distance": 76.82343502489653
+              }
+            ],
+            "terminal": {
+              "kind": "actuator",
+              "id": "a1",
+              "point": {
+                "x": 73.59120197786291,
+                "y": 36.767766952966376
+              },
+              "distance": 76.82343502489653
+            },
+            "distance": 76.82343502489653,
+            "bounces": 1,
+            "lamps": [],
+            "actuator": "a1"
+          }
+        },
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 1.5,
+            "plus": 3.6,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 5.1
+          },
+          "trace": {
+            "levelId": "10",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[\"a1\"],\"shots\":1}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 36.76776695296637
+                },
+                "length": 53.23223304703363,
+                "end": "reflect",
+                "id": "m1"
+              },
+              {
+                "from": {
+                  "x": 50,
+                  "y": 36.76776695296637
+                },
+                "to": {
+                  "x": 99.25,
+                  "y": 36.76776695296638
+                },
+                "length": 49.25,
+                "end": "exit",
+                "id": "x"
+              }
+            ],
+            "events": [
+              {
+                "type": "reflect",
+                "id": "m1",
+                "distance": 53.23223304703363
+              },
+              {
+                "type": "lamp",
+                "id": "l1",
+                "distance": 89.36732683859856
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "x",
+              "point": {
+                "x": 99.25,
+                "y": 36.76776695296638
+              },
+              "distance": 102.48223304703363
+            },
+            "distance": 102.48223304703363,
+            "bounces": 1,
+            "lamps": [
+              "l1"
+            ],
+            "actuator": null
+          }
+        },
+        {
+          "angle": -39.806,
+          "successInterval": {
+            "minus": 4.4,
+            "plus": 4.4,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 8.8
+          },
+          "trace": {
+            "levelId": "10",
+            "revision": 1,
+            "startKey": "{\"lit\":[\"l1\"],\"active\":[\"a1\"],\"shots\":2}",
+            "angle": -39.80599999999998,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 0.75,
+                  "y": 30.90089956677317
+                },
+                "length": 76.93026824349849,
+                "end": "exit",
+                "id": "x"
+              }
+            ],
+            "events": [
+              {
+                "type": "lamp",
+                "id": "l2",
+                "distance": 50.42174774952033
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "x",
+              "point": {
+                "x": 0.75,
+                "y": 30.90089956677317
+              },
+              "distance": 76.93026824349849
+            },
+            "distance": 76.93026824349849,
+            "bounces": 0,
+            "lamps": [
+              "l2"
+            ],
+            "actuator": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "revision": 1,
+      "title": "Dos reflejos y una decisión",
+      "shots": 3,
+      "reference": 3,
+      "state": {
+        "lit": [
+          "l1",
+          "l2"
+        ],
+        "active": [
+          "a1"
+        ],
+        "shots": 3
+      },
+      "trace": [
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 2.9000000000000004,
+            "plus": 2,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 4.9
+          },
+          "trace": {
+            "levelId": "11",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[],\"shots\":0}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 46.76776695296637
+                },
+                "length": 43.23223304703363,
+                "end": "reflect",
+                "id": "m1"
+              },
+              {
+                "from": {
+                  "x": 50,
+                  "y": 46.76776695296637
+                },
+                "to": {
+                  "x": 78,
+                  "y": 46.767766952966376
+                },
+                "length": 28.000000000000007,
+                "end": "reflect",
+                "id": "m2"
+              },
+              {
+                "from": {
+                  "x": 78,
+                  "y": 46.767766952966376
+                },
+                "to": {
+                  "x": 78,
+                  "y": 63.25
+                },
+                "length": 16.482233047033624,
+                "end": "reflect",
+                "id": "w2"
+              },
+              {
+                "from": {
+                  "x": 78,
+                  "y": 63.25
+                },
+                "to": {
+                  "x": 78,
+                  "y": 46.76776695296637
+                },
+                "length": 16.482233047033628,
+                "end": "reflect",
+                "id": "m2"
+              },
+              {
+                "from": {
+                  "x": 78,
+                  "y": 46.76776695296637
+                },
+                "to": {
+                  "x": 49.99999999999999,
+                  "y": 46.767766952966376
+                },
+                "length": 28.000000000000007,
+                "end": "reflect",
+                "id": "m1"
+              },
+              {
+                "from": {
+                  "x": 49.99999999999999,
+                  "y": 46.767766952966376
+                },
+                "to": {
+                  "x": 49.99999999999999,
+                  "y": 99.25
+                },
+                "length": 52.482233047033624,
+                "end": "exit",
+                "id": "y"
+              }
+            ],
+            "events": [
+              {
+                "type": "reflect",
+                "id": "m1",
+                "distance": 43.23223304703363
+              },
+              {
+                "type": "reflect",
+                "id": "m2",
+                "distance": 71.23223304703365
+              },
+              {
+                "type": "lamp",
+                "id": "l1",
+                "distance": 78.21446609406726
+              },
+              {
+                "type": "reflect",
+                "id": "w2",
+                "distance": 87.71446609406726
+              },
+              {
+                "type": "reflect",
+                "id": "m2",
+                "distance": 104.1966991411009
+              },
+              {
+                "type": "reflect",
+                "id": "m1",
+                "distance": 132.1966991411009
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "y",
+              "point": {
+                "x": 49.99999999999999,
+                "y": 99.25
+              },
+              "distance": 184.67893218813452
+            },
+            "distance": 184.67893218813452,
+            "bounces": 5,
+            "lamps": [
+              "l1"
+            ],
+            "actuator": null
+          }
+        },
+        {
+          "angle": -70.346,
+          "successInterval": {
+            "minus": 9.1,
+            "plus": 9.1,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 18.2
+          },
+          "trace": {
+            "levelId": "11",
+            "revision": 1,
+            "startKey": "{\"lit\":[\"l1\"],\"active\":[],\"shots\":1}",
+            "angle": -70.346,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 26.473299881305007,
+                  "y": 81.59752564045667
+                },
+                "length": 24.982137495374296,
+                "end": "actuator",
+                "id": "a1"
+              }
+            ],
+            "events": [
+              {
+                "type": "actuator",
+                "id": "a1",
+                "distance": 24.982137495374296
+              }
+            ],
+            "terminal": {
+              "kind": "actuator",
+              "id": "a1",
+              "point": {
+                "x": 26.473299881305007,
+                "y": 81.59752564045667
+              },
+              "distance": 24.982137495374296
+            },
+            "distance": 24.982137495374296,
+            "bounces": 0,
+            "lamps": [],
+            "actuator": "a1"
+          }
+        },
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 2,
+            "plus": 2.8000000000000003,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 4.8
+          },
+          "trace": {
+            "levelId": "11",
+            "revision": 1,
+            "startKey": "{\"lit\":[\"l1\"],\"active\":[\"a1\"],\"shots\":2}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 46.76776695296637
+                },
+                "length": 43.23223304703363,
+                "end": "reflect",
+                "id": "m1"
+              },
+              {
+                "from": {
+                  "x": 50,
+                  "y": 46.76776695296637
+                },
+                "to": {
+                  "x": 74.46446609406726,
+                  "y": 46.767766952966376
+                },
+                "length": 24.464466094067262,
+                "end": "reflect",
+                "id": "m2"
+              },
+              {
+                "from": {
+                  "x": 74.46446609406726,
+                  "y": 46.767766952966376
+                },
+                "to": {
+                  "x": 74.46446609406725,
+                  "y": 0.75
+                },
+                "length": 46.017766952966376,
+                "end": "exit",
+                "id": "y"
+              }
+            ],
+            "events": [
+              {
+                "type": "reflect",
+                "id": "m1",
+                "distance": 43.23223304703363
+              },
+              {
+                "type": "reflect",
+                "id": "m2",
+                "distance": 67.6966991411009
+              },
+              {
+                "type": "lamp",
+                "id": "l2",
+                "distance": 92.24834187440814
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "y",
+              "point": {
+                "x": 74.46446609406725,
+                "y": 0.75
+              },
+              "distance": 113.71446609406726
+            },
+            "distance": 113.71446609406726,
+            "bounces": 2,
+            "lamps": [
+              "l2"
+            ],
+            "actuator": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "revision": 1,
+      "title": "La casa vuelve a encenderse",
+      "shots": 4,
+      "reference": 4,
+      "state": {
+        "lit": [
+          "l1",
+          "l2",
+          "l3"
+        ],
+        "active": [
+          "a1",
+          "a2"
+        ],
+        "shots": 4
+      },
+      "trace": [
+        {
+          "angle": -70.346,
+          "successInterval": {
+            "minus": 9.1,
+            "plus": 9.1,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 18.2
+          },
+          "trace": {
+            "levelId": "12",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[],\"shots\":0}",
+            "angle": -70.346,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 26.473299881305007,
+                  "y": 81.59752564045667
+                },
+                "length": 24.982137495374296,
+                "end": "actuator",
+                "id": "a1"
+              }
+            ],
+            "events": [
+              {
+                "type": "actuator",
+                "id": "a1",
+                "distance": 24.982137495374296
+              }
+            ],
+            "terminal": {
+              "kind": "actuator",
+              "id": "a1",
+              "point": {
+                "x": 26.473299881305007,
+                "y": 81.59752564045667
+              },
+              "distance": 24.982137495374296
+            },
+            "distance": 24.982137495374296,
+            "bounces": 0,
+            "lamps": [],
+            "actuator": "a1"
+          }
+        },
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 2.4000000000000004,
+            "plus": 2.6,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 5
+          },
+          "trace": {
+            "levelId": "12",
+            "revision": 1,
+            "startKey": "{\"lit\":[],\"active\":[\"a1\"],\"shots\":1}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 46.76776695296637
+                },
+                "length": 43.23223304703363,
+                "end": "reflect",
+                "id": "m1"
+              },
+              {
+                "from": {
+                  "x": 50,
+                  "y": 46.76776695296637
+                },
+                "to": {
+                  "x": 78,
+                  "y": 46.767766952966376
+                },
+                "length": 28.000000000000007,
+                "end": "reflect",
+                "id": "m2"
+              },
+              {
+                "from": {
+                  "x": 78,
+                  "y": 46.767766952966376
+                },
+                "to": {
+                  "x": 78,
+                  "y": 63.25
+                },
+                "length": 16.482233047033624,
+                "end": "reflect",
+                "id": "w2"
+              },
+              {
+                "from": {
+                  "x": 78,
+                  "y": 63.25
+                },
+                "to": {
+                  "x": 78,
+                  "y": 46.76776695296637
+                },
+                "length": 16.482233047033628,
+                "end": "reflect",
+                "id": "m2"
+              },
+              {
+                "from": {
+                  "x": 78,
+                  "y": 46.76776695296637
+                },
+                "to": {
+                  "x": 49.99999999999999,
+                  "y": 46.767766952966376
+                },
+                "length": 28.000000000000007,
+                "end": "reflect",
+                "id": "m1"
+              },
+              {
+                "from": {
+                  "x": 49.99999999999999,
+                  "y": 46.767766952966376
+                },
+                "to": {
+                  "x": 49.99999999999999,
+                  "y": 99.25
+                },
+                "length": 52.482233047033624,
+                "end": "exit",
+                "id": "y"
+              }
+            ],
+            "events": [
+              {
+                "type": "reflect",
+                "id": "m1",
+                "distance": 43.23223304703363
+              },
+              {
+                "type": "lamp",
+                "id": "l1",
+                "distance": 53.36732683859856
+              },
+              {
+                "type": "reflect",
+                "id": "m2",
+                "distance": 71.23223304703365
+              },
+              {
+                "type": "lamp",
+                "id": "l2",
+                "distance": 78.21446609406726
+              },
+              {
+                "type": "reflect",
+                "id": "w2",
+                "distance": 87.71446609406726
+              },
+              {
+                "type": "reflect",
+                "id": "m2",
+                "distance": 104.1966991411009
+              },
+              {
+                "type": "reflect",
+                "id": "m1",
+                "distance": 132.1966991411009
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "y",
+              "point": {
+                "x": 49.99999999999999,
+                "y": 99.25
+              },
+              "distance": 184.67893218813452
+            },
+            "distance": 184.67893218813452,
+            "bounces": 5,
+            "lamps": [
+              "l1",
+              "l2"
+            ],
+            "actuator": null
+          }
+        },
+        {
+          "angle": 70.346,
+          "successInterval": {
+            "minus": 9.1,
+            "plus": 9.1,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 18.2
+          },
+          "trace": {
+            "levelId": "12",
+            "revision": 1,
+            "startKey": "{\"lit\":[\"l1\",\"l2\"],\"active\":[\"a1\"],\"shots\":2}",
+            "angle": 70.346,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 73.52670011869499,
+                  "y": 81.59752564045667
+                },
+                "length": 24.982137495374296,
+                "end": "actuator",
+                "id": "a2"
+              }
+            ],
+            "events": [
+              {
+                "type": "actuator",
+                "id": "a2",
+                "distance": 24.982137495374296
+              }
+            ],
+            "terminal": {
+              "kind": "actuator",
+              "id": "a2",
+              "point": {
+                "x": 73.52670011869499,
+                "y": 81.59752564045667
+              },
+              "distance": 24.982137495374296
+            },
+            "distance": 24.982137495374296,
+            "bounces": 0,
+            "lamps": [],
+            "actuator": "a2"
+          }
+        },
+        {
+          "angle": 0,
+          "successInterval": {
+            "minus": 2,
+            "plus": 2.8000000000000003,
+            "step": 0.1,
+            "maxProbe": 15,
+            "width": 4.8
+          },
+          "trace": {
+            "levelId": "12",
+            "revision": 1,
+            "startKey": "{\"lit\":[\"l1\",\"l2\"],\"active\":[\"a1\",\"a2\"],\"shots\":3}",
+            "angle": 0,
+            "segments": [
+              {
+                "from": {
+                  "x": 50,
+                  "y": 90
+                },
+                "to": {
+                  "x": 50,
+                  "y": 46.76776695296637
+                },
+                "length": 43.23223304703363,
+                "end": "reflect",
+                "id": "m1"
+              },
+              {
+                "from": {
+                  "x": 50,
+                  "y": 46.76776695296637
+                },
+                "to": {
+                  "x": 74.46446609406726,
+                  "y": 46.767766952966376
+                },
+                "length": 24.464466094067262,
+                "end": "reflect",
+                "id": "m2"
+              },
+              {
+                "from": {
+                  "x": 74.46446609406726,
+                  "y": 46.767766952966376
+                },
+                "to": {
+                  "x": 74.46446609406725,
+                  "y": 0.75
+                },
+                "length": 46.017766952966376,
+                "end": "exit",
+                "id": "y"
+              }
+            ],
+            "events": [
+              {
+                "type": "reflect",
+                "id": "m1",
+                "distance": 43.23223304703363
+              },
+              {
+                "type": "reflect",
+                "id": "m2",
+                "distance": 67.6966991411009
+              },
+              {
+                "type": "lamp",
+                "id": "l3",
+                "distance": 92.24834187440814
+              }
+            ],
+            "terminal": {
+              "kind": "exit",
+              "id": "y",
+              "point": {
+                "x": 74.46446609406725,
+                "y": 0.75
+              },
+              "distance": 113.71446609406726
+            },
+            "distance": 113.71446609406726,
+            "bounces": 2,
+            "lamps": [
+              "l3"
+            ],
+            "actuator": null
+          }
+        }
+      ]
+    }
+  ]
+}

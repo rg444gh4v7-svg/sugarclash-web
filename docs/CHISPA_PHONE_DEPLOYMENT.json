@@ -1,0 +1,20 @@
+{
+  "id": "appgdep_6aeab445717081919eea8b2d2db012a2",
+  "project_id": "appgprj_6aeab3b07cac819181d92d2b950222c4",
+  "title": "CHISPA · Prueba en teléfono",
+  "version_id": "appgprj_6aeab3b07cac819181d92d2b950222c4~appgver_9c8fbec065508191aeaf2c83f0d191bc",
+  "type": "publish",
+  "status": "succeeded",
+  "url": "https://chispa-jose-01a15c12.pulsarprojects1.chatgpt.site",
+  "has_mcp": false,
+  "screenshot_asset_pointer": null,
+  "provider_deployment_id": "site---6aeab3b07cac819181d92d2b950222c4",
+  "failure_message": null,
+  "env_set_revision": 0,
+  "updated_at": "2026-11-04T04:27:57.175046+00:00",
+  "source_commit": "e3b4c07e1f18bae0ba8334557c467bb22d9708c8",
+  "html_sha256": "7ddb40182019c8badb09425c681fff184c487b847cacb0d67c79c568e034e43f",
+  "audience": "owner-private",
+  "browser_verification": "HTTPS muestra acceso con ChatGPT. No hay sesión propietaria en el navegador de QA: partida desplegada y teléfono físico pendientes de comprobación tras iniciar sesión.",
+  "renacer_replaced": false
+}

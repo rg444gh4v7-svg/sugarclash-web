@@ -1,6 +1,6 @@
 # CHISPA · Dirección visual del nuevo juego
 
-**Fecha: 2026-11-03. Estado: planificación; sin prototipo implementado.**
+**Fecha:2026-11-03. Estado: guía del prototipo SVG implementado; arte final y validación humana pendientes.** [Evidencia](CHISPA_PROTOTYPE_QA.md).
 
 Base de continuidad: [CONCEPT.md](../CONCEPT.md) y [VISUAL_STYLE.md](../VISUAL_STYLE.md). La decisión nueva de Jose prevalece sobre sus composiciones históricas.
 
@@ -124,4 +124,4 @@ El prototipo debe permitir evaluar si apuntar es cómodo, si el rebote se entien
 - Movimiento y audio ligados a una interacción finita; sin RAF ambiental perpetuo. Canvas con DPR acotado y geometría en coordenadas lógicas, sin consumir aleatoriedad para decorar. Probar silencio y movimiento reducido.
 - Guardar evidencia diferenciando dibujo propuesto, estado obtenido por juego, prueba automatizada y prueba con personas. Ningún render, selector o recarga concede lámparas encendidas o finalización.
 
-Este plan no implementa CHISPA, no publica una versión nueva y no altera la partida o el guardado de Renacer. Su siguiente entrega es un prototipo legible de puntería y mecanismos; la producción de arte viene después de esa validación.
+El prototipo de puntería y mecanismos ya está implementado con SVG y Confite existentes, sin publicación ni cambios en datos de Renacer. La siguiente etapa es P05, con participantes. La producción de arte P06 viene después de esa validación.

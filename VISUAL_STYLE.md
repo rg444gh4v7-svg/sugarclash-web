@@ -6,7 +6,7 @@ Jose pidió cambiar el juego después de la propuesta de CHISPA, nombre provisio
 
 La escena del nuevo prototipo es un pequeño mundo de puntería y mecanismos, con Jugar/Continuar, selección discreta y ajustes. No hereda los cuatro destinos de Renacer, aldea, caramelos o Arena. Confite acompaña con presencia contenida y el final narrativo se reserva. El wordmark actual SUGAR CLASH sigue siendo la marca del runtime Renacer: no renombrarlo ni producir un logo comercial nuevo mientras CHISPA sea un nombre de prueba. El prototipo usa rotulación provisional.
 
-Primero doce escenas con SVG/canvas provisional; después de validar la mecánica, seis escenas con acabado. Arte, UI y sonido deben hacer visibles fuente, metas, superficies, actuadores y cambio entre tiros. No hay imágenes nuevas ni una propuesta visual implementada en esta entrega de planificación.
+Primero doce escenas con SVG/canvas provisional; después de validar la mecánica, seis escenas con acabado. Arte, UI y sonido deben hacer visibles fuente, metas, superficies, actuadores y cambio entre tiros. El prototipo SVG de doce escenas está implementado y comprobado a320×640,390×844 y escritorio: [informe](docs/CHISPA_PROTOTYPE_QA.md). El arte final de P06 y las pruebas humanas siguen pendientes.
 
 Los apartados siguientes conservan la guía y evidencia del **runtime Renacer**, que aún está publicado. Sus instrucciones sobre logo, atlas, cuatro destinos, Pulso, aldea y80niveles sólo aplican a esa edición. La paleta, tipografía licenciada y principios de lectura pueden reutilizarse en CHISPA; la composición y las reglas nuevas las define su anexo visual.
 

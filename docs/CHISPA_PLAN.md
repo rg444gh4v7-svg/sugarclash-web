@@ -1,8 +1,8 @@
 # CHISPA · plan de cambio del juego
 
-**Fecha:** 3 de noviembre de 2026 · **Estado:** plan de ejecución para el cambio solicitado; implementación pendiente.
+**Fecha:** 3 de noviembre de 2026 · **Estado:** P01–P04 implementados y validados técnicamente; P05 pendiente. [Informe actual](CHISPA_PROTOTYPE_QA.md).
 
-Jose pidió cambiar el juego y «planea todo» después de la propuesta de CHISPA. Esta decisión sustituye la ampliación de Renacer como siguiente trabajo. La autorización de este encargo es planificar: este documento no significa que el prototipo exista, que el nombre comercial esté aprobado ni que haya jugadores, métricas o ingresos.
+Jose pidió cambiar el juego y «planea todo» después de la propuesta de CHISPA. Esta decisión sustituye la ampliación de Renacer como siguiente trabajo. Este plan se redactó antes de implementar. Jose autorizó después continuar: el prototipo de doce escenas ya existe. El nombre comercial, las pruebas humanas y los ingresos siguen pendientes.
 
 ## 1. Qué vamos a crear
 
@@ -69,7 +69,7 @@ En el MVP, al menos ocho de las24escenas deben proponer más de una secuencia o 
 ### Desarrollo aislado
 
 - Mantener `index.html`, `manifest.json`, `service-worker.js` y el runtime de Renacer sin cambios durante el prototipo.
-- Próximo runtime propuesto: **`prototypes/chispa/index.html`**, un único HTML/CSS/JS vanilla. La ruta es un destino de trabajo planificado y **aún no existe**. Sin framework, bundler ni dependencias nuevas de runtime.
+- Próximo runtime propuesto: **`prototypes/chispa/index.html`**, un único HTML/CSS/JS vanilla. La ruta **ya existe** y está validada técnicamente; conservarla como punto de partida. Sin framework, bundler ni dependencias nuevas de runtime.
 - Servir esa carpeta como raíz de un origen QA nuevo, por ejemplo `http://127.0.0.1:4211/`, después de comprobar que está libre. No usar 4177 ni producción para fixtures, importaciones o pruebas.
 - No registrar service worker en el prototipo. Así se evalúa la versión servida y se evita heredar el worker de Renacer al servir la carpeta aislada. PWA/offline se incorporan en P09, al candidato comercial; tampoco son una dependencia del MVP de observación P07–P08.
 - Arte inicial con SVG/canvas propio y recursos locales. Reutilizar fuentes con sus licencias y utilidades de audio pertinentes; no arrastrar tableros, economía, sesiones de Arena o código sin uso.
@@ -164,7 +164,7 @@ Se busca que una persona pueda describir **qué cambió por su disparo**, utiliz
 
 Riesgos principales: quedar en un puzzle de rebotes con decoración; lectura confusa de materiales; ángulos de precisión excesiva; repetición de un truco; coste alto de crear escenas; adquisición que no se recupera con ingresos. Cada riesgo debe tener una prueba y una decisión, no resolverse añadiendo menús.
 
-**Próxima acción concreta:** construir P01–P02, un motor aislado con una escena de molino que demuestre la transformación entre dos tiros. Después completar las doce escenas y observar a jugadores. Este plan deja preparada esa ejecución; no la presenta como realizada.
+**Estado de ejecución:** P01–P04 completos técnicamente: motor, escena de molino y doce encuentros recorridos. Próxima acción: P05, observar participantes reales y registrar su comprensión e interés. [Evidencia](CHISPA_PROTOTYPE_QA.md).
 
 ## 12. Lectura para Codex, Claude y Jose
 

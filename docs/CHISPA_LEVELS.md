@@ -1,8 +1,8 @@
 # CHISPA · contrato y doce escenas del prototipo
 
-**Fecha: 2026-11-03. Estado: diseño propuesto, sin motor ni niveles probados.**
+**Fecha de diseño:2026-11-03. Estado actual: doce escenas implementadas y recorridas con el motor y los controles reales.** [Evidencia técnica](CHISPA_PROTOTYPE_QA.md). Pruebas con participantes pendientes.
 
-CHISPA es un nombre provisional. Jose autorizó planificar el cambio de juego; este archivo no implementa ni publica nada. Se coordina con [CHISPA_PLAN.md](CHISPA_PLAN.md) y [CHISPA_VISUAL.md](CHISPA_VISUAL.md). Las coordenadas y soluciones siguientes son hipótesis que debe verificar el motor real. Un dibujo convincente no es una prueba de resolución.
+CHISPA es un nombre provisional. Jose autorizó planificar y después implementar el cambio. Este documento conserva el diseño; el runtime está en `prototypes/chispa/index.html`. Se coordina con [CHISPA_PLAN.md](CHISPA_PLAN.md) y [CHISPA_VISUAL.md](CHISPA_VISUAL.md). Las coordenadas y soluciones siguientes ya se han verificado con el motor real; las referencias no son mínimos demostrados. Un dibujo convincente no es una prueba de resolución.
 
 ## La acción que se prueba
 
@@ -198,4 +198,4 @@ La escena01 enseña el gesto; la02 muestra la transformación entre tiros;03/04 
 - Campo cuadrado completo, fuente y controles a320×640/390×844/escritorio; DPI, zoom y refresco no cambian geometría. Audio y movimiento reducido conservan la información.
 - El runtime del prototipo, su posible guardado y su QA están aislados de Renacer. No tocar `sugarclash_renacer_v1`, `sugarclash_save_v1`, el puerto4177 ni producción. Las125 pruebas y el recorrido80/80 de Renacer no validan esta lista.
 
-Una vez disponibles el motor y las trazas, este documento podrá marcar revisiones individuales como simuladas, recorridas por controles reales y probadas con personas, con evidencias separadas. **Hoy las doce escenas son propuestas y las soluciones son previstas.**
+Una vez disponibles el motor y las trazas, este documento podrá marcar revisiones individuales como simuladas, recorridas por controles reales y probadas con personas, con evidencias separadas. **Las doce escenas están implementadas, recorridas con el motor y verificadas mediante controles reales. No se han probado con participantes.**
